@@ -1,25 +1,64 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import { createRouter, createWebHistory } from "vue-router";
+import DonationView from "../views/DonationView";
+import LoginView from "../views/LoginView";
+import MainView from "../views/MainView";
+import MakeCardView from "../views/MakeCardView";
+import MypageView from "../views/MypageView";
+import OrganizationListView from "../views/OrganizationListView";
+import SearchView from "../views/SearchView";
+import SignupView from "../views/SignupView";
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/",
+    name: "MainView",
+    component: MainView,
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
-]
+    path: "/login",
+    name: "LoginView",
+    component: LoginView,
+  },
+  {
+    path: "/signup",
+    name: "SignupView",
+    component: SignupView,
+  },
+  {
+    path: "/donation",
+    name: "DonationView",
+    component: DonationView,
+  },
+  {
+    path: "/makecard",
+    name: "MakeCardView",
+    component: MakeCardView,
+  },
+  {
+    path: "/mypage/:user_id",
+    name: "MypageView",
+    component: MypageView,
+  },
+  {
+    path: "/organizationlist",
+    name: "OrganizationListView",
+    component: OrganizationListView,
+  },
+  {
+    path: "/search",
+    name: "SearchView",
+    component: SearchView,
+  },
+  {
+    path: "/signup",
+    name: "SignupView",
+    component: SignupView,
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
