@@ -1,4 +1,6 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import mainpageStore from './modules/mainpageStore'
 
 export default createStore({
   state: {
@@ -10,5 +12,11 @@ export default createStore({
   actions: {
   },
   modules: {
-  }
+    mainpageStore,
+  },
+  plugins: [
+    createPersistedState({
+      storage: sessionStorage,
+    })
+  ],
 })
