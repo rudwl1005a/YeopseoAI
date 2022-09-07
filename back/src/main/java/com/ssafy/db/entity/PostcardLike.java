@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- * 엽서 모델 정의.
+ * 엽서 좋아요 모델 정의.
  */
 @Entity
 @Getter
@@ -20,15 +20,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Table(name="postcard")
-public class Postcard {
+@Table(name="postcard_like")
+public class PostcardLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int postcardSeq;
+    int likeSeq;
 
     int userSeq;
-    String postcardImgUrl;
+    int postcardSeq;
 
     @CreationTimestamp
     @Column(name = "REG_DTM", nullable = false)
