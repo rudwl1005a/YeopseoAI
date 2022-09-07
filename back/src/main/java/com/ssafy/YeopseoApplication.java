@@ -10,9 +10,9 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import java.nio.charset.StandardCharsets;
 
 @SpringBootApplication
-public class GroupCallApplication {
-	public static void main(String[] args) {
-        SpringApplication.run(GroupCallApplication.class, args);
+public class YeopseoApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(YeopseoApplication.class, args);
     }
 
     @Bean
