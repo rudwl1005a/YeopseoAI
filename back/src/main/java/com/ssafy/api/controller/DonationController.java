@@ -4,8 +4,12 @@ package com.ssafy.api.controller;
 import com.ssafy.api.request.DonationRegisterPostReq;
 import com.ssafy.api.response.DonationRes;
 import com.ssafy.api.service.DonationService;
+import com.ssafy.api.service.FoundationService;
+import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Donation;
+import com.ssafy.db.entity.Foundation;
+import com.ssafy.db.entity.User;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +28,12 @@ public class DonationController {
 	
 	@Autowired
 	DonationService donationService;
+
+	@Autowired
+	FoundationService foundationService;
+
+	@Autowired
+	UserService userService;
 	
 	@PostMapping()
 	@ApiOperation(value = "기부 등록", notes = "<strong>사용자가 기부를 하면</strong>기부 정보를 등록 한다.")
@@ -55,17 +65,12 @@ public class DonationController {
 
 		Donation donation = donationService.getDonationByDonationSeq(donationSeq);
 
-		String foundationName="";
-		String userId="";
 
-		//재단 개발 후
-//		Foundation foundation = foundationService.getFoundationByFoundationSeq(donation.getFoundationSeq());
-//		String foundationName = foundation.getFoundationName();
+		Foundation foundation = foundationService.selectFoundation(donation.getFoundationSeq());
+		String foundationName = foundation.getFoundationName();
 
-		//회원 개발 후
-//		User user = userService.getUserByUserSeq(donation.getUserSeq());
-//		string userId = user.getUserId();
-
+		User user = userService.selectUser(donation.getUserSeq());
+		String userId = user.getUserId();
 
 		return ResponseEntity.status(200).body(DonationRes.of(donation,foundationName, userId));
 	}
@@ -85,17 +90,16 @@ public class DonationController {
 		List<Donation> donations = donationService.getDonationByUserSeq(userSeq);
 		List<DonationRes> res = new ArrayList<DonationRes>();
 
-		//회원 개발 후
-//		User user = userService.getUserByUserSeq(userSeq);
-//		string userId = user.getUserId();
+
+		User user = userService.selectUser(userSeq);
+		String userId = user.getUserId();
 
 		for(Donation donation : donations){
 
-			//재단 개발 후
-//			Foundation foundation = foundationService.getFoundationByFoundationSeq(donation.getFoundationSeq());
-//			String foundationName = foundation.getFoundationName();
+			Foundation foundation = foundationService.selectFoundation(donation.getFoundationSeq());
+			String foundationName = foundation.getFoundationName();
 
-			DonationRes donationRes = DonationRes.of(donation,"","");
+			DonationRes donationRes = DonationRes.of(donation,foundationName,userId);
 			res.add(donationRes);
 		}
 
@@ -117,17 +121,15 @@ public class DonationController {
 		List<Donation> donations = donationService.getDonationByFoundationSeq(foundationSeq);
 		List<DonationRes> res = new ArrayList<DonationRes>();
 
-		//재단 개발 후
-//		Foundation foundation = foundationService.getFoundationByFoundationSeq(foundationSeq);
-//		String foundationName = foundation.getFoundationName();
+		Foundation foundation = foundationService.selectFoundation(foundationSeq);
+		String foundationName = foundation.getFoundationName();
 
 		for(Donation donation : donations){
 
-			//회원 개발 후
-//			User user = userService.getUserByUserSeq(donation.getUserSeq());
-//			string userId = user.getUserId();
+			User user = userService.selectUser(donation.getUserSeq());
+			String userId = user.getUserId();
 
-			DonationRes donationRes = DonationRes.of(donation,"","");
+			DonationRes donationRes = DonationRes.of(donation,foundationName,userId);
 			res.add(donationRes);
 		}
 
