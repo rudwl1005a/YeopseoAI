@@ -5,8 +5,10 @@ import com.ssafy.api.request.BoardRegisterPostReq;
 import com.ssafy.api.request.BoardUpdatePostReq;
 import com.ssafy.api.response.BoardRes;
 import com.ssafy.api.service.BoardService;
+import com.ssafy.api.service.UserService;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.db.entity.Board;
+import com.ssafy.db.entity.User;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,9 @@ public class BoardController {
 	
 	@Autowired
 	BoardService boardService;
+
+	@Autowired
+	UserService userService;
 
 	@PostMapping()
 	@ApiOperation(value = "게시판 등록", notes = "<strong>회원이 게시판을 작성하면</strong>게시판 정보를 등록 한다.")
@@ -55,11 +60,8 @@ public class BoardController {
 
 		Board board = boardService.getBoardByBoardSeq(boardSeq);
 
-		String userId="";
-
-		//회원 개발 후
-//		User user = userService.getUserByUserSeq(board.getUserSeq());
-//		string userId = user.getUserId();
+		User user = userService.selectUser(board.getUserSeq());
+		String userId = user.getUserId();
 
 		return ResponseEntity.status(200).body(BoardRes.of(board, userId));
 	}
@@ -81,11 +83,10 @@ public class BoardController {
 
 		for(Board board : boards){
 
-			//회원 개발 후
-//			User user = userService.getUserByUserSeq(board.getUserSeq);
-//			string userId = user.getUserId();
+			User user = userService.selectUser(board.getUserSeq());
+			String userId = user.getUserId();
 
-			BoardRes boardRes = BoardRes.of(board,"");
+			BoardRes boardRes = BoardRes.of(board,userId);
 			res.add(boardRes);
 		}
 
