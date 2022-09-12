@@ -4,12 +4,14 @@
     <h1>엽AI사전</h1>
   </div>
   <div class="logInformationClass d-flex flex-row">
-    <div class="logLogoClass col-5">
+    <div class="col-5">
+    <div class="logLogoClass">
       <h1 style="margin: 5%">POST CARD</h1>
-      <img src="@/assets/logo.png" alt="대표우편">
     </div>
-     <v-divider class="col-1" vertical />
-    <form @submit.prevent="login(credentials)" class="container col-6" style="max-width: 600px;">
+    <img class="justify-content-center" src="@/assets/logo.png" alt="대표우편">
+    </div>
+    <v-divider class="col-1" vertical />
+    <form @submit.prevent="login(credentials)" class="container col-6 align-self-center" style="max-width: 600px;">
       <div class="row mb-3">
         <label for="username" class="text-start form-label">Username</label>
         <input v-model="credentials.username" type="text" class="form-control" id="username" placeholder="ID를 입력해 주세요." required>
@@ -56,7 +58,6 @@
   width: 90vw;
   border-radius: 10px;
   background-color: #d9d9d9;
-  
 }
 .logLogoClass {
   height: 5vh;
