@@ -1,6 +1,9 @@
 package com.ssafy.api.service;
 
+import com.ssafy.common.customObj.PostcardList;
+import com.ssafy.common.customObj.TopPostcardList;
 import com.ssafy.db.entity.Postcard;
+import com.ssafy.db.entity.Tag;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -17,6 +20,8 @@ public interface PostcardService {
     boolean deletePostcardLike(int postcardSeq, int userSeq) throws IOException;
 
     Postcard selectPostcard(int postcardSeq) throws IOException;
-    List<Postcard> selectPostcardList(int userSeq) throws IOException;
-    List<Postcard> selectPostcardTopList() throws IOException;
+    List<PostcardList> selectPostcardList(int userSeq) throws IOException;
+    List<PostcardList> selectPostcardTopList() throws IOException;
+
+    List<Tag> selectTag(int postcardSeq) throws IOException;
 }

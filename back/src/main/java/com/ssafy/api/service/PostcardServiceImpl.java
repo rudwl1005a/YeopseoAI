@@ -1,9 +1,12 @@
 package com.ssafy.api.service;
 
+import com.ssafy.common.customObj.PostcardList;
+import com.ssafy.common.customObj.TopPostcardList;
 import com.ssafy.common.util.S3Uploader;
 import com.ssafy.db.entity.Postcard;
 import com.ssafy.db.entity.PostcardLike;
 import com.ssafy.db.entity.Tag;
+import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.PostcardLikeRepository;
 import com.ssafy.db.repository.PostcardRepository;
 import com.ssafy.db.repository.TagRepository;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -148,15 +152,55 @@ public class PostcardServiceImpl implements PostcardService{
      * 엽서 리스트 조회
      */
     @Override
-    public List<Postcard> selectPostcardList(int userSeq) throws IOException {
-        return postcardRepository.findAllByUserSeq(userSeq);
+    public List<PostcardList> selectPostcardList(int userSeq) throws IOException {
+        List<PostcardList> postcardList = new ArrayList<>();
+        String userId = userRepository.findByUserSeq(userSeq).getUserId();
+
+        List<Postcard> postcards = postcardRepository.findAllByUserSeq(userSeq);
+        for (Postcard postcard : postcards) {
+            List<Tag> tags = tagRepository.getTagsByPostcardSeq(postcard.getPostcardSeq());
+
+            List<String> tagContents = new ArrayList<>();
+            for(Tag tag : tags) {
+                tagContents.add(tag.getTagContent());
+            }
+            postcardList.add(new PostcardList(userId, postcard, tagContents));
+        }
+
+        return postcardList;
     }
 
     /**
      * 엽서 상위 리스트 조회
      */
     @Override
-    public List<Postcard> selectPostcardTopList() throws IOException {
-        return null;
+    public List<PostcardList> selectPostcardTopList() throws IOException {
+        List<PostcardList> postcardList = new ArrayList<>();
+
+        List<TopPostcardList> topPostcardLists = postcardRepository.getPostcardTopTen();
+        for(TopPostcardList topPostcardList : topPostcardLists){
+            List<Tag> tags = tagRepository.getTagsByPostcardSeq(topPostcardList.getPostcard_Seq());
+            Postcard postcard = postcardRepository.findById(topPostcardList.getPostcard_Seq()).get();
+            String userId = userRepository.findByUserSeq(postcard.getUserSeq()).getUserId();
+
+            List<String> tagContents = new ArrayList<>();
+            for(Tag tag : tags) {
+                tagContents.add(tag.getTagContent());
+            }
+
+            postcardList.add(new PostcardList(userId, postcard, tagContents));
+        }
+
+        return postcardList;
     }
+
+    /**
+     * 태그 리스트 조회
+     */
+    @Override
+    public List<Tag> selectTag(int postcardSeq) throws IOException {
+        return tagRepository.getTagsByPostcardSeq(postcardSeq);
+    }
+
+
 }

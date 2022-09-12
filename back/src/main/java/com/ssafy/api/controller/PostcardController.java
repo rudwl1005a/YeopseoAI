@@ -1,7 +1,14 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.PostcardPostReq;
+import com.ssafy.api.response.PostcardGetPos;
+import com.ssafy.api.response.PostcardListGetPos;
 import com.ssafy.api.service.PostcardService;
+import com.ssafy.api.service.UserService;
+import com.ssafy.common.customObj.PostcardList;
+import com.ssafy.db.entity.Postcard;
+import com.ssafy.db.entity.Tag;
+import com.ssafy.db.entity.User;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +29,9 @@ public class PostcardController {
 
     @Autowired
     PostcardService postcardService;
+
+    @Autowired
+    UserService userService;
 
     @PostMapping(consumes = {"multipart/form-data"})
     @ApiOperation(value = "엽서 업로드", notes = "엽서 파일과 태그로 엽서를 등록한다")
@@ -95,5 +105,67 @@ public class PostcardController {
         } else {
             return ResponseEntity.status(200).body(userSeq + "번째 유저가 " + postcardSeq + "번째 엽서 좋아요를 삭제했습니다.");
         }
+    }
+
+    @ApiOperation(value = "엽서 상세정보 조회", notes = "엽서seq로 엽서 상세정보 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "엽서 정보 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    @GetMapping("/{postcardSeq}")
+    public ResponseEntity<?> select(@PathVariable(value = "postcardSeq") @ApiParam("엽서seq") int postcardSeq) throws IOException {
+        try {
+            Postcard postcard = postcardService.selectPostcard(postcardSeq);
+            User user = userService.selectUser(postcard.getUserSeq());
+            List<Tag> tags = postcardService.selectTag(postcardSeq);
+
+            List<String> tagContents = new ArrayList<>();
+            for (Tag tag : tags) {
+                tagContents.add(tag.getTagContent());
+            }
+
+            return ResponseEntity.status(200).body(PostcardGetPos.of(user.getUserId(), postcard.getPostcardImgUrl(), tagContents));
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(PostcardGetPos.of(null, null, null));
+        }
+
+    }
+
+    @ApiOperation(value = "엽서 리스트 조회", notes = "유저seq로 유저가 가지고 있는 엽서 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "유저 정보 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    @GetMapping("/list/{userSeq}")
+    public ResponseEntity<?> selectPostcardList(@PathVariable(value = "userSeq") @ApiParam("유저seq") int userSeq) throws IOException {
+        try {
+            List<PostcardList> postcardList = postcardService.selectPostcardList(userSeq);
+            return ResponseEntity.status(200).body(PostcardListGetPos.of(postcardList));
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(401).body("엽서 리스트가 없습니다.");
+        }
+
+    }
+
+    @ApiOperation(value = "인기 엽서 리스트 조회", notes = "인기 엽서 탑10 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "엽서 리스트 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    @GetMapping("/top-list")
+    public ResponseEntity<?> selectTopPostcardList() throws IOException {
+        try {
+            List<PostcardList> topPostcardLists = postcardService.selectPostcardTopList();
+            return ResponseEntity.status(200).body(PostcardListGetPos.of(topPostcardLists));
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(401).body("인기 엽서 리스트가 없습니다.");
+        }
+
     }
 }
