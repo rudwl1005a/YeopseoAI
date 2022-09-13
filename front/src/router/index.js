@@ -7,6 +7,7 @@ import MypageView from "../views/MypageView";
 import OrganizationListView from "../views/OrganizationListView";
 import SearchView from "../views/SearchView";
 import SignupView from "../views/SignupView";
+import TestView from "../views/TestView";
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     name: "SignupView",
     component: SignupView,
   },
+  {
+    path: "/test",
+    name: "TestView",
+    component: TestView,
+  },  
 ];
 
 const router = createRouter({
