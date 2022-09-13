@@ -1,5 +1,8 @@
 <template>
-<div class="mainClass">
+<div class="mainLoading" v-show="showLogoLoding">
+  멋있는 효과 넣어줘(이 화면 3초정도 지나면 사라짐. mainpage created될 때 보여주는거라 어디서 mainpage 이동할 때면 항상 보여줄 듯. 래퍼런스 사이트랑 같은방식)
+</div>
+<div class="mainClass" v-show="!showLogoLoding">
   <div class="maingoUpBtn" @click="goUp"></div>
   <div class="mainpageClass">
     <div class="mainLogoClass">
@@ -7,12 +10,12 @@
     </div>
     <div class="mainpageList">
       <!-- 나중에 라우터 링크 혹은 푸쉬로 바꾸자 -->
-      <div class="mainpageBtn" @click="goHome">home</div>
-      <div class="mainpageBtn">letter</div>
-      <div class="mainpageBtn">foundation</div>
-      <div class="mainpageBtn">mypage</div>
+      <div class="mainpageBtn" @mouseover="change1" @click="goHome">home</div>
+      <div class="mainpageBtn" @mouseover="change2">letter</div>
+      <div class="mainpageBtn" @mouseover="change3">foundation</div>
+      <div class="mainpageBtn" @mouseover="change4">mypage</div>
     </div>
-    <div v-if="sidebarToggle" class="mainopendToggle">
+    <div v-show="sidebarToggle" class="mainopendToggle">
       <!-- 나중에 라우터 링크로 바꾸자 -->
       <div class="mainpageBtn">home</div>
       <div class="mainpageBtn">letter</div>
@@ -26,7 +29,13 @@
         대충 여기 토글 아이콘 ㄱ
       </div>
     </div>
-    <div class="maininformationClass">
+    <div
+     :class="{
+      'maininformationClass': watchingIntro === 1,
+      'maininformationClass2': watchingIntro === 2,
+      'maininformationClass3': watchingIntro === 3,
+      'maininformationClass4': watchingIntro === 4,
+      }">
       <!-- 웹 페이지의 각 기능들을 대표할 수 있는 사진들을 넣어두자 -->
     </div>
   </div>
@@ -91,32 +100,93 @@
     </div>
   </div>
   <div class="mainfamousLetterClass">
+    <!-- 버튼 클릭하면 다음 페이지로 옮겨보자 -->
+    <div class="mainfamousLetterBtn" @click="changeFamousLetter"></div>
     <div class="mainfamousLetterContentClass">
       <div class="mainfamousLetterTitle"><b>인기엽서 목록</b></div>
-      <div class="mainfamousLetterBoxClass">
-        <div class="mainfamousBigLetterClass">인기빅 엽서</div>
+      <div v-if="famousLetterBtn" class="mainfamousLetterBoxClass">
+        <div class="mainfamousBigLetterClass">{{ famousLetter[0].userId }}</div>
         <div class="mainfamousLittleLetterClass">
           <div class="mainfamousLittleLetterWrap">
-            <div class="mainfamousLittleLetterItemClass">인기스몰1</div>
-            <div class="mainfamousLittleLetterItemClass">인기스몰2</div>
+            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[1] }}</div>
+            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[2] }}</div>
           </div>
           <div style="height: 2vh"></div>
           <div class="mainfamousLittleLetterWrap">
-            <div class="mainfamousLittleLetterItemClass">인기스몰1</div>
-            <div class="mainfamousLittleLetterItemClass">인기스몰2</div>
+            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[3] }}</div>
+            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[4] }}</div>
+          </div>
+        </div>
+      </div>
+      <!-- 다음페이지 ㅇㅇ -->
+      <div v-if="!famousLetterBtn" class="mainfamousLetterBoxClass">
+        <div class="mainfamousBigLetterClass">{{ famousLetter[5] }}</div>
+        <div class="mainfamousLittleLetterClass">
+          <div class="mainfamousLittleLetterWrap">
+            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[6] }}</div>
+            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[7] }}</div>
+          </div>
+          <div style="height: 2vh"></div>
+          <div class="mainfamousLittleLetterWrap">
+            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[8] }}</div>
+            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[9] }}</div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- 재단 목록 -->
   <div class="mainfamousFoundationClass">
-    <div class="mainfamousFoundationTitle">
-      <b>재단 목록</b>
+    <div class="mainfamousFoundationChange"></div>
+    <div class="mainfamousFoundationWrap">
+      <div class="mainfamousFoundationTitle">
+        <b>재단 목록</b>
+      </div>
+      <div class="mainfamousFoundationContent">
+        <!-- 5개만 보여줘도 될 것 같다는 생각이 든다 -->
+        <div class="mainfamousFoundationItem">
+          {{ famousFoundation[0] }}
+          <div class="mainfamousFoundationItemContent">
+            여기 설명이 들어갈 예정입니다
+          </div>
+        </div>
+        <div class="mainfamousFoundationItem">
+          {{ famousFoundation[1] }}
+          <div class="mainfamousFoundationItemContent">
+            여기 설명이 들어갈 예정입니다
+          </div>
+        </div>
+        <div class="mainfamousFoundationItem">
+          {{ famousFoundation[2] }}
+          <div class="mainfamousFoundationItemContent">
+            여기 설명이 들어갈 예정입니다
+          </div>
+        </div>
+        <div class="mainfamousFoundationItem">
+          {{ famousFoundation[3] }}
+          <div class="mainfamousFoundationItemContent">
+            여기 설명이 들어갈 예정입니다
+          </div>
+        </div>
+        <div class="mainfamousFoundationItem">
+          {{ famousFoundation[4] }}
+          <div class="mainfamousFoundationItemContent">
+            여기 설명이 들어갈 예정입니다
+          </div>
+        </div>
+      </div>
     </div>
-
   </div>
+
+  <!-- 검색바 관련. input 될 때마다 자동완성 결과를 불러오는 요청 필요, enter시 결과를 store에 저장 후 검색 페이지로 넘어가 store에 저장된
+  검색 결과를 불러오도록 하자. -->
   <div class="mainsearchClass">
-    검색
+    <div class="mainsearchTitle"><b style="font-size: 1.2vw;">검색</b></div>
+    <div class="mainsearchBar">
+      <div class="mainsearchBarBody">
+        <input v-model="searchMessage" @input="getAutoComplete" @keyup.enter="submitSearch" class="mainsearchBarInput" placeholder=". . . search" type="text">
+      </div>
+    </div>
   </div>
   <div>
     기타 정보
@@ -125,16 +195,43 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "vuex";
+const mainpageStore = "mainpageStore";
+
 export default {
   name:"MainView",
+  components: {
+  },
+  computed: {
+    ...mapState(mainpageStore, ["letterTop", "foundationTop", "watchingLetter"]),
+  },
   data() {
     return {
-      famousLetter: [], // 10개. 아직 요청 확인을 할 수 없기 때문에
-      famousFoundation: [], // 10개
+      // 메인화면 소개 이미지관련
+      watchingIntro: 1,
+
+      // 엽서관련
+      famousLetter: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // 10개. 아직 요청 확인을 할 수 없기 때문에 데이터 넣어두고 해보자
+      watchingLetter: [], // 세부사항 조회중인 엽서 정보
+      
+      // 재단관련
+      famousFoundation: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // 10개
+      
+      // 사이드바 토글 관련
       sidebarToggle: false,
+
+      // 메인화면으로 넘어갈 때 보여줄 이미지(생각해보니 매번 이동할 때 마다 뜨면 문제가 있을 것 같네. 일단 레퍼런스 사이트는 메인화면 이동할 때마다 보여주고 있긴 함)
+      showLogoLoding: true,
+
+      // 인기 엽서 목록 버튼 관리
+      famousLetterBtn: true, // true면 1~5위, false면 6~10위 보여주자
+
+      // 검색 관려
+      searchMessage: "",
     }
   },
   methods: {
+    ...mapActions(mainpageStore, ["getFamousLetterStore", "getFamousFoundationStore", "getLetterDetail", "likeLetterStore", "dislikeLetterStore"]),
     openSidebar() {
       console.log("토글 열어보자");
       if (this.sidebarToggle) {
@@ -144,21 +241,75 @@ export default {
       }
       console.log(this.sidebarToggle);
     },
+    // hover시 intro의 사진을 바꿔주기 위한 함수
+    // 바뀐 숫자를 가지고 배경화면을 바꾸어주면 될 것
+    change1() {
+      this.watchingIntro = 1;
+    },
+    change2() {
+      this.watchingIntro = 2;
+    },
+    change3() {
+      this.watchingIntro = 3;
+    },
+    change4() {
+      this.watchingIntro = 4;
+    },
+
     goHome() {
-      
+      this.$router.go();
+      console.log("홈 새로고침");
     },
     goUp() {
       if (window.scrollY === 0) {
-        window.scrollTo({ left: 0, top: 4000, behavior: "smooth" });
+        window.scrollTo({ left: 0, top: 10000, behavior: "smooth" });
       } else {
         window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
       }
-    }
+    },
+    changeFamousLetter() { // 인기 엽서 목록 바꿔주는 버튼
+      this.famousLetterBtn = !this.famousLetterBtn;
+    },
+
+    // 검색 관리
+    getAutoComplete() {
+      // input 될 때마다 해당 값을 포함하는 결과를 밑에 띄워주기 위한 함수
+      console.log(this.searchMessage);
+    },
+    submitSearch() {
+      if (this.searchMessage !== "") {
+        // enter키를 누르면 searchMessage값을 넣어 검색 실시. store에 검색 결과 넣어둔 후 검색 결과 페이지로 이동하자
+        console.log(this.searchMessage);
+        this.searchMessage = "";
+        this.$router.push({ name: "SearchView" });
+      } else {
+        console.log("검색어 입력하라고");
+      }
+    },
+  },
+  async created() {
+    // 인기엽서, 인기재단 받아오자. async await 써서 받아야 할 듯
+    await this.getFamousLetterStore();
+    await this.getFamousFoundationStore();
+    console.log(this.letterTop);
+    this.famousLetter = this.letterTop;
+    this.famousFoundation = this.foundationTop;
+    // 여기에 로딩 이미지 넣으면 될 듯?
+    setTimeout(() => {
+      // 로딩 이미지를 띄워줄 data값을 변경해주자
+      this.showLogoLoding = false; // 3초 지나면 안보이게 하자
+    }, 300);
   }
 }
 </script>
 
 <style>
+/* 메인페이지 진입 효과 관리 */
+.mainLoading {
+  width: 100vw;
+  height: 100vh;
+}
+
 /* 페이지 스크롤 위치 바꾸는 버튼 */
 .maingoUpBtn {
   z-index: 50;
@@ -175,7 +326,7 @@ export default {
 
 /* 메인페이지 전체 관리 */
 .mainClass {
-  height: 600vh;
+  height: 580vh;
   background-color: whitesmoke;
 }
 
@@ -193,6 +344,7 @@ export default {
   transform: translate(-50%, -50%);
 }
 
+/* 엽서사전 서비스 소개 호버 이펙트용 */
 .mainpageBtn {
   cursor: pointer;
   width: 5vw;
@@ -210,8 +362,49 @@ export default {
   width: 78vw;
   border-radius: 20px;
   background-color: white;
+  background-image: url('../../public/homedesign/images/main_dummy1.gif');
+  background-size: 78vw 95vh;
+  transition: 0.4s;
 }
-
+.maininformationClass2 {
+  position: absolute;
+  top: 50%;
+  left: 53%;
+  transform: translate(-50%, -50%);
+  height: 95vh;
+  width: 78vw;
+  border-radius: 20px;
+  background-color: white;
+  background-image: url('../../public/homedesign/images/main_dummy2.gif');
+  background-size: 78vw 95vh;
+  transition: 0.4s;
+}
+.maininformationClass3 {
+  position: absolute;
+  top: 50%;
+  left: 53%;
+  transform: translate(-50%, -50%);
+  height: 95vh;
+  width: 78vw;
+  border-radius: 20px;
+  background-color: white;
+  background-image: url('../../public/homedesign/images/main_dummy3.gif');
+  background-size: 78vw 95vh;
+  transition: 0.4s;
+}
+.maininformationClass4 {
+  position: absolute;
+  top: 50%;
+  left: 53%;
+  transform: translate(-50%, -50%);
+  height: 95vh;
+  width: 78vw;
+  border-radius: 20px;
+  background-color: white;
+  background-image: url('../../public/homedesign/images/main_dummy2.gif');
+  background-size: 78vw 95vh;
+  transition: 0.4s;
+}
 
 /* 메인페이지 로고 관리 */
 .mainLogoClass {
@@ -238,10 +431,11 @@ export default {
   position: fixed;
   top: 0%;
   right: 6%;
-  width: 40vw;
+  width: 30vw;
   height: 50vh;
   background-color: #fff1cc;
   border-radius: 0px 0px 0px 100px;
+  transition: 0.4s;
 }
 
 
@@ -300,6 +494,18 @@ export default {
 
 
 /* 인기 엽서 목록 관리 */
+.mainfamousLetterBtn {
+  position: absolute;
+  cursor: pointer;
+  top: 90%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  height: 5vh;
+  width:  5vh;
+  border-radius: 1000px;
+  background-color: #484233;
+}
+
 .mainfamousLetterClass {
   position: relative;
   height: 100vh;
@@ -355,19 +561,111 @@ export default {
 
 /* 인기 재단 목록 관리 */
 .mainfamousFoundationClass {
+  position: relative;
   height: 100vh;
   background-color: #faf8f5;
 }
 
+.mainfamousFoundationWrap {
+  position: absolute;
+  height: 80vh;
+  width: 80vw;
+  top: 50%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+}
+
 .mainfamousFoundationTitle {
-  height: 50vh;
+  font-size: 3vh
+}
+
+.mainfamousFoundationContent {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  height: 60vh;
+  width: 80vw;
+}
+
+.mainfamousFoundationItem {
+  height: 60vh;
+  width: 15vw;
+  background-color: #eeccee;
+  border-radius: 20px;
+  transition: 0.4s;
+}
+
+.mainfamousFoundationItemContent {
+  width: 0vw;
+  height: 0vh;
+  background-color: white;
+  border-radius: 20px;
+  overflow: auto;
+  transition: 0.4s;
+}
+
+.mainfamousFoundationItem:hover {
+  width: 80vw;
+}
+
+.mainfamousFoundationItem:hover > .mainfamousFoundationItemContent {
+  width: 40vw;
+  height: 40vh;
+}
+
+.mainfamousFoundationChange {
+  position: absolute;
+  top: 90%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  background-color: #484233;
+  height: 5vh;
+  width: 5vh;
+  border-radius: 1000px;
 }
 
 
 /* 검색 관리 */
 .mainsearchClass {
+  position: relative;
   height: 60vh;
   background-color: #ffc322;
+}
+
+.mainsearchTitle {
+  position: absolute;
+  top: 10%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+}
+
+.mainsearchBar {
+  position: absolute;
+  top: 50%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  height: 5vh;
+  width: 25vw;
+  border-radius: 1000px;
+  background-color: #484233;
+  transition: 0.4s;
+}
+
+.mainsearchBarBody {
+  width: 24vw;
+}
+
+.mainsearchBarInput {
+  position: absolute;
+  top: 50%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  width: 20vw;
+  border: none;
+  background: none;
+  outline: none;
+  color: #faf8f5;
 }
 
 
