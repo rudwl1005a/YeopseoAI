@@ -1,8 +1,8 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.api.request.PostcardPostReq;
-import com.ssafy.api.response.PostcardGetPos;
-import com.ssafy.api.response.PostcardListGetPos;
+import com.ssafy.api.response.PostcardGetRes;
+import com.ssafy.api.response.PostcardListGetRes;
 import com.ssafy.api.service.PostcardService;
 import com.ssafy.api.service.UserService;
 import com.ssafy.common.customObj.PostcardList;
@@ -125,10 +125,10 @@ public class PostcardController {
                 tagContents.add(tag.getTagContent());
             }
 
-            return ResponseEntity.status(200).body(PostcardGetPos.of(user.getUserId(), postcard.getPostcardImgUrl(), tagContents));
+            return ResponseEntity.status(200).body(PostcardGetRes.of(user.getUserId(), postcard.getPostcardImgUrl(), tagContents));
         } catch(Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(401).body(PostcardGetPos.of(null, null, null));
+            return ResponseEntity.status(401).body(PostcardGetRes.of(null, null, null));
         }
 
     }
@@ -143,7 +143,7 @@ public class PostcardController {
     public ResponseEntity<?> selectPostcardList(@PathVariable(value = "userSeq") @ApiParam("유저seq") int userSeq) throws IOException {
         try {
             List<PostcardList> postcardList = postcardService.selectPostcardList(userSeq);
-            return ResponseEntity.status(200).body(PostcardListGetPos.of(postcardList));
+            return ResponseEntity.status(200).body(PostcardListGetRes.of(postcardList));
         } catch(Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(401).body("엽서 리스트가 없습니다.");
@@ -161,7 +161,7 @@ public class PostcardController {
     public ResponseEntity<?> selectTopPostcardList() throws IOException {
         try {
             List<PostcardList> topPostcardLists = postcardService.selectPostcardTopList();
-            return ResponseEntity.status(200).body(PostcardListGetPos.of(topPostcardLists));
+            return ResponseEntity.status(200).body(PostcardListGetRes.of(topPostcardLists));
         } catch(Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(401).body("인기 엽서 리스트가 없습니다.");

@@ -1,8 +1,10 @@
 <template>
+
 <div class="mainLoading" v-if="showLogoLoding">
   멋있는 효과 넣어줘(이 화면 3초정도 지나면 사라짐. mainpage created될 때 보여주는거라 어디서 mainpage 이동할 때면 항상 보여줄 듯. 래퍼런스 사이트랑 같은방식)
 </div>
 <div class="mainClass" v-if="!showLogoLoding">
+>>>>>>> 3448886915ac733eaac5e831315a84a4de1a8cd8
   <div class="maingoUpBtn" @click="goUp"></div>
   <div class="mainpageClass">
     <div v-if="showLogo" class="mainLogoClass">
