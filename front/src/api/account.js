@@ -18,4 +18,14 @@ async function userInfo(userPk, success, fail) {
   await api.get(`/api/users/${userPk}`).then(success).catch(fail);
 }
 
-export { login, signup, userInfo };
+async function checkID(userId, success, fail) {
+  // ID 중복체크
+  await api.get(`/api/users/check/${userId}`).then(success).catch(fail);
+}
+
+async function logout(success, fail) {
+  // 로그아웃(url 등 변경 필요)
+  await api.get(`api/users/`).then(success).catch(fail);
+}
+
+export { login, signup, userInfo, checkID, logout };

@@ -11,7 +11,7 @@
     <img class="justify-content-center" src="@/assets/logo.png" alt="대표우편">
     </div>
     <v-divider class="col-1" vertical />
-    <form @submit.prevent="login(credentials)" class="container col-6 align-self-center" style="max-width: 600px;">
+    <form @submit.prevent="userLogin(credentials)" class="container col-6 align-self-center" style="max-width: 600px;">
       <div class="row mb-3">
         <label for="username" class="text-start form-label">Username</label>
         <input v-model="credentials.username" type="text" class="form-control" id="username" placeholder="ID를 입력해 주세요." required>
@@ -33,7 +33,7 @@
   export default {
   name: "LoginView",
   data() { return { credentials: { userId: '', userPassword: '', }}},
-  methods: {...mapActions(['login'])},
+  methods: {...mapActions(['userLogin'])},
 }
 </script>
 
