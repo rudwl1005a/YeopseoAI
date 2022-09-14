@@ -1,7 +1,17 @@
 <template>
-<div class="mainLoading" v-show="showLogoLoding">
-  멋있는 효과 넣어줘(이 화면 3초정도 지나면 사라짐. mainpage created될 때 보여주는거라 어디서 mainpage 이동할 때면 항상 보여줄 듯. 래퍼런스 사이트랑 같은방식)
+  
+<div :class="{ mainLoading : showLogoLoding , loadingClose : !showLogoLoding}">
+  <div id="startLogo" class="startLogo">
+    <svg width=400 height=200 viewBox="0 0 400 200"> 
+      <text class="logo" x="40" y="60%">엽</text> 
+      <text class="logo" x="120" y="60%">서</text>
+      <text class="logo" x="200" y="60%">사</text>
+      <text class="logo" x="280" y="60%">전</text>
+    </svg>
+  </div>
 </div>
+
+
 <div class="mainClass" v-show="!showLogoLoding">
   <div class="maingoUpBtn" @click="goUp"></div>
   <div class="mainpageClass">
