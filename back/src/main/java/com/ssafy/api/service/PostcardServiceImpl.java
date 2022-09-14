@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.common.customObj.PostcardList;
+import com.ssafy.common.customObj.PostcardSearchList;
 import com.ssafy.common.customObj.TopPostcardList;
 import com.ssafy.common.util.S3Uploader;
 import com.ssafy.db.entity.Postcard;
@@ -188,6 +189,30 @@ public class PostcardServiceImpl implements PostcardService{
                 tagContents.add(tag.getTagContent());
             }
 
+            postcardList.add(new PostcardList(userId, postcard, tagContents));
+        }
+
+        return postcardList;
+    }
+
+    /**
+     * 검색어가 포함된 태그를 가진 엽서 리스트 조회
+     */
+    @Override
+    public List<PostcardList> selectPostcardSearchList(String searchWord) throws IOException {
+        List<PostcardList> postcardList = new ArrayList<>();
+
+        List<PostcardSearchList> postcardSearchLists = postcardRepository.getPostcardSearchList(searchWord);
+        for(PostcardSearchList postcardSearchList : postcardSearchLists) {
+            Postcard postcard = postcardRepository.findById(postcardSearchList.getPostcard_Seq()).get();
+            String userId = userRepository.findByUserSeq(postcard.getUserSeq()).getUserId();
+
+            List<Tag> tags = tagRepository.getTagsByPostcardSeq(postcard.getPostcardSeq());
+
+            List<String> tagContents = new ArrayList<>();
+            for(Tag tag : tags) {
+                tagContents.add(tag.getTagContent());
+            }
             postcardList.add(new PostcardList(userId, postcard, tagContents));
         }
 
