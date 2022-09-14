@@ -1,18 +1,10 @@
 <template>
-  
-<div :class="{ mainLoading : showLogoLoding , loadingClose : !showLogoLoding}">
-  <div id="startLogo" class="startLogo">
-    <svg width=400 height=200 viewBox="0 0 400 200"> 
-      <text class="logo" x="40" y="60%">엽</text> 
-      <text class="logo" x="120" y="60%">서</text>
-      <text class="logo" x="200" y="60%">사</text>
-      <text class="logo" x="280" y="60%">전</text>
-    </svg>
-  </div>
+
+<div class="mainLoading" v-if="showLogoLoding">
+  멋있는 효과 넣어줘(이 화면 3초정도 지나면 사라짐. mainpage created될 때 보여주는거라 어디서 mainpage 이동할 때면 항상 보여줄 듯. 래퍼런스 사이트랑 같은방식)
 </div>
-
-
-<div class="mainClass" v-show="!showLogoLoding">
+<div class="mainClass" v-if="!showLogoLoding">
+>>>>>>> 3448886915ac733eaac5e831315a84a4de1a8cd8
   <div class="maingoUpBtn" @click="goUp"></div>
   <div class="mainpageClass">
     <div class="mainLogoClass">
@@ -49,7 +41,7 @@
       <!-- 웹 페이지의 각 기능들을 대표할 수 있는 사진들을 넣어두자 -->
     </div>
   </div>
-  <div class="mainpageAboutClass">
+  <div data-aos="zoom-in" class="mainpageAboutClass">
     <div class="mainpageAboutContentClass">
       <b style="font-size: 1.5vw; bold">about</b>
       <br>
@@ -206,6 +198,8 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import AOS from "aos";
+import "aos/dist/aos.css";
 const mainpageStore = "mainpageStore";
 
 export default {
@@ -297,10 +291,11 @@ export default {
       }
     },
   },
-  async created() {
+  created() {
     // 인기엽서, 인기재단 받아오자. async await 써서 받아야 할 듯
-    await this.getFamousLetterStore();
-    await this.getFamousFoundationStore();
+    AOS.init();
+    this.getFamousLetterStore();
+    this.getFamousFoundationStore();
     console.log(this.letterTop);
     this.famousLetter = this.letterTop;
     this.famousFoundation = this.foundationTop;
