@@ -5,7 +5,7 @@
 <div class="mainClass" v-if="!showLogoLoding">
   <div class="maingoUpBtn" @click="goUp"></div>
   <div class="mainpageClass">
-    <div class="mainLogoClass">
+    <div v-if="showLogo" class="mainLogoClass">
       <h1>엽AI사전</h1>
     </div>
     <div class="mainpageList">
@@ -228,8 +228,11 @@ export default {
       // 인기 엽서 목록 버튼 관리
       famousLetterBtn: true, // true면 1~5위, false면 6~10위 보여주자
 
-      // 검색 관려
+      // 검색 관리
       searchMessage: "",
+
+      // 로고 관리
+      showLogo: true,
     }
   },
   methods: {
@@ -288,6 +291,14 @@ export default {
         console.log("검색어 입력하라고");
       }
     },
+    // 로고 스크롤 이벤트
+    scrollEvent() {
+      if (scrollY <= 10) {
+        this.showLogo = true;
+      } else {
+        this.showLogo = false;
+      }
+    }
   },
   created() {
     // 인기엽서, 인기재단 받아오자. async await 써서 받아야 할 듯
@@ -302,7 +313,13 @@ export default {
       // 로딩 이미지를 띄워줄 data값을 변경해주자
       this.showLogoLoding = false; // 3초 지나면 안보이게 하자
     }, 300);
-  }
+  },
+  mounted() {
+    document.addEventListener("scroll", this.scrollEvent);
+  },
+  unmounted() {
+    document.removeEventListener("scroll", this.scrollEvent);
+  },
 }
 </script>
 
