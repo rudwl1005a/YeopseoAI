@@ -4,7 +4,7 @@ import {
     changeProfile,
     donationList,
     followList,
-  } from "@/api/organizationList.js"
+  } from "@/api/mypage.js"
   
   const mypageStore = {
     namespaced: true,

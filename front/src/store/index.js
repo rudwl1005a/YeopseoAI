@@ -1,6 +1,7 @@
-import { createStore } from "vuex";
-import createPersistedState from "vuex-persistedstate";
-import mainpageStore from "./modules/mainpageStore";
+import { createStore } from 'vuex';
+import createPersistedState from 'vuex-persistedstate';
+import mainpageStore from './modules/mainpageStore';
+import searchStore from './modules/searchStore';
 import accountStore from "./modules/accountStore";
 import mypageStore from "./modules/mypageStore";
 import organizationStore from "./modules/organizationStore";
@@ -13,9 +14,11 @@ export default createStore({
   actions: {},
   modules: {
     mainpageStore,
+    searchStore,
     accountStore,
     organizationStore,
     donationStore,
+    mypageStore,
   },
   plugins: [
     createPersistedState({

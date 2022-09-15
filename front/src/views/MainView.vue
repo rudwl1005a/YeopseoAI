@@ -6,8 +6,8 @@
 <div class="mainClass" v-if="!showLogoLoding">
   <div class="maingoUpBtn" @click="goUp"></div>
   <div class="mainpageClass">
-    <div class="mainLogoClass">
-      <h1>엽AI사전</h1>
+    <div v-if="showLogo" class="mainLogoClass">
+      <b>엽AI사전</b>
     </div>
     <div class="mainpageList">
       <!-- 나중에 라우터 링크 혹은 푸쉬로 바꾸자 -->
@@ -147,31 +147,31 @@
       </div>
       <div class="mainfamousFoundationContent">
         <!-- 5개만 보여줘도 될 것 같다는 생각이 든다 -->
-        <div class="mainfamousFoundationItem">
+        <div @click="foundationDetail(famousFoundation[0])" class="mainfamousFoundationItem">
           {{ famousFoundation[0] }}
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
         </div>
-        <div class="mainfamousFoundationItem">
+        <div @click="foundationDetail(famousFoundation[1])" class="mainfamousFoundationItem">
           {{ famousFoundation[1] }}
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
         </div>
-        <div class="mainfamousFoundationItem">
+        <div @click="foundationDetail(famousFoundation[2])" class="mainfamousFoundationItem">
           {{ famousFoundation[2] }}
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
         </div>
-        <div class="mainfamousFoundationItem">
+        <div @click="foundationDetail(famousFoundation[3])" class="mainfamousFoundationItem">
           {{ famousFoundation[3] }}
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
         </div>
-        <div class="mainfamousFoundationItem">
+        <div @click="foundationDetail(famousFoundation[4])" class="mainfamousFoundationItem">
           {{ famousFoundation[4] }}
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
@@ -202,13 +202,15 @@ import { mapActions, mapState } from "vuex";
 import AOS from "aos";
 import "aos/dist/aos.css";
 const mainpageStore = "mainpageStore";
+const searchStore = "searchStore";
 
 export default {
   name:"MainView",
   components: {
   },
   computed: {
-    ...mapState(mainpageStore, ["letterTop", "foundationTop", "watchingLetter"]),
+    ...mapState(mainpageStore, ["letterTop", "foundationTop", "watchingLetter", "watchingFoundation"]),
+    ...mapState(searchStore, ["letterSearchResult", "foundationSearchResult"]),
   },
   data() {
     return {
@@ -221,6 +223,7 @@ export default {
       
       // 재단관련
       famousFoundation: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // 10개
+      watchingFoundation: [],
       
       // 사이드바 토글 관련
       opendToggle: false,
@@ -232,12 +235,16 @@ export default {
       // 인기 엽서 목록 버튼 관리
       famousLetterBtn: true, // true면 1~5위, false면 6~10위 보여주자
 
-      // 검색 관려
+      // 검색 관리
       searchMessage: "",
+
+      // 로고 관리
+      showLogo: true,
     }
   },
   methods: {
-    ...mapActions(mainpageStore, ["getFamousLetterStore", "getFamousFoundationStore", "getLetterDetail", "likeLetterStore", "dislikeLetterStore"]),
+    ...mapActions(mainpageStore, ["getFamousLetterStore", "getFamousFoundationStore", "getLetterDetail", "likeLetterStore", "dislikeLetterStore", "getFoundationDetail"]),
+    ...mapActions(searchStore, ["getSearchResult"]),
     openSidebar() {
       console.log("토글 열어보자");
       // 토글 닫기
@@ -291,22 +298,42 @@ export default {
       // input 될 때마다 해당 값을 포함하는 결과를 밑에 띄워주기 위한 함수
       console.log(this.searchMessage);
     },
-    submitSearch() {
+    async submitSearch() {
       if (this.searchMessage !== "") {
         // enter키를 누르면 searchMessage값을 넣어 검색 실시. store에 검색 결과 넣어둔 후 검색 결과 페이지로 이동하자
         console.log(this.searchMessage);
+        let searchWord = this.searchMessage;
+        await this.getSearchResult(searchWord);
         this.searchMessage = "";
         this.$router.push({ name: "SearchView" });
       } else {
         console.log("검색어 입력하라고");
       }
     },
+    // 로고 스크롤 이벤트
+    scrollEvent() {
+      if (scrollY <= 10) {
+        this.showLogo = true;
+      } else {
+        this.showLogo = false;
+      }
+    },
+
+    //
+    async foundationDetail(foundation) {
+      // 클릭시 재단의 상세정보를 보여줘야 함
+      console.log(foundation);
+      this.watchingFoundation = foundation;
+      // 보고있는 재단 정보를 data에 담고
+      await this.getFoundationDetail(this.watchingFoundation.foundationSeq);
+      console.log(this.watchingFoundation);
+    }
   },
-  created() {
+  async created() {
     // 인기엽서, 인기재단 받아오자. async await 써서 받아야 할 듯
     AOS.init();
-    this.getFamousLetterStore();
-    this.getFamousFoundationStore();
+    await this.getFamousLetterStore();
+    await this.getFamousFoundationStore();
     console.log(this.letterTop);
     this.famousLetter = this.letterTop;
     this.famousFoundation = this.foundationTop;
@@ -315,7 +342,13 @@ export default {
       // 로딩 이미지를 띄워줄 data값을 변경해주자
       this.showLogoLoding = false; // 3초 지나면 안보이게 하자
     }, 300);
-  }
+  },
+  mounted() {
+    document.addEventListener("scroll", this.scrollEvent);
+  },
+  unmounted() {
+    document.removeEventListener("scroll", this.scrollEvent);
+  },
 }
 </script>
 
