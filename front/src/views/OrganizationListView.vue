@@ -2,7 +2,7 @@
 
   <div>기부단체 목록 화면임</div>
   <div :onclick="donation">기부하실?</div>
-
+  <div @click="setFoundationInfo(organizationList[0].foundationSeq)" >{{ organizationList[0].foundationContent }}</div>
   <div class="organizationClass">
     <div class="mainLogoClass">
       <h1>엽AI사전</h1>
@@ -22,8 +22,8 @@
                 <img src="https://sumika-creative.net/wp/wp-content/themes/sumika_ver1.0/img/about/img_kasumi.png" alt="" data-eio="l">
               </noscript>
             </div>
-            <p class="name">こたに かすみ</p>
-            <p class="text">専門学校卒業後、京都・滋賀のWeb制作会社、システム開発会社に勤務。webデザイン、フロントエンド開発をはじめ、WordPressなどのCMSを使用した開発など様々な制作に携わる。7年間の活動後、フリーランスに転向。<br> メディアサイトや官公庁サイトの制作に多く携わった経験から、誰にとっても見やすく使いやすいデザイン・設計を得意としています。きめ細かいところまで丁寧にご対応させていただきます。</p>
+            <p class="name"></p>
+            <p class="text"></p>
           </div>
 
           <div class="organizationItem">
@@ -33,8 +33,8 @@
                 <img src="https://sumika-creative.net/wp/wp-content/themes/sumika_ver1.0/img/about/img_naoto.png" alt="" data-eio="l">
               </noscript>
             </div>
-            <p class="name">こたに なおと</p>
-            <p class="text">大学卒業後、京都のWeb制作会社にて勤務。フロントエンド開発をはじめ、Wordpressでの開発、ASPでのECサイトの構築、企画・デザイン・ディレクション等様々なサイト制作に携わる。7年間の活動後、フリーランスに転向。<br> ディレクターとして多くの案件に携わった経験からお客様にとって何が一番必要なことか、エンドユーザーにとって使いやすいサイトとなっているのかを会話から導き出し、長く使えるサイト制作を心がけています。</p>
+            <p class="name"></p>
+            <p class="text"></p>
           </div>
 
       </div>
@@ -43,20 +43,60 @@
   </template>
   
   <script>
-  // import { mapActions, mapGetters } from "vuex";
-  // const mypageStore = "mypageStore";
-  // const roomdataStore = "roomdataStore";
-  // const mypageStore = "mypageStore";
-  // const memberStore = "memberStore";
+  import { mapActions, mapGetters } from "vuex";
+  const organizationStore = "organizationStore";
 
   export default {
     name:"OrganizationListView",
+    data() {
+    return {
+    };
+    },
+
+
+    computed: {
+      ...mapGetters(organizationStore, [
+        "organizationList",
+        "organizationInfo",
+        "organizationDonationList",
+      ]),
+    },
+
 
     methods: {
+      ...mapActions(organizationStore, [
+        "getFoundationInfo",
+        "getFoundationList",
+        "getFoundationDonationList",
+      ]),
+
       donation() {
-        this.$router.push('/test')
-      }
+        this.$router.push('/donation')
+      },
+
+      // 재단 인포 들고오기
+      setFoundationInfo(foundationSeq) {
+        console.log(foundationSeq)
+        // 스토어에서 foundation_Seq 들고와서 넣어줘야됨
+        this.getFoundationInfo(foundationSeq)
+      },
+      // 재단 인포 들고오기
+      setFoundationDonationList() {
+        // 스토어에서 foundation_Seq 들고와서 넣어줘야됨
+        this.getFoundationDonationList()
+      },
     },
+
+
+    created() {
+      // 재단 목록 가져오기
+      this.getFoundationList()
+    },
+
+
+    mounted() {
+
+    },  
   }
   </script>
   
