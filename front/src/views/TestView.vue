@@ -1,4 +1,23 @@
 <template>
+<div :class="{ mainLoading : showLogoLoding , loadingClose : !showLogoLoding}">
+  <div id="startLogo" class="startLogo">
+    <svg width=400 height=200 viewBox="0 0 400 200"> 
+      <text class="logo" x="40" y="60%">엽</text> 
+      <text class="logo" x="120" y="60%">서</text>
+      <text class="logo" x="200" y="60%">사</text>
+      <text class="logo" x="280" y="60%">전</text>
+    </svg>
+  </div>
+</div>
+
+
+<div v-if="!showLogoLoding">
+  <div id="container">
+      <span id="text1" class="logo"></span>
+      <span id="text2" class="logo"></span>
+  </div>
+
+
   <div class="beginningBackground">
     
     <!-- 샘플이미지가 담기는 엽서 -->
@@ -14,32 +33,9 @@
   </div>
 
 
-  <!-- <div class="qc-ani position-relative" style="width: 700px; margin: 0 auto;">
-            <div class="quotation-container">
-              <div class="qc-box">
-                <i class="fas fa-quote-right fa2"></i>
-                <div class="qc-text-box">
-                  <i class="fas fa-quote-left fa1"></i>
-                  <div class="qc-box-div">
-                    <span class="qc-title">QUOTE THE DAY</span>
-                    <p id="quotation">“ 바쁘다는 것만으로는 충분치 않다. 문제는 ‘무엇 때문에 바쁜가’이다. ”</p>
-                    <div style="margin-bottom: 0; margin-left: 20px;">
-                      <span> - </span>
-                      <span id="source" class="quotation-writter position-relative" style="font-style: italic;"> Henry David Thoreau (헨리 데이비드 소로) </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="qc-random-btn-container flex align-center justify-center" style="margin-top: -8%;;margin-bottom: 50px;">
-              <button class="qrb-box bq-randomBtn">
-                <svg class="bq-randomBtn-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1.5rem" height="1.5rem">
-                  <path d="M370.72 133.28C339.458 104.008 298.888 87.962 255.848 88c-77.458.068-144.328 53.178-162.791 126.85-1.344 5.363-6.122 9.15-11.651 9.15H24.103c-7.498 0-13.194-6.807-11.807-14.176C33.933 94.924 134.813 8 256 8c66.448 0 126.791 26.136 171.315 68.685L463.03 40.97C478.149 25.851 504 36.559 504 57.941V192c0 13.255-10.745 24-24 24H345.941c-21.382 0-32.09-25.851-16.971-40.971l41.75-41.749zM32 296h134.059c21.382 0 32.09 25.851 16.971 40.971l-41.75 41.75c31.262 29.273 71.835 45.319 114.876 45.28 77.418-.07 144.315-53.144 162.787-126.849 1.344-5.363 6.122-9.15 11.651-9.15h57.304c7.498 0 13.194 6.807 11.807 14.176C478.067 417.076 377.187 504 256 504c-66.448 0-126.791-26.136-171.315-68.685L48.97 471.03C33.851 486.149 8 475.441 8 454.059V320c0-13.255 10.745-24 24-24z"></path>
-                </svg>
-              </button>
-            </div>
-            <script src="https://tistory4.daumcdn.net/tistory/4462322/skin/images/random-quotes.js"></script>
-          </div>  -->
+
+</div>
+
 </template>
 
 <script>
@@ -48,6 +44,12 @@ import "aos/dist/aos.css";
 
 export default {
 name:"TestView",
+
+data() {
+  return {
+    showLogoLoding: true,
+  }
+},
 
 methods: {
   scroll() {
@@ -59,6 +61,13 @@ methods: {
 
   created() {
     AOS.init();
+
+      setTimeout(() => {
+
+      // 로딩 이미지를 띄워줄 data값을 변경해주자
+      this.showLogoLoding = false; // 3초 지나면 안보이게 하자
+
+    }, 3000);
   },
 
 
@@ -71,18 +80,136 @@ methods: {
     // 아래 범위: 엘리먼트의 높이만큼이면 됨
     // 위 범위: 보이기 시작했으면 하는 스크롤 높이 - scrollY
 
-    // 샘플 이미지 안보이게하는 코드
-    const example = document.getElementById('example')
-    example.style.clip = `rect(${1000 - scrollY}px, 10000px, 10000px, 0px)`
-    
-    
-    // 스크롤 감지 함수
-    document.addEventListener("scroll", this.scroll);
+    setTimeout(() => {
+      // 로딩 이미지를 띄워줄 data값을 변경해주자
+
+      this.showLogoLoding = false; // 3초 지나면 안보이게 하자
+      
+      // 로고글자 투명하게 바꾸는거
+      const startLogo = document.getElementById('startLogo')
+      startLogo.style.opacity = 0
+
+      // 샘플 이미지 안보이게하는 코드
+      const example = document.getElementById('example')
+      // console.log(example)
+      example.style.clip = `rect(${1000 - scrollY}px, 10000px, 10000px, 0px)`
+      
+      
+      // 스크롤 감지 함수
+      document.addEventListener("scroll", this.scroll);
+
+
+      const elts = {
+        text1: document.getElementById("text1"),
+        text2: document.getElementById("text2")
+      };
+
+      const texts = [
+        "엽서사전",
+        "엽AI사전",
+        // "글씨체 어떰??",
+        // "가나다라마바사아자차카타파하",
+        // "가나다라마바사아자차카타파하",
+        // "가나다라마바사아자차카타파하",
+        // "가나다라마바사아자차카타파하",
+        // "가나다라마바사아자차카타파하",
+
+      ];
+
+      const morphTime = 3;
+      const cooldownTime = 0.25;
+
+      let textIndex = texts.length - 1;
+      let time = new Date();
+      let morph = 0;
+      let cooldown = cooldownTime;
+
+      elts.text1.textContent = texts[textIndex % texts.length];
+      elts.text2.textContent = texts[(textIndex + 1) % texts.length];
+
+      function doMorph() {
+        morph -= cooldown;
+        cooldown = 0;
+
+        let fraction = morph / morphTime;
+
+        if (fraction > 1) {
+            cooldown = cooldownTime;
+            fraction = 1;
+        }
+
+        setMorph(fraction);
+      }
+
+      function setMorph(fraction) {
+        elts.text2.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+        elts.text2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+
+        fraction = 1 - fraction;
+        elts.text1.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+        elts.text1.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+
+        elts.text1.textContent = texts[textIndex % texts.length];
+        elts.text2.textContent = texts[(textIndex + 1) % texts.length];
+      }
+
+      function doCooldown() {
+        morph = 0;
+
+        elts.text2.style.filter = "";
+        elts.text2.style.opacity = "100%";
+
+        elts.text1.style.filter = "";
+        elts.text1.style.opacity = "0%";
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        let newTime = new Date();
+        let shouldIncrementIndex = cooldown > 0;
+        let dt = (newTime - time) / 1000;
+        time = newTime;
+
+        cooldown -= dt;
+
+        if (cooldown <= 0) {
+            if (shouldIncrementIndex) {
+                textIndex++;
+            }
+
+            doMorph();
+        } else {
+            doCooldown();
+        }
+      }
+
+      animate();
+
+    }, 3000);
   },
 }
 </script>
 
 <style>
+/* 메인페이지 진입 효과 관리 */
+.mainLoading {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  transition:all 1s ease;
+  background-color: #fcf4e0;
+}
+.loadingClose {
+  position: absolute;
+  width: 100vw;
+  height: 0vh;
+  transition:all 1s ease;
+  border-radius: 0% 0% 30% 30%;
+  background-color: #fcf4e0;
+  overflow: hidden;
+}
+
 .beginningBackground {
   /* background-image: url(../../public/images/example_before.PNG);
   background-repeat: no-repeat;
@@ -102,7 +229,10 @@ methods: {
   width: 30vw;
   background-image: url(../../public/images/example_before.PNG);
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
+  border-radius: 5px;
+  border-width: 2px;
+  border: #484233;
 }
 .example_after {
   position: fixed;
@@ -115,7 +245,10 @@ methods: {
   width: 30vw;
   background-image: url(../../public/images/example_after.PNG);
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
+  border-radius: 5px;
+  border-width: 2px;
+  border: #484233;
 }
 .beginningPostCard {
   position: sticky;
@@ -216,5 +349,118 @@ methods: {
 .searchClass {
   height: 60vh;
   background-color: #ffc322;
+}
+
+
+/* test */
+@import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
+#container {
+    position: absolute;
+    margin: auto;
+    width: 100vw;
+    height: 80pt;
+    top: 0;
+    bottom: 0;
+
+    filter: url(#threshold) blur(0.6px);
+}
+
+#text1,
+#text2 {
+    position: absolute;
+    width: 100%;
+    display: inline-block;
+
+    font-family: 'Nanum Pen Script', cursive;
+    font-size: 80pt;
+
+    text-align: center;
+
+    user-select: none;
+}
+
+
+
+
+
+/* 글자 써지는 효과 */
+@import url("https://fonts.googleapis.com/css2?family=Anton&display=swap");
+@import url(//fonts.googleapis.com/earlyaccess/nanumpenscript.css);
+.startLogo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:all 0.7s ease;
+  /* border-radius: 2px;
+  box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1); */
+  /* background: #FEAC5E; */
+  /* fallback for old browsers */
+  /* background: -webkit-linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E); */
+  /* Chrome 10-25, Safari 5.1-6 */
+  /* background: linear-gradient(to right, #4BC0C8, #C779D0, #FEAC5E); */
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+svg text {
+  font-family: "Anton", sans-serif;
+  font-size: 6rem;
+  stroke-width: 3px;
+  stroke: rgb(255, 197, 142);
+  fill: transparent;
+  stroke-dashoffset: 750;
+  stroke-dasharray: 750;
+  animation: stroke 4.5s linear;
+  animation-fill-mode: forwards;
+}
+
+.logo {
+  font-family: 'Nanum Pen Script', cursive;
+}
+
+text:nth-child(1) {
+  animation-delay: 0.5s;
+}
+
+text:nth-child(2) {
+  animation-delay: 1s;
+}
+
+text:nth-child(3) {
+  animation-delay: 1.5s;
+}
+
+text:nth-child(4) {
+  animation-delay: 2s;
+}
+
+text:nth-child(5) {
+  animation-delay: 2.5s;
+}
+
+text:nth-child(6) {
+  animation-delay: 3s;
+}
+
+text:nth-child(7) {
+  animation-delay: 3.5s;
+}
+
+@keyframes stroke {
+  0% {
+    stroke-dashoffset: 750;
+  }
+  70% {
+    fill: rgba(255, 209, 157, 0.926);
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill: rgb(255, 209, 157, 0.926);
+  }
 }
 </style>

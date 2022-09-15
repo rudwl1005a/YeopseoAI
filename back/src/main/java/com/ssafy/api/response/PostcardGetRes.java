@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @ApiModel("PostcardGetResponse")
-public class PostcardGetPos {
+public class PostcardGetRes {
 
     @ApiModelProperty(name="엽서 제작유저 ID", example="writerId")
     String userId;
@@ -21,8 +21,8 @@ public class PostcardGetPos {
     @ApiModelProperty(name="엽서의 태그리스트", example="ssafy, test, ..")
     List<String> tag;
 
-    public static PostcardGetPos of(String userId, String postcardImgUrl, List<String> tag) {
-        PostcardGetPos postcardGetPos = new PostcardGetPos();
+    public static PostcardGetRes of(String userId, String postcardImgUrl, List<String> tag) {
+        PostcardGetRes postcardGetPos = new PostcardGetRes();
 
         postcardGetPos.setUserId(userId);
         postcardGetPos.setPostcardImgUrl(postcardImgUrl);

@@ -1,8 +1,9 @@
 <template>
-<div class="mainLoading" v-show="showLogoLoding">
+
+<div class="mainLoading" v-if="showLogoLoding">
   멋있는 효과 넣어줘(이 화면 3초정도 지나면 사라짐. mainpage created될 때 보여주는거라 어디서 mainpage 이동할 때면 항상 보여줄 듯. 래퍼런스 사이트랑 같은방식)
 </div>
-<div class="mainClass" v-show="!showLogoLoding">
+<div class="mainClass" v-if="!showLogoLoding">
   <div class="maingoUpBtn" @click="goUp"></div>
   <div class="mainpageClass">
     <div class="mainLogoClass">
@@ -15,13 +16,15 @@
       <div class="mainpageBtn" @mouseover="change3">foundation</div>
       <div class="mainpageBtn" @mouseover="change4">mypage</div>
     </div>
-    <div v-show="sidebarToggle" class="mainopendToggle">
+    <div :class="{ mainopendToggle : opendToggle , mainclosedToggle : !opendToggle}">
       <!-- 나중에 라우터 링크로 바꾸자 -->
-      <div class="mainpageBtn">home</div>
-      <div class="mainpageBtn">letter</div>
-      <div class="mainpageBtn">foundation</div>
-      <div class="mainpageBtn">mypage</div>
-      <div class="mainpageBtn">logout</div>
+      <div v-if="toggleContent" data-aos="fade-up" data-aos-duration="500">
+        <div class="mainpageBtn">home</div>
+        <div class="mainpageBtn">letter</div>
+        <div class="mainpageBtn">foundation</div>
+        <div class="mainpageBtn">mypage</div>
+        <div class="mainpageBtn">logout</div>
+      </div>
     </div>
     <div class="mainSideBarClass">
       <!-- 토글 아이콘 넣자 -->
@@ -39,7 +42,7 @@
       <!-- 웹 페이지의 각 기능들을 대표할 수 있는 사진들을 넣어두자 -->
     </div>
   </div>
-  <div class="mainpageAboutClass">
+  <div data-aos="zoom-in" class="mainpageAboutClass">
     <div class="mainpageAboutContentClass">
       <b style="font-size: 1.5vw; bold">about</b>
       <br>
@@ -196,6 +199,8 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import AOS from "aos";
+import "aos/dist/aos.css";
 const mainpageStore = "mainpageStore";
 
 export default {
@@ -218,7 +223,8 @@ export default {
       famousFoundation: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // 10개
       
       // 사이드바 토글 관련
-      sidebarToggle: false,
+      opendToggle: false,
+      toggleContent: false,
 
       // 메인화면으로 넘어갈 때 보여줄 이미지(생각해보니 매번 이동할 때 마다 뜨면 문제가 있을 것 같네. 일단 레퍼런스 사이트는 메인화면 이동할 때마다 보여주고 있긴 함)
       showLogoLoding: true,
@@ -234,12 +240,21 @@ export default {
     ...mapActions(mainpageStore, ["getFamousLetterStore", "getFamousFoundationStore", "getLetterDetail", "likeLetterStore", "dislikeLetterStore"]),
     openSidebar() {
       console.log("토글 열어보자");
-      if (this.sidebarToggle) {
-        this.sidebarToggle = false;
+      // 토글 닫기
+      if (this.opendToggle) {
+        this.opendToggle = false;
+        setTimeout(() => {
+          this.toggleContent = false
+          
+        }, 200)
+      // 토글 열기 
       } else {
-        this.sidebarToggle = true;
+        this.opendToggle = true;
+        setTimeout(() => {
+          this.toggleContent = true;
+        }, 200)
       }
-      console.log(this.sidebarToggle);
+      console.log(this.opendToggle);
     },
     // hover시 intro의 사진을 바꿔주기 위한 함수
     // 바뀐 숫자를 가지고 배경화면을 바꾸어주면 될 것
@@ -287,10 +302,11 @@ export default {
       }
     },
   },
-  async created() {
+  created() {
     // 인기엽서, 인기재단 받아오자. async await 써서 받아야 할 듯
-    await this.getFamousLetterStore();
-    await this.getFamousFoundationStore();
+    AOS.init();
+    this.getFamousLetterStore();
+    this.getFamousFoundationStore();
     console.log(this.letterTop);
     this.famousLetter = this.letterTop;
     this.famousFoundation = this.foundationTop;
@@ -351,6 +367,7 @@ export default {
   height: 5vh;
   font-size: 1.3vw;
   text-align: left;
+  transition: 0.4s;
 }
 
 .maininformationClass {
@@ -435,7 +452,21 @@ export default {
   height: 50vh;
   background-color: #fff1cc;
   border-radius: 0px 0px 0px 100px;
-  transition: 0.4s;
+  overflow: hidden;
+  transition: 0.5s;
+}
+.mainclosedToggle {
+  z-index: 10;
+  padding: 20px;
+  position: fixed;
+  top: 0%;
+  right: 6%;
+  width: 0vw;
+  height: 0vh;
+  background-color: #fff1cc;
+  border-radius: 0px 0px 0px 100px;
+  overflow: hidden;
+  transition: 0.5s;
 }
 
 

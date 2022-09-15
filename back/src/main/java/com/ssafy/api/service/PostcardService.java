@@ -22,6 +22,8 @@ public interface PostcardService {
     Postcard selectPostcard(int postcardSeq) throws IOException;
     List<PostcardList> selectPostcardList(int userSeq) throws IOException;
     List<PostcardList> selectPostcardTopList() throws IOException;
+    List<PostcardList> selectPostcardSearchList(String searchWord) throws IOException;
 
     List<Tag> selectTag(int postcardSeq) throws IOException;
+
 }

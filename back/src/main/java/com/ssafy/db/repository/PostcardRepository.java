@@ -1,5 +1,6 @@
 package com.ssafy.db.repository;
 
+import com.ssafy.common.customObj.PostcardSearchList;
 import com.ssafy.common.customObj.TopPostcardList;
 import com.ssafy.db.entity.Postcard;
 import org.kurento.client.internal.server.Param;
@@ -20,4 +21,8 @@ public interface PostcardRepository extends JpaRepository<Postcard, Integer> {
             " ORDER BY count(*) DESC, postcard_seq DESC LIMIT 0, 10", nativeQuery = true)
     List<TopPostcardList> getPostcardTopTen();
 
+    @Query(value = "SELECT DISTINCT p.postcard_seq " +
+            " FROM tag t, postcard p " +
+            " WHERE t.postcard_seq = p.postcard_seq AND t.tag_content LIKE concat('%', :searchWord, '%')", nativeQuery = true)
+    List<PostcardSearchList> getPostcardSearchList(@Param(value = "searchWord") String searchWord);
 }

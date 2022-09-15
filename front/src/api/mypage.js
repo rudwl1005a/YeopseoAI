@@ -24,13 +24,13 @@ async function userUpdate(updateInfo, success, fail) {
 }
 
 
-// 프로필사진 변경
+// 프사 변경
 async function changeProfile(profileInfo, success, fail) {
     await api.delete(`/api/users/profile/${profileInfo.user_seq}`, JSON.stringify(profileInfo.profile)).then(success).catch(fail);
 }
 
 
-// 회원의 기부목록
+// 기부 전체조회(회원의 기부목록)
 async function donationList(user_seq, success, fail) {
     await api.get(`/api/donations/userList/${user_seq}`).then(success).catch(fail);
 }
