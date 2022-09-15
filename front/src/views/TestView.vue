@@ -86,8 +86,8 @@ methods: {
       this.showLogoLoding = false; // 3초 지나면 안보이게 하자
       
       // 로고글자 투명하게 바꾸는거
-      // const startLogo = document.getElementById('startLogo')
-      // startLogo.style.opacity = 0
+      const startLogo = document.getElementById('startLogo')
+      startLogo.style.opacity = 0
 
       // 샘플 이미지 안보이게하는 코드
       const example = document.getElementById('example')
@@ -105,14 +105,14 @@ methods: {
       };
 
       const texts = [
-        // "엽서사전",
-        // "엽AI사전",
-        "글씨체 어떰??",
-        "가나다라마바사아자차카타파하",
-        "가나다라마바사아자차카타파하",
-        "가나다라마바사아자차카타파하",
-        "가나다라마바사아자차카타파하",
-        "가나다라마바사아자차카타파하",
+        "엽서사전",
+        "엽AI사전",
+        // "글씨체 어떰??",
+        // "가나다라마바사아자차카타파하",
+        // "가나다라마바사아자차카타파하",
+        // "가나다라마바사아자차카타파하",
+        // "가나다라마바사아자차카타파하",
+        // "가나다라마바사아자차카타파하",
 
       ];
 
@@ -197,15 +197,15 @@ methods: {
   position: absolute;
   width: 100vw;
   height: 100vh;
-  transition:all 2s ease;
+  transition:all 1s ease;
   background-color: #fcf4e0;
 }
 .loadingClose {
   position: absolute;
   width: 100vw;
   height: 0vh;
-  transition:all 2s ease;
-  border-radius: 0px, 0px, 80px, 80px;
+  transition:all 1s ease;
+  border-radius: 0% 0% 30% 30%;
   background-color: #fcf4e0;
   overflow: hidden;
 }
@@ -214,7 +214,7 @@ methods: {
   /* background-image: url(../../public/images/example_before.PNG);
   background-repeat: no-repeat;
   background-size: 100% 100%; */
-  background-color: #858585;
+  background-color: #fcf4e0;
   height: 5000px;
   padding-top: 2000px;
 }
@@ -229,7 +229,10 @@ methods: {
   width: 30vw;
   background-image: url(../../public/images/example_before.PNG);
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
+  border-radius: 5px;
+  border-width: 2px;
+  border: #484233;
 }
 .example_after {
   position: fixed;
@@ -242,7 +245,10 @@ methods: {
   width: 30vw;
   background-image: url(../../public/images/example_after.PNG);
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background-size: cover;
+  border-radius: 5px;
+  border-width: 2px;
+  border: #484233;
 }
 .beginningPostCard {
   position: sticky;
@@ -390,7 +396,7 @@ methods: {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition:all 1.5s ease;
+  transition:all 0.7s ease;
   /* border-radius: 2px;
   box-shadow: 4px 8px 16px 0 rgba(0, 0, 0, 0.1); */
   /* background: #FEAC5E; */
