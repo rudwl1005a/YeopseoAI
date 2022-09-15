@@ -4,7 +4,6 @@
   멋있는 효과 넣어줘(이 화면 3초정도 지나면 사라짐. mainpage created될 때 보여주는거라 어디서 mainpage 이동할 때면 항상 보여줄 듯. 래퍼런스 사이트랑 같은방식)
 </div>
 <div class="mainClass" v-if="!showLogoLoding">
->>>>>>> 3448886915ac733eaac5e831315a84a4de1a8cd8
   <div class="maingoUpBtn" @click="goUp"></div>
   <div class="mainpageClass">
     <div v-if="showLogo" class="mainLogoClass">
@@ -146,31 +145,31 @@
       </div>
       <div class="mainfamousFoundationContent">
         <!-- 5개만 보여줘도 될 것 같다는 생각이 든다 -->
-        <div class="mainfamousFoundationItem">
+        <div @click="foundationDetail(famousFoundation[0])" class="mainfamousFoundationItem">
           {{ famousFoundation[0] }}
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
         </div>
-        <div class="mainfamousFoundationItem">
+        <div @click="foundationDetail(famousFoundation[1])" class="mainfamousFoundationItem">
           {{ famousFoundation[1] }}
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
         </div>
-        <div class="mainfamousFoundationItem">
+        <div @click="foundationDetail(famousFoundation[2])" class="mainfamousFoundationItem">
           {{ famousFoundation[2] }}
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
         </div>
-        <div class="mainfamousFoundationItem">
+        <div @click="foundationDetail(famousFoundation[3])" class="mainfamousFoundationItem">
           {{ famousFoundation[3] }}
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
         </div>
-        <div class="mainfamousFoundationItem">
+        <div @click="foundationDetail(famousFoundation[4])" class="mainfamousFoundationItem">
           {{ famousFoundation[4] }}
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
@@ -201,13 +200,15 @@ import { mapActions, mapState } from "vuex";
 import AOS from "aos";
 import "aos/dist/aos.css";
 const mainpageStore = "mainpageStore";
+const searchStore = "searchStore";
 
 export default {
   name:"MainView",
   components: {
   },
   computed: {
-    ...mapState(mainpageStore, ["letterTop", "foundationTop", "watchingLetter"]),
+    ...mapState(mainpageStore, ["letterTop", "foundationTop", "watchingLetter", "watchingFoundation"]),
+    ...mapState(searchStore, ["letterSearchResult", "foundationSearchResult"]),
   },
   data() {
     return {
@@ -220,6 +221,7 @@ export default {
       
       // 재단관련
       famousFoundation: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // 10개
+      watchingFoundation: [],
       
       // 사이드바 토글 관련
       sidebarToggle: false,
@@ -238,7 +240,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(mainpageStore, ["getFamousLetterStore", "getFamousFoundationStore", "getLetterDetail", "likeLetterStore", "dislikeLetterStore"]),
+    ...mapActions(mainpageStore, ["getFamousLetterStore", "getFamousFoundationStore", "getLetterDetail", "likeLetterStore", "dislikeLetterStore", "getFoundationDetail"]),
+    ...mapActions(searchStore, ["getSearchResult"]),
     openSidebar() {
       console.log("토글 열어보자");
       if (this.sidebarToggle) {
@@ -283,10 +286,12 @@ export default {
       // input 될 때마다 해당 값을 포함하는 결과를 밑에 띄워주기 위한 함수
       console.log(this.searchMessage);
     },
-    submitSearch() {
+    async submitSearch() {
       if (this.searchMessage !== "") {
         // enter키를 누르면 searchMessage값을 넣어 검색 실시. store에 검색 결과 넣어둔 후 검색 결과 페이지로 이동하자
         console.log(this.searchMessage);
+        let searchWord = this.searchMessage;
+        await this.getSearchResult(searchWord);
         this.searchMessage = "";
         this.$router.push({ name: "SearchView" });
       } else {
@@ -300,13 +305,23 @@ export default {
       } else {
         this.showLogo = false;
       }
+    },
+
+    //
+    async foundationDetail(foundation) {
+      // 클릭시 재단의 상세정보를 보여줘야 함
+      console.log(foundation);
+      this.watchingFoundation = foundation;
+      // 보고있는 재단 정보를 data에 담고
+      await this.getFoundationDetail(this.watchingFoundation.foundationSeq);
+      console.log(this.watchingFoundation);
     }
   },
-  created() {
+  async created() {
     // 인기엽서, 인기재단 받아오자. async await 써서 받아야 할 듯
     AOS.init();
-    this.getFamousLetterStore();
-    this.getFamousFoundationStore();
+    await this.getFamousLetterStore();
+    await this.getFamousFoundationStore();
     console.log(this.letterTop);
     this.famousLetter = this.letterTop;
     this.famousFoundation = this.foundationTop;

@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
-import mainpageStore from './modules/mainpageStore'
+import mainpageStore from './modules/mainpageStore';
+import searchStore from './modules/searchStore';
 
 export default createStore({
   state: {
@@ -13,6 +14,7 @@ export default createStore({
   },
   modules: {
     mainpageStore,
+    searchStore,
   },
   plugins: [
     createPersistedState({

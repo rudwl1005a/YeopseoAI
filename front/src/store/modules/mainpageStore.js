@@ -4,6 +4,7 @@ import {
   likeLetter,
   dislikeLetter,
   letterDetail,
+  foundationDetail,
 } from "@/api/mainpage.js"
 
 const mainpageStore = {
@@ -12,6 +13,7 @@ const mainpageStore = {
     letterTop: [],
     foundationTop: [],
     watchingLetter: [],
+    watchingFoundation: [],
   },
   getters: {
 
@@ -25,7 +27,10 @@ const mainpageStore = {
     },
     SET_LETTERDETAIL: (state, letter) => {
       state.watchingLetter = letter;
-    }
+    },
+    SET_FOUNDATIONDETAIL: (state, foundation) => {
+      state.watchingFoundation = foundation;
+    },
   },
   actions: {
     async getFamousLetterStore({ commit }) { // 인기 편지 목록 받아오기
@@ -95,6 +100,20 @@ const mainpageStore = {
         }
       )
     },
+
+    async getFoundationDetail({ commit }, foundationSeq) {
+      await foundationDetail(
+        foundationSeq,
+        (response) => {
+          console.log(response);
+          console.log(response.data);
+          commit('SET_FOUNDATIONDETAIL', response.data);
+        },
+        (error) => {
+          console.log(error);
+        },
+      )
+    }
   },
 };
 
