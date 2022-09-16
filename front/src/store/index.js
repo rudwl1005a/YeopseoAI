@@ -16,6 +16,7 @@ export default createStore({
     accountStore,
     organizationStore,
     donationStore,
+    mypageStore,
   },
   plugins: [
     createPersistedState({
