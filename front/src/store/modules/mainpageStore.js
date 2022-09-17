@@ -4,7 +4,8 @@ import {
   likeLetter,
   dislikeLetter,
   letterDetail,
-} from "@/api/mainpage.js";
+  foundationDetail,
+} from "@/api/mainpage.js"
 
 const mainpageStore = {
   namespaced: true,
@@ -12,6 +13,7 @@ const mainpageStore = {
     letterTop: [],
     foundationTop: [],
     watchingLetter: [],
+    watchingFoundation: [],
   },
   getters: {},
   mutations: {
@@ -23,6 +25,9 @@ const mainpageStore = {
     },
     SET_LETTERDETAIL: (state, letter) => {
       state.watchingLetter = letter;
+    },
+    SET_FOUNDATIONDETAIL: (state, foundation) => {
+      state.watchingFoundation = foundation;
     },
   },
   actions: {
@@ -95,6 +100,20 @@ const mainpageStore = {
         }
       );
     },
+
+    async getFoundationDetail({ commit }, foundationSeq) {
+      await foundationDetail(
+        foundationSeq,
+        (response) => {
+          console.log(response);
+          console.log(response.data);
+          commit('SET_FOUNDATIONDETAIL', response.data);
+        },
+        (error) => {
+          console.log(error);
+        },
+      )
+    }
   },
 };
 

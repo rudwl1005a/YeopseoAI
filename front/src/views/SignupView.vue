@@ -113,7 +113,7 @@
     </div>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import {checkID} from "@/api/account";
 const accountStore = "accountStore";
 export default {
@@ -146,7 +146,6 @@ export default {
   },
   computed: {
     // 로그인 여부 확인
-    ...mapGetters(accountStore, ['isLogged', 'userInfo'])
   },
   methods: {...mapActions(accountStore, ['userSignup', 'userCheckID']),
     pwdCheck() {
@@ -162,6 +161,10 @@ export default {
       } else {
         return false;
       }
+    },
+    // 전화번호 생성 함수
+    phone () {
+      this.credentials.userPhone = this.userPhone1 + this.userPhone2
     },
     // ID 중복 확인
     async userCheckID() {
@@ -202,11 +205,10 @@ export default {
       } else if (!this.credentials.userEmail) {
         this.errorMSG = "이메일을 확인해주세요"
       } else {
-        console.log(this.userInfo)
-        this.credentials.userPhone = this.userPhone1 + this.userPhone2
+        await this.phone()
+        console.log(this.credentials)
+        console.log(this.credentials.userPhone)
         await this.userSignup(this.credentials)
-        console.log(this.isLogged)
-        console.log(this.userInfo)
         if (this.isLogged) {
           this.$router.push({name: "MainView"})
         }

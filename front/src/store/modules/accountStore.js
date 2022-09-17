@@ -84,7 +84,7 @@ const accountStore = {
         if (response.status === 200) {
           console.log(response);
           // 회원가입에 사용한 인자 중 로그인에 필요한 인자만 입력
-          const creadential = { userId: user.userId, password: user.password };
+          const creadential = { userId: user.userId, password: user.userPassword };
           console.log(creadential);
           // 로그인하기(user에 넣을 데이터 변경 필요)
           dispatch("userLogin", creadential);
