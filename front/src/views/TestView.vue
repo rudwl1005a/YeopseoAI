@@ -1,5 +1,5 @@
 <template>
-<div :class="{ mainLoading : showLogoLoding , loadingClose : !showLogoLoding}">
+<div :class="{ beginningLoading : showLogoLoding , beginningLoadingClose : !showLogoLoding}">
   <div id="startLogo" class="startLogo">
     <svg width=400 height=200 viewBox="0 0 400 200"> 
       <text class="logo" x="40" y="60%">엽</text> 
@@ -12,6 +12,8 @@
 
 
 <div v-if="!showLogoLoding">
+
+  <!-- 번갈아가면서 바뀌는 글자 -->
   <div id="container">
       <span id="text1" class="logo"></span>
       <span id="text2" class="logo"></span>
@@ -20,15 +22,21 @@
 
   <div class="beginningBackground">
     
+    <!-- 샘플이미지 프레임 -->
+    <div class="example_frame"></div>
+
+    <!-- 엽서가 담기는 편지봉투 -->
+    <div id="letter" data-aos="fade-up" class="beginningLetter"></div>
+
     <!-- 샘플이미지가 담기는 엽서 -->
     <div data-aos="fade-up" class="beginningPostCard"></div>
 
-
     <!-- 샘플 이미지 -->
-    <div data-aos="fade-up" data-aos-duration="3000" class="example_before"></div>
-    <div data-aos="fade-up" data-aos-duration="3000" id="example" class="example_after"></div>
-
-    <div data-aos="fade-up" style="font-size: 30px; z-index: 1200">엽서로 사랑을 전하세요</div>
+    <div data-aos="fade-up" data-aos-duration="1000" class="example_before"></div>
+    <div data-aos="fade-up" data-aos-duration="1000" id="example" class="example_after"></div>
+    <div v-if="showCheerupMessage" data-aos="fade-up" data-aos-duration="500" class="cheerupMessage">경대형 코로나 완치 기원</div>
+    <div v-if="showSendButton" data-aos="fade-up" data-aos-duration="500" class="sendButton"><b>발송</b></div>
+    <div class="catchphrase" data-aos="fade-up">엽서로 사랑을 전하세요</div>
  
   </div>
 
@@ -48,13 +56,39 @@ name:"TestView",
 data() {
   return {
     showLogoLoding: true,
+    showCheerupMessage: false,
+    showSendButton: false,
   }
 },
 
 methods: {
   scroll() {
+      // 그림 바뀌는거 관리하는 부분
       const example = document.getElementById('example')
-      example.style.clip = `rect(${1000 - scrollY}px, 10000px, 10000px, 0px)`
+      example.style.clip = `rect(${500 - scrollY}px, 10000px, 10000px, 0px)`
+
+      // 편지봉투 움직이는거 관리하는 부분
+      const letter = document.getElementById('letter')
+      letter.style.left = `${-200 + 0.4 * (scrollY - 1700)}%`
+      if (scrollY > 2200) {
+        letter.style.left = '0%'
+      }
+
+      // 응원메세지 보이게하기
+      if (scrollY < 1200) {
+        this.showCheerupMessage = false
+      }
+      else {
+        this.showCheerupMessage = true
+      }
+      
+      // 보내는 버튼 보이게하기
+      if (scrollY < 2200) {
+        this.showSendButton = false
+      }
+      else {
+        this.showSendButton = true
+      }
     },
   },
 
@@ -62,7 +96,7 @@ methods: {
   created() {
     AOS.init();
 
-      setTimeout(() => {
+    setTimeout(() => {
 
       // 로딩 이미지를 띄워줄 data값을 변경해주자
       this.showLogoLoding = false; // 3초 지나면 안보이게 하자
@@ -99,92 +133,92 @@ methods: {
       document.addEventListener("scroll", this.scroll);
 
 
-      const elts = {
-        text1: document.getElementById("text1"),
-        text2: document.getElementById("text2")
-      };
+      // const elts = {
+      //   text1: document.getElementById("text1"),
+      //   text2: document.getElementById("text2")
+      // };
 
-      const texts = [
-        "엽서사전",
-        "엽AI사전",
-        // "글씨체 어떰??",
-        // "가나다라마바사아자차카타파하",
-        // "가나다라마바사아자차카타파하",
-        // "가나다라마바사아자차카타파하",
-        // "가나다라마바사아자차카타파하",
-        // "가나다라마바사아자차카타파하",
+      // const texts = [
+      //   "엽서사전",
+      //   "엽AI사전",
+      //   // "글씨체 어떰??",
+      //   // "가나다라마바사아자차카타파하",
+      //   // "가나다라마바사아자차카타파하",
+      //   // "가나다라마바사아자차카타파하",
+      //   // "가나다라마바사아자차카타파하",
+      //   // "가나다라마바사아자차카타파하",
 
-      ];
+      // ];
 
-      const morphTime = 3;
-      const cooldownTime = 0.25;
+      // const morphTime = 3;
+      // const cooldownTime = 0.25;
 
-      let textIndex = texts.length - 1;
-      let time = new Date();
-      let morph = 0;
-      let cooldown = cooldownTime;
+      // let textIndex = texts.length - 1;
+      // let time = new Date();
+      // let morph = 0;
+      // let cooldown = cooldownTime;
 
-      elts.text1.textContent = texts[textIndex % texts.length];
-      elts.text2.textContent = texts[(textIndex + 1) % texts.length];
+      // elts.text1.textContent = texts[textIndex % texts.length];
+      // elts.text2.textContent = texts[(textIndex + 1) % texts.length];
 
-      function doMorph() {
-        morph -= cooldown;
-        cooldown = 0;
+      // function doMorph() {
+      //   morph -= cooldown;
+      //   cooldown = 0;
 
-        let fraction = morph / morphTime;
+      //   let fraction = morph / morphTime;
 
-        if (fraction > 1) {
-            cooldown = cooldownTime;
-            fraction = 1;
-        }
+      //   if (fraction > 1) {
+      //       cooldown = cooldownTime;
+      //       fraction = 1;
+      //   }
 
-        setMorph(fraction);
-      }
+      //   setMorph(fraction);
+      // }
 
-      function setMorph(fraction) {
-        elts.text2.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
-        elts.text2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+      // function setMorph(fraction) {
+      //   elts.text2.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+      //   elts.text2.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
 
-        fraction = 1 - fraction;
-        elts.text1.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
-        elts.text1.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
+      //   fraction = 1 - fraction;
+      //   elts.text1.style.filter = `blur(${Math.min(8 / fraction - 8, 100)}px)`;
+      //   elts.text1.style.opacity = `${Math.pow(fraction, 0.4) * 100}%`;
 
-        elts.text1.textContent = texts[textIndex % texts.length];
-        elts.text2.textContent = texts[(textIndex + 1) % texts.length];
-      }
+      //   elts.text1.textContent = texts[textIndex % texts.length];
+      //   elts.text2.textContent = texts[(textIndex + 1) % texts.length];
+      // }
 
-      function doCooldown() {
-        morph = 0;
+      // function doCooldown() {
+      //   morph = 0;
 
-        elts.text2.style.filter = "";
-        elts.text2.style.opacity = "100%";
+      //   elts.text2.style.filter = "";
+      //   elts.text2.style.opacity = "100%";
 
-        elts.text1.style.filter = "";
-        elts.text1.style.opacity = "0%";
-      }
+      //   elts.text1.style.filter = "";
+      //   elts.text1.style.opacity = "0%";
+      // }
 
-      function animate() {
-        requestAnimationFrame(animate);
+      // function animate() {
+      //   requestAnimationFrame(animate);
 
-        let newTime = new Date();
-        let shouldIncrementIndex = cooldown > 0;
-        let dt = (newTime - time) / 1000;
-        time = newTime;
+      //   let newTime = new Date();
+      //   let shouldIncrementIndex = cooldown > 0;
+      //   let dt = (newTime - time) / 1000;
+      //   time = newTime;
 
-        cooldown -= dt;
+      //   cooldown -= dt;
 
-        if (cooldown <= 0) {
-            if (shouldIncrementIndex) {
-                textIndex++;
-            }
+      //   if (cooldown <= 0) {
+      //       if (shouldIncrementIndex) {
+      //           textIndex++;
+      //       }
 
-            doMorph();
-        } else {
-            doCooldown();
-        }
-      }
+      //       doMorph();
+      //   } else {
+      //       doCooldown();
+      //   }
+      // }
 
-      animate();
+      // animate();
 
     }, 3000);
   },
@@ -193,14 +227,15 @@ methods: {
 
 <style>
 /* 메인페이지 진입 효과 관리 */
-.mainLoading {
+.beginningLoading {
   position: absolute;
   width: 100vw;
   height: 100vh;
   transition:all 1s ease;
-  background-color: #fcf4e0;
+  background-color: #fff3d4;
+  z-index: 5000;
 }
-.loadingClose {
+.beginningLoadingClose {
   position: absolute;
   width: 100vw;
   height: 0vh;
@@ -208,28 +243,45 @@ methods: {
   border-radius: 0% 0% 30% 30%;
   background-color: #fcf4e0;
   overflow: hidden;
+  z-index: 5000;
 }
 
 .beginningBackground {
   /* background-image: url(../../public/images/example_before.PNG);
   background-repeat: no-repeat;
   background-size: 100% 100%; */
+
+  position: relative;
   background-color: #fcf4e0;
-  height: 5000px;
-  padding-top: 2000px;
+  height: 3000px;
+  /* 엽서 나오는 높이 */
+  padding-top: 1300px;
+}
+.example_frame {
+  position: fixed;
+  margin: 0 auto;
+  top: 35%;
+  bottom: 0;
+  left: -30%;
+  right: 0;
+  height: 50vh;
+  width: 60vh;
+  background-image: url(../../public/images/example_frame.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 .example_before {
   position: fixed;
   margin: 0 auto;
-  top: 40%;
+  top: 38.5%;
   bottom: 0;
-  left: -30%;
+  left: -31%;
   right: 0;
-  height: 30vh;
-  width: 30vw;
+  height: 35vh;
+  width: 35vh;
   background-image: url(../../public/images/example_before.PNG);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   border-radius: 5px;
   border-width: 2px;
   border: #484233;
@@ -237,15 +289,15 @@ methods: {
 .example_after {
   position: fixed;
   margin: 0 auto;
-  top: 40%;
+  top: 38.5%;
   bottom: 0;
-  left: -30%;
+  left: -31%;
   right: 0;
-  height: 30vh;
-  width: 30vw;
+  height: 35vh;
+  width: 35vh;
   background-image: url(../../public/images/example_after.PNG);
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 100% 100%;
   border-radius: 5px;
   border-width: 2px;
   border: #484233;
@@ -259,98 +311,60 @@ methods: {
   left: 0;
   right: 0;
   height: 60vh;
-  width: 80vw;
+  width: 120vh;
   background-image: url(../../public/images/beginningPostCard.PNG);
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
-
-
-
-.beginningClass {
-  height: 600vh;
-  background-color: whitesmoke;
-}
-.beginningpageClass {
-  height: 100vh;
-  background-color: #fcf4e0;
-}
-
-.informationClass {
-  /* position: absolute; */
-  top: 50%;
-  left: 53%;
-  transform: translate(-50%, -50%);
-  height: 95vh;
-  width: 78vw;
-  border-radius: 20px;
-  background-color: white;
-}
-
-.beginningLogoClass {
-  z-index: 1;
+.cheerupMessage {
   position: fixed;
-  margin-left: 5vh;
-  font-size: 1vw;
+  margin: 0 auto;
+  top: 40%;
+  bottom: 0;
+  left: 33%;
+  right: 0;
+  font-size: 5vh;
+  font-family: 'Nanum Pen Script', cursive;
+  transition:all 1s ease;
+  z-index: 1999;
 }
-
-.beginningSideBarClass {
-  z-index: 1;
+.catchphrase {
+  width: 80vh;
+  margin: 0 auto;
+  margin-top: 10vh; 
+  backdrop-filter: blur(5px); 
+  font-size: 10vh; 
+  font-family: 'Nanum Pen Script', cursive; 
+  border-radius: 10px;
+  z-index: 1200;
+}
+.beginningLetter {
   position: fixed;
-  right: 0%;
-  height: 100vh;
-  width: 6vw;
-  background-color: white;
-}
-
-.beginningpageAboutClass {
-  position: relative;
-  height: 100vh;
-  background-color: #faf8f5;
-}
-
-.beginningpageAboutContentClass {
-  position: absolute;
-  width: 50vw;
-  height: 60vh;
-  top: 50%;
-  left: 47%;
-  transform: translate(-50%, -50%);
-  color: #484233;
-}
-
-.beginningpageServiceIntro {
-  position: relative;
-  height: 100vh;
-  background-color: #faf8f5;
-}
-
-.beginningpageServiceIntroContent {
-  position: absolute;
+  margin: 0 auto;
+  top: 15%;
+  bottom: 0;
+  left: -200%;
+  right: 0;
   height: 70vh;
-  width: 75vw;
-  top: 50%;
-  left: 47%;
-  transform: translate(-50%, -50%);
-  background-color: white;
-  border-radius: 30px;
+  width: 130vh;
+  background-image: url(../../public/images/beginningLetter.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transition:all 0.1s ease;
+  z-index: 2000;
 }
-
-.famousLetterClass {
-  height: 100vh;
-  background-color: #fcf4e0;
+.sendButton {
+  position: fixed;
+  margin: 0 auto;
+  top: 65%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 10vh;
+  font-family: 'Nanum Pen Script', cursive;
+  transition:all 1s ease;
+  z-index: 2001;
 }
-
-.famousFoundationClass {
-  height: 100vh;
-  background-color: #faf8f5;
-}
-
-.searchClass {
-  height: 60vh;
-  background-color: #ffc322;
-}
-
 
 /* test */
 @import url("https://fonts.googleapis.com/css?family=Raleway:900&display=swap");
@@ -361,7 +375,6 @@ methods: {
     height: 80pt;
     top: 0;
     bottom: 0;
-
     filter: url(#threshold) blur(0.6px);
 }
 
@@ -415,7 +428,7 @@ svg text {
   fill: transparent;
   stroke-dashoffset: 750;
   stroke-dasharray: 750;
-  animation: stroke 4.5s linear;
+  animation: stroke 3s linear;
   animation-fill-mode: forwards;
 }
 
@@ -424,19 +437,19 @@ svg text {
 }
 
 text:nth-child(1) {
-  animation-delay: 0.5s;
+  animation-delay: 0.3s;
 }
 
 text:nth-child(2) {
-  animation-delay: 1s;
+  animation-delay: 0.6s;
 }
 
 text:nth-child(3) {
-  animation-delay: 1.5s;
+  animation-delay: 0.9s;
 }
 
 text:nth-child(4) {
-  animation-delay: 2s;
+  animation-delay: 1.2s;
 }
 
 text:nth-child(5) {

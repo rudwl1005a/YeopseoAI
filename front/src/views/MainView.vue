@@ -12,9 +12,9 @@
     <div class="mainpageList">
       <!-- 나중에 라우터 링크 혹은 푸쉬로 바꾸자 -->
       <div class="mainpageBtn" @mouseover="change1" @click="goHome">home</div>
-      <div class="mainpageBtn" @mouseover="change2">letter</div>
-      <div class="mainpageBtn" @mouseover="change3">foundation</div>
-      <div class="mainpageBtn" @mouseover="change4">mypage</div>
+      <div class="mainpageBtn" @mouseover="change2" @click="goLetter">letter</div>
+      <div class="mainpageBtn" @mouseover="change3" @click="goFoundation">foundation</div>
+      <div class="mainpageBtn" @mouseover="change4" @click="goMypage">mypage</div>
     </div>
     <div :class="{ mainopendToggle : opendToggle , mainclosedToggle : !opendToggle}">
       <!-- 나중에 라우터 링크로 바꾸자 -->
@@ -280,6 +280,19 @@ export default {
 
     goHome() {
       this.$router.go();
+      console.log("홈 새로고침");
+    },
+    goFoundation() {
+      this.$router.push('/organizationlist');
+      console.log("홈 새로고침");
+    },
+    goLetter() {      
+      this.$router.push('/makecard');
+      console.log("홈 새로고침");
+    },
+    goMypage() {
+      // this.$router.push({ name: "MypageView", params: { user_id: this.user_id } })
+      this.$router.push('/mypage');
       console.log("홈 새로고침");
     },
     goUp() {
