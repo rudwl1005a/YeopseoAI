@@ -14,13 +14,14 @@
 <div v-if="!showLogoLoding">
 
   <!-- 번갈아가면서 바뀌는 글자 -->
-  <div id="container">
+  <!-- <div id="container">
       <span id="text1" class="logo"></span>
       <span id="text2" class="logo"></span>
-  </div>
+  </div> -->
 
 
   <div class="beginningBackground">
+    <div class="catchphrase" data-aos="fade-up">엽서로 사랑을 전하세요</div>
     
     <!-- 샘플이미지 프레임 -->
     <div class="example_frame"></div>
@@ -36,7 +37,6 @@
     <div data-aos="fade-up" data-aos-duration="1000" id="example" class="example_after"></div>
     <div v-if="showCheerupMessage" data-aos="fade-up" data-aos-duration="500" class="cheerupMessage">경대형 코로나 완치 기원</div>
     <div v-if="showSendButton" data-aos="fade-up" data-aos-duration="500" class="sendButton"><b>발송</b></div>
-    <div class="catchphrase" data-aos="fade-up">엽서로 사랑을 전하세요</div>
  
   </div>
 
@@ -245,7 +245,6 @@ methods: {
   overflow: hidden;
   z-index: 5000;
 }
-
 .beginningBackground {
   /* background-image: url(../../public/images/example_before.PNG);
   background-repeat: no-repeat;
@@ -255,7 +254,7 @@ methods: {
   background-color: #fcf4e0;
   height: 3000px;
   /* 엽서 나오는 높이 */
-  padding-top: 1300px;
+  padding-top: 600px;
 }
 .example_frame {
   position: fixed;
@@ -305,6 +304,7 @@ methods: {
 .beginningPostCard {
   position: sticky;
   margin: 0 auto;
+  margin-top: 600px;
   /* margin-top: 2000px; */
   top: 20%;
   bottom: 0;
@@ -329,9 +329,11 @@ methods: {
   z-index: 1999;
 }
 .catchphrase {
+  position: absolute;
   width: 80vh;
   margin: 0 auto;
-  margin-top: 10vh; 
+  margin-top: 10vh;
+  left: 50%;
   backdrop-filter: blur(5px); 
   font-size: 10vh; 
   font-family: 'Nanum Pen Script', cursive; 
