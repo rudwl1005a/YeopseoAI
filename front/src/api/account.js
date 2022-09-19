@@ -21,7 +21,6 @@ async function userDetail(userPk, success, fail) {
 async function checkID(userId, success, fail) {
   // ID 중복체크
   await api.get(`/api/users/check/${userId}`).then(success).catch(fail);
-  console.log(`/api/users/check/${userId}`);
 }
 
 async function logout(success, fail) {

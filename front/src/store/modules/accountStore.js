@@ -8,11 +8,13 @@ const accountStore = {
     userInfo: null,
     // 로그인 or 회원가입 오류
     accountError: null,
+    // 토큰
+    token: null,
   },
   getters: {
     // 로그인 여부
     isLogged: function (state) {
-      return !_.isEmpty(state.userInfo);
+      return !_.isEmpty(state.token);
     },
     // 유저 정보
     userInfo: function (state) {
@@ -27,12 +29,19 @@ const accountStore = {
       return state.accountError;
     },
   },
-  mutation: {
+  mutations: {
     SET_USER_INFO: (state, userInfo) => {
+      console.log("유저정보 변환");
       state.userInfo = userInfo;
+      console.log(state.userInfo);
     },
     SET_ACCOUNT_ERROR: (state, accountError) => {
       state.accountError = accountError;
+    },
+    SET_TOKEN: (state, token) => {
+      console.log("토큰 입력");
+      state.token = token;
+      console.log(state.token);
     },
   },
   actions: {
@@ -41,8 +50,7 @@ const accountStore = {
       await userDetail(
         userPk,
         (response) => {
-          if (response.status === 200) {
-            console.log("유저 정보 받기 성공");
+          if (response.data.message === "Success") {
             // 받은 유저 정보 데이터 입력
             commit("SET_USER_INFO", response.data);
           }
@@ -55,18 +63,27 @@ const accountStore = {
       );
     },
     // 로그인
-    async userLogin({ dispatch, commit }, user) {
+    async userLogin({ commit }, user) {
       await login(
         user,
         (response) => {
-          if (response.status === 200) {
-            console.log("로그인 요청 성공");
-            console.log(`로그인 응답-${response}`);
-            //토큰이 존재할 경우 토큰 세션에 저장
+          if (response.data.message === "Success") {
+            //토큰만 추출
             const token = response.data["accessToken"];
-            sessionStorage.setItem("access-token", token);
-            // 유저정보 불러오기 pk를 인자로 입력
-            dispatch("fetchUserInfo", user.pk);
+            //유저정보 출력
+            const userInfo = {
+              userName: response.data["userName"],
+              userEmail: response.data["userEmail"],
+              userId: response.data["userId"],
+              userPhone: response.data["userPhone"],
+              userProfileUrl: response.data["userProfileUrl"],
+              userSeq: response.data["userSeq"],
+              userPassword: response.data["userPassword"],
+              userCode: response.data["userCode"],
+            };
+            // 로그인시 받은 data로 바로 입력
+            commit("SET_USER_INFO", userInfo);
+            commit("SET_TOKEN", token);
           }
         },
         (fail) => {
@@ -79,17 +96,13 @@ const accountStore = {
     // 회원가입
     async userSignup({ dispatch }, user) {
       await signup(user, (response) => {
-        console.log(response);
         // 요청 성공 여부 확인
-        if (response.status === 200) {
-          console.log("회원가입 성공");
-          console.log(`회원가입 응답-${response}`);
+        if (response.data.message === "Success") {
           // 회원가입에 사용한 인자 중 로그인에 필요한 인자만 입력
           const creadential = {
             userId: user.userId,
             password: user.userPassword,
           };
-          console.log(creadential);
           // 로그인하기(user에 넣을 데이터 변경 필요)
           dispatch("userLogin", creadential);
         }
@@ -99,11 +112,11 @@ const accountStore = {
     // 로그아웃
     async userLogout({ commit }) {
       await logout((response) => {
-        if (response.status === 200) {
+        if (response.data.message === "Success") {
           // 현재 유저 정보 삭제
           commit("SET_USER_INFO", null);
           // 세션 내 토큰 삭제
-          sessionStorage.removeItem("access-token");
+          commit("SET_TOKEN", null);
         }
       });
     },
