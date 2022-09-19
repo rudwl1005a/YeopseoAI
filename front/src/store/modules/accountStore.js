@@ -1,4 +1,4 @@
-import { login, signup, userInfo, logout } from "@/api/account";
+import { login, signup, userDetail, logout } from "@/api/account";
 import _ from "lodash";
 
 const accountStore = {
@@ -38,7 +38,7 @@ const accountStore = {
   actions: {
     // 유저 정보 받아오기
     async fetchUserInfo({ commit }, userPk) {
-      await userInfo(
+      await userDetail(
         userPk,
         (response) => {
           if (response.status === 200) {
@@ -61,12 +61,12 @@ const accountStore = {
         (response) => {
           if (response.status === 200) {
             console.log("로그인 요청 성공");
-            console.log(response);
+            console.log(`로그인 응답-${response}`);
             //토큰이 존재할 경우 토큰 세션에 저장
             const token = response.data["accessToken"];
             sessionStorage.setItem("access-token", token);
             // 유저정보 불러오기 pk를 인자로 입력
-            dispatch("userInfo", user.pk);
+            dispatch("fetchUserInfo", user.pk);
           }
         },
         (fail) => {
@@ -82,9 +82,13 @@ const accountStore = {
         console.log(response);
         // 요청 성공 여부 확인
         if (response.status === 200) {
-          console.log(response);
+          console.log("회원가입 성공");
+          console.log(`회원가입 응답-${response}`);
           // 회원가입에 사용한 인자 중 로그인에 필요한 인자만 입력
-          const creadential = { userId: user.userId, password: user.userPassword };
+          const creadential = {
+            userId: user.userId,
+            password: user.userPassword,
+          };
           console.log(creadential);
           // 로그인하기(user에 넣을 데이터 변경 필요)
           dispatch("userLogin", creadential);

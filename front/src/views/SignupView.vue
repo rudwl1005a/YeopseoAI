@@ -22,7 +22,7 @@
           @input="idChange"
           required
         />
-        <button @click.prevent="userCheckID" type="submit" class="btn btn-primary col-2">중복확인</button>
+        <button v-show="!IdCheck" @click.prevent="userCheckID" type="submit" class="btn btn-primary col-2">중복확인</button>
       </div>  
         <hr>
         <div class="d-flex flex-row">
@@ -32,7 +32,7 @@
             type="password"
             class="form-control"
             id="userPassword"
-            placeholder="비밀번호를 입력해주세요."
+            placeholder="비밀번호는 6자리 이상 문자, 숫자, 특수문자를 포함하여야 합니다."
             required
           />
         </div>
@@ -71,16 +71,6 @@
               {{ option.text }}
             </option>
           </select>
-          <!-- <input
-            v-model="userPhone1"
-            type="number"
-            class="form-control col-2"
-            id="userPhone1"
-            maxlength="3"
-            style="width: 15vw;"
-            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-            required
-          /> -->
           <p> - </p>
           <input
             v-model.trim="userPhone2"
@@ -113,7 +103,7 @@
     </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import {checkID} from "@/api/account";
 const accountStore = "accountStore";
 export default {
@@ -146,8 +136,9 @@ export default {
   },
   computed: {
     // 로그인 여부 확인
+    ...mapGetters(accountStore, ['isLogged'])
   },
-  methods: {...mapActions(accountStore, ['userSignup', 'userCheckID']),
+  methods: {...mapActions(accountStore, ['userSignup', 'userCheckID',]),
     pwdCheck() {
     // 숫자포함여부(1) 문자포함여부(2) 특수문자포함여부(3)
       const pattern1 = /[0-9]/;
@@ -168,8 +159,10 @@ export default {
     },
     // ID 중복 확인
     async userCheckID() {
+      console.log(this.credentials.userId)
       await checkID(this.credentials.userId, 
         (response) => {
+          console.log(response)
           // 사용 가능한 경우 메시지 출력 + Page 컴포넌트에서 중복확인 여부 체크
           if (response.status === 200) {
             this.IdCheck = true
@@ -206,8 +199,6 @@ export default {
         this.errorMSG = "이메일을 확인해주세요"
       } else {
         await this.phone()
-        console.log(this.credentials)
-        console.log(this.credentials.userPhone)
         await this.userSignup(this.credentials)
         if (this.isLogged) {
           this.$router.push({name: "MainView"})
