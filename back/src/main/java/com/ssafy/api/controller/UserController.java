@@ -86,7 +86,7 @@ public class UserController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @GetMapping("/check/{userSeq}")
+    @GetMapping("/check/{userId}")
     @ApiOperation(value = "ID 중복 체크", notes = "<strong>아이디</strong>를 통해 중복체크 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
@@ -95,8 +95,8 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> duplicate(
-            @PathVariable("userSeq") @ApiParam(value="찾을 아이디", required = true) int userSeq) {
-        User user = userService.selectUser(userSeq);
+            @PathVariable("userId") @ApiParam(value="찾을 아이디", required = true) String userId) {
+        User user = userService.selectUser(userId);
         return user != null ? ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재하는 사용자 ID 입니다.")) :
                 ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
