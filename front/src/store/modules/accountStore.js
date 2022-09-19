@@ -79,6 +79,7 @@ const accountStore = {
     // 회원가입
     async userSignup({ dispatch }, user) {
       await signup(user, (response) => {
+        console.log(response);
         // 요청 성공 여부 확인
         if (response.status === 200) {
           console.log("회원가입 성공");

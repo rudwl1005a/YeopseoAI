@@ -32,7 +32,7 @@
             type="password"
             class="form-control"
             id="userPassword"
-            placeholder="비밀번호를 입력해주세요."
+            placeholder="비밀번호는 6자리 이상 문자, 숫자, 특수문자를 포함하여야 합니다."
             required
           />
         </div>
@@ -71,16 +71,6 @@
               {{ option.text }}
             </option>
           </select>
-          <!-- <input
-            v-model="userPhone1"
-            type="number"
-            class="form-control col-2"
-            id="userPhone1"
-            maxlength="3"
-            style="width: 15vw;"
-            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-            required
-          /> -->
           <p> - </p>
           <input
             v-model.trim="userPhone2"
@@ -169,8 +159,10 @@ export default {
     },
     // ID 중복 확인
     async userCheckID() {
+      console.log(this.credentials.userId)
       await checkID(this.credentials.userId, 
         (response) => {
+          console.log(response)
           // 사용 가능한 경우 메시지 출력 + Page 컴포넌트에서 중복확인 여부 체크
           if (response.status === 200) {
             this.IdCheck = true
