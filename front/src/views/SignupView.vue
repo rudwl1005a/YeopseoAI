@@ -22,7 +22,7 @@
           @input="idChange"
           required
         />
-        <button @click.prevent="userCheckID" type="submit" class="btn btn-primary col-2">중복확인</button>
+        <button v-show="!IdCheck" @click.prevent="userCheckID" type="submit" class="btn btn-primary col-2">중복확인</button>
       </div>  
         <hr>
         <div class="d-flex flex-row">
@@ -113,7 +113,7 @@
     </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import {checkID} from "@/api/account";
 const accountStore = "accountStore";
 export default {
@@ -146,8 +146,9 @@ export default {
   },
   computed: {
     // 로그인 여부 확인
+    ...mapGetters(accountStore, ['isLogged'])
   },
-  methods: {...mapActions(accountStore, ['userSignup', 'userCheckID']),
+  methods: {...mapActions(accountStore, ['userSignup', 'userCheckID',]),
     pwdCheck() {
     // 숫자포함여부(1) 문자포함여부(2) 특수문자포함여부(3)
       const pattern1 = /[0-9]/;
@@ -206,8 +207,6 @@ export default {
         this.errorMSG = "이메일을 확인해주세요"
       } else {
         await this.phone()
-        console.log(this.credentials)
-        console.log(this.credentials.userPhone)
         await this.userSignup(this.credentials)
         if (this.isLogged) {
           this.$router.push({name: "MainView"})
