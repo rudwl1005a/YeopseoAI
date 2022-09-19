@@ -96,7 +96,6 @@ const accountStore = {
     // 회원가입
     async userSignup({ dispatch }, user) {
       await signup(user, (response) => {
-        console.log(response);
         // 요청 성공 여부 확인
         if (response.data.message === "Success") {
           // 회원가입에 사용한 인자 중 로그인에 필요한 인자만 입력
@@ -104,7 +103,6 @@ const accountStore = {
             userId: user.userId,
             password: user.userPassword,
           };
-          console.log(creadential);
           // 로그인하기(user에 넣을 데이터 변경 필요)
           dispatch("userLogin", creadential);
         }
