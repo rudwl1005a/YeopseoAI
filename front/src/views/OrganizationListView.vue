@@ -109,7 +109,7 @@
 
   .followOrganization {
     margin: 0 auto;
-    padding: 0 50px;
+    padding: 0 5vh;
     max-width: 1220px;
   }
 
