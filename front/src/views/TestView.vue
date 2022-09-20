@@ -83,7 +83,7 @@ methods: {
       }
       
       // 보내는 버튼 보이게하기
-      if (scrollY < 2200) {
+      if (scrollY < 2500) {
         this.showSendButton = false
       }
       else {
@@ -252,7 +252,7 @@ methods: {
 
   position: relative;
   background-color: #fcf4e0;
-  height: 3000px;
+  height: 4000px;
   /* 엽서 나오는 높이 */
   padding-top: 600px;
 }
