@@ -10,15 +10,14 @@
     </div>
     <img class="justify-content-center" src="@/assets/logo.png" alt="대표우편">
     </div>
-    <v-divider class="col-1" vertical />
-    <form @submit.prevent="userLogin(this.credentials)" class="container col-6 align-self-center" style="max-width: 600px;">
+    <form @submit.prevent="login" class="container col-6 align-self-center" style="max-width: 600px;">
       <div class="row mb-3">
         <label for="username" class="text-start form-label">Username</label>
-        <input v-model="credentials.userId" type="text" class="form-control" id="username" placeholder="ID를 입력해 주세요." required>
+        <input v-model.trim="credentials.userId" type="text" class="form-control" id="username" placeholder="ID를 입력해 주세요." required>
       </div>
       <div class="row mb-3">
         <label for="password" class="text-start form-label">Password</label>
-        <input v-model="credentials.userPassword" type="password" class="form-control" id="password" placeholder="비밀번호를 입력해 주세요." required>
+        <input v-model.trim="credentials.userPassword" type="password" class="form-control" id="password" placeholder="비밀번호를 입력해 주세요." required>
       </div>
       <div class="row mb-3">
         <button type="submit" class="btn btn-primary">Login</button>    
@@ -29,16 +28,28 @@
   </div>
 </template>
 <script>
-  import { mapActions } from 'vuex'
+  import { mapActions, mapGetters } from 'vuex'
   const accountStore = "accountStore";
 
   export default {
   name: "LoginView",
-  data() { return { credentials: { userId: '', userPassword: '', }}},
+  data() { return { credentials: { userId: null, userPassword: null}}},
+  computed: {
+    ...mapGetters(accountStore, ['isLogged'])
+  },
   methods: {
-    ...mapActions(accountStore, [
-      'userLogin'
-    ])
+    ...mapActions(accountStore, ['userLogin']),
+    async login() {
+      await this.userLogin(this.credentials)
+      console.log(this.isLogged)
+      // 로그인이 된 경우
+      if (this.isLogged) {
+        // 입력값 초기화
+        this.credentials = { userId: null, userPassword: null}
+        // 메인페이지로 이동
+        this.$router.push({ name: "MainView" });
+      }
+    }
   },
 }
 </script>

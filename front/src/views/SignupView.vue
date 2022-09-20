@@ -22,7 +22,7 @@
           @input="idChange"
           required
         />
-        <button @click.prevent="userCheckID" type="submit" class="btn btn-primary col-2">중복확인</button>
+        <button v-show="!IdCheck" @click.prevent="userCheckID" type="submit" class="btn btn-primary col-2">중복확인</button>
       </div>  
         <hr>
         <div class="d-flex flex-row">
@@ -32,7 +32,7 @@
             type="password"
             class="form-control"
             id="userPassword"
-            placeholder="비밀번호를 입력해주세요."
+            placeholder="비밀번호는 6자리 이상 문자, 숫자, 특수문자를 포함하여야 합니다."
             required
           />
         </div>
@@ -65,30 +65,15 @@
         </div>
         <hr>
         <div class="d-flex flex-row">
-          <label for="userPhone1" class="text-start form-label col-2">전화번호</label>
-          <select v-model="userPhone1">
-            <option v-for="option in phoneOption" :value="option.value" :key="option.value">
-              {{ option.text }}
-            </option>
-          </select>
-          <!-- <input
-            v-model="userPhone1"
-            type="number"
-            class="form-control col-2"
-            id="userPhone1"
-            maxlength="3"
-            style="width: 15vw;"
-            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-            required
-          /> -->
-          <p> - </p>
+          <label for="userPhone" class="text-start form-label col-2">전화번호</label>
           <input
-            v-model.trim="userPhone2"
+            v-model.trim="credentials.userPhone"
             type="text"
             class="form-control col-2"
-            id="userPhone2"
-            maxlength=8
+            id="userPhone"
+            maxlength=11
             style="width: 30vw;"
+            placeholder="-없이 숫자만 입력해주세요"
             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
             required
           />
@@ -132,23 +117,14 @@ export default {
       userPassword2: null,
       errorMSG: null,
       IdCheck: false,
-      userPhone1: '010',
-      userPhone2: null,
-      phoneOption: [
-        { text: '010', value: '010' }, { text: '02', value: '02' }, { text: '051', value: '051' },
-        { text: '053', value: '053' }, { text: '032', value: '032' }, { text: '062', value: '062' },
-        { text: '042', value: '042' }, { text: '052', value: '052' }, { text: '044', value: '044' },
-        { text: '031', value: '031' }, { text: '033', value: '033' }, { text: '043', value: '043' },
-        { text: '041', value: '041' }, { text: '063', value: '063' }, { text: '061', value: '061' },
-        { text: '054', value: '054' }, { text: '055', value: '055' }, { text: '064', value: '064' },
-      ]
+      phoneOption: ['010', '02', '051', '053', '032', '062', '042', '052', '044', '031', '033','043', '041', '063', '061', '054', '055', '064',]
     };
   },
   computed: {
     // 로그인 여부 확인
-    ...mapGetters(accountStore, ['isLogged', 'userInfo'])
+    ...mapGetters(accountStore, ['isLogged'])
   },
-  methods: {...mapActions(accountStore, ['userSignup', 'userCheckID']),
+  methods: {...mapActions(accountStore, ['userSignup', 'userCheckID',]),
     pwdCheck() {
     // 숫자포함여부(1) 문자포함여부(2) 특수문자포함여부(3)
       const pattern1 = /[0-9]/;
@@ -168,7 +144,7 @@ export default {
       await checkID(this.credentials.userId, 
         (response) => {
           // 사용 가능한 경우 메시지 출력 + Page 컴포넌트에서 중복확인 여부 체크
-          if (response.status === 200) {
+          if (response.data.message === "Success") {
             this.IdCheck = true
           }
           // 중복인 경우 실패 메시지 보여주기
@@ -184,6 +160,7 @@ export default {
     // id값 변경시 중복 체크 false
     idChange() {
       this.IdCheck = false
+      this.errorMSG = ""
     },
     // 회원가입 함수(입력 내용 체크 + 회원가입 요청)
     async signup() {
@@ -197,16 +174,12 @@ export default {
         // 전화번호가 검증을 미통과시
       } else if (!this.credentials.userName) {
         this.errorMSG = "닉네임을 입력해주세요"
-      } else if (!this.userPhone2 || this.userPhone2.length < 7) {
+      } else if (!this.credentials.userPhone || this.credentials.userPhone.length < 10) {
         this.errorMSG = "전화번호를 확인해주세요"
       } else if (!this.credentials.userEmail) {
         this.errorMSG = "이메일을 확인해주세요"
       } else {
-        console.log(this.userInfo)
-        this.credentials.userPhone = this.userPhone1 + this.userPhone2
         await this.userSignup(this.credentials)
-        console.log(this.isLogged)
-        console.log(this.userInfo)
         if (this.isLogged) {
           this.$router.push({name: "MainView"})
         }
