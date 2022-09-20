@@ -1,5 +1,5 @@
 <template>
-<div :class="{ beginningLoading : showLogoLoding , beginningLoadingClose : !showLogoLoding}">
+<div style="margin:0 auto;" :class="{ beginningLoading : showLogoLoding , beginningLoadingClose : !showLogoLoding}">
   <div id="startLogo" class="startLogo">
     <svg width=400 height=200 viewBox="0 0 400 200"> 
       <text class="logo" x="40" y="60%">엽</text> 
@@ -21,6 +21,7 @@
 
 
   <div class="beginningBackground">
+    <!-- <div class="testBackground"> -->
     <div class="catchphrase" data-aos="fade-up">엽서로 사랑을 전하세요</div>
     
     <!-- 샘플이미지 프레임 -->
@@ -36,12 +37,13 @@
     <div data-aos="fade-up" data-aos-duration="1000" class="example_before"></div>
     <div data-aos="fade-up" data-aos-duration="1000" id="example" class="example_after"></div>
     <div v-if="showCheerupMessage" data-aos="fade-up" data-aos-duration="500" class="cheerupMessage">경대형 코로나 완치 기원</div>
-    <div v-if="showSendButton" data-aos="fade-up" data-aos-duration="500" class="sendButton"><b>발송</b></div>
+    <div v-if="showLogin" data-aos="fade-up" data-aos-duration="500" class="sendButton">Login</div>
  
   </div>
 
 
 
+<!-- </div> -->
 </div>
 
 </template>
@@ -57,7 +59,7 @@ data() {
   return {
     showLogoLoding: true,
     showCheerupMessage: false,
-    showSendButton: false,
+    showLogin: false,
   }
 },
 
@@ -84,10 +86,10 @@ methods: {
       
       // 보내는 버튼 보이게하기
       if (scrollY < 2500) {
-        this.showSendButton = false
+        this.showLogin = false
       }
       else {
-        this.showSendButton = true
+        this.showLogin = true
       }
     },
   },
@@ -255,6 +257,21 @@ methods: {
   height: 4000px;
   /* 엽서 나오는 높이 */
   padding-top: 600px;
+  background-image: url(../../public/images/testBackground.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+}
+.testBackground {
+  /* position: fixed;
+  top: 0; */
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../../public/images/testBackground.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
+  z-index: 10;
 }
 .example_frame {
   position: fixed;
