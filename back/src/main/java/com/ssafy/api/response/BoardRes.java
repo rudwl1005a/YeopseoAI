@@ -14,6 +14,8 @@ import lombok.Setter;
 @ApiModel("BoardResponse")
 public class BoardRes {
 
+	@ApiModelProperty(name="게시판 Seq", example="1")
+	int boardSeq;
 	@ApiModelProperty(name="User Id", example="홍길동")
 	String userId;
 	@ApiModelProperty(name="게시판 제목", example="test_Title")
@@ -26,6 +28,7 @@ public class BoardRes {
 
 		BoardRes res = new BoardRes();
 
+		res.setBoardSeq(board.getBoardSeq());
 		res.setUserId(userId);
 		res.setBoardTitle(board.getBoardTitle());
 		res.setBoardContent(board.getBoardContent());
