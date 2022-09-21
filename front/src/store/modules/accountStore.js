@@ -1,5 +1,6 @@
-import { login, signup, userDetail, logout } from "@/api/account";
+import { login, signup, userDetail } from "@/api/account";
 import _ from "lodash";
+import router from "@/router";
 
 const accountStore = {
   namespaced: true,
@@ -31,17 +32,13 @@ const accountStore = {
   },
   mutations: {
     SET_USER_INFO: (state, userInfo) => {
-      console.log("유저정보 변환");
       state.userInfo = userInfo;
-      console.log(state.userInfo);
     },
     SET_ACCOUNT_ERROR: (state, accountError) => {
       state.accountError = accountError;
     },
     SET_TOKEN: (state, token) => {
-      console.log("토큰 입력");
       state.token = token;
-      console.log(state.token);
     },
   },
   actions: {
@@ -63,7 +60,8 @@ const accountStore = {
       );
     },
     // 로그인
-    async userLogin({ commit }, user) {
+    async userLogin(state, user) {
+      console.log(user);
       await login(
         user,
         (response) => {
@@ -82,16 +80,21 @@ const accountStore = {
               userCode: response.data["userCode"],
             };
             // 로그인시 받은 data로 바로 입력
-            commit("SET_USER_INFO", userInfo);
-            commit("SET_TOKEN", token);
+            state.commit("SET_USER_INFO", userInfo);
+            state.commit("SET_TOKEN", token);
           }
         },
         (fail) => {
           if (fail.statusCode === 404) {
-            commit("SET_ACCOUNT_ERROR", "해당 정보의 유저가 없습니다.");
+            state.commit("SET_ACCOUNT_ERROR", "해당 정보의 유저가 없습니다.");
           }
         }
-      );
+      ).then(() => {
+        console.log(state.getters.isLogged);
+        if (state.getters.isLogged) {
+          router.push({ name: "MainView" });
+        }
+      });
     },
     // 회원가입
     async userSignup({ dispatch }, user) {
@@ -99,26 +102,21 @@ const accountStore = {
         // 요청 성공 여부 확인
         if (response.data.message === "Success") {
           // 회원가입에 사용한 인자 중 로그인에 필요한 인자만 입력
-          const creadential = {
-            userId: user.userId,
-            password: user.userPassword,
-          };
           // 로그인하기(user에 넣을 데이터 변경 필요)
-          dispatch("userLogin", creadential);
+          dispatch("userLogin", {
+            userId: user.userId,
+            userPassword: user.userPassword,
+          });
         }
       });
     },
 
     // 로그아웃
     async userLogout({ commit }) {
-      await logout((response) => {
-        if (response.data.message === "Success") {
-          // 현재 유저 정보 삭제
-          commit("SET_USER_INFO", null);
-          // 세션 내 토큰 삭제
-          commit("SET_TOKEN", null);
-        }
-      });
+      // 현재 유저 정보 삭제
+      commit("SET_USER_INFO", null);
+      // 세션 내 토큰 삭제
+      commit("SET_TOKEN", null);
     },
   },
 };
