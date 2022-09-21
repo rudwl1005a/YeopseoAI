@@ -23,9 +23,10 @@ async function checkID(userId, success, fail) {
   await api.get(`/api/users/check/${userId}`).then(success).catch(fail);
 }
 
-async function logout(success, fail) {
-  // 로그아웃(url 등 변경 필요)
-  await api.get(`/api/users/`).then(success).catch(fail);
-}
+// 걍 프론트에서 세션의 내용들 지우면서 로그아웃시키기로 함??
+// async function logout(success, fail) {
+//   // 로그아웃(url 등 변경 필요)
+//   await api.get(`/api/users/`).then(success).catch(fail);
+// }
 
-export { login, signup, userDetail, checkID, logout };
+export { login, signup, userDetail, checkID };

@@ -43,7 +43,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30).useDefaultResponseMessages(false)
                 .servers(localServer,testServer)
                 .select()
-                .apis(RequestHandlerSelectors.any())
+                .apis(RequestHandlerSelectors.basePackage("com.ssafy.api.controller"))
                 .paths(PathSelectors.ant("/api/**"))
                 .build()
                 .securityContexts(newArrayList(securityContext()))

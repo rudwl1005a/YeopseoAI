@@ -2,7 +2,7 @@
 
 
 
-  <div class="carousel">
+  <!-- <div class="carousel">
     <div class="wrap">
       <ul>
         <li v-for="(card, index) in this.userCards " :key="index">
@@ -10,7 +10,7 @@
         </li>
       </ul>
     </div>
-  </div>
+  </div> -->
 
 
 
@@ -27,7 +27,8 @@
 
         <div class="myProfileInfo align-self-center row justify-content-center">
           <h1>안녕 난 박정현!</h1>
-          <h1>무에타이 12년, 기부 10년의 경력이 있지</h1>
+          <h1>무에타이 12년, 기부 14년의 경력이 있지</h1>
+          <h1>배경 풀로 까니까 예쁘진 않네</h1>
         </div>
 
       </div>
@@ -37,13 +38,16 @@
     <!-- 유저의 모든 엽서 보여주기 -->
     <div class="allCardsTitle">All of username's cards</div>
     <div class="carousel">
-      <ul class="wrap">
-        <li v-for="(card, index) in this.userCards " :key="index">
-          <img class="postcard" :src="card" alt="">
-        </li>
-      </ul>
+      <div class="wrap">
+        <ul class="">
+          <li v-for="(card, index) in this.userCards " :key="index">
+            <img class="cardItem " :src="card" alt="">
+          </li>
+        </ul>
+      </div>
     </div>
-
+    <br>
+    <br>
 
     <!-- 좋아하는 엽서 목록 부분 -->
     <div class="remindButton" @click="showPostcards">username's favorite cards</div>
@@ -73,33 +77,19 @@
 
 
     <!-- 팔로워 부분 -->
-    
+    <br><br>
+    <hr style="width: 70vw; margin: 0 auto;">
     <div class="followUsers">
       <p class="profileText">Following</p>
-      <div class="followUserList">
-          <div class="followUserItem">
-            <div class="img">
-              <img src="https://sumika-creative.net/wp/wp-content/themes/sumika_ver1.0/img/about/img_kasumi.png" alt="" data-src="https://sumika-creative.net/wp/wp-content/themes/sumika_ver1.0/img/about/img_kasumi.png" decoding="async" class=" lazyloaded">
-              <noscript>
-                <img src="https://sumika-creative.net/wp/wp-content/themes/sumika_ver1.0/img/about/img_kasumi.png" alt="" data-eio="l">
-              </noscript>
-            </div>
-            <p class="name"></p>
-            <p class="text"></p>
-          </div>
-
-          <div class="organizationItem">
-            <div class="img">
-              <img src="https://sumika-creative.net/wp/wp-content/themes/sumika_ver1.0/img/about/img_naoto.png" alt="" data-src="https://sumika-creative.net/wp/wp-content/themes/sumika_ver1.0/img/about/img_naoto.png" decoding="async" class=" lazyloaded">
-              <noscript>
-                <img src="https://sumika-creative.net/wp/wp-content/themes/sumika_ver1.0/img/about/img_naoto.png" alt="" data-eio="l">
-              </noscript>
-            </div>
-            <p class="name"></p>
-            <p class="text"></p>
-          </div>
-
+      <div id="followingList" class="carousel">
+      <div class="wrap">
+        <ul id="ul" class="">
+          <li v-for="(card, index) in this.userCards " :key="index">
+            <img class="cardItem " :src="card" alt="">
+          </li>
+        </ul>
       </div>
+    </div>
     </div>        
   </div>
 
@@ -138,7 +128,7 @@ export default {
 
   data() {
     return {
-        test:false,
+        test: true,
         showRemind: true,
         showImages: [
         //     '../../public/images/test1.jpg',
@@ -274,7 +264,7 @@ export default {
     function HoverCarousel( elm ){
       this.DOM = {
         scope: elm,
-        wrap: elm.querySelector('ul').parentNode
+        wrap: elm.querySelector('ul').parentNode,
       }
       
       this.containerWidth = 0;
@@ -383,8 +373,10 @@ export default {
     }
               
     var carouselElm = document.querySelector('.carousel')
+    var followElm = document.querySelector('#followingList')
     new HoverCarousel(carouselElm)                          
-      },  
+    new HoverCarousel(followElm)
+      },
     }
 </script>
 
@@ -392,7 +384,10 @@ export default {
 .Mypage {
   position: relative;
   height: 100%;
-  background-color: #faf8f5;
+  background-image: url(../../public/images/mypageBackground.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-attachment: fixed;
 }
 .profileText {
   font-size: 8vh;
@@ -401,16 +396,17 @@ export default {
 .myInfo {
   margin: 0 auto;
   padding: 0 5vw;
-  max-width: 80vw;
+  width: 100vw;
 }
 .myProfileBox {
   background: #fff;
   margin: 0 auto;
   border-radius: 30px;
   padding: 3vh;
-  width: 70vw;
+  width: 60vw;
   height: 50vh;
   box-sizing: border-box;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
 }
 .myProfileImage {
   margin: 0 auto;
@@ -419,7 +415,7 @@ export default {
   border-style: solid;
   border-color: black;
   padding: 3vh;
-  width: 30vw;
+  width: 25vw;
   height: 40vh;
   background-image: url(../../public/images/mypageDummyImage.png);
   background-repeat: no-repeat;
@@ -442,6 +438,7 @@ export default {
   font-size: 3vw;
   font-family: 'Nanum Pen Script', cursive;;
   cursor : pointer;
+  z-index: 3000;
 }
 .allCards {
   margin: 0 auto;
@@ -456,7 +453,7 @@ export default {
   font-size: 0;
   border-radius: 8px;
   padding: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
   background: white;
   transform: translateZ(0);
   height: 200px;
@@ -505,14 +502,12 @@ export default {
   left: 0;
   bottom: 0;
   z-index: 2;
-  width: 50px;
-  font-size: 80px;
-  text-indent: -30px;
-  line-height: 200px;
+  width: 5vw;
+  font-size: 10vw;
   font-family: monospace;
   color: #555;
   font-weight: bold;
-  border-radius: 8px;
+  border-radius: 2vw;
   pointer-events: none;
   transition: 0.2s ease-out;
   background: linear-gradient(to right, white 20%, transparent);
@@ -531,22 +526,19 @@ export default {
   display: inline-block;
   vertical-align: middle;
   height: 100%;
-  margin: 0 0 0 5px;
+  margin: 0 0 0 1vw;
   position: relative;
-  overflow: hidden;
+  /* overflow: hidden; */
   transition: 0.25s ease-out;
 }
 .carousel > .wrap > ul > li:first-child {
   margin: 0;
 }
-.carousel > .wrap > ul > li > img {
-  display: block;
-  height: 100%;
-  margin: auto;
-  vertical-align: bottom;
-  position: relative;
-  z-index: 1;
-  transition: 1s ease;
+.cardItem {
+  height: 28vh;
+  border-radius: 10px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 body {
@@ -554,14 +546,8 @@ body {
 }
 
 .carousel {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 50%;
-  max-width: 900px;
-  min-width: 550px;
+  width: 70vw;
+  height: 30vh;
   margin: auto;
 }
 
