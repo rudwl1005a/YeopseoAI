@@ -9,6 +9,11 @@ import SearchView from "../views/SearchView";
 import SignupView from "../views/SignupView";
 import TestView from "../views/TestView";
 import TestMypageView from "../views/TestMypageView";
+import BoardView from "../views/BoardView";
+import QuestionView from "../views/QuestionView";
+import QuestionDetailView from "../views/QuestionDetailView";
+import PatchBoardView from "../views/PatchBoardView";
+import CanvasTestView from "../views/CanvasTestView";
 
 const routes = [
   {
@@ -66,6 +71,31 @@ const routes = [
     name: "TestMypageView",
     component: TestMypageView,
   }, 
+  {
+    path: "/board",
+    name: "BoardView",
+    component: BoardView,
+  },
+  {
+    path: "/question",
+    name: "QuestionView",
+    component: QuestionView,
+  },
+  {
+    path: "/questionDetail",
+    name: "QuestionDetailView",
+    component: QuestionDetailView,
+  },
+  {
+    path: "/patchBoard",
+    name: "PatchBoardView",
+    component: PatchBoardView,
+  },
+  {
+    path: "/canvasTest",
+    name: "CanvasTestView",
+    component: CanvasTestView,
+  },
 ];
 
 const router = createRouter({

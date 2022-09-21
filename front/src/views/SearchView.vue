@@ -30,13 +30,13 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import SideBar from "@/components/Nav/SideBar.vue"
-import SearchPostCard from "@/components/Postcard/SearchPostCard.vue"
-import SearchFoundation from "@/components/Foundation/searchFoundation.vue"
+import SideBar from "@/components/Nav/SideBar.vue";
+import SearchPostCard from "@/components/Postcard/SearchPostCard.vue";
+import SearchFoundation from "@/components/Foundation/searchFoundation.vue";
 const searchStore = "searchStore";
 
 export default {
-  name:"SearchView",
+  name: "SearchView",
   components: {
     SideBar,
     SearchPostCard,

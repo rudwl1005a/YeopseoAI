@@ -76,6 +76,8 @@ const mainpageStore = {
     // 엽서 좋아요 부분 -> commit 없앤채로 사용할지, store를 사용하지 말지 정해야 함. 요청
     // 보내보고 결정하자
     async likeLetterStore(postcardSeq, userSeq) {
+      console.log(postcardSeq);
+      console.log(userSeq);
       await likeLetter(
         postcardSeq,
         userSeq,
