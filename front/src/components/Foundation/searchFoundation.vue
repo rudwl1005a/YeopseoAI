@@ -32,6 +32,7 @@ export default {
   margin-bottom: 2vh;
   overflow: auto;
   border-radius: 20px;
+  background-color: white;
 }
 
 .searchFoundation::-webkit-scrollbar {
