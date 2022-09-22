@@ -89,8 +89,10 @@
 
 
     created() {
-      // 재단 목록 가져오기
-      this.getFoundationList()
+      // 재단 목록이 없는 경우 재단리스트 가져오기
+      if (!this.organizationList) {
+        this.getFoundationList()
+      }
     },
 
 
