@@ -15,6 +15,7 @@
       <div class="mainpageBtn" @mouseover="change2" @click="goLetter">letter</div>
       <div class="mainpageBtn" @mouseover="change3" @click="goFoundation">foundation</div>
       <div class="mainpageBtn" @mouseover="change4" @click="goMypage">mypage</div>
+      <div class="mainpageBtn" @mouseover="change2" @click="goBoard">게시판</div>
     </div>
     <div :class="{ mainopendToggle : opendToggle , mainclosedToggle : !opendToggle}">
       <!-- 나중에 라우터 링크로 바꾸자 -->
@@ -299,6 +300,9 @@ export default {
       this.$router.push('/mypage');
       console.log("홈 새로고침");
     },
+    goBoard() {
+      this.$router.push('/board');
+    },
     goUp() {
       if (window.scrollY === 0) {
         window.scrollTo({ left: 0, top: 10000, behavior: "smooth" });
@@ -307,7 +311,7 @@ export default {
       }
     },
     goLogin() {
-      this.$router.push({name: "TestView"})
+      this.$router.push({name: "beginningView"})
     },
 
     changeFamousLetter() { // 인기 엽서 목록 바꿔주는 버튼
