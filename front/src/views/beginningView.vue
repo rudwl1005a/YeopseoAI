@@ -1,7 +1,7 @@
 <template>
 <div style="margin:0 auto;" :class="{ beginningLoading : showLogoLoding , beginningLoadingClose : !showLogoLoding}">
   <div id="startLogo" class="startLogo">
-    <svg width=400 height=200 viewBox="0 0 400 200"> 
+    <svg width=400 height=200> 
       <text class="logo" x="40" y="60%">엽</text> 
       <text class="logo" x="120" y="60%">서</text>
       <text class="logo" x="200" y="60%">사</text>
@@ -9,12 +9,17 @@
     </svg>
   </div>
 </div>
+<div v-if="!showLogoLoding">
+</div>
 
 <div id="test" v-if="!showLogoLoding">
+  
   <div class="beginningTitle">
     엽서사전
   </div>
-    
+  <div @click="goLogin" class="goLogin">
+    로그인 바로가기
+  </div>
   <!-- 번갈아가면서 바뀌는 글자 -->
   <!-- <div id="container">
       <span id="text1" class="logo"></span>
@@ -200,6 +205,12 @@ methods: {
     'userLogin',
   ]),
 
+  // 로그인 바로가기
+  goLogin() {
+    window.scrollTo(0, document.body.scrollHeight)
+  },
+
+  // 로그인, 회원가입 바뀌는거
   changeLoginSignup() {
     this.LoginSignup = !this.LoginSignup
   },
@@ -319,7 +330,7 @@ methods: {
       // 로딩 이미지를 띄워줄 data값을 변경해주자
       this.showLogoLoding = false; // 3초 지나면 안보이게 하자
 
-    }, 300);
+    }, 3000);
   },
 
 
@@ -439,7 +450,7 @@ methods: {
       // animate();
       const v = document.getElementById('test')
       v.scrollTop = 3000
-    }, 300);
+    }, 3000);
   },
 }
 </script>
@@ -452,11 +463,12 @@ methods: {
   height: 100vh;
   transition:all 1s ease;
   background-color: #fff3d4;
+  overflow: hidden;
   z-index: 5000;
 }
 .beginningLoadingClose {
   position: absolute;
-  width: 100vw;
+  width: 90vw;
   height: 0vh;
   transition:all 1s ease;
   border-radius: 0% 0% 30% 30%;
@@ -465,20 +477,37 @@ methods: {
   z-index: 5000;
 }
 .beginningTitle {
-  position: sticky;
-  height: 4vh;
+  position: fixed;
+  text-align: center;
+  padding: auto;
+  height: 7vh;
+  width: 100vw ;
   font-family: 'Nanum Pen Script', cursive;
-  font-size: 3vw;
-  margin-top: 2vw;
+  font-size: 5vh;
   margin-bottom: 2vw;
   z-index: 5000;
   background-color: white;
+}
+.goLogin {
+  position: fixed;
+  text-align: center;
+  padding: auto;
+  top: 10vh;
+  left: 80vw;
+  height: 7vh;
+  width: 20vw ;
+  cursor: pointer;
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 5vh;
+  margin-bottom: 2vw;
+  z-index: 6000;
 }
 .beginningBackground {
   /* background-image: url(../../public/images/example_before.PNG);
   background-repeat: no-repeat;
   background-size: 100% 100%; */
-
+  margin-left: 3vw;
+  margin-right: 3vw;
   position: relative;
   background-color: #fcf4e0;
   height: 4000px;
@@ -488,6 +517,9 @@ methods: {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
+}
+#test {
+  position: relative;
 }
 .testBackground {
   /* position: fixed;
@@ -608,7 +640,7 @@ methods: {
 .loginForm {
   position: fixed;
   margin: 0 auto;
-  width: 100vw;
+  width: 188vh;
   height: 100vh;
   top: 35%;
   bottom: 0;
@@ -652,7 +684,7 @@ methods: {
   /* padding-bottom: 1vh; */
   top: 30vh;
   left: 45vw;
-  width:10vw;
+  width:8vw;
   height: 6vh;
   border-radius: 10px;
 }
@@ -662,40 +694,40 @@ methods: {
 .id {
   position: absolute;
   top: 1vh;
-  left: 17vw;
+  left: 32vh;
 }
 .idInput {
   top: 1vh;
   position: absolute;
-  left: 25vw;
-  width: 15vw;
+  left: 47vh;
+  width: 28vh;
   height: 6vh;
   border-radius: 10px;
 }
 .idcheck {
   position: absolute;
   top: 1vh;
-  left: 40vw;
-  width: 8vw;
+  left: 76vh;
+  width: 15vh;
   height: 6vh;
   border-radius: 10px;
 }
 .errorMSG {
   position: absolute;
   top: -8vh;
-  left: 31vw;
+  left: 58vh;
 }
 
 .userName {
   position: absolute;
   top: 1vh;
-  left: 50vw;
+  left: 96vh;
 }
 .userNameInput {
   position: absolute;
-  left: 57vw;
+  left: 110vh;
   top: 1vh;
-  width: 25vw;
+  width: 45vh;
   height: 6vh;
   border-radius: 10px;
 }
@@ -703,11 +735,11 @@ methods: {
 .signpuPassword {
   position: absolute;
   top: 9.5vh;
-  left: 17vw;
+  left: 32vh;
 }
 .signpuPasswordInput {
   position: absolute;
-  left: 25vw;
+  left: 47vh;
   top: 9.5vh;
   width: 23vw;
   height: 6vh;
@@ -721,7 +753,7 @@ methods: {
 }
 .passwordCheckInput {
   position: absolute;
-  left: 25vw;
+  left: 47vh;
   top: 18vh;
   width: 23vw;
   height: 6vh;
@@ -731,13 +763,13 @@ methods: {
 .userPhone {
   position: absolute;
   top: 9.5vh;
-  left: 49vw;
+  left: 96vh;
 }
 .userPhoneInput {
   position: absolute;
-  left: 57vw;
+  left: 110vh;
   top: 9.5vh;
-  width: 25vw;
+  width: 45vh;
   height: 6vh;
   border-radius: 10px;
 }
@@ -745,13 +777,13 @@ methods: {
 .userEmail {
   position: absolute;
   top: 18vh;
-  left: 50vw;
+  left: 96vh;
 }
 .userEmailInput {
   position: absolute;
-  left: 57vw;
+  left: 110vh;
   top: 18vh;
-  width: 25vw;
+  width: 45vh;
   height: 6vh;
   border-radius: 10px;
 }
