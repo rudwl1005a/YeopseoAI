@@ -93,11 +93,11 @@ export default {
   },
 
 
+
   created() {
     // 재단 목록 가져오기
     this.getFoundationList()
   },
-
 
   mounted() {
 

@@ -311,7 +311,7 @@ export default {
       }
     },
     goLogin() {
-      this.$router.push({name: "TestView"})
+      this.$router.push({name: "beginningView"})
     },
 
     changeFamousLetter() { // 인기 엽서 목록 바꿔주는 버튼
