@@ -13,7 +13,7 @@
   </div> -->
 
 
-
+  <side-bar></side-bar>
   <div v-if="test" class="Mypage">
     <br>
     <p class="profileText">username's Profile</p>
@@ -118,13 +118,18 @@
 <script>
 import AOS from 'aos';
 import "aos/dist/aos.css";
+import SideBar from "@/components/Nav/SideBar.vue";
 import { mapActions, mapGetters } from "vuex";
 const mypageStore = "mypageStore";
+const accountStore = "accountStore";
 
 
 export default {
   name: "MypageView",
 
+  components: {
+    SideBar,
+  },
 
   data() {
     return {
@@ -176,21 +181,6 @@ export default {
         require("../../public/images/test1.jpg"),
         require("../../public/images/test1.jpg"),
         require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
-        require("../../public/images/test1.jpg"),
       ]
     };
   },
@@ -201,6 +191,10 @@ export default {
       "donationList",
       "followList",
       "profileImage",
+    ]),
+    ...mapGetters(accountStore, [
+      "userInfo",
+      "token",
     ]),
   },
 
@@ -243,9 +237,11 @@ export default {
 
 
   created() {
+    console.log(this.userInfo.userSeq)
+    console.log(this.userInfo.userSeq)
     // 스토어에서 user_seq 들고와서 넣어줘야됨
-    this.getDonationList()
-    this.getFollowerList()
+    this.getDonationList(this.userInfo.userSeq)
+    this.getFollowerList(this.userInfo.userSeq)
     AOS.init()    
   },
 
@@ -384,10 +380,10 @@ export default {
 .Mypage {
   position: relative;
   height: 100%;
-  background-image: url(../../public/images/mypageBackground.jpg);
+  /* background-image: url(../../public/images/mypageBackground.jpg);
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  background-attachment: fixed;
+  background-attachment: fixed; */
 }
 .profileText {
   font-size: 8vh;
@@ -540,11 +536,6 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
-
-body {
-  background: #EEE;
-}
-
 .carousel {
   width: 70vw;
   height: 30vh;

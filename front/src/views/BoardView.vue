@@ -52,7 +52,7 @@ export default {
       this.$router.push("/questionDetail");
     },
     goHome() {
-      this.$router.push("/");
+      this.$router.push("/main");
     }
   },
   async created() {

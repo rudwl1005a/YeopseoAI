@@ -16,7 +16,7 @@ import {
       organizationDonationList: [],
     },
 
-
+    
 
     getters: {
       organizationList(state) {

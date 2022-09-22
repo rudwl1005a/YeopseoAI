@@ -7,7 +7,7 @@ import MypageView from "../views/MypageView";
 import OrganizationListView from "../views/OrganizationListView";
 import SearchView from "../views/SearchView";
 import SignupView from "../views/SignupView";
-import TestView from "../views/TestView";
+import beginningView from "../views/beginningView";
 import TestMypageView from "../views/TestMypageView";
 import BoardView from "../views/BoardView";
 import QuestionView from "../views/QuestionView";
@@ -18,6 +18,11 @@ import CanvasTestView from "../views/CanvasTestView";
 const routes = [
   {
     path: "/",
+    name: "beginningView",
+    component: beginningView,
+  },
+  {
+    path: "/main",
     name: "MainView",
     component: MainView,
   },
@@ -60,11 +65,6 @@ const routes = [
     path: "/signup",
     name: "SignupView",
     component: SignupView,
-  },
-  {
-    path: "/test",
-    name: "TestView",
-    component: TestView,
   }, 
   {
     path: "/mypage",

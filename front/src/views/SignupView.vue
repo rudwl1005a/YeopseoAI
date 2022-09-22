@@ -5,9 +5,9 @@
       <div class="d-flex flex-row">
         <label for="userId" class="text-start form-label col-2">ID : </label>
         <input
-          v-model.trim="credentials.userId"
+          v-model.trim="signupCredentials.userId"
           type="text"
-          class="form-control col-4"
+          class="inputButton form-control col-4"
           id="userId"
           maxlength="10"
           placeholder="ID를 입력해주세요.(최대10자)"
@@ -21,9 +21,9 @@
         <div class="d-flex flex-row">
           <label for="userPassword" class="text-start form-label col-2">Password</label>
           <input
-            v-model.trim="credentials.userPassword"
+            v-model.trim="signupCredentials.userPassword"
             type="password"
-            class="form-control"
+            class="inputButton form-control"
             id="userPassword"
             placeholder="비밀번호는 6자리 이상 문자, 숫자, 특수문자를 포함하여야 합니다."
             required
@@ -37,7 +37,7 @@
           <input
             v-model.trim="userPassword2"
             type="password"
-            class="form-control"
+            class="inputButton form-control"
             id="userPassword2"
             placeholder="비밀번호를 한번 더입력해주세요."
             required
@@ -47,10 +47,10 @@
         <div class="d-flex flex-row">
           <label for="userName" class="text-start form-label col-2">이름</label>
           <input
-            v-model.trim="credentials.userName"
+            v-model.trim="signupCredentials.userName"
             maxlength=8,
             type="text"
-            class="form-control"
+            class="inputButton form-control"
             id="userName"
             placeholder="닉네임을 입력해주세요(최대 8글자)"
             required
@@ -60,9 +60,9 @@
         <div class="d-flex flex-row">
           <label for="userPhone" class="text-start form-label col-2">전화번호</label>
           <input
-            v-model.trim="credentials.userPhone"
+            v-model.trim="signupCredentials.userPhone"
             type="text"
-            class="form-control col-2"
+            class="inputButton form-control col-2"
             id="userPhone"
             maxlength=11
             style="width: 30vw;"
@@ -75,9 +75,9 @@
         <div class="d-flex flex-row">
           <label for="userEmail" class="text-start form-label col-2">이메일</label>
           <input
-            v-model.trim="credentials.userEmail"
+            v-model.trim="signupCredentials.userEmail"
             type="email"
-            class="form-control"
+            class="inputButton form-control"
             id="userEmail"
             placeholder="이메일을 입력해주세요"
             required
@@ -97,7 +97,7 @@ export default {
   name: "SingupView",
   data() {
     return {
-      credentials: {
+      signupCredentials: {
         userCode: 101,
         userId: null,
         userName: null,
@@ -123,9 +123,9 @@ export default {
   methods: {...mapActions(accountStore, ['userSignup', 'userCheckID',]),
     pwdCheck() {
       // 숫자 포함 여부 && 문자 포함 여부 && 특수문자포함여부 && 길이 6이상 확인 && 일치여부
-      if(this.pattern1.test(this.credentials.userPassword) && this.pattern2.test(this.credentials.userPassword)
-      && this.pattern3.test(this.credentials.userPassword) && this.credentials.userPassword.length > 5 &&
-      this.credentials.userPassword === this.userPassword2) {
+      if(this.pattern1.test(this.signupCredentials.userPassword) && this.pattern2.test(this.signupCredentials.userPassword)
+      && this.pattern3.test(this.signupCredentials.userPassword) && this.signupCredentials.userPassword.length > 5 &&
+      this.signupCredentials.userPassword === this.userPassword2) {
         return true;
       } else {
         return false;
@@ -133,7 +133,7 @@ export default {
     },
     // ID 중복 확인
     async userCheckID() {
-      await checkID(this.credentials.userId, 
+      await checkID(this.signupCredentials.userId, 
         (response) => {
           // 사용 가능한 경우 메시지 출력 + Page 컴포넌트에서 중복확인 여부 체크
           if (response.data.message === "Success") {
@@ -147,9 +147,9 @@ export default {
     },
     // 휴대전화 번호 바꾸기
     checkTel() {
-      if (!this.pattern1.test(this.credentials.userPhone[this.credentials.userPhone.length-1])) {
-        this.credentials.userPhone = this.credentials.userPhone.slice(0, this.credentials.userPhone.length-1)
-      } else if (this.credentials.userPhone.length > 9 && this.phoneOption.some((num)=>{ return num === this.credentials.userPhone.slice(0,3)})) {
+      if (!this.pattern1.test(this.signupCredentials.userPhone[this.signupCredentials.userPhone.length-1])) {
+        this.signupCredentials.userPhone = this.signupCredentials.userPhone.slice(0, this.signupCredentials.userPhone.length-1)
+      } else if (this.signupCredentials.userPhone.length > 9 && this.phoneOption.some((num)=>{ return num === this.signupCredentials.userPhone.slice(0,3)})) {
         this.phoneCheck = true
       } 
       // 전화번호가 4개가 되면
@@ -170,14 +170,14 @@ export default {
       else if (!this.pwdCheck()) {
         this.errorMSG = "비밀번호는 6자리 이상 문자, 숫자, 특수문자로 구성하여야 합니다."
         // 전화번호가 검증을 미통과시
-      } else if (!this.credentials.userName) {
+      } else if (!this.signupCredentials.userName) {
         this.errorMSG = "닉네임을 입력해주세요"
-      } else if (!this.credentials.userPhone || !this.phoneCheck) {
+      } else if (!this.signupCredentials.userPhone || !this.phoneCheck) {
         this.errorMSG = "전화번호를 확인해주세요"
-      } else if (!this.credentials.userEmail) {
+      } else if (!this.signupCredentials.userEmail) {
         this.errorMSG = "이메일을 확인해주세요"
       } else {
-        await this.userSignup(this.credentials)
+        await this.userSignup(this.signupCredentials)
       }
     }
   }
@@ -220,5 +220,12 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none; 
+}
+
+
+/* 인풋창 디자인 */
+.inputButton {
+  width: 20vw;
+  height: 10vh;
 }
 </style>

@@ -439,7 +439,7 @@ export default {
       alert("Strokes cleared from local storage");
     },
     goHome() {
-      this.$router.push("/");
+      this.$router.push("/main");
     },
     changeImage() {
       console.log(document.getElementById("VueDrawingCanvas"));

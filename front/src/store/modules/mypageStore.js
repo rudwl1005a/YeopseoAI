@@ -82,7 +82,7 @@ import {
       
       // 프로필사진 변경
       // profileInfo = { user_seq: , profile: 프로필 이미지 }  
-      async changeUserProfile({ commit, profileInfo }) {
+      async changeUserProfile({ commit }, profileInfo) {
         await changeProfile(
             profileInfo,
           (response) => {
@@ -99,7 +99,7 @@ import {
 
       // 회원의 기부목록 가져오기
       // profileInfo = { user_seq: , profile: 프로필 이미지 }  
-      async getDonationList({ commit, user_seq }) {
+      async getDonationList({ commit }, user_seq) {
         await donationList(
             user_seq,
           (response) => {
@@ -115,7 +115,7 @@ import {
 
 
       // 회원의 팔로워 목록 가져오기
-      async getFollowerList({ commit, user_seq }) {
+      async getFollowerList({ commit }, user_seq) {
         await followList(
             user_seq,
           (response) => {
