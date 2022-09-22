@@ -16,7 +16,7 @@ import {
     popularPostcardList,
   } from "@/api/postcard.js"
   
-  const organizationStore = {
+  const postcardStore = {
     namespaced: true,
     state: {
       uploadedPostcard: [],
@@ -172,4 +172,4 @@ import {
     },
   };
   
-  export default organizationStore;
+  export default postcardStore;

@@ -10,15 +10,16 @@
   </div>
 </div>
 
-
 <div v-if="!showLogoLoding">
-
+  <div class="beginningTitle">
+    엽서사전
+  </div>
+    
   <!-- 번갈아가면서 바뀌는 글자 -->
   <!-- <div id="container">
       <span id="text1" class="logo"></span>
       <span id="text2" class="logo"></span>
   </div> -->
-
 
   <div class="beginningBackground">
     <!-- <div class="testBackground"> -->
@@ -38,13 +39,16 @@
     <div data-aos="fade-up" data-aos-duration="1000" id="example" class="example_after"></div>
     <div v-if="showCheerupMessage" data-aos="fade-up" data-aos-duration="500" class="cheerupMessage">경대형 코로나 완치 기원</div>
     <div v-if="showLogin" data-aos="fade-up" data-aos-duration="500" class="sendButton">Login</div>
- 
+
   </div>
 
 
 
 <!-- </div> -->
+<!-- </div> -->
 </div>
+
+
 
 </template>
 
@@ -247,6 +251,16 @@ methods: {
   overflow: hidden;
   z-index: 5000;
 }
+.beginningTitle {
+  position: sticky;
+  height: 4vh;
+  font-family: 'Nanum Pen Script', cursive;
+  font-size: 3vw;
+  margin-top: 2vw;
+  margin-bottom: 2vw;
+  z-index: 5000;
+  background-color: white;
+}
 .beginningBackground {
   /* background-image: url(../../public/images/example_before.PNG);
   background-repeat: no-repeat;
@@ -257,7 +271,7 @@ methods: {
   height: 4000px;
   /* 엽서 나오는 높이 */
   padding-top: 600px;
-  background-image: url(../../public/images/testBackground.jpg);
+  /* background-image: url(../../public/images/testBackground.jpg); */
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed;
