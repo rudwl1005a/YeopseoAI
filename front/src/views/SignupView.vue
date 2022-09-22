@@ -1,12 +1,4 @@
 <template>
-  <div class="signpageClass">
-    <div class="mainLogoClass">
-      <h1>엽AI사전</h1>
-    </div>
-    <div class="signInformationClass">
-      <div class="signLogoClass">
-        <h1>회원가입</h1>
-      </div>
       <form
         @submit.prevent
       >
@@ -17,7 +9,8 @@
           type="text"
           class="form-control col-4"
           id="userId"
-          placeholder="ID를 입력해주세요."
+          maxlength="10"
+          placeholder="ID를 입력해주세요.(최대10자)"
           style="width: auto;"
           @input="idChange"
           required
@@ -59,7 +52,7 @@
             type="text"
             class="form-control"
             id="userName"
-            placeholder="닉네임을 입력해주세요"
+            placeholder="닉네임을 입력해주세요(최대 8글자)"
             required
           />
         </div>
@@ -74,7 +67,7 @@
             maxlength=11
             style="width: 30vw;"
             placeholder="-없이 숫자만 입력해주세요"
-            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+            @input="checkTel"
             required
           />
           </div>
@@ -94,8 +87,6 @@
           <p v-if="errorMSG">{{this.errorMSG}}</p>
           <button type="submit" @click="signup" class="btn btn-primary">회원가입</button>
       </form>
-    </div>
-    </div>
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
@@ -117,7 +108,12 @@ export default {
       userPassword2: null,
       errorMSG: null,
       IdCheck: false,
-      phoneOption: ['010', '02', '051', '053', '032', '062', '042', '052', '044', '031', '033','043', '041', '063', '061', '054', '055', '064',]
+      phoneCheck: false,
+      phoneOption: ['010', '016', '017', '070', '011', '02', '051', '053', '032', '062', '042', '052', '044', '031', '033','043', '041', '063', '061', '054', '055', '064',],
+      // 숫자포함여부(1) 문자포함여부(2) 특수문자포함여부(3)
+      pattern1 : /[0-9]/,
+      pattern2 : /[a-zA-Z]/,
+      pattern3 : /[~!@#$%^&*()_+|<>?:{}]/,
     };
   },
   computed: {
@@ -126,13 +122,9 @@ export default {
   },
   methods: {...mapActions(accountStore, ['userSignup', 'userCheckID',]),
     pwdCheck() {
-    // 숫자포함여부(1) 문자포함여부(2) 특수문자포함여부(3)
-      const pattern1 = /[0-9]/;
-      const pattern2 = /[a-zA-Z]/;
-      const pattern3 = /[~!@#$%^&*()_+|<>?:{}]/;
       // 숫자 포함 여부 && 문자 포함 여부 && 특수문자포함여부 && 길이 6이상 확인 && 일치여부
-      if(pattern1.test(this.credentials.userPassword) && pattern2.test(this.credentials.userPassword)
-      && pattern3.test(this.credentials.userPassword) && this.credentials.userPassword.length > 5 &&
+      if(this.pattern1.test(this.credentials.userPassword) && this.pattern2.test(this.credentials.userPassword)
+      && this.pattern3.test(this.credentials.userPassword) && this.credentials.userPassword.length > 5 &&
       this.credentials.userPassword === this.userPassword2) {
         return true;
       } else {
@@ -154,7 +146,12 @@ export default {
       );
     },
     // 휴대전화 번호 바꾸기
-    inputTel() {
+    checkTel() {
+      if (!this.pattern1.test(this.credentials.userPhone[this.credentials.userPhone.length-1])) {
+        this.credentials.userPhone = this.credentials.userPhone.slice(0, this.credentials.userPhone.length-1)
+      } else if (this.credentials.userPhone.length > 9 && this.phoneOption.some((num)=>{ return num === this.credentials.userPhone.slice(0,3)})) {
+        this.phoneCheck = true
+      } 
       // 전화번호가 4개가 되면
     },  
     // id값 변경시 중복 체크 false
@@ -164,6 +161,7 @@ export default {
     },
     // 회원가입 함수(입력 내용 체크 + 회원가입 요청)
     async signup() {
+      console.log(this.phoneCheck)
       // ID 중복 체크
       if (!this.IdCheck) {
         this.errorMSG = "ID 중복 체크를 해주세요"
@@ -174,15 +172,12 @@ export default {
         // 전화번호가 검증을 미통과시
       } else if (!this.credentials.userName) {
         this.errorMSG = "닉네임을 입력해주세요"
-      } else if (!this.credentials.userPhone || this.credentials.userPhone.length < 10) {
+      } else if (!this.credentials.userPhone || !this.phoneCheck) {
         this.errorMSG = "전화번호를 확인해주세요"
       } else if (!this.credentials.userEmail) {
         this.errorMSG = "이메일을 확인해주세요"
       } else {
         await this.userSignup(this.credentials)
-        if (this.isLogged) {
-          this.$router.push({name: "MainView"})
-        }
       }
     }
   }

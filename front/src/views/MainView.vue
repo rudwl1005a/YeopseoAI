@@ -15,6 +15,7 @@
       <div class="mainpageBtn" @mouseover="change2" @click="goLetter">letter</div>
       <div class="mainpageBtn" @mouseover="change3" @click="goFoundation">foundation</div>
       <div class="mainpageBtn" @mouseover="change4" @click="goMypage">mypage</div>
+      <div class="mainpageBtn" @mouseover="change2" @click="goBoard">게시판</div>
     </div>
     <div :class="{ mainopendToggle : opendToggle , mainclosedToggle : !opendToggle}">
       <!-- 나중에 라우터 링크로 바꾸자 -->
@@ -23,7 +24,8 @@
         <div class="mainpageBtn">letter</div>
         <div class="mainpageBtn">foundation</div>
         <div class="mainpageBtn">mypage</div>
-        <div class="mainpageBtn">logout</div>
+        <div v-if="isLogged" @click="userLogout" class="mainpageBtn">logout</div>
+        <div v-if="!isLogged" @click="goLogin" class="mainpageBtn">login</div>
       </div>
     </div>
     <div class="mainSideBarClass">
@@ -198,11 +200,12 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 import AOS from "aos";
 import "aos/dist/aos.css";
 const mainpageStore = "mainpageStore";
 const searchStore = "searchStore";
+const accountStore = "accountStore"
 
 export default {
   name:"MainView",
@@ -211,6 +214,7 @@ export default {
   computed: {
     ...mapState(mainpageStore, ["letterTop", "foundationTop", "watchingLetter", "watchingFoundation"]),
     ...mapState(searchStore, ["letterSearchResult", "foundationSearchResult"]),
+    ...mapGetters(accountStore, ["isLogged"]),
   },
   data() {
     return {
@@ -245,6 +249,7 @@ export default {
   methods: {
     ...mapActions(mainpageStore, ["getFamousLetterStore", "getFamousFoundationStore", "getLetterDetail", "likeLetterStore", "dislikeLetterStore", "getFoundationDetail"]),
     ...mapActions(searchStore, ["getSearchResult"]),
+    ...mapActions(accountStore, ["userLogout"]),
     openSidebar() {
       console.log("토글 열어보자");
       // 토글 닫기
@@ -295,6 +300,9 @@ export default {
       this.$router.push('/mypage');
       console.log("홈 새로고침");
     },
+    goBoard() {
+      this.$router.push('/board');
+    },
     goUp() {
       if (window.scrollY === 0) {
         window.scrollTo({ left: 0, top: 10000, behavior: "smooth" });
@@ -302,6 +310,10 @@ export default {
         window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
       }
     },
+    goLogin() {
+      this.$router.push({name: "TestView"})
+    },
+
     changeFamousLetter() { // 인기 엽서 목록 바꿔주는 버튼
       this.famousLetterBtn = !this.famousLetterBtn;
     },

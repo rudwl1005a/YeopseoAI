@@ -6,7 +6,7 @@ import accountStore from "./modules/accountStore";
 import mypageStore from "./modules/mypageStore";
 import organizationStore from "./modules/organizationStore";
 import donationStore from "./modules/donationStore";
-import postcardStore from "./modules/postcardStore";
+import boardStore from "./modules/boardStore";
 
 export default createStore({
   state: {},
@@ -20,7 +20,7 @@ export default createStore({
     organizationStore,
     donationStore,
     mypageStore,
-    postcardStore,
+    boardStore,
   },
   plugins: [
     createPersistedState({
