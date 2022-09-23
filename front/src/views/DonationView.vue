@@ -6,8 +6,8 @@
       <div class="container d-flex">
         <b class="col">기부 단체: {{this.selOrganizationInfo.name}} </b>
         <b class="col">우편 <b v-if="this.donationInfo.donationImgUrl">선택 완료</b></b>
-        <b class="col">문구: <b v-if="!this.donationInfo.donationText">입력 문구 없음</b> </b>
-        <b class="col">기부금액: {{this.selOrganizationInfo.donationPay}} </b>
+        <b class="col">문구: <b v-if="!this.donationInfo.donationText">입력 문구 없음</b> <b v-if="this.donationInfo.donationText">{{this.donationInfo.donationText.slice(0,10)}}</b> </b>
+        <b class="col">기부금액: {{this.donationInfo.donationPay}} </b>
       </div>
       <!-- 현재 위치 상황 판 -->
       <div class="container d-flex">
@@ -57,41 +57,15 @@
       <!-- 기부금 선택 입력 -->
       <form v-show="this.stage.four">
         <label for="pay">기부 금액 : </label>
-        <input type="number" id="pay">
+        <input v-model="this.donationInfo.donationPay" type="number" id="pay">
       </form>
       <div>
         <b>{{errorMSG}}</b>
         <button @click.prevent="preStage" v-show="!this.stage.one">이전</button>
         <button @click.prevent="nextStage" v-show="!this.stage.four">다음</button>
-        <button @click="donate" v-show="this.stage.four">기부</button>
+        <button @click="pay" v-show="this.stage.four">기부</button>
       </div>
     </div>
-    <!-- 기부 테스트 -->
-    <input type="file" accept="image/*" @change="changeImage" />
-    <img :src="donationInfo.donationImgUrl" alt="">
-    <input
-      type="number"
-      placeholder="얼마?"
-      v-model="donationInfo.donationPay"
-    />
-    <input
-      type="text"
-      placeholder="응원메세지"
-      v-model="donationInfo.donationText"
-    />
-    <input
-      type="number"
-      placeholder="foundationSeq"
-      v-model="donationInfo.foundationSeq"
-    />
-    <input
-      type="number"
-      placeholder="userSeq"
-      v-model="donationInfo.userSeq"
-    />
-    <button @click="donate">기부ㄱㄱ</button>
-
-
 </template>
   
   <script>
@@ -178,6 +152,7 @@
           this.stage.four = true
         }
       },
+      // 이전 화면으로
       preStage() {
         if (this.stage.two) {
           this.stage.two = false
@@ -190,32 +165,48 @@
           this.stage.three = true
         }
       },
+      // 기부하기
       donate() {
         console.log({...this.donationInfo, userSeq: this.userInfo.userSeq})
         this.doDonate({...this.donationInfo, userSeq: this.userInfo.userSeq})
       }, 
-      // 재단 선택 후 메시지는 초기화
+      // 재단 선택
       selOrg(name, URL, Seq){
         this.selOrganizationInfo.name = name
         this.selOrganizationInfo.logoURL = URL
         this.donationInfo.foundationSeq = Seq
         this.errorMSG = ""
       },
-      // 우편 선택 후 메시지는 초기화
+      // 우편 선택 
       selPostcard(URL) {
         this.donationInfo.donationImgUrl = URL
         this.errorMSG = ""
       },
-
-      changeImage(image) {
-        // 업로드한 파일 보여주기
-        // const reader = new FileReader();
-        // reader.onload = (e) => {
-        //   this.donationInfo.donationImgUrl = e.target.result;
-        // }   
-
-        this.donationInfo.donationImgUrl = URL.createObjectURL(image.target.files[0])
+      // 결제하기
+      pay() {
+        const { IMP } = window
+        // 관리자 콘솔 내 가맹정 식별코드
+        IMP.init('imp40811644')
+        IMP.request_pay({
+          pg : 'html5_inicis',
+          pay_method: "card",
+          merchant_uid: `${this.selOrganizationInfo.name}-donation` + new Date().getTime(),
+          name : this.selOrganizationInfo.name , //결제창에서 보여질 이름
+          amount: this.donationInfo.donationPay,
+          buyer_tel: this.userInfo.userPhone,
+          buyer_name: this.userInfo.userName,
+        }, function(rsp) {
+          console.log(rsp);
+          if ( rsp.success ) {
+            // 실제 결제 내용과 비교하기
+            // 결제 내역 저장할 지 여부 확인
+            console.log(rsp.success)
+          } else {
+            console.log(rsp.error_msg);
+          }
+        });
       },
+      // 입력값들 리셋
       reset () {
         this.donationInfo = { donationImgUrl: null, donationPay: 0,
           donationText: "",foundationSeq: null,};
@@ -223,10 +214,7 @@
         this.stage = {one: true, two: false, three: false, four: false};
         this.errorMSG = null;
       },
-
     },
-
-
     created() {
       if (!this.userInfo) {
         this.$router.push({name: "beginningView"})
