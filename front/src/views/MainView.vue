@@ -7,7 +7,7 @@
   <div class="maingoUpBtn" @click="goUp"></div>
   <div class="mainpageClass">
     <div v-if="showLogo" class="mainLogoClass">
-      <b>엽AI사전</b>
+      <b style="font-size: 2vw;">엽AI사전</b>
     </div>
     <div class="mainpageList">
       <!-- 나중에 라우터 링크 혹은 푸쉬로 바꾸자 -->
@@ -311,7 +311,7 @@ export default {
       }
     },
     goLogin() {
-      this.$router.push({name: "TestView"})
+      this.$router.push({name: "beginningView"})
     },
 
     changeFamousLetter() { // 인기 엽서 목록 바꿔주는 버튼
@@ -423,7 +423,7 @@ export default {
   cursor: pointer;
   width: 5vw;
   height: 5vh;
-  font-size: 1.3vw;
+  font-size: 1.7vw;
   text-align: left;
   transition: 0.4s;
 }

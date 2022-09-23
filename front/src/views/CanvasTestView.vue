@@ -26,14 +26,27 @@
         @mousemove="getCoordinate($event)"
         :additional-images="additionalImages"
       />
-      <p>
+
+      <!-- 긋고 있는 좌표 보여주는 부분. 필요 없을 것 같아서 주석처리 -->
+      <!-- <p>
         X-axis: <strong>{{ x }}</strong
         >, Y-axis: <strong>{{ y }}</strong>
-      </p>
+      </p> -->
+
+      <!-- 첫 줄(lock, 뒤로감기, 앞으로감기, 전체삭제 버튼) -->
       <div class="button-container">
+
+        <!-- lock 버튼, 있으면 좋을 것 같음 -->
         <button type="button" @click.prevent="disabled = !disabled">
-          <svg
+          <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-lock"
+            viewBox="0 0 16 16"
+          > -->
+          <svg
             width="16"
             height="16"
             fill="currentColor"
@@ -52,6 +65,8 @@
           <span v-if="!disabled">Unlock</span>
           <span v-else>Lock</span>
         </button>
+
+        <!-- 그림 뒤로가기 버튼, 필수 -->
         <button type="button" @click.prevent="$refs.VueCanvasDrawing.undo()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -71,6 +86,8 @@
           </svg>
           Undo
         </button>
+
+        <!-- 그림 앞으로가기 버튼, 필수 -->
         <button type="button" @click.prevent="$refs.VueCanvasDrawing.redo()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +107,9 @@
           </svg>
           Redo
         </button>
-        <button type="button" @click.prevent="$refs.VueCanvasDrawing.redraw()">
+
+        <!-- refresh 버튼 필수 아니라서 지워도 될 것 같음 -->
+        <!-- <button type="button" @click.prevent="$refs.VueCanvasDrawing.redraw()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
@@ -108,7 +127,9 @@
             />
           </svg>
           Refresh
-        </button>
+        </button> -->
+        
+        <!-- 전체 삭제 버튼, 필수 -->
         <button type="button" @click.prevent="$refs.VueCanvasDrawing.reset()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -122,10 +143,14 @@
               d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"
             />
           </svg>
-          Reset
+          전체삭제
         </button>
       </div>
+
+      <!-- 둘째 줄(펜/지우개 설정, 두께 설정, 색 설정, 타입 설정) -->
       <div class="button-container">
+
+        <!-- 펜/지우개 설정 -->
         <button type="button" @click.prevent="eraser = !eraser">
           <span v-if="eraser">
             <svg
@@ -158,12 +183,51 @@
             Draw
           </span>
         </button>
+
+        <!-- 두께 설정 -->
         <select v-model="line">
           <option v-for="n in 25" :key="'option-' + n" :value="n">
             {{ n }}
           </option>
         </select>
-        <input type="color" v-model="color" />
+
+        <!-- 색 설정, GauGAN2 모델에 있는 색상들만 선택 가능하도록 수정해야 함 -->
+        <!-- <input type="color" v-model="color" /> -->
+        <select v-model="color">
+          <option value="#5e5bc5">다리</option>
+          <option value="#706419">울타리</option>
+          <option value="#7f4502">집</option>
+          <option value="#8f2a91">플랫폼</option>
+          <option value="#9600b1">지붕</option>
+          <option value="#aad16a">벽돌벽</option>
+          <option value="#ae2974">돌벽</option>
+          <option value="#b0c1c3">나무벽</option>
+          <option value="#6e6e28">흙</option>
+          <option value="#7c32c8">자갈</option>
+          <option value="#7d3054">지상 기타</option>
+          <option value="#87716f">진흙</option>
+          <option value="#8b3027">포장도로</option>
+          <option value="#946e28">도로</option>
+          <option value="#999900">모래</option>
+          <option value="#696969">구름</option>
+          <option value="#77ba1d">안개</option>
+          <option value="#7ec864">언덕</option>
+          <option value="#869664">산</option>
+          <option value="#9364c8">강</option>
+          <option value="#956432">바위</option>
+          <option value="#9ac6da">바다</option>
+          <option value="#9ceedd">하늘</option>
+          <option value="#9e9eaa">눈</option>
+          <option value="#a1a164">돌</option>
+          <option value="#b1c8ff">물</option>
+          <option value="#606e32">부쉬</option>
+          <option value="#760000">꽃</option>
+          <option value="#7bc800">풀</option>
+          <option value="#a2a3eb">짚</option>
+          <option value="#a8c832">나무</option>
+          <option value="#b57b00">나무 기둥</option>
+        </select>
+
         <select v-model="strokeType">
           <option value="dash">Dash</option>
           <option value="line">Straight Line</option>
@@ -215,7 +279,11 @@
           </span>
         </button>
       </div>
+
+      <!-- 셋째 줄(저장/저장취소 버튼) -->
       <div class="button-container">
+
+        <!-- 저장 버튼 -->
         <button type="button" @click.prevent="getStrokes()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -229,8 +297,10 @@
               d="M7 2.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0zm4.225 4.053a.5.5 0 0 0-.577.093l-3.71 4.71-2.66-2.772a.5.5 0 0 0-.63.062L.002 13v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4.5l-4.777-3.947z"
             />
           </svg>
-          Save All Strokes
+          저장
         </button>
+
+        <!-- 저장 취소 버튼 -->
         <button type="button" @click.prevent="removeSavedStrokes()">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -244,22 +314,26 @@
               d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828l6.879-6.879zm2.121.707a1 1 0 0 0-1.414 0L4.16 7.547l5.293 5.293 4.633-4.633a1 1 0 0 0 0-1.414l-3.879-3.879zM8.746 13.547 3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293l.16-.16z"
             />
           </svg>
-          Remove Saved Strokes
+          저장 취소
         </button>
       </div>
+
+      <!-- 넷째 줄(배경 색, 배경이미지 넣기) -->
       <div class="button-container">
         <div style="margin-right: 30px">
-          <p style="margin-bottom: 0">Background Color:</p>
+          <p style="margin-bottom: 0">배경색:</p>
           <input type="color" v-model="backgroundColor" />
         </div>
         <div>
-          <p style="margin-bottom: 0">Upload Background Image:</p>
+          <p style="margin-bottom: 0">배경 이미지 업로드:</p>
           <input type="file" @change="setImage($event)" />
         </div>
-        <div>
+
+        <!-- 워터마크 넣는 부분. 필요 없어서 주석 처리 -->
+        <!-- <div>
           <p style="margin-bottom: 0">Upload Watermark Image:</p>
           <input type="file" @change="setWatermarkImage($event)" />
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -268,16 +342,23 @@
       <img :src="image" style="border: solid 1px #000000" />
     </div>
   </div>
+  <div @click="goHome">홈으로</div>
+  <div @click="changeImage">이미지 변환!</div>
 </template>
 
 <script type="module">
+import { mapState } from "vuex";
 import VueDrawingCanvas from "vue-drawing-canvas/dist/vue-drawing-canvas.esm";
+const accountStore = "accountStore";
 
 export default {
   components: {
     "vue-drawing-canvas": VueDrawingCanvas,
   },
   setup: () => {},
+  computed: {
+    ...mapState(accountStore, ["userInfo"]),
+  },
   data() {
     return {
       initialImage: [
@@ -347,6 +428,8 @@ export default {
         "vue-drawing-canvas",
         JSON.stringify(this.$refs.VueCanvasDrawing.getAllStrokes())
       );
+      // console.log(this.$refs.VueCanvasDrawing.getAllStrokes());
+      console.log(this.$refs.VueCanvasDrawing);
       alert(
         "Strokes saved, reload your browser to see the canvas with previously saved image"
       );
@@ -355,6 +438,35 @@ export default {
       window.localStorage.removeItem("vue-drawing-canvas");
       alert("Strokes cleared from local storage");
     },
+    goHome() {
+      this.$router.push("/main");
+    },
+    changeImage() {
+      console.log(document.getElementById("VueDrawingCanvas"));
+      const canvas = document.getElementById("VueDrawingCanvas");
+      console.log(canvas.toDataURL()); // data:image/png;base64,
+      const dataUrl = canvas.toDataURL();
+      const blobData = this.dataURItoBlob(dataUrl);
+      // 날짜
+      const now = new Date();
+      // 파일 이름
+      const filename = `yeupseo-${this.userInfo.userSeq}${now.getHours()}${now.getMinutes()}${now.getSeconds()}.png`
+      // 파일 만들기
+      const tempFile = new File([blobData], filename, { type: 'image/png' });
+      // 폼데이터
+      let canvasData = new FormData;
+      canvasData.append('photo', tempFile);
+
+      console.log(canvasData);
+    },
+    dataURItoBlob(dataURI) {
+      var binary = atob(dataURI.split(',')[1]);
+      var array = [];
+      for (var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+      }
+      return new Blob([new Uint8Array(array)], { type: 'image/png' });
+    }
   },
 };
 </script>

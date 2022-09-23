@@ -1,13 +1,14 @@
 <template>
-  <side-bar></side-bar>
-    <div>MakeCard</div>
-    <input type="file" accept="image/*" @change="changeImage" />
-    <img style="width: 30vw; height: 20vh" :src="showPostcard" alt="">
-    <div :onclick="upload">엽서ㄱㄱ?</div>
-  </template>
+<side-bar></side-bar>
+  <div>MakeCard</div>
+  <div @click="goCanvas">엽서 디자인 화면으로</div>
+  <input type="file" accept="image/*" @change="changeImage" />
+  <img style="width: 30vw; height: 20vh" :src="showPostcard" alt="">
+  <div :onclick="upload">엽서ㄱㄱ?</div>
+</template>
   
-  <script>
-  import AOS from 'aos';
+<script>
+import AOS from 'aos';
 import "aos/dist/aos.css";
 import SideBar from "@/components/Nav/SideBar.vue";
 import { mapActions, mapGetters } from "vuex";
@@ -104,8 +105,12 @@ export default {
         array[i] = raw.charCodeAt(i);
       }
       return array;
-    }
+    },
 
+
+    goCanvas() {
+      this.$router.push("/canvasTest");
+    },
   },
 
 
