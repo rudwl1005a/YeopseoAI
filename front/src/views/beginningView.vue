@@ -1,4 +1,5 @@
 <template>
+  
 <div style="margin:0 auto;" :class="{ beginningLoading : showLogoLoding , beginningLoadingClose : !showLogoLoding}">
   <div id="startLogo" class="startLogo">
     <svg width=400 height=200> 
@@ -451,6 +452,9 @@ methods: {
       const v = document.getElementById('test')
       v.scrollTop = 3000
     }, 3000);
+  },
+  unmounted() {
+    document.removeEventListener("scroll", this.scroll);
   },
 }
 </script>
