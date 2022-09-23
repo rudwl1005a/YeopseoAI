@@ -65,9 +65,11 @@ export default {
     // 엽서 업로드
     // postcardInfo = {postcard: 이미지파일, tag: [태그리스트], userId: 'string',}
     upload() {
-      console.log(this.postcardInfo.postcard)
       // console.log(Uint8Array String(this.postcardInfo.postcard.length.prototype))
       // console.log(Uint8Array.prototype.toString(this.postcardInfo.postcard))
+      
+      console.log('보내는 이미지')
+      console.log(this.postcardInfo.postcard)
       this.uploadPostcard(this.postcardInfo)
     },
 
@@ -79,14 +81,14 @@ export default {
       // }
 
       var f = image.target.files[0];
-      // var r = new FileReader();
-      // r.onload = (e) => {
+      var r = new FileReader();
+      r.onload = (e) => {
          
-      //   this.postcardInfo.postcard = this.convertDataURIToBinary(e.target.result);
-      //   // this.postcardInfo.postcard = toString(this.convertDataURIToBinary(e.target.result));
-      // };
-      // r.readAsDataURL(f);
-      this.postcardInfo.postcard = f
+        this.postcardInfo.postcard = this.convertDataURIToBinary(e.target.result);
+        // this.postcardInfo.postcard = toString(this.convertDataURIToBinary(e.target.result));
+      };
+      r.readAsDataURL(f);
+      // this.postcardInfo.postcard = f
       this.showPostcard = URL.createObjectURL(image.target.files[0])
     },
 

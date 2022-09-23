@@ -2,7 +2,7 @@
 
 
 
-  <!-- <div class="carousel">
+  <!-- <div class="mypageCarousel">
     <div class="wrap">
       <ul>
         <li v-for="(card, index) in this.userCards " :key="index">
@@ -19,7 +19,7 @@
     <p class="profileText">username's Profile</p>
 
     <!-- 내 정보 부분 -->
-    <div class="myInfo">
+    <div class="myInfo row">
       <div class="myProfileBox row justify-content-around">
 
         <div class="myProfileImage align-self-center">
@@ -37,7 +37,7 @@
 
     <!-- 유저의 모든 엽서 보여주기 -->
     <div class="allCardsTitle">All of username's cards</div>
-    <div class="carousel">
+    <div class="mypageCarousel">
       <div class="wrap">
         <ul class="">
           <li v-for="(card, index) in this.userCards " :key="index">
@@ -81,7 +81,7 @@
     <hr style="width: 70vw; margin: 0 auto;">
     <div class="followUsers">
       <p class="profileText">Following</p>
-      <div id="followingList" class="carousel">
+      <div id="followingList" class="mypageCarousel">
       <div class="wrap">
         <ul id="ul" class="">
           <li v-for="(card, index) in this.userCards " :key="index">
@@ -136,14 +136,6 @@ export default {
         test: true,
         showRemind: true,
         showImages: [
-        //     '../../public/images/test1.jpg',
-        //     'test2',
-        //     'test3',
-        //     'test4',
-        //     'test5',
-        //     'test6',
-        // 
-
         {
           imageUrl: require("../../public/images/test1.jpg")
         },
@@ -255,7 +247,7 @@ export default {
     // Hover-Carousel component
     // By Yair Even-Or
     // written in jQuery 2013 -> refactored to vanilla 2020
-    // https://github.com/yairEO/hover-carousel
+    // https://github.com/yairEO/hover-mypageCarousel
 
     function HoverCarousel( elm ){
       this.DOM = {
@@ -339,7 +331,7 @@ export default {
 
         this.ratio = this.scrollWidth / this.containerWidth
         
-        // the mouse X position, "normalized" to the carousel position
+        // the mouse X position, "normalized" to the mypageCarousel position
         var stripePos = e.pageX - this.padding - this.posFromLeft 
         
         if( stripePos < 0 )
@@ -348,7 +340,7 @@ export default {
         // calculated position between 0 to 1
         this.pos = stripePos / (this.containerWidth - this.padding*2) 
         
-        // calculate the percentage of the mouse position within the carousel
+        // calculate the percentage of the mouse position within the mypageCarousel
         this.scrollPos = (this.scrollWidth - this.containerWidth ) * this.pos 
 
         this.DOM.wrap.scrollLeft = this.scrollPos
@@ -368,7 +360,7 @@ export default {
       }
     }
               
-    var carouselElm = document.querySelector('.carousel')
+    var carouselElm = document.querySelector('.mypageCarousel')
     var followElm = document.querySelector('#followingList')
     new HoverCarousel(carouselElm)                          
     new HoverCarousel(followElm)
@@ -384,6 +376,7 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed; */
+  background-color: whitesmoke;
 }
 .profileText {
   font-size: 8vh;
@@ -392,7 +385,7 @@ export default {
 .myInfo {
   margin: 0 auto;
   padding: 0 5vw;
-  width: 100vw;
+  /* width: 100vw; */
 }
 .myProfileBox {
   background: #fff;
@@ -444,7 +437,7 @@ export default {
 
 
 /* 캐러셀 */
-.carousel {
+.mypageCarousel {
   display: block;
   font-size: 0;
   border-radius: 8px;
@@ -456,18 +449,18 @@ export default {
   -webkit-overflow-scrolling: touch;
   /* for tablets */
 }
-.touch .carousel {
+.touch .mypageCarousel {
   overflow: auto;
 }
-.carousel[data-at*=left] > .wrap::before {
+.mypageCarousel[data-at*=left] > .wrap::before {
   opacity: 1;
   text-indent: -50px;
 }
-.carousel[data-at*=right] > .wrap::after {
+.mypageCarousel[data-at*=right] > .wrap::after {
   opacity: 1;
   text-indent: -50px;
 }
-.carousel::after {
+.mypageCarousel::after {
   content: "";
   pointer-events: none;
   position: absolute;
@@ -482,15 +475,15 @@ export default {
   left: var(--scrollLleft, 0);
   transition: opacity 0.2s, bottom 0.2s;
 }
-.carousel:hover::after {
+.mypageCarousel:hover::after {
   opacity: 1;
   bottom: -10px;
 }
-.carousel > .wrap {
+.mypageCarousel > .wrap {
   overflow: hidden;
   border-radius: 4px;
 }
-.carousel > .wrap::before, .carousel > .wrap::after {
+.mypageCarousel > .wrap::before, .mypageCarousel > .wrap::after {
   content: "‹";
   opacity: 0;
   position: absolute;
@@ -508,17 +501,17 @@ export default {
   transition: 0.2s ease-out;
   background: linear-gradient(to right, white 20%, transparent);
 }
-.carousel > .wrap::after {
+.mypageCarousel > .wrap::after {
   transform: rotate(180deg);
   left: auto;
   right: 0;
 }
-.carousel > .wrap > ul {
+.mypageCarousel > .wrap > ul {
   list-style: none;
   white-space: nowrap;
   height: 200px;
 }
-.carousel > .wrap > ul > li {
+.mypageCarousel > .wrap > ul > li {
   display: inline-block;
   vertical-align: middle;
   height: 100%;
@@ -527,7 +520,7 @@ export default {
   /* overflow: hidden; */
   transition: 0.25s ease-out;
 }
-.carousel > .wrap > ul > li:first-child {
+.mypageCarousel > .wrap > ul > li:first-child {
   margin: 0;
 }
 .cardItem {
@@ -536,7 +529,7 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
 }
-.carousel {
+.mypageCarousel {
   width: 70vw;
   height: 30vh;
   margin: auto;

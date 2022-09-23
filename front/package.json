@@ -11,10 +11,13 @@
     "aos": "^2.3.4",
     "axios": "^0.27.2",
     "core-js": "^3.8.3",
+    "html2canvas": "^1.4.1",
     "i": "^0.3.7",
     "lodash": "^4.17.21",
     "vue": "^3.2.13",
+    "vue-carousel": "^0.18.0",
     "vue-router": "^4.0.3",
+    "vue3-carousel": "^0.1.46",
     "vuex": "^4.0.0",
     "vuex-persistedstate": "^4.1.0"
   },
