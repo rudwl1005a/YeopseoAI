@@ -9,37 +9,87 @@
   </div>
 </div>
 
+<side-bar></side-bar>slide
 
-
-<side-bar></side-bar>
-<div>기부단체 목록 화면임</div>
-<div :onclick="donation">기부하실?</div>
-<div @click="setFoundationInfo(organizationList[0].foundationSeq)">{{ organizationList[0].foundationContent }}</div>
-<div 
-@click="getFoundationDonationList(organizationList[0].foundationSeq)" 
-data-bs-toggle="modal" 
-data-bs-target="#exampleModal"
->
-<b>{{ organizationList[0].foundationName }}</b>이 받은 기부목록 보기</div>
-
-<div class="organizationClass">
-  <div class="mainLogoClass">
-    <h1>엽AI사전</h1>
-  </div>
-  <b style="font-size: 1.5vw; bold">기부재단</b>
   <br>
-  <div class="followOrganization">
-    <div class="c-title02">
-    </div>
-    <div class="organizationList">
+  <p class="profileText">Foundation List</p>
 
-        <div class="organizationItem">
-        
+  <!-- 캐러셀 -->
+  <div id="carouselExampleIndicators" class="foundationCarousel carousel slide" data-ride="carousel">
+    <ol class="carousel-indicators">
+      <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner row justify-content-around">
+
+      <div class="item active">
+        <img class="d-block w-50" src="https://via.placeholder.com/150" alt="First slide">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>...</h5>
+          <p>...</p>
         </div>
+      </div>
+
+
+      <div class="item">
+        <img class="d-block w-100" src="https://via.placeholder.com/150" alt="Second slide">
+        <div class="carousel-caption d-none d-md-block">
+          <h5>...</h5>
+          <p>...</p>
+        </div>
+      </div>
+
+
+      <div class="item">
+        <img class="d-block w-100" src="https://via.placeholder.com/150" alt="Third slide">
+                  <div class="carousel-caption d-none d-md-block">
+          <h5>...</h5>
+          <p>...</p>
+        </div>
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+
+
+  <!--  -->
+  <div class="foundationList">
+    
+    <div class="myProfileBox row justify-content-around">
+
+      <div class="foundationLogo align-self-center">
+      </div>
+
+      <div class="foundationInfo align-self-center row justify-content-center">
+        <h1>{{ organizationList[0].foundationName }}</h1>
+        <h1>{{ organizationList[0].foundationContent }}</h1>
+      </div>
 
     </div>
-  </div>        
-</div>
+  </div>
+  <br>
+
+
+    <!-- 좋아하는 엽서 목록 부분 -->
+  <div 
+  class="remindButton"
+  @click="getFoundationDonationList(organizationList[0].foundationSeq)" 
+  data-bs-toggle="modal" 
+  data-bs-target="#exampleModal"
+  ><b>{{ organizationList[0].foundationName }}</b>이 받은 기부목록 보기</div>
+  <br>
+
+  <div class="donationButton" @click="donation">기부하실?</div>
+  <div @click="setFoundationInfo(organizationList[0].foundationSeq)">{{ organizationList[0].foundationContent }}</div>
+
 </template>
 
 <script>
@@ -51,6 +101,29 @@ export default {
   name:"OrganizationListView",
   data() {
   return {
+    foundations: [
+      ``
+    ],
+    showImages: [
+        {
+          imageUrl: require("../../public/images/test1.jpg")
+        },
+        {
+          imageUrl: require("../../public/images/test2.jpg")
+        },
+        {
+          imageUrl: require("../../public/images/test3.jpg")
+        },
+        {
+          imageUrl: require("../../public/images/test4.jpg")
+        },
+        {
+          imageUrl: require("../../public/images/test5.jpg")
+        },
+        {
+          imageUrl: require("../../public/images/test6.jpg")
+        },
+      ],
   };
   },
 
@@ -93,11 +166,11 @@ export default {
   },
 
 
+
   created() {
     // 재단 목록 가져오기
     this.getFoundationList()
   },
-
 
   mounted() {
 
@@ -106,6 +179,21 @@ export default {
 </script>
 
 <style>
+.foundationList {
+  margin: 0 auto;
+  padding: 0 5vw;
+  width: 100vw;
+}
+.foundationCarousel {
+  background: whitesmoke;
+  margin: 0 auto;
+  border-radius: 30px;
+  padding: 3vh;
+  width: 60vw;
+  height: 50vh;
+  box-sizing: border-box;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
+}
 .organizationClass {
   position: relative;
   height: 100%;
@@ -150,4 +238,32 @@ export default {
   background-size: 100% 100%;
 }
 
+.donationButton {
+  font-size: 3vw;
+  font-family: 'Nanum Pen Script', cursive;;
+  cursor : pointer;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  height: 100px;
+  width: 100px;
+  outline: black;
+  background-size: 100%, 100%;
+  border-radius: 50%;
+  background-image: none;
+}
+
+.carousel-control-next-icon:after
+{
+  content: '>';
+  font-size: 5vw;
+  color: rgb(63, 63, 63);
+}
+
+.carousel-control-prev-icon:after {
+  content: '<';
+  font-size: 5vw;
+  color: rgb(63, 63, 63);
+}
 </style>
