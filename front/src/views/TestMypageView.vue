@@ -20,7 +20,7 @@
 
     <!-- 내 정보 부분 -->
     <div class="myInfo row">
-      <div class="myProfileBox row justify-content-around">
+      <div class="myProfileBox  justify-content-around">
 
         <div class="myProfileImage align-self-center">
         </div>
