@@ -347,9 +347,10 @@
 </template>
 
 <script type="module">
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import VueDrawingCanvas from "vue-drawing-canvas/dist/vue-drawing-canvas.esm";
 const accountStore = "accountStore";
+const postcardStore = "postcardStore";
 
 export default {
   components: {
@@ -358,6 +359,7 @@ export default {
   setup: () => {},
   computed: {
     ...mapState(accountStore, ["userInfo"]),
+    ...mapState(postcardStore, ["justUploadedPostcard"]),
   },
   data() {
     return {
@@ -389,6 +391,9 @@ export default {
       backgroundImage: null,
       watermark: null,
       additionalImages: [],
+
+      // 등록한 엽서 정보
+      postedPostcard: [],
     };
   },
   mounted() {
@@ -399,6 +404,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(postcardStore, ["uploadPostcard", "uploadTag", "userPostcardList"]),
     async setImage(event) {
       let URL = window.URL;
       this.backgroundImage = URL.createObjectURL(event.target.files[0]);
@@ -441,11 +447,11 @@ export default {
     goHome() {
       this.$router.push("/main");
     },
-    changeImage() {
+    async changeImage() {
       console.log(document.getElementById("VueDrawingCanvas"));
       const canvas = document.getElementById("VueDrawingCanvas");
       console.log(canvas.toDataURL()); // data:image/png;base64,
-      const dataUrl = canvas.toDataURL();
+      const dataUrl = canvas.toDataURL("image/png");
       const blobData = this.dataURItoBlob(dataUrl);
       // 날짜
       const now = new Date();
@@ -460,6 +466,19 @@ export default {
       for (var pair of canvasData.entries()) {
         console.log(pair[0]+ ', ' + pair[1]); 
       }
+      let tagList = ["하늘"];
+      console.log(canvasData);
+      let postcardObj = {
+        userId: this.userInfo.userId,
+        postcard: canvasData,
+      }
+      await this.uploadPostcard(postcardObj);
+      let tagObj = {
+        postcardSeq: this.justUploadedPostcard.postcardSeq,
+        tagList: tagList,
+      }
+      await this.uploadTag(tagObj);
+      console.log(this.userInfo.userId, tagList, canvasData);
     },
     dataURItoBlob(dataURI) {
       var binary = atob(dataURI.split(',')[1]);
@@ -468,7 +487,7 @@ export default {
         array.push(binary.charCodeAt(i));
       }
       return new Blob([new Uint8Array(array)], { type: 'image/png' });
-    }
+    },
   },
 };
 </script>

@@ -7,13 +7,14 @@
 // 인기 엽서 리스트 조회
 
 import {
-  uploadPostcard,
-  postcardInfo,
-  deletePostcard,
-  userLikePostcard,
-  userUnlikePostcard,
-  postcardList,
-  popularPostcardList,
+  uploadPostcardjs,
+  uploadTagjs,
+  postcardInfojs,
+  deletePostcardjs,
+  userLikePostcardjs,
+  userUnlikePostcardjs,
+  postcardListjs,
+  popularPostcardListjs,
 } from "@/api/postcard.js";
 
 const postcardStore = {
@@ -23,6 +24,7 @@ const postcardStore = {
     postcardInfo: [],
     postcardList: [],
     popularPostcardList: [],
+    justUploadedPostcard: [],
   },
 
   getters: {
@@ -53,16 +55,39 @@ const postcardStore = {
     SET_POPULARPOSTCARDLIST: (state, popularPostcardList) => {
       state.popularPostcardList = popularPostcardList;
     },
+    SET_DUMMYCOMMIT: () => {
+      console.log("zz");
+    },
+    SET_JUSTUPLOADED: (state, postcard) => {
+      state.justUploadedPostcard = postcard;
+    }
   },
 
   actions: {
     // 엽서 업로드
     // postcardInfo = {postcard: 이미지파일, tag: [태그리스트], userId: 'string',}
-    async uploadPostcard(postcardInfo) {
-      await uploadPostcard(
-        postcardInfo,
-        () => {
+    async uploadPostcard({ commit }, postcardObj) {
+      console.log(postcardObj);
+      await uploadPostcardjs(
+        postcardObj,
+        (response) => {
           console.log("엽서 업로드됐어요");
+          commit("SET_JUSTUPLOADED", response.data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+
+    // 엽서 태그 수정
+    async uploadTag({ commit }, tagObj) {
+      console.log(tagObj);
+      await uploadTagjs(
+        tagObj,
+        (response) => {
+          console.log(response);
+          commit("SET_DUMMYCOMMIT");
         },
         (error) => {
           console.log(error);
@@ -72,7 +97,7 @@ const postcardStore = {
 
     // 엽서 상세정보 조회
     async getPostcardInfo({ commit }, postcardSeq) {
-      await postcardInfo(
+      await postcardInfojs(
         postcardSeq,
         (response) => {
           console.log("엽서 상세정보 들고왔어요");
@@ -87,7 +112,7 @@ const postcardStore = {
 
     // 엽서 삭제
     async deletePostcard(postcardInfo) {
-      await deletePostcard(
+      await deletePostcardjs(
         postcardInfo,
         () => {
           console.log("엽서 삭제했어요");
@@ -101,7 +126,7 @@ const postcardStore = {
     // 엽서 좋아요 추가
     // likePostcardInfo = {postcardSeq: , userSeq: }
     async userLikePostcard(likePostcardInfo) {
-      await userLikePostcard(
+      await userLikePostcardjs(
         likePostcardInfo,
         () => {
           console.log("엽서 좋아요 했어요");
@@ -115,7 +140,7 @@ const postcardStore = {
     // 엽서 좋아요 삭제
     // likePostcardInfo = {postcardSeq: , userSeq: }
     async userUnlikePostcard(likePostcardInfo) {
-      await userUnlikePostcard(
+      await userUnlikePostcardjs(
         likePostcardInfo,
         () => {
           console.log("엽서 좋아요 취소했어요");
@@ -128,7 +153,7 @@ const postcardStore = {
 
     // 엽서 리스트 조회
     async userPostcardList({ commit }, userSeq) {
-      await postcardList(
+      await postcardListjs(
         userSeq,
         (response) => {
           console.log("당신의 엽서 리스트 들고왔어요");
@@ -143,7 +168,7 @@ const postcardStore = {
 
     // 인기 엽서 리스트 조회
     async popularPostcardList({ commit }) {
-      await popularPostcardList(
+      await popularPostcardListjs(
         (response) => {
           console.log("인기 엽서 리스트 들고왔어요");
           console.log(response.data);
