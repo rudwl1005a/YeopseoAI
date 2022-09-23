@@ -461,12 +461,12 @@ export default {
       const tempFile = new File([blobData], filename, { type: 'image/png' });
       // 폼데이터
       let canvasData = new FormData;
-      canvasData.append('photo', tempFile); // 생성된 canvasData 정해진 uri로 axios 요청 보내면 될 듯
+      canvasData.append('postcard', tempFile); // 생성된 canvasData 정해진 uri로 axios 요청 보내면 될 듯
 
       for (var pair of canvasData.entries()) {
         console.log(pair[0]+ ', ' + pair[1]); 
       }
-      let tagList = ["하늘"];
+      let tagList = ["하늘", "구름"];
       console.log(canvasData);
       let postcardObj = {
         userId: this.userInfo.userId,
@@ -477,6 +477,7 @@ export default {
         postcardSeq: this.justUploadedPostcard.postcardSeq,
         tagList: tagList,
       }
+      console.log(tagObj);
       await this.uploadTag(tagObj);
       console.log(this.userInfo.userId, tagList, canvasData);
     },

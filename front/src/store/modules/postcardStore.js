@@ -73,6 +73,7 @@ const postcardStore = {
         (response) => {
           console.log("엽서 업로드됐어요");
           commit("SET_JUSTUPLOADED", response.data);
+          console.log(response);
         },
         (error) => {
           console.log(error);

@@ -17,15 +17,15 @@ const api = apiInstance();
 async function uploadPostcardjs(postcardObj, success, fail) {
     console.log(postcardObj);
     let userId = postcardObj.userId;
-    let postcardInfo = postcardObj.posdcard;
-    await api.post(`/api/postcards/${userId}`, postcardInfo).then(success).catch(fail);
+    let canvasData = postcardObj.postcard;
+    await api.post(`/api/postcards/${userId}`, canvasData).then(success).catch(fail);
 }
 
 // 엽서 태그 넣기
 async function uploadTagjs(tagObj, success, fail) {
     let postcardSeq = tagObj.postcardSeq;
     let tagList = tagObj.tagList;
-    await api.post(`/api/postcards/tag${postcardSeq}`, JSON.stringify(tagList)).then(success).catch(fail);
+    await api.post(`/api/postcards/tag/${postcardSeq}`, JSON.stringify(tagList)).then(success).catch(fail);
 }
 
 
