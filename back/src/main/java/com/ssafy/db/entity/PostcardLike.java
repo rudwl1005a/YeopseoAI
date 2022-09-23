@@ -25,7 +25,7 @@ public class PostcardLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int likeSeq;
+    int PostcardLikeSeq;
 
     int userSeq;
     int postcardSeq;
