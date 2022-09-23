@@ -455,9 +455,11 @@ export default {
       const tempFile = new File([blobData], filename, { type: 'image/png' });
       // 폼데이터
       let canvasData = new FormData;
-      canvasData.append('photo', tempFile);
+      canvasData.append('photo', tempFile); // 생성된 canvasData 정해진 uri로 axios 요청 보내면 될 듯
 
-      console.log(canvasData);
+      for (var pair of canvasData.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
+      }
     },
     dataURItoBlob(dataURI) {
       var binary = atob(dataURI.split(',')[1]);
