@@ -1,6 +1,5 @@
 package com.ssafy.api.controller;
 
-import com.ssafy.api.request.PostcardPostReq;
 import com.ssafy.api.response.PostcardGetRes;
 import com.ssafy.api.response.PostcardListGetRes;
 import com.ssafy.api.service.PostcardService;
@@ -33,20 +32,37 @@ public class PostcardController {
     @Autowired
     UserService userService;
 
-    @PostMapping(consumes = {"multipart/form-data"})
-    @ApiOperation(value = "엽서 업로드", notes = "엽서 파일과 태그로 엽서를 등록한다")
+    @PostMapping("/{userId}")
+    @ApiOperation(value = "엽서 업로드", notes = "엽서 파일로 엽서를 등록한다")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 401, message = "업로드 실패"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> insert(@ModelAttribute @ApiParam("엽서 업로드 객체") PostcardPostReq postcardPostReq) throws IOException {
-        MultipartFile postcard = postcardPostReq.getPostcard();
-        List<String> tag = postcardPostReq.getTag();
-        String userId = postcardPostReq.getUserId();
+    public ResponseEntity<?> insert(@RequestPart @ApiParam(value = "엽서 사진 파일", required = true) MultipartFile postcard,
+                                    @PathVariable @ApiParam(value = "유저 아이디", required = true) String userId) throws IOException {
 
-        String result = postcardService.savePostcard(postcard, tag, userId);
-        if(result.equals("S3에 저장을 실패했습니다.") || result.equals("DB에 저장을 실패했습니다.")){
+        Postcard result = postcardService.savePostcard(postcard, userId);
+        if(result == null){
+            return ResponseEntity.status(401).body("업로드를 실패했습니다.");
+        } else {
+            return ResponseEntity.status(200).body(result);
+        }
+
+    }
+
+    @PostMapping("/tag/{postcardSeq}")
+    @ApiOperation(value = "엽서 태그 업로드", notes = "엽서에 태그를 등록한다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "업로드 실패"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<?> insertTag(@RequestBody @ApiParam(value = "태그 리스트") List<String> tag,
+                                       @PathVariable @ApiParam(value = "엽서 seq") int postcardSeq) throws IOException {
+
+        String result = postcardService.savePostcardTag(tag, postcardSeq);
+        if(result.equals("DB에 저장을 실패했습니다.")){
             return ResponseEntity.status(401).body(result);
         } else {
             return ResponseEntity.status(200).body("엽서 업로드를 성공했습니다.");
@@ -165,6 +181,24 @@ public class PostcardController {
         } catch(Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(401).body("인기 엽서 리스트가 없습니다.");
+        }
+
+    }
+
+    @ApiOperation(value = "좋아요 누른 엽서 리스트 조회", notes = "유저seq로 좋아요 누른 엽서 리스트 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "엽서 리스트 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    @GetMapping("/like-list/{userSeq}")
+    public ResponseEntity<?> selectLikePostcardList(@PathVariable(value = "userSeq") @ApiParam(value = "유저Seq") int userSeq) throws IOException {
+        try {
+            List<PostcardList> postcardList = postcardService.selectPostcardLikeList(userSeq);
+            return ResponseEntity.status(200).body(PostcardListGetRes.of(postcardList));
+        } catch(Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(401).body("엽서 리스트가 없습니다.");
         }
 
     }
