@@ -5,14 +5,14 @@
       <!-- 현황 폼 -->
       <div class="container d-flex">
         <b class="col">기부 단체: {{this.selOrganizationInfo.name}} </b>
-        <b class="col">우편 <b v-if="this.donationInfo.donationImgUrl">선택 완료</b></b>
+        <b class="col">엽서 <b v-if="this.donationInfo.donationImgUrl">선택 완료</b></b>
         <b class="col">문구: <b v-if="!this.donationInfo.donationText">입력 문구 없음</b> <b v-if="this.donationInfo.donationText">{{this.donationInfo.donationText.slice(0,10)}}</b> </b>
         <b class="col">기부금액: {{this.donationInfo.donationPay}} </b>
       </div>
       <!-- 현재 위치 상황 판 -->
       <div class="container d-flex">
         <button @click.prevent class="col nowForm" :class="{now: this.stage.one}" style="{{this.stage.one}}? now:">기부단체 선택</button>
-        <button @click.prevent class="col nowForm" :class="{now: this.stage.two}">우편 선택</button>
+        <button @click.prevent class="col nowForm" :class="{now: this.stage.two}">엽서 선택</button>
         <button @click.prevent class="col nowForm" :class="{now: this.stage.three}">문구 입력</button>
         <button @click.prevent class="col nowForm" :class="{now: this.stage.four}">기부금 선정</button>
       </div>
@@ -38,16 +38,17 @@
           </div>
         </div>
       </div>
-      <!-- 우편 선택 리스트 -->
+      <!-- 엽서 선택 리스트 -->
       <div v-show="this.postcardList && this.stage.two">
-        <h1>우편 선택</h1>
-        <!-- 우편 링크도 보내지면 다시 작성 -->
-        <!-- 현재 선택된 우편 -->
-          <!-- <img v-bind:src=this.donationInfo.donationImgUrl alt="우편사진"> -->
-        <!-- 우편 목록 -->
-        <!-- <div v-for="(postcard, index) in this.postcardList" :key="`postcardList-${index}`" class="postcardList"> -->
-          <!-- <img v-bind:src=postcard.postcardImgUrl alt="우편사진" @click="selPostcard(postcard.postcardImgUrl)"> -->
-        <!-- </div> -->
+        <h1>엽서 선택</h1>
+        <!-- 현재 선택된 엽서 -->
+          <img v-bind:src="this.donationInfo.donationImgUrl" alt="엽서사진">
+        <!-- 엽서 목록 -->
+        <h3>엽서 목록</h3>
+        <div v-for="(postcard, index) in this.postcardList.postcardList" :key="`postcardList-${index}`" class="postcardList">
+          <img v-bind:src="postcard.postcard.postcardImgUrl" alt="엽서사진" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+        </div>
+        <h5 v-if="!this.postcardList">자신만의 엽서를 생성하거나 다른 사람의 엽서를 좋아요를 누른 후 나만의 엽서리스트를 생성해 주세요</h5>
       </div>
       <!-- 문구 입력 -->
       <div v-show="this.stage.three" class="textBack">
@@ -82,7 +83,7 @@
         // 요청을 보낸 정보들
         donationInfo : {
           donationImgUrl: null,
-          donationPay: 0,
+          donationPay: null,
           donationText: "",
           foundationSeq: null,
           // 유저 시퀀스는 보낼때만 사용
@@ -118,7 +119,7 @@
       ...mapActions(donationStore, ["doDonate"]),
       // 재단 리스트 용
       ...mapActions(organizationStore, ["getFoundationList"]),
-      // 우편 리스트 용
+      // 엽서 리스트 용
       ...mapActions(postcardStore, ["userPostcardList"]),
       // 단계 이동 메서드
       nextStage() {
@@ -131,20 +132,18 @@
             // 단계 이동 및 에러 메시지 초기화
             this.stage.one = false
             this.stage.two = true
-            this.errorMSG = ""
+            this.errorMSG = null
           }
         // 2단계 > 3단계
         } else if (this.stage.two) {
-          //현재는 더미라도 하기
-          this.donationInfo.donationImgUrl = this.dummy
-          // 선택된 우편이 없는 경우
+          // 선택된 엽서이 없는 경우
           if (!this.donationInfo.donationImgUrl) {
-            this.errorMSG = "우편을 선택해주세요"
+            this.errorMSG = "엽서을 선택해주세요"
           } else {
             // 단계 이동 및 에러 메시지 초기화
             this.stage.two = false
             this.stage.three = true
-            this.errorMSG = ""
+            this.errorMSG = null
           }
         // 3단계 > 4단계
         } else if (this.stage.three) {
@@ -165,28 +164,24 @@
           this.stage.three = true
         }
       },
-      // 기부하기
-      donate() {
-        console.log({...this.donationInfo, userSeq: this.userInfo.userSeq})
-        this.doDonate({...this.donationInfo, userSeq: this.userInfo.userSeq})
-      }, 
       // 재단 선택
       selOrg(name, URL, Seq){
         this.selOrganizationInfo.name = name
         this.selOrganizationInfo.logoURL = URL
         this.donationInfo.foundationSeq = Seq
-        this.errorMSG = ""
+        this.errorMSG = null
       },
-      // 우편 선택 
+      // 엽서 선택 
       selPostcard(URL) {
         this.donationInfo.donationImgUrl = URL
-        this.errorMSG = ""
+        this.errorMSG = null
       },
       // 결제하기
       pay() {
         const { IMP } = window
         // 관리자 콘솔 내 가맹정 식별코드
         IMP.init('imp40811644')
+        // 결제 메서드 실행
         IMP.request_pay({
           pg : 'html5_inicis',
           pay_method: "card",
@@ -195,20 +190,28 @@
           amount: this.donationInfo.donationPay,
           buyer_tel: this.userInfo.userPhone,
           buyer_name: this.userInfo.userName,
-        }, function(rsp) {
-          console.log(rsp);
+          // function 형식으로 접근 시 callback 함수는 this.에 접근 불가
+          // arrow function으로 접근해야 this. 접근 가능
+        }, (rsp) => {
+          // 결제 내역 저장할 지 여부 확인(당장은 x)
           if ( rsp.success ) {
-            // 실제 결제 내용과 비교하기
-            // 결제 내역 저장할 지 여부 확인
-            console.log(rsp.success)
+            if (rsp.paid_amount === this.donationInfo.donationPay) {
+              //도내이션 요청 보내기
+              this.doDonate({...this.donationInfo, userSeq: this.userInfo.userSeq})
+              this.reset()
+              //값이 같지 않은 경우 문제o
+            } else {
+              this.errorMSG = "결제가 정상적으로 이루어지지 않았습니다."
+            }
           } else {
             console.log(rsp.error_msg);
+            this.errorMSG = "결제가 정상적으로 이루어지지 않았습니다."
           }
         });
       },
       // 입력값들 리셋
       reset () {
-        this.donationInfo = { donationImgUrl: null, donationPay: 0,
+        this.donationInfo = { donationImgUrl: null, donationPay: null,
           donationText: "",foundationSeq: null,};
         this.selOrganizationInfo =  {name: null, logoURL: null };
         this.stage = {one: true, two: false, three: false, four: false};
@@ -226,13 +229,13 @@
       if (!this.postcardList.length) {
         // this.userPostcardList(this.userInfo.userSeq)
         // 확인용 더미 나중에 만들어지면 위에 것으로
-        this.userPostcardList(this.dummy)
+        this.userPostcardList(this.userInfo.userSeq)
       }
     },
 
 
     mounted() {
-      this.reset
+      this.reset()
     },  
   }
   </script>

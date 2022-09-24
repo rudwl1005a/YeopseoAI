@@ -18,6 +18,7 @@ const api = apiInstance();
 
 //기부
 async function donate(donationInfo, success, fail) {
+  console.log(donationInfo);
   await api
     .post(`/api/donations`, JSON.stringify(donationInfo))
     .then(success)
