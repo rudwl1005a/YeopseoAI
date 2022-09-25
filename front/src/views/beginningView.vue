@@ -18,7 +18,7 @@
     <!-- <div class="beginningTitle">
       엽서사전
     </div> -->
-    <div @click="goLogin" class="goLogin">
+    <div v-if="!showLogin" @click="goLogin" class="goLogin">
       로그인 바로가기
     </div>
     <!-- 번갈아가면서 바뀌는 글자 -->
@@ -312,7 +312,7 @@
           this.showCheerupMessage = true
         }
         
-        // 보내는 버튼 보이게하기
+        // 로그인 버튼 보이게하기
         if (scrollY < 2500) {
           this.showLogin = false
         }
@@ -548,6 +548,7 @@
     background-image: url(../../public/images/example_frame.png);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    background-color: rgba( 0, 0, 0, 0.05 );
     box-shadow: 0 3vw 5vw rgba(0, 0, 0, 0.3);
   }
   .example_before {
@@ -745,7 +746,7 @@
     position: absolute;
     left: 47vh;
     top: 9.5vh;
-    width: 23vw;
+    width: 45vh;
     height: 6vh;
     border-radius: 10px;
   }
@@ -759,7 +760,7 @@
     position: absolute;
     left: 47vh;
     top: 18vh;
-    width: 23vw;
+    width: 45vh;
     height: 6vh;
     border-radius: 10px;
   }
@@ -796,8 +797,8 @@
   .signup {
     position: absolute;
     top: 30vh;
-    left: 45vw;
-    width:10vw;
+    left: 83vh;
+    width:20vh;
     height: 6vh;
     border-radius: 10px;
   }
