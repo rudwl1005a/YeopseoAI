@@ -91,6 +91,8 @@ export default {
   z-index: 0;
   height: 25vh;
   width: 25vh;
+  line-height: 25vh;
+  vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   top: 12.5%;
@@ -108,6 +110,8 @@ export default {
   z-index: 1;
   height: 25vh;
   width: 25vh;
+  line-height: 25vh;
+  vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   top: 12.5%;
@@ -125,6 +129,8 @@ export default {
   position: absolute;
   height: 30vh;
   width: 30vh;
+  line-height: 30vh;
+  vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   top: 12.5%;
@@ -146,6 +152,8 @@ export default {
   z-index: 3;
   height: 20vh;
   width: 20vh;
+  line-height: 20vh;
+  vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   top: 15%;
@@ -162,6 +170,8 @@ export default {
   z-index: 2;
   height: 20vh;
   width: 20vh;
+  line-height: 20vh;
+  vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   top: 35%;
@@ -179,6 +189,8 @@ export default {
   z-index: 1;
   height: 20vh;
   width: 20vh;
+  line-height: 20vh;
+  vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   top: 55%;
@@ -196,6 +208,8 @@ export default {
   z-index: 0;
   height: 20vh;
   width: 20vh;
+  line-height: 20vh;
+  vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   top: 75%;
@@ -218,6 +232,8 @@ export default {
   z-index: 0;
   height: 25vh;
   width: 25vh;
+  line-height: 25vh;
+  vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   top: 62.5%;
@@ -235,6 +251,8 @@ export default {
   z-index: 1;
   height: 25vh;
   width: 25vh;
+  line-height: 25vh;
+  vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   top: 62.5%;
@@ -251,6 +269,8 @@ export default {
   z-index: 2;
   height: 25vh;
   width: 25vh;
+  line-height: 25vh;
+  vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   top: 62.5%;
@@ -266,7 +286,5 @@ export default {
 
 /* 이미지 정렬 */
 .favoriteImg {
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 </style>

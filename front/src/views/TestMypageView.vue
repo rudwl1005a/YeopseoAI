@@ -81,6 +81,12 @@
     </div>
 
 
+    <!-- 좋아하는 엽서 목록 3 -->
+    <div class="d-flex justify-content-center">
+      <favorite-postcards-b></favorite-postcards-b>
+    </div>
+
+
 
     <!-- 팔로워 부분 -->
     <br><br>
@@ -144,6 +150,7 @@ import AOS from 'aos';
 import "aos/dist/aos.css";
 import SideBar from "@/components/Nav/SideBar.vue";
 import FavoritePostcardsA from "@/components/Collection/favoritePostcardsA.vue";
+import FavoritePostcardsB from "@/components/Collection/favoritePostcardsB.vue";
 import { mapActions, mapGetters } from "vuex";
 const mypageStore = "mypageStore";
 const accountStore = "accountStore";
@@ -156,6 +163,7 @@ export default {
   components: {
     SideBar,
     FavoritePostcardsA,
+    FavoritePostcardsB,
   },
 
   data() {

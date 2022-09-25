@@ -3,7 +3,7 @@
   <div>
     <!-- {{ searchItem }} -->
     <!-- 엽서 이미지 넣을거임 -->
-    <img src="../../../public/images/letter_dummy.jpg" style="height: 20vw; width: 30vw;" alt="">
+    <img :src="searchItem.postcard.postcardImgUrl" style="height: 20vw; width: 30vw;" alt="">
   </div>
   <div class="searchPostcardArtist">
     {{ searchItem.userId }}
