@@ -79,7 +79,6 @@ const accountStore = {
               userPassword: response.data["userPassword"],
               userCode: response.data["userCode"],
             };
-            console.log(userInfo);
             // 로그인시 받은 data로 바로 입력
             state.commit("SET_USER_INFO", userInfo);
             state.commit("SET_TOKEN", token);
