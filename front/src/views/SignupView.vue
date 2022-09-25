@@ -189,12 +189,12 @@ export default {
   height: 100vh;
   background-color: #fcf4e0;
 }
-.mainLogoClass {
+/* .mainLogoClass {
   z-index: 1;
   position: fixed;
   margin-left: 5vh;
   font-size: 1vw;
-}
+} */
 .signInformationClass {
   position: absolute;
   top: 50%;

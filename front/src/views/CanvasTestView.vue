@@ -448,6 +448,8 @@ export default {
       this.$router.push("/main");
     },
     async changeImage() {
+      // 지금은 이미지 변환 클릭하면 엽서 등록 + 태그 등록됨
+      // 로직 확인용이고, 잘 들어가는거 체크함
       console.log(document.getElementById("VueDrawingCanvas"));
       const canvas = document.getElementById("VueDrawingCanvas");
       console.log(canvas.toDataURL()); // data:image/png;base64,
