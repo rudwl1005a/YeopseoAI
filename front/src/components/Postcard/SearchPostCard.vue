@@ -47,8 +47,8 @@ export default {
     ...mapActions(postcardStore, ["userLikedPostcardStore"]), // 좋아요 누른 엽서 목록 세팅. 좋아요, 좋아요 취소 시 필요
     async dolikeLetter(postcardSeq) {
       // console.log(postcardSeq, this.userInfo.userSeq);
-      console.log(this.searchItem);
-      console.log("=================");
+      // console.log(this.searchItem);
+      // console.log("=================");
       await likeLetter(postcardSeq, this.userInfo.userSeq);
       await this.userLikedPostcardStore(this.userInfo.userSeq); // 좋아요 누를때마다 좋아요 누른 엽서 목록 세팅
       this.isLiked = !this.isLiked;
@@ -63,7 +63,7 @@ export default {
   },
   async created() {
     console.log('searchItem')
-    console.log(this.likedPostcards);
+    // console.log(this.likedPostcards);
     if (this.likedPostcards === []) {
       console.log("좋아요 목록 비어있음");
       console.log(this.likedPostcards);
@@ -76,7 +76,7 @@ export default {
           console.log(this.isLiked, this.searchItem.postcard.postcardSeq);
           return false;
         } else {
-          this.isLiked = false;
+          // this.isLiked = false;
         }
       });
     }

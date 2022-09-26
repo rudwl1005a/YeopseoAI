@@ -257,12 +257,12 @@ export default {
     mounted() {
         let modalBox = document.getElementById('modalBox')
         let i = 0
-        this.testImages.forEach((donation) => {
+        this.organizationDonationList.forEach((donation) => {
             const randomAngle = Math.random() * (10) - 5
             const postcard = document.createElement('div')
             // postcard.setAttribute(':src', `${this.showImages[0].imageUrl}`)
             // postcard.style.backgroundImage = '../../../public/images/test6.jpg'
-            postcard.style.backgroundImage = `url(${donation})`
+            postcard.style.backgroundImage = `url(${donation.donationImgUrl})`
             postcard.style.backgroundRepeat = 'no-repeat'
             postcard.style.backgroundSize = '100% 100%'
             postcard.style.position = 'absolute'
