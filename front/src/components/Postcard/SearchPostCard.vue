@@ -5,6 +5,7 @@
     <!-- 엽서 이미지 넣을거임 -->
     <img :src="searchItem.postcard.postcardImgUrl" style="height: 20vw; width: 30vw;" alt="">
   </div>
+  <p>{{ isLiked }}</p>
   <div class="searchPostcardArtist">
     {{ searchItem.userId }}
     {{ searchItem.postcard.postcardSeq }}
@@ -23,6 +24,7 @@ import { mapActions, mapState } from "vuex";
 import { likeLetter, dislikeLetter } from "@/api/mainpage.js";
 const mainpageStore = "mainpageStore";
 const accountStore = "accountStore";
+const postcardStore = "postcardStore";
 
 export default {
   name: "SearchPostCard",
@@ -33,6 +35,7 @@ export default {
   },
   computed: {
     ...mapState(accountStore, ["userInfo"]),
+    ...mapState(postcardStore, ["likedPostcards"]), // 좋아요 누른 엽서 목록
   },
   data() {
     return {
@@ -41,20 +44,67 @@ export default {
   },
   methods: {
     ...mapActions(mainpageStore, ["likeLetterStore", "dislikeLetterStore"]),
-    dolikeLetter(postcardSeq) {
-      likeLetter(postcardSeq, this.userInfo.userSeq);
+    ...mapActions(postcardStore, ["userLikedPostcardStore"]), // 좋아요 누른 엽서 목록 세팅. 좋아요, 좋아요 취소 시 필요
+    async dolikeLetter(postcardSeq) {
+      // console.log(postcardSeq, this.userInfo.userSeq);
+      console.log(this.searchItem);
+      console.log("=================");
+      await likeLetter(postcardSeq, this.userInfo.userSeq);
+      await this.userLikedPostcardStore(this.userInfo.userSeq); // 좋아요 누를때마다 좋아요 누른 엽서 목록 세팅
+      this.isLiked = !this.isLiked;
     },
-    dodislikeLetter(postcardSeq) {
-      dislikeLetter(postcardSeq, this.userInfo.userSeq);
+    async dodislikeLetter(postcardSeq) {
+      await dislikeLetter(postcardSeq, this.userInfo.userSeq);
+      await this.userLikedPostcardStore(this.userInfo.userSeq); // 좋아요 취소 누를때마다 좋아요 누른 엽서 목록 세팅
+      this.isLiked = !this.isLiked;
     },
+    
+
   },
   async created() {
+    console.log('searchItem')
+    console.log(this.likedPostcards);
+    if (this.likedPostcards === []) {
+      console.log("좋아요 목록 비어있음");
+      console.log(this.likedPostcards);
+    } else {
+      await this.likedPostcards.forEach((postcard) => {
+        // console.log(postcard.postcard.postcardSeq)
+        // console.log(this.searchItem.postcard.postcardSeq)
+        if (postcard.postcard.postcardSeq === this.searchItem.postcard.postcardSeq) {
+          this.isLiked = true;
+          console.log(this.isLiked, this.searchItem.postcard.postcardSeq);
+          return false;
+        } else {
+          this.isLiked = false;
+        }
+      });
+    }
     // 사용자의 좋아요 목록을 순회, 만약 해당 엽서가 좋아요 목록에 있다면?
     // 좋아요 누른 엽서 목록을 받아오는 로직
     // 스토어에서 목록을 가져오는 로직
     // 목록을 순회하여 좋아요 여부를 확인하는 로직
     // 좋아요 여부에 따라 isLiked 값을 바꿔주는 로직
   },
+//   watch: {
+//     likedPostcards() {
+//   if (this.likedPostcards === []) {
+//     console.log("좋아요 목록 비어있음");
+//   } else {
+//     this.likedPostcards.forEach((postcard) => {
+//       // console.log(postcard);
+//       if (postcard.postcard.postcardSeq === this.searchItem.postcard.postcardSeq) {
+//         this.isLiked = true;
+//         console.log(this.isLiked);
+//         return false;
+//       } else {
+//         this.isLiked = false;
+//         console.log(this.isLiked);
+//       }
+//     });
+//   }
+// }
+//   }
 }
 </script>
 
