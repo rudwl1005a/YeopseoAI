@@ -12,6 +12,7 @@ import {
       donationList: [],
       followList: [],
       profileImage: '',
+      mypageUserInfo: {},
     },
 
 
@@ -25,7 +26,10 @@ import {
       },
       profileImage(state) {
         return state.profileImage
-      }
+      },
+      mypageUserInfo(state) {
+        return state.mypageUserInfo;
+      },
     },
 
 
@@ -39,7 +43,10 @@ import {
       },
       SET_PROFILEIMAGE: (state, profileImage) => {
         state.profileImage = profileImage;
-      }     
+      },     
+      SET_MYPAGEUSERINFO: (state, mypageUserInfo) => {
+        state.mypageUserInfo = mypageUserInfo;
+      },     
     },
 
 
@@ -127,6 +134,12 @@ import {
             console.log(error);
           }
         )
+      },
+
+
+      // 마이페이지 유저정보 할당
+      async setMypageUserInfo({ commit }, userInfo) {
+        commit('SET_MYPAGEUSERINFO', userInfo);
       },
 
 

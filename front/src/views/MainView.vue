@@ -347,7 +347,7 @@ export default {
       console.log("홈 새로고침");
     },
     goLetter() {      
-      this.$router.push('/makecard');
+      this.$router.push('/canvasTest');
       console.log("홈 새로고침");
     },
     goMypage() {

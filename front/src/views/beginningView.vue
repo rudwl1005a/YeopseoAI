@@ -14,7 +14,9 @@
   </div>
   
   <div id="test" v-if="!showLogoLoding">
-    
+    <div class="mainLogoClass">
+      <!-- <b style="font-size: 2vw;">엽AI사전</b> -->
+    </div>
     <!-- <div class="beginningTitle">
       엽서사전
     </div> -->
@@ -596,7 +598,7 @@
     right: 0;
     height: 60vh;
     width: 120vh;
-    background-image: url(../../public/images/beginningPostCard.PNG);
+    background-image: url(../../public/images/beginningPostCard.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     box-shadow: 0 3vw 5vw rgba(0, 0, 0, 0.15);
@@ -604,7 +606,7 @@
   .cheerupMessage {
     position: fixed;
     margin: 0 auto;
-    top: 40%;
+    top: 53%;
     bottom: 0;
     left: 33%;
     right: 0;

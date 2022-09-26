@@ -20,15 +20,15 @@
 
     <!-- 내 정보 부분 -->
     <div class="myInfo row">
-      <div class="myProfileBox  justify-content-around">
+      <div class="myProfileBox row justify-content-around">
 
         <div class="myProfileImage align-self-center">
         </div>
 
         <div class="myProfileInfo align-self-center row justify-content-center">
           <h1>안녕 난 박정현!</h1>
-          <h1>무에타이 12년, 기부 14년의 경력이 있지</h1>
-          <h1>배경 풀로 까니까 예쁘진 않네</h1>
+          <h1>{{this.mypageUserInfo.donationCnt}}회 기부</h1>
+          <h1>총 기부 금액:{{this.mypageUserInfo.donationMoney}}</h1>
         </div>
 
       </div>
@@ -36,6 +36,7 @@
     <br>
 
     <!-- 유저의 모든 엽서 보여주기 -->
+    <p class="profileText">Made by {{this.userInfo.userName}}</p>
     <div class="allCardsTitle">{{this.userInfo.userName}}'s donations</div>
     <div class="mypageCarousel">
       <div class="wrap">
@@ -218,6 +219,7 @@ export default {
       "donationList",
       "followList",
       "profileImage",
+      "mypageUserInfo",
     ]),
     ...mapGetters(accountStore, [
       "userInfo",
@@ -225,6 +227,7 @@ export default {
     ]),
     ...mapGetters(postcardStore, [
       "postcardList",
+      "userLikedPostcard",
     ]),
   },
 
@@ -236,9 +239,11 @@ export default {
       "changeUserProfile",
       "getDonationList",
       "getFollowerList",
+      "setMypageUserInfo",
     ]),
     ...mapActions(postcardStore, [
       "userPostcardList",
+      "getUserLikedPostcard",
     ]),
 
 
@@ -277,6 +282,14 @@ export default {
     this.getDonationList(this.userInfo.userSeq)
     this.getFollowerList(this.userInfo.userSeq)
     this.userPostcardList(this.userInfo.userSeq)
+    this.getUserLikedPostcard(this.userInfo.userSeq)
+    // 기부총액, 기부횟수 계산
+    let donationCnt = this.donationList.length
+    let donationMoney = 0
+    this.donationList.forEach(dontaion => {
+      donationMoney += dontaion.donationPay
+    });
+    this.setMypageUserInfo({donationCnt: donationCnt, donationMoney: donationMoney })
     AOS.init()    
   },
 

@@ -5,6 +5,7 @@
 // 엽서 좋아요 삭제
 // 엽서 리스트 조회
 // 인기 엽서 리스트 조회
+// 좋아요 누른 엽서 리스트 조회
 
 import {
   uploadPostcardjs,
@@ -15,6 +16,7 @@ import {
   userUnlikePostcardjs,
   postcardListjs,
   popularPostcardListjs,
+  userLikedPostcardjs,
 } from "@/api/postcard.js";
 
 const postcardStore = {
@@ -25,6 +27,7 @@ const postcardStore = {
     postcardList: [],
     popularPostcardList: [],
     justUploadedPostcard: [],
+    userLikedPostcard: [],
   },
 
   getters: {
@@ -39,6 +42,9 @@ const postcardStore = {
     },
     popularPostcardList(state) {
       return state.postcardList;
+    },
+    userLikedPostcard(state) {
+      return state.userLikedPostcard;
     },
   },
 
@@ -60,7 +66,11 @@ const postcardStore = {
     },
     SET_JUSTUPLOADED: (state, postcard) => {
       state.justUploadedPostcard = postcard;
-    }
+    },
+    SET_USERLIKEDPOSTCARD: (state, userLikedPostcard) => {
+      state.userLikedPostcard = userLikedPostcard;
+    },
+    
   },
 
   actions: {
@@ -174,6 +184,21 @@ const postcardStore = {
           console.log("인기 엽서 리스트 들고왔어요");
           console.log(response.data);
           commit("SET_POPULARPOSTCARDLIST", response.data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+
+    // 좋아요누른 엽서들 가져오기
+    async getUserLikedPostcard({ commit }, userSeq) {
+      await userLikedPostcardjs(
+        userSeq,
+        (response) => {
+          console.log("유저가 좋아요누른 엽서 목록 들고왔어요");
+          console.log(response.data);
+          commit("SET_USERLIKEDPOSTCARD", response.data);
         },
         (error) => {
           console.log(error);
