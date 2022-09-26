@@ -66,6 +66,10 @@ async function popularPostcardListjs(success, fail) {
     await api.get(`/api/postcards/top-list`,).then(success).catch(fail);
 }
 
+// 좋아요 누른 엽서 리스트 조회
+async function userLikedPostcard(userSeq, success, fail) {
+    await api.get(`/api/postcards/like-list/${userSeq}`,).then(success).catch(fail);
+}
 
 export {
     uploadPostcardjs,
@@ -76,4 +80,5 @@ export {
     userUnlikePostcardjs,
     postcardListjs,
     popularPostcardListjs,
+    userLikedPostcard,
 }
