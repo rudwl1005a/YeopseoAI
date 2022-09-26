@@ -2,10 +2,10 @@
 <div :class="{ mainopendToggle : opendToggle , mainclosedToggle : !opendToggle}">
   <!-- 나중에 라우터 링크로 바꾸자 -->
   <div v-if="toggleContent" data-aos="fade-up" data-aos-duration="500">
-    <div class="mainpageBtn">home</div>
-    <div class="mainpageBtn">letter</div>
-    <div class="mainpageBtn">foundation</div>
-    <div class="mainpageBtn">mypage</div>
+    <div class="mainpageBtn" @click="goHome">home</div>
+    <div class="mainpageBtn" @click="goLetter">letter</div>
+    <div class="mainpageBtn" @click="goFoundation">foundation</div>
+    <div class="mainpageBtn" @click="goMypage">mypage</div>
     <div v-if="isLogged" @click="userLogoutandGo" class="mainpageBtn">logout</div>
     <div v-if="!isLogged" @click="goLogin" class="mainpageBtn">login</div>
   </div>
@@ -58,7 +58,23 @@ export default {
     userLogoutandGo() {
       this.userLogout();
       this.$router.push({name: "beginningView"});
-    }
+    },
+    goHome() {
+      this.$router.go();
+      console.log("홈 새로고침");
+    },
+    goLetter() {
+      this.$router.push('/makecard');
+      console.log("홈 새로고침");
+    },
+    goFoundation() {
+      this.$router.push('/organizationlist');
+      console.log("홈 새로고침");
+    },
+    goMypage() {
+      this.$router.push('/mypage');
+      console.log("홈 새로고침");
+    },
   }
 }
 </script>
