@@ -174,7 +174,7 @@ const postcardStore = {
         (response) => {
           console.log("당신의 엽서 리스트 들고왔어요");
           console.log(response.data);
-          commit("SET_POSTCARDLIST", response.data);
+          commit("SET_POSTCARDLIST", response.data.postcardList);
         },
         (error) => {
           console.log(error);

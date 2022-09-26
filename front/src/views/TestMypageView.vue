@@ -37,12 +37,11 @@
 
     <!-- 유저의 모든 엽서 보여주기 -->
     <p class="profileText">Made by {{this.userInfo.userName}}</p>
-    <div class="allCardsTitle">{{this.userInfo.userName}}'s donations</div>
     <div class="mypageCarousel">
       <div class="wrap">
         <ul class="">
-          <li v-for="(donation, index) in this.donationList " :key="index">
-            <img class="cardItem" :src="donation.donationImgUrl" alt="">
+          <li v-for="(postcard, index) in this.postcardList " :key="index">
+            <img class="cardItem" :src="postcard.postcard.postcardImgUrl" alt="">
           </li>
         </ul>
       </div>
@@ -106,16 +105,16 @@
     </div>      
     
 
-    <!-- 유저가 보유중인 포스트카드 -->
+    <!-- 유저가 좋아요한 포스트카드 -->
     <br><br>
     <hr style="width: 70vw; margin: 0 auto;">
     <div class="followUsers">
-      <p class="profileText">Made by {{this.userInfo.userName}}</p>
+      <p class="profileText">Liked</p>
       <div id="followingList" class="mypageCarousel">
       <div class="wrap">
         <ul id="ul" class="">
-          <li v-for="(card, index) in this.userCards " :key="index">
-            <img class="cardItem " :src="card" alt="">
+          <li v-for="(card, index) in this.userLikedPostcard.postcardList " :key="index">
+            <img class="cardItem " :src="card.postcard.postcardImgUrl" alt="">
           </li>
         </ul>
       </div>
@@ -297,6 +296,9 @@ export default {
   mounted() {
     console.log(screen.width)
     console.log(screen.height)
+    console.log('asdasfsagsdg')
+    console.log(this.userLikedPostcard)
+    
 
     // 캐러셀
 
