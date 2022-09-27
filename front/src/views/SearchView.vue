@@ -60,15 +60,15 @@ export default {
     ...mapActions(searchStore, ["getSearchResult"]),
     ...mapActions(postcardStore, ["userLikedPostcardStore"]),
     getAutoComplete() {
-      console.log(this.searchMessage);
+      // console.log(this.searchMessage);
     },
     async submitSearch() {
       if (this.searchMessage !== "") {
-        console.log(this.searchMessage);
+        // console.log(this.searchMessage);
         let searchWord = this.searchMessage;
         await this.getSearchResult(searchWord);
       } else {
-        console.log("검색어 입력하라고");
+        // console.log("검색어 입력하라고");
       }
     },
     goHome() {

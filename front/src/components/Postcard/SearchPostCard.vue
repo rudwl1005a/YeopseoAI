@@ -46,8 +46,8 @@ export default {
     ...mapActions(postcardStore, ["userLikedPostcardStore"]), // 좋아요 누른 엽서 목록 세팅. 좋아요, 좋아요 취소 시 필요
     async dolikeLetter(postcardSeq) {
       // console.log(postcardSeq, this.userInfo.userSeq);
-      console.log(this.searchItem);
-      console.log("=================");
+      // console.log(this.searchItem);
+      // console.log("=================");
       await likeLetter(postcardSeq, this.userInfo.userSeq);
       await this.userLikedPostcardStore(this.userInfo.userSeq); // 좋아요 누를때마다 좋아요 누른 엽서 목록 세팅
       this.isLiked = !this.isLiked;
@@ -60,7 +60,26 @@ export default {
     
 
   },
-  created() {
+  async created() {
+    await this.userLikedPostcardStore(this.userInfo.userSeq);
+    console.log('searchItem')
+    // console.log(this.likedPostcards);
+    if (this.likedPostcards === []) {
+      console.log("좋아요 목록 비어있음");
+      console.log(this.likedPostcards);
+    } else {
+      await this.likedPostcards.forEach((postcard) => {
+        // console.log(postcard.postcard.postcardSeq)
+        // console.log(this.searchItem.postcard.postcardSeq)
+        if (postcard.postcard.postcardSeq === this.searchItem.postcard.postcardSeq) {
+          this.isLiked = true;
+          console.log(this.isLiked, this.searchItem.postcard.postcardSeq);
+          return false;
+        } else {
+          // this.isLiked = false;
+        }
+      });
+    }
     // 사용자의 좋아요 목록을 순회, 만약 해당 엽서가 좋아요 목록에 있다면?
     // 좋아요 누른 엽서 목록을 받아오는 로직
     // 스토어에서 목록을 가져오는 로직

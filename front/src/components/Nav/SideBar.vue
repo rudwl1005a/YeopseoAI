@@ -60,20 +60,16 @@ export default {
       this.$router.push({name: "beginningView"});
     },
     goHome() {
-      this.$router.go();
-      console.log("홈 새로고침");
+      this.$router.push('/main');
     },
     goLetter() {
       this.$router.push('/makecard');
-      console.log("홈 새로고침");
     },
     goFoundation() {
       this.$router.push('/organizationlist');
-      console.log("홈 새로고침");
     },
     goMypage() {
       this.$router.push('/mypage');
-      console.log("홈 새로고침");
     },
   }
 }

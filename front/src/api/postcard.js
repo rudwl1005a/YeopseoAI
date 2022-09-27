@@ -5,6 +5,7 @@
 // 엽서 좋아요 삭제
 // 엽서 리스트 조회
 // 인기 엽서 리스트 조회
+// 좋아요 누른 엽서 리스트 조회
 
 // await api.post(`/api/follow`, {data: follow}).then(success).catch(fail); // body에 담을 때 이렇게 요청보내면 됨
 
@@ -71,6 +72,12 @@ async function userLikedPostcard(userSeq, success, fail) {
     await api.get(`/api/postcards/like-list/${userSeq}`,).then(success).catch(fail);
 }
 
+// 좋아요 누른 엽서 리스트 조회
+async function userLikedPostcardjs(userSeq, success, fail) {
+    await api.get(`/api/postcards/like-list/${userSeq}`,).then(success).catch(fail);
+}
+
+
 export {
     uploadPostcardjs,
     uploadTagjs,
@@ -80,5 +87,6 @@ export {
     userUnlikePostcardjs,
     postcardListjs,
     popularPostcardListjs,
+    userLikedPostcardjs,
     userLikedPostcard,
 }
