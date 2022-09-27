@@ -86,20 +86,20 @@
         <h3 class="titleText">좋아요한 엽서 목록</h3>
         <div class="d-flex titleText">
           <i class="bi bi-chevron-left" @click="postcardMove('L-left')"></i>
-          <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.userLikedPostcard.postcardList.length / 5)}}</b>
+          <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.likedPostcards.length / 5)}}</b>
           <i class="bi bi-chevron-right" @click="postcardMove('L-right')"></i>
         </div>
       </div>
-      <div v-for="(page, idx) in Math.ceil(this.userLikedPostcard.postcardList.length / 5)"
+      <div v-for="(page, idx) in Math.ceil(this.likedPostcards.length / 5)"
         :key="`liked-page-${idx}`" >
         <div v-show="idx === this.likedPostcardStage" class="postcardList">
-          <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(idx * 5, (idx + 1) *5)" :key="`likedPostcard-${page}-${idx}`">
+          <div v-for="(postcard, idx) in this.likedPostcards.slice(idx * 5, (idx + 1) *5)" :key="`likedPostcard-${page}-${idx}`">
             <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
           </div>
         </div>
       </div>
       <div class="title">
-        <h3 class="titleText" v-if="!this.postcardList && !this.userLikedPostcard">
+        <h3 class="titleText" v-if="!this.postcardList && !this.likedPostcards">
           자신만의 엽서를 생성하거나 다른 사람의 엽서를 좋아요를 누른 후 나만의
           엽서리스트를 생성해 주세요
         </h3>
@@ -169,7 +169,7 @@ export default {
 
   computed: {
     ...mapGetters(organizationStore, ["organizationList"]),
-    ...mapGetters(postcardStore, ["postcardList", "userLikedPostcard"]),
+    ...mapGetters(postcardStore, ["postcardList", "likedPostcards"]),
     ...mapGetters(accountStore, ["userInfo"]),
   },
 
@@ -258,9 +258,9 @@ export default {
       } else if (direction === 'L-left' && this.likedPostcardStage > 0) {
         this.likedPostcardStage -= 1
         // 좋아요한 엽서 목록 페이지 변경
-      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.postcardList.length / 5) - 1) {
+      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.userLikedPostcard.postcardList.length / 5) - 1) {
         this.likedPostcardStage += 1
-      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.postcardList.length / 5) - 1) {
+      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.userLikedPostcard.postcardList.length / 5) - 1) {
         this.postcardStage += 1
       }
     },
@@ -332,9 +332,10 @@ export default {
       this.userPostcardList(this.userInfo.userSeq);
     }
     // 좋아요한 엽서 받아오기
-    if (!this.userLikedPostcard.length) {
+    if (!this.likedPostcards.length) {
       this.userLikedPostcardStore(this.userInfo.userSeq)
     }
+    console.log(this.likedPostcards)
     // 시작과 동시에 링크로 온 재단을 선택하게 변경
     // this.userInfo.foundationSeq = this.params.foundationSeq
   },
