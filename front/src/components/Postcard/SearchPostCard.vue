@@ -5,15 +5,14 @@
     <!-- 엽서 이미지 넣을거임 -->
     <img :src="searchItem.postcard.postcardImgUrl" style="height: 20vw; width: 30vw;" alt="">
   </div>
-  <p>{{ isLiked }}</p>
   <div class="searchPostcardArtist">
     {{ searchItem.userId }}
     {{ searchItem.postcard.postcardSeq }}
   </div>
-  <div v-if="!isLiked" @click="dolikeLetter(searchItem.postcard.postcardSeq)" class="searchPostcardLike">
+  <div v-show="!isLiked" @click="dolikeLetter(searchItem.postcard.postcardSeq)" class="searchPostcardLike">
     좋아요 아이콘
   </div>
-  <div v-if="isLiked" @click="dodislikeLetter(searchItem.postcard.postcardSeq)" class="searchPostcardLike">
+  <div v-show="isLiked" @click="dodislikeLetter(searchItem.postcard.postcardSeq)" class="searchPostcardLike">
     좋아요 취소
   </div>
 </div>
@@ -61,50 +60,13 @@ export default {
     
 
   },
-  async created() {
-    console.log('searchItem')
-    console.log(this.likedPostcards);
-    if (this.likedPostcards === []) {
-      console.log("좋아요 목록 비어있음");
-      console.log(this.likedPostcards);
-    } else {
-      await this.likedPostcards.forEach((postcard) => {
-        // console.log(postcard.postcard.postcardSeq)
-        // console.log(this.searchItem.postcard.postcardSeq)
-        if (postcard.postcard.postcardSeq === this.searchItem.postcard.postcardSeq) {
-          this.isLiked = true;
-          console.log(this.isLiked, this.searchItem.postcard.postcardSeq);
-          return false;
-        } else {
-          this.isLiked = false;
-        }
-      });
-    }
+  created() {
     // 사용자의 좋아요 목록을 순회, 만약 해당 엽서가 좋아요 목록에 있다면?
     // 좋아요 누른 엽서 목록을 받아오는 로직
     // 스토어에서 목록을 가져오는 로직
     // 목록을 순회하여 좋아요 여부를 확인하는 로직
     // 좋아요 여부에 따라 isLiked 값을 바꿔주는 로직
   },
-//   watch: {
-//     likedPostcards() {
-//   if (this.likedPostcards === []) {
-//     console.log("좋아요 목록 비어있음");
-//   } else {
-//     this.likedPostcards.forEach((postcard) => {
-//       // console.log(postcard);
-//       if (postcard.postcard.postcardSeq === this.searchItem.postcard.postcardSeq) {
-//         this.isLiked = true;
-//         console.log(this.isLiked);
-//         return false;
-//       } else {
-//         this.isLiked = false;
-//         console.log(this.isLiked);
-//       }
-//     });
-//   }
-// }
-//   }
 }
 </script>
 

@@ -118,13 +118,13 @@
       <div v-if="famousLetterBtn" class="mainfamousLetterBoxClass">
         <div class="mainfamousBigLetterClass">
           <!-- {{ famousLetter[0] }} -->
-          <img :src="famousLetter[0].postcard.postcardImgUrl" style="height: 70vh; width: 34vw; border-radius: 30px;" alt="">
+          <!-- <img :src="famousLetter[0].postcard.postcardImgUrl" style="height: 70vh; width: 34vw; border-radius: 30px;" alt=""> -->
         </div>
         <div class="mainfamousLittleLetterClass">
           <div class="mainfamousLittleLetterWrap">
             <div class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[1] }} -->
-              <img :src="famousLetter[1].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt="">
+              <!-- <img :src="famousLetter[1].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
             </div>
             <div class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[2] }} -->

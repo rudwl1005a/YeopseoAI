@@ -91,7 +91,6 @@ export default {
     if (this.foundationSearchResult == "") {
       this.isThereFoundation = false;
     }
-    this.userLikedPostcardStore(this.userInfo.userSeq);
   },
   watch: {
     letterSearchResult() {
