@@ -34,7 +34,7 @@
           <div class="foundationInfo">
             <div 
             class="remindButton"
-            @click="getFoundationDonationList(organizationList[0].foundationSeq)" 
+            @click="setFoundationDonationList(organizationList[1].foundationSeq)" 
             data-bs-toggle="modal" 
             data-bs-target="#exampleModal"
             ><b>{{ organizationList[0].foundationName }}</b>이 받은 기부목록 보기
@@ -51,7 +51,7 @@
           <div class="foundationInfo">
             <div 
             class="remindButton"
-            @click="getFoundationDonationList(organizationList[0].foundationSeq)" 
+            @click="setFoundationDonationList(organizationList[3].foundationSeq)" 
             data-bs-toggle="modal" 
             data-bs-target="#exampleModal"
             ><b>{{ organizationList[0].foundationName }}</b>이 받은 기부목록 보기

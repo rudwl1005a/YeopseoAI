@@ -474,7 +474,7 @@
   }
   .beginningLoadingClose {
     position: absolute;
-    width: 90vw;
+    width: 10vw;
     height: 0vh;
     transition:all 1s ease;
     border-radius: 0% 0% 30% 30%;
