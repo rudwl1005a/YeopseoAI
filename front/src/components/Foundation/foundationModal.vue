@@ -1,20 +1,19 @@
 <template>
     
     <!-- 재단이 받은 기부목록 모달 -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> -->
       <!-- <div class="modal-dialog" style="position: relative;"> -->
-      <div class="modal-dialog">
-        <div class="modal-content">
+      <!-- <div class="modal-dialog">
+        <div class="modal-content"> -->
             <div id="modalBox" class="donationListModal d-flex row">
-                <div type="button" class="" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw; height: 4vw; font-size: 5vw; left: 92%; position: absolute;">X</div>
                 <div style="width: 100vw; height: 4vw; font-size: 3vw; left: -25vw; top: 2vw; position: absolute;">받은 기부 총액: {{organizationModalInfo.totalDonationMoney}}원</div>
                 <div style="width: 100vw; height: 4vw; font-size: 3vw; left: -25vw; top: 5vw; position: absolute;">받은 기부 횟수: {{organizationModalInfo.totalDonationCnt}}회</div>
                 <div class="donationButton">{{ organizationList[0].foundationContent }}</div>
                 <div style="width: 10vw; height: 4vw; font-size: 3vw; left: 81vw; top: 40vw; position: absolute; cursor : pointer;" data-bs-dismiss="modal" aria-label="Close" @click="donation">기부하기</div>
             </div>
-        </div>
+        <!-- </div>
       </div>
-    </div>
+    </div> -->
 
 
 
