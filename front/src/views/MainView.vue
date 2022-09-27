@@ -1,7 +1,7 @@
 <template>
 
 <div class="mainLoading" v-if="showLogoLoding">
-  멋있는 효과 넣어줘(이 화면 3초정도 지나면 사라짐. mainpage created될 때 보여주는거라 어디서 mainpage 이동할 때면 항상 보여줄 듯. 래퍼런스 사이트랑 같은방식)
+  <div class="mainLoadingContent"></div>
 </div>
 <div class="mainClass" v-if="!showLogoLoding">
   <div class="maingoUpBtn" @click="goUp"></div>
@@ -129,18 +129,18 @@
             <div class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[2] }} -->
               <!-- 이하 아직 데이터가 없어 일단 주석처리 -->
-              <!-- <img :src="famousLetter[2].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+              <img :src="famousLetter[2].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt="">
             </div>
           </div>
           <div style="height: 2vh"></div>
           <div class="mainfamousLittleLetterWrap">
             <div class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[3] }} -->
-              <!-- <img :src="famousLetter[3].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+              <img :src="famousLetter[3].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt="">
             </div>
             <div class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[4] }} -->
-              <!-- <img :src="famousLetter[4].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+              <img :src="famousLetter[4].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt="">
             </div>
           </div>
         </div>
@@ -149,33 +149,38 @@
       <div v-if="!famousLetterBtn" class="mainfamousLetterBoxClass">
         <div class="mainfamousBigLetterClass">
           <!-- {{ famousLetter[5] }} -->
-          <!-- <img :src="famousLetter[5].postcard.postcardImgUrl" style="height: 70vh; width: 34vw; border-radius: 30px;" alt=""> -->
+          <img :src="famousLetter[5].postcard.postcardImgUrl" style="height: 70vh; width: 34vw; border-radius: 30px;" alt="">
         </div>
         <div class="mainfamousLittleLetterClass">
           <div class="mainfamousLittleLetterWrap">
             <div class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[6] }} -->
-              <!-- <img :src="famousLetter[6].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+              <img :src="famousLetter[6].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt="">
             </div>
             <div class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[7] }} -->
-              <!-- <img :src="famousLetter[7].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+              <img :src="famousLetter[7].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt="">
             </div>
           </div>
           <div style="height: 2vh"></div>
           <div class="mainfamousLittleLetterWrap">
             <div class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[8] }} -->
-              <!-- <img :src="famousLetter[8].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+              <img :src="famousLetter[8].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt="">
             </div>
             <div class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[9] }} -->
-              <!-- <img :src="famousLetter[9].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+              <img :src="famousLetter[9].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt="">
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+  <!-- 재단 모달 -->
+  <div v-if="showModal" class="mainFoundationModal">
+    <foundation-modal :seeingFoundation="seeingFoundation" style="height: 80vh; width: 80vw;"></foundation-modal>
+    <div type="button" @click="setFoundationDonationList(organizationList[0])" style="width: 4vw; height: 4vw; font-size: 7vw; top: 5%; left: 90%; position: fixed; z-index: 10000;">X</div>
   </div>
   <!-- 재단 목록 -->
   <div class="mainfamousFoundationClass">
@@ -185,8 +190,8 @@
         <b>재단 목록</b>
       </div>
       <div class="mainfamousFoundationContent">
-        <!-- 5개만 보여줘도 될 것 같다는 생각이 든다 -->
-        <div @click="foundationDetail(famousFoundation[0])" class="mainfamousFoundationItem">
+        <!-- 3개만 보여줘도 될 것 같다는 생각이 든다 -->
+        <div @click="setFoundationDonationList(famousFoundation[0])" class="mainfamousFoundationItem">
           <!-- {{ famousFoundation[0] }} -->
           <img class="mainfamousFoundationImg" :src="famousFoundation[0].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
@@ -195,20 +200,24 @@
             상세정보: {{ famousFoundation[0].foundationContent }}
           </div>
         </div>
-        <div @click="foundationDetail(famousFoundation[1])" class="mainfamousFoundationItem">
+        <div @click="setFoundationDonationList(famousFoundation[1])" class="mainfamousFoundationItem">
           <!-- {{ famousFoundation[1] }} -->
           <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
-          <img class="mainfamousFoundationImg" :src="famousFoundation[1]" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
-            여기 설명이 들어갈 예정입니다
+            재단명: {{ famousFoundation[1].foundationName }}
+            <br>
+            상세정보: {{ famousFoundation[1].foundationContent }}
           </div>
         </div>
-        <div @click="foundationDetail(famousFoundation[2])" class="mainfamousFoundationItem">
+        <div @click="setFoundationDonationList(famousFoundation[2])" class="mainfamousFoundationItem">
           <!-- {{ famousFoundation[2] }} -->
           <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
-          <img class="mainfamousFoundationImg" :src="famousFoundation[2]" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
-            여기 설명이 들어갈 예정입니다
+            재단명: {{ famousFoundation[2].foundationName }}
+            <br>
+            상세정보: {{ famousFoundation[2].foundationContent }}
           </div>
         </div>
 
@@ -252,21 +261,27 @@
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
 import SideBar from "@/components/Nav/SideBar.vue";
+import FoundationModal from "@/components/Foundation/foundationModal.vue";
 import AOS from "aos";
 import "aos/dist/aos.css";
 const mainpageStore = "mainpageStore";
 const searchStore = "searchStore";
 const accountStore = "accountStore"
+const postcardStore = "postcardStore";
+const organizationStore = "organizationStore";
 
 export default {
   name:"MainView",
   components: {
     SideBar,
+    FoundationModal,
   },
   computed: {
     ...mapState(mainpageStore, ["letterTop", "foundationTop", "watchingLetter", "watchingFoundation"]),
     ...mapState(searchStore, ["letterSearchResult", "foundationSearchResult"]),
+    ...mapState(accountStore, ["userInfo"]),
     ...mapGetters(accountStore, ["isLogged"]),
+    ...mapGetters(organizationStore, ["organizationList", "organizationInfo", "organizationDonationList"]),
   },
   data() {
     return {
@@ -280,6 +295,10 @@ export default {
       // 재단관련
       famousFoundation: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // 10개
       watchingFoundation: [],
+
+      // 재단 모달 관련
+      showModal: false,
+      seeingFoundation: {},
       
       // 사이드바 토글 관련
       opendToggle: false,
@@ -302,6 +321,21 @@ export default {
     ...mapActions(mainpageStore, ["getFamousLetterStore", "getFamousFoundationStore", "getLetterDetail", "likeLetterStore", "dislikeLetterStore", "getFoundationDetail"]),
     ...mapActions(searchStore, ["getSearchResult"]),
     ...mapActions(accountStore, ["userLogout"]),
+    ...mapActions(postcardStore, ["userLikedPostcardStore"]),
+    ...mapActions(organizationStore, ["getFoundationInfo", "getFoundationList", "getFoundationDonationList",]),
+    
+    // 재단 모달 관련
+    async setFoundationDonationList(foundation) {
+      await this.getFoundationDonationList(foundation.foundationSeq);
+      this.showModal = !this.showModal;
+      // console.log(foundation);
+      this.seeingFoundation = {
+        foundationName: foundation.foundationName,
+        foundationContent: foundation.foundationContent,
+      }
+    },
+    
+    // 사이드바 관련
     openSidebar() {
       console.log("토글 열어보자");
       // 토글 닫기
@@ -379,6 +413,7 @@ export default {
       console.log(this.searchMessage);
     },
     async submitSearch() {
+      await this.userLikedPostcardStore(this.userInfo.userSeq);
       if (this.searchMessage !== "") {
         // enter키를 누르면 searchMessage값을 넣어 검색 실시. store에 검색 결과 넣어둔 후 검색 결과 페이지로 이동하자
         console.log(this.searchMessage);
@@ -421,7 +456,7 @@ export default {
     setTimeout(() => {
       // 로딩 이미지를 띄워줄 data값을 변경해주자
       this.showLogoLoding = false; // 3초 지나면 안보이게 하자
-    }, 300);
+    }, 1000);
   },
   mounted() {
     document.addEventListener("scroll", this.scrollEvent);
@@ -437,7 +472,39 @@ export default {
 .mainLoading {
   width: 100vw;
   height: 100vh;
+  background-color: #fcf4e0;
 }
+
+.mainLoadingContent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 30vw;
+  width: 30vw;
+  background-image: url("../../public/images/logo.png");
+  background-size: 30vw 30vw;
+  background-repeat: no-repeat;
+  animation-name: logoFade;
+  animation-duration: 0.7s;
+}
+
+@keyframes logoFade {
+  from {
+    opacity: 0;
+    height: 0vw;
+    width: 0vw;
+    top: 0%;
+    left: 0%;
+  } to {
+    opacity: 1;
+    height: 30vw;
+    width: 30vw;
+    top: 50%;
+    left: 50%;
+  }
+}
+
 
 /* 페이지 스크롤 위치 바꾸는 버튼 */
 .maingoUpBtn {
@@ -787,6 +854,14 @@ export default {
   height: 5vh;
   width: 5vh;
   border-radius: 1000px;
+}
+
+.mainFoundationModal {
+  z-index: 100;
+  position: fixed;
+  top: 50%;
+  left: 47%;
+  transform: translate(-50%, -50%);
 }
 
 

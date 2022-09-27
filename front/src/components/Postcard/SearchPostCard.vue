@@ -5,15 +5,14 @@
     <!-- 엽서 이미지 넣을거임 -->
     <img :src="searchItem.postcard.postcardImgUrl" style="height: 20vw; width: 30vw;" alt="">
   </div>
-  <p>{{ isLiked }}</p>
   <div class="searchPostcardArtist">
     {{ searchItem.userId }}
     {{ searchItem.postcard.postcardSeq }}
   </div>
-  <div v-if="!isLiked" @click="dolikeLetter(searchItem.postcard.postcardSeq)" class="searchPostcardLike">
+  <div v-show="!isLiked" @click="dolikeLetter(searchItem.postcard.postcardSeq)" class="searchPostcardLike">
     좋아요 아이콘
   </div>
-  <div v-if="isLiked" @click="dodislikeLetter(searchItem.postcard.postcardSeq)" class="searchPostcardLike">
+  <div v-show="isLiked" @click="dodislikeLetter(searchItem.postcard.postcardSeq)" class="searchPostcardLike">
     좋아요 취소
   </div>
 </div>
@@ -62,6 +61,7 @@ export default {
 
   },
   async created() {
+    // await this.userLikedPostcardStore(this.userInfo.userSeq);
     console.log('searchItem')
     // console.log(this.likedPostcards);
     if (this.likedPostcards === []) {
@@ -86,25 +86,6 @@ export default {
     // 목록을 순회하여 좋아요 여부를 확인하는 로직
     // 좋아요 여부에 따라 isLiked 값을 바꿔주는 로직
   },
-//   watch: {
-//     likedPostcards() {
-//   if (this.likedPostcards === []) {
-//     console.log("좋아요 목록 비어있음");
-//   } else {
-//     this.likedPostcards.forEach((postcard) => {
-//       // console.log(postcard);
-//       if (postcard.postcard.postcardSeq === this.searchItem.postcard.postcardSeq) {
-//         this.isLiked = true;
-//         console.log(this.isLiked);
-//         return false;
-//       } else {
-//         this.isLiked = false;
-//         console.log(this.isLiked);
-//       }
-//     });
-//   }
-// }
-//   }
 }
 </script>
 
