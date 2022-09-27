@@ -180,7 +180,7 @@
   <!-- 재단 모달 -->
   <div v-if="showModal" class="mainFoundationModal">
     <foundation-modal :seeingFoundation="seeingFoundation" style="height: 80vh; width: 80vw;"></foundation-modal>
-    <div type="button" @click="setFoundationDonationList(organizationList[0])" style="width: 4vw; height: 4vw; font-size: 7vw; top: 5%; left: 90%; position: fixed; z-index: 10000;">X</div>
+    <div type="button" @click="setFoundationDonationList(famousFoundation[0])" style="width: 4vw; height: 4vw; font-size: 7vw; top: 5%; left: 90%; position: fixed; z-index: 10000;">X</div>
   </div>
   <!-- 재단 목록 -->
   <div class="mainfamousFoundationClass">
