@@ -8,7 +8,9 @@
             <div id="modalBox" class="donationListModal d-flex row">
                 <div style="width: 100vw; height: 4vw; font-size: 3vw; left: -25vw; top: 2vw; position: absolute;">받은 기부 총액: {{organizationModalInfo.totalDonationMoney}}원</div>
                 <div style="width: 100vw; height: 4vw; font-size: 3vw; left: -25vw; top: 5vw; position: absolute;">받은 기부 횟수: {{organizationModalInfo.totalDonationCnt}}회</div>
-                <div class="donationButton">{{ organizationList[0].foundationContent }}</div>
+                <!-- <div class="donationButton">{{ organizationList[0].foundationContent }}</div> -->
+                <div class="donationButton">{{ seeingFoundation.foundationName }}</div>
+                <!-- <div class="donationButton">{{ seeingFoundation.foundationContent }}</div> -->
                 <div style="width: 10vw; height: 4vw; font-size: 3vw; left: 81vw; top: 40vw; position: absolute; cursor : pointer;" data-bs-dismiss="modal" aria-label="Close" @click="donation">기부하기</div>
             </div>
         <!-- </div>
@@ -25,6 +27,9 @@ const organizationStore = "organizationStore";
 
 export default {
     name:"foundationModal",
+    props: {
+        seeingFoundation: Object,
+    },
     data() {
     return {
     foundations: [

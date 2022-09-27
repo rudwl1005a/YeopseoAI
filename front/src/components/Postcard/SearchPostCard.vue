@@ -61,7 +61,7 @@ export default {
 
   },
   async created() {
-    await this.userLikedPostcardStore(this.userInfo.userSeq);
+    // await this.userLikedPostcardStore(this.userInfo.userSeq);
     console.log('searchItem')
     // console.log(this.likedPostcards);
     if (this.likedPostcards === []) {

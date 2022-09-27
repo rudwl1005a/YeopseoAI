@@ -63,6 +63,7 @@ export default {
       // console.log(this.searchMessage);
     },
     async submitSearch() {
+      await this.userLikedPostcardStore(this.userInfo.userSeq);
       if (this.searchMessage !== "") {
         // console.log(this.searchMessage);
         let searchWord = this.searchMessage;
@@ -70,6 +71,7 @@ export default {
       } else {
         // console.log("검색어 입력하라고");
       }
+      this.$router.go();
     },
     goHome() {
       this.$router.push({ name: "MainView" });
