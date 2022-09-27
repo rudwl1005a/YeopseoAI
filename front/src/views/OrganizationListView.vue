@@ -97,28 +97,27 @@ export default {
       ``
     ],
     showImages: [
-        {
-          imageUrl: require("../../public/images/test1.jpg")
-        },
-        {
-          imageUrl: require("../../public/images/test2.jpg")
-        },
-        {
-          imageUrl: require("../../public/images/test3.jpg")
-        },
-        {
-          imageUrl: require("../../public/images/test4.jpg")
-        },
-        {
-          imageUrl: require("../../public/images/test5.jpg")
-        },
-        {
-          imageUrl: require("../../public/images/test6.jpg")
-        },
-      ],
-  };
+          {
+            imageUrl: require("../../public/images/test1.jpg")
+          },
+          {
+            imageUrl: require("../../public/images/test2.jpg")
+          },
+          {
+            imageUrl: require("../../public/images/test3.jpg")
+          },
+          {
+            imageUrl: require("../../public/images/test4.jpg")
+          },
+          {
+            imageUrl: require("../../public/images/test5.jpg")
+          },
+          {
+            imageUrl: require("../../public/images/test6.jpg")
+          },
+        ],
+    };
   },
-
   components: {
     SideBar,
     FoundationModal,
