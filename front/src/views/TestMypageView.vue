@@ -1,22 +1,25 @@
 <template>
 
 
-
-  <!-- <div class="mypageCarousel">
-    <div class="wrap">
-      <ul>
-        <li v-for="(card, index) in this.userCards " :key="index">
-          <img class="" :src="card" alt="">
-        </li>
-      </ul>
-    </div>
-  </div> -->
-
-
   <side-bar></side-bar>
+
+  
+  
+  
   <div v-if="test" class="Mypage">
+    <div class="mypageNav">
+      <!-- 나중에 라우터 링크 혹은 푸쉬로 바꾸자 -->
+      <div class="mypageBtn" @click="goProfile" @mouseover="change1">profile</div>
+      <div class="mypageBtn" @click="goDonations" @mouseover="change3">donations</div>
+      <div class="mypageBtn" @click="goLikedPostcards" @mouseover="change2">liked postcards</div>
+      <div class="mypageBtn" @click="goMade" @mouseover="change5">made by {{userInfo.userName}}</div>
+      <div class="mypageBtn" @click="goFollowing" @mouseover="change4">following</div>
+    </div>
+    <div class="updown"></div>
+
+    <div style="margin-left: 10vw">
     <br>
-    <p class="profileText">{{this.userInfo.userName}}'s Profile</p>
+    <p id="goProfile" class="profileText">{{this.userInfo.userName}}'s Profile</p>
 
     <!-- 내 정보 부분 -->
     <div class="myInfo row">
@@ -36,7 +39,7 @@
     <br>
 
     <!-- 유저의 모든 엽서 보여주기 -->
-    <p class="profileText">Made by {{this.userInfo.userName}}</p>
+    <p id="goMade" class="profileText">Made by {{this.userInfo.userName}}</p>
     <div class="mypageCarousel">
       <div class="wrap">
         <ul class="">
@@ -92,7 +95,7 @@
     <br><br>
     <hr style="width: 70vw; margin: 0 auto;">
     <div class="followUsers">
-      <p class="profileText">Following</p>
+      <p id="goFollowing" class="profileText">Following</p>
       <div id="postcardList" class="mypageCarousel">
       <div class="wrap">
         <ul id="ul" class="">
@@ -109,7 +112,7 @@
     <br><br>
     <hr style="width: 70vw; margin: 0 auto;">
     <div class="followUsers">
-      <p class="profileText">Liked</p>
+      <p id="goLikedPostcards" class="profileText">Liked</p>
       <div id="followingList" class="mypageCarousel">
       <div class="wrap">
         <ul id="ul" class="">
@@ -121,6 +124,7 @@
     </div>
     </div> 
 
+  </div>
   </div>
 
 
@@ -244,6 +248,48 @@ export default {
       "userPostcardList",
       "getUserLikedPostcard",
     ]),
+
+    goProfile() {
+      // document 와 element 사이의 거리를 구한다
+      const getElementY = (element) => {
+        return window.pageYOffset + element.getBoundingClientRect().top
+      }
+      // 해당 element 로 스크롤!
+      window.scrollTo(0, getElementY(document.getElementById('goProfile')))
+    },
+    goDonations() {
+      // document 와 element 사이의 거리를 구한다
+      const getElementY = (element) => {
+        return window.pageYOffset + element.getBoundingClientRect().top
+      }
+      // 해당 element 로 스크롤!
+      window.scrollTo(0, getElementY(document.getElementById('goDonations')))      
+
+    },
+    goLikedPostcards() {
+      // document 와 element 사이의 거리를 구한다
+      const getElementY = (element) => {
+        return window.pageYOffset + element.getBoundingClientRect().top
+      }
+      // 해당 element 로 스크롤!
+      window.scrollTo(0, getElementY(document.getElementById('goLikedPostcards')))
+    },
+    goMade() {
+      // document 와 element 사이의 거리를 구한다
+      const getElementY = (element) => {
+        return window.pageYOffset + element.getBoundingClientRect().top
+      }
+      // 해당 element 로 스크롤!
+      window.scrollTo(0, getElementY(document.getElementById('goMade')))
+    },
+    goFollowing() {
+      // document 와 element 사이의 거리를 구한다
+      const getElementY = (element) => {
+        return window.pageYOffset + element.getBoundingClientRect().top
+      }
+      // 해당 element 로 스크롤!
+      window.scrollTo(0, getElementY(document.getElementById('goFollowing')))
+    },
 
 
     // 회원탈퇴
@@ -427,6 +473,29 @@ export default {
 </script>
 
 <style>
+.mypageNav {
+  position: fixed;
+  top: 30vh;
+  left: 3.5vw;
+}
+.updown {
+  position: fixed;
+  border-left : solid black;
+  width: 0.01px;
+  top: 15vh;
+  left: 15vw;
+  height: 70vh;
+  opacity: 0.3;
+}
+.mypageBtn {
+  cursor: pointer;
+  width: 10vw;
+  height: 7vh;
+  font-size: 1.7vw;
+  text-align: left;
+  transition: 0.4s;
+}
+
 .Mypage {
   position: relative;
   height: 100%;
@@ -441,8 +510,9 @@ export default {
   font-family: 'Nanum Pen Script', cursive;;
 }
 .myInfo {
-  margin: 0 auto;
-  padding: 0 5vw;
+  /* position: absolute; */
+  margin-top: 10vh;
+  /* padding: 0 5vw; */
   /* width: 100vw; */
 }
 .myProfileBox {
