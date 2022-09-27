@@ -8,26 +8,27 @@
       <h3 v-show="!this.donationInfo.foundationSeq" @click.prevent class="col nowForm" :class="{ now: this.stage.one }">
         1. 기부 재단 선택
       </h3>
-      <h3 v-show="this.donationInfo.foundationSeq" @click.prevent class="col nowForm" :class="{ now: this.stage.one }">
-        1. 기부 재단 선택 완료
+      <h3 v-show="this.donationInfo.foundationSeq" @click="move(1)" class="col nowDoneForm" :class="{ now: this.stage.one }">
+        1. {{this.selOrganizationInfo.name}}
       </h3>
-      <button @click.prevent class="col nowForm" :class="{ now: this.stage.two }">
+      <h3 v-show="!this.donationInfo.donationImgUrl" @click.prevent class="col nowForm" :class="{ now: this.stage.two }">
         2. 엽서 선택
-      </button>
-      <button
-        @click.prevent
-        class="col nowForm"
-        :class="{ now: this.stage.three }"
-      >
+      </h3>
+      <h3 v-show="this.donationInfo.donationImgUrl" @click="move(2)" class="col nowDoneForm" :class="{ now: this.stage.two }">
+        2. 엽서 선택 완료
+      </h3>
+      <h3 v-show="!this.donationInfo.donationText" @click.prevent class="col nowForm" :class="{ now: this.stage.three }">
         3. 문구 입력
-      </button>
-      <button
-        @click.prevent
-        class="col nowForm"
-        :class="{ now: this.stage.four }"
-      >
+      </h3>
+      <h3 v-show="this.donationInfo.donationText" @click="move(3)" class="col nowDoneForm" :class="{ now: this.stage.three }">
+        3. 문구 입력 완료
+      </h3>
+      <h3 v-show="!this.donationInfo.donationPay" @click.prevent class="col nowForm" :class="{ now: this.stage.four }">
         4. 기부금 선정
-      </button>
+      </h3>
+      <h3 v-show="this.donationInfo.donationPay" @click="move(4)" class="col nowDoneForm" :class="{ now: this.stage.four }">
+        4. 기부금 선정 완료
+      </h3>
     </div>
     <!-- 현황판 -->
     <div v-show="!this.stage.two" class="donaPostcard">
@@ -36,86 +37,73 @@
       <div v-show="!this.selOrganizationInfo.logURL" class="organLogo"> 
         <img src="../../public/images/logo.png" style="width: 100%; height:100%" alt="엽AI로고">
       </div>
+      <!-- 글자 입력 -->
+      <div class="donaText"></div>
     </div>
     <!-- 현황판 뒷면 우편 선택 -->
     <div v-show="this.stage.two" class="donaPostcard">
       <img v-if="this.donationInfo.donationImgUrl" v-bind:src="this.donationInfo.donationImgUrl" alt="엽서사진" />
     </div>
     <!-- 재단 선택 리스트 -->
-    <div class="container" v-show="this.organizationList && this.stage.one">
+    <div v-show="this.organizationList && this.stage.one">
       <!-- 재단 목록 -->
       <h1>재단 선택</h1>
-      <div
-        v-for="(organization, index) in this.organizationList"
-        :key="`organizationList-${index}`"
-        class="donaCardList"
-      >
-        <div class="donaCard">
-          <img v-if="organization.foundationUrlLogo" v-bind:src="organization.foundationUrlLogo"
-            class="donaImg"
-          />
-          <img v-if="!organization.foundationUrlLogo" src="../../public/images/logo.png" class="donaImg">
-          <div class="d-flex flex-row justify-content-between">
+      <div class="donaCardList">
+        <div
+          v-for="(organization, index) in this.organizationList"
+          :key="`organizationList-${index}`"
+        >
+          <div class="donaCard" @click="selOrg(organization.foundationName,
+                    organization.foundationLogoUrl, organization.foundationSeq)">
+            <img v-if="organization.foundationUrlLogo" v-bind:src="organization.foundationUrlLogo"
+              class="donaImg"
+            />
+            <img v-if="!organization.foundationUrlLogo" src="../../public/images/logo.png" class="donaImg">
             <h4 class="donaTitle">{{ organization.foundationName }}</h4>
-            <button class="donaButton" @click="selOrg(organization.foundationName,
-                  organization.foundationLogoUrl, organization.foundationSeq)">선택
-            </button>
           </div>
         </div>
       </div>
     </div>
-
     <!-- 엽서 선택 리스트 -->
     <div v-show="this.postcardList && this.stage.two">
-      <!-- 엽서 목록 -->
       <div class="d-flex title">
         <h3 class="titleText">내가 그린 엽서 목록</h3>
         <div class="d-flex titleText">
           <i class="bi bi-chevron-left" @click="postcardMove('left')"></i>
-          <b>{{this.postcardStage +1}} / {{Math.ceil(this.postcardList.postcardList.length / 5)}}</b>
+          <b>{{this.postcardStage +1}} / {{Math.ceil(this.postcardList.length / 5)}}</b>
           <i class="bi bi-chevron-right" @click="postcardMove('right')"></i>
         </div>
       </div>
-      <div v-for="(page, index) in Math.ceil(this.postcardList.postcardList.length / 5)"
-        :key="`page-${page}`" >
+      <div v-for="(page, index) in Math.ceil(this.postcardList.length / 5)"
+        :key="`page-${index}`" >
         <div v-show="index === this.postcardStage" class="postcardList">
-          <div v-for="(postcard, idx) in this.postcardList.postcardList.slice(index * 5, (index + 1) *5)" :key="`postcard-${page}-${idx}`">
+          <div v-for="(postcard, idx) in this.postcardList.slice(index * 5, (index + 1) *5)" :key="`postcard-${page}-${idx}`">
             <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
           </div>
         </div>
       </div>
       <div class="d-flex title">
-        <h3 class="titleText">좋아요 한 엽서목록</h3>
+        <h3 class="titleText">좋아요한 엽서 목록</h3>
         <div class="d-flex titleText">
           <i class="bi bi-chevron-left" @click="postcardMove('L-left')"></i>
-          <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.postcardList.postcardList.length / 5)}}</b>
+          <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.userLikedPostcard.postcardList.length / 5)}}</b>
           <i class="bi bi-chevron-right" @click="postcardMove('L-right')"></i>
         </div>
       </div>
-      <div v-for="(page, index) in Math.ceil(this.postcardList.postcardList.length / 5)"
-        :key="`page-${page}`" >
-        <div v-show="index === this.likedPostcardStage" class="postcardList">
-          <div v-for="(postcard, idx) in this.postcardList.postcardList.slice(index * 5, (index + 1) *5)" :key="`postcard-${page}-${idx}`">
+      <div v-for="(page, idx) in Math.ceil(this.userLikedPostcard.postcardList.length / 5)"
+        :key="`liked-page-${idx}`" >
+        <div v-show="idx === this.likedPostcardStage" class="postcardList">
+          <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(idx * 5, (idx + 1) *5)" :key="`likedPostcard-${page}-${idx}`">
             <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
           </div>
         </div>
       </div>
-
-      <!-- <div
-        v-for="(postcard, index) in this.postcardList.postcardList"
-        :key="`postcardList-${index}`"
-        class="postcardList"
-      >
-        <img
-          v-bind:src="postcard.postcard.postcardImgUrl"
-          alt="엽서사진"
-          @click="selPostcard(postcard.postcard.postcardImgUrl)"
-        />
-      </div> -->
-      <h5 v-if="!this.postcardList">
-        자신만의 엽서를 생성하거나 다른 사람의 엽서를 좋아요를 누른 후 나만의
-        엽서리스트를 생성해 주세요
-      </h5>
+      <div class="title">
+        <h3 class="titleText" v-if="!this.postcardList && !this.userLikedPostcard">
+          자신만의 엽서를 생성하거나 다른 사람의 엽서를 좋아요를 누른 후 나만의
+          엽서리스트를 생성해 주세요
+        </h3>
+      </div>
     </div>
     <!-- 문구 입력 -->
     <div v-show="this.stage.three" class="textBack">
@@ -181,7 +169,7 @@ export default {
 
   computed: {
     ...mapGetters(organizationStore, ["organizationList"]),
-    ...mapGetters(postcardStore, ["postcardList"]),
+    ...mapGetters(postcardStore, ["postcardList", "userLikedPostcard"]),
     ...mapGetters(accountStore, ["userInfo"]),
   },
 
@@ -190,7 +178,23 @@ export default {
     // 재단 리스트 용
     ...mapActions(organizationStore, ["getFoundationList"]),
     // 엽서 리스트 용
-    ...mapActions(postcardStore, ["userPostcardList"]),
+    ...mapActions(postcardStore, ["userPostcardList", "userLikedPostcardStore"]),
+    // 상위 버튼을 통한 이동
+    move(num) {
+      if (num === 1) {
+        this.stage.one = true
+        this.stage.two = this.stage.three = this.stage.four = false
+      } else if (num === 2) {
+        this.stage.two = true
+        this.stage.one = this.stage.three = this.stage.four = false
+      } else if (num === 3) {
+        this.stage.three = true
+        this.stage.one = this.stage.two = this.stage.four = false
+      } else {
+        this.stage.four = true
+        this.stage.one = this.stage.two = this.stage.three = false
+      }
+    },
     // 단계 이동 메서드
     nextStage() {
       // 1단계 > 2단계
@@ -206,9 +210,9 @@ export default {
         }
         // 2단계 > 3단계
       } else if (this.stage.two) {
-        // 선택된 엽서이 없는 경우
+        // 선택된 엽서가 없는 경우
         if (!this.donationInfo.donationImgUrl) {
-          this.errorMSG = "엽서을 선택해주세요";
+          this.errorMSG = "엽서를 선택해주세요";
         } else {
           // 단계 이동 및 에러 메시지 초기화
           this.stage.two = false;
@@ -254,9 +258,9 @@ export default {
       } else if (direction === 'L-left' && this.likedPostcardStage > 0) {
         this.likedPostcardStage -= 1
         // 좋아요한 엽서 목록 페이지 변경
-      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.postcardList.postcardList.length / 5) - 1) {
+      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.postcardList.length / 5) - 1) {
         this.likedPostcardStage += 1
-      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.postcardList.postcardList.length / 5) - 1) {
+      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.postcardList.length / 5) - 1) {
         this.postcardStage += 1
       }
     },
@@ -289,6 +293,7 @@ export default {
                 userSeq: this.userInfo.userSeq,
               });
               this.reset();
+              this.$router.push({ name: "MypageView", params: { user_id: this.userInfo.user_id } })
               //값이 같지 않은 경우 문제o
             } else {
               this.errorMSG = "결제가 정상적으로 이루어지지 않았습니다.";
@@ -311,8 +316,8 @@ export default {
       this.selOrganizationInfo = { name: null, logoURL: null };
       this.stage = { one: true, two: false, three: false, four: false };
       this.errorMSG = null;
-      this.likedPostcardStage = 0;
       this.postcardStage = 0;
+      this.likedPostcardStage = 0;
     },
   },
   created() {
@@ -324,12 +329,15 @@ export default {
       this.getFoundationList();
     }
     if (!this.postcardList.length) {
-      // this.userPostcardList(this.userInfo.userSeq)
-      // 확인용 더미 나중에 만들어지면 위에 것으로
       this.userPostcardList(this.userInfo.userSeq);
     }
+    // 좋아요한 엽서 받아오기
+    if (!this.userLikedPostcard.length) {
+      this.userLikedPostcardStore(this.userInfo.userSeq)
+    }
+    // 시작과 동시에 링크로 온 재단을 선택하게 변경
+    // this.userInfo.foundationSeq = this.params.foundationSeq
   },
-
   mounted() {
     this.reset();
   },
@@ -339,7 +347,7 @@ export default {
 <style>
 .donaForm {
   position: relative;
-  width: 94vw;
+  width: 93vw;
   height: 100vh;
   background-color: antiquewhite;
 }
@@ -349,8 +357,14 @@ export default {
   border-radius: 10px;
   background-color: ivory;
   pointer-events: none;
-
 }
+.nowDoneForm {
+  border: 3px double;
+  border-color: black;
+  border-radius: 10px;
+  background-color: ivory;
+}
+
 .now {
   background-color: aquamarine;
 }
@@ -372,6 +386,10 @@ export default {
 
 /* 예시 현황 */
 .donaPostcard {
+  /* background: url("@/assets/Back.png");
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: cover; */
   margin: auto;
   position: relative;
   background-color: white;
@@ -387,15 +405,27 @@ export default {
   height: 10vw;
   border: 1px solid;
 }
+.donaText {
+  position: absolute;
+  left: 35vw;
+  top: 2vh;
+  width: 30vw;
+  height: 45vh;
+  border-left: 1px solid black;
+}
+
 /* 재단 리스트 */
 .donaCardList {
+  position: relative;
+  display: flex;
   width: 70vw;
-  margin: auto;
+  margin: auto
 }
 
 .donaCard {
   width: 12vw;
   height: 18vh;
+  margin: 1px;
   border: 0.1px solid;
   border-radius: 10px;
   background-color: white;
@@ -406,7 +436,7 @@ export default {
 }
 .donaTitle {
   text-align: center;
-  width: 6vw;
+  width: auto;
   margin: 0.5vw
 }
 .donaButton {

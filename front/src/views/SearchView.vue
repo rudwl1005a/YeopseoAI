@@ -23,7 +23,6 @@
       </div>
     </div>
     <div class="searchGoHome" @click="goHome">
-      홈 아이콘
     </div>
   </div>
 </template>
@@ -34,6 +33,8 @@ import SideBar from "@/components/Nav/SideBar.vue";
 import SearchPostCard from "@/components/Postcard/SearchPostCard.vue";
 import SearchFoundation from "@/components/Foundation/searchFoundation.vue";
 const searchStore = "searchStore";
+const accountStore = "accountStore";
+const postcardStore = "postcardStore";
 
 export default {
   name: "SearchView",
@@ -52,20 +53,22 @@ export default {
     }
   },
   computed: {
+    ...mapState(accountStore, ["userInfo"]),
     ...mapState(searchStore, ["letterSearchResult", "foundationSearchResult"]),
   },
   methods: {
     ...mapActions(searchStore, ["getSearchResult"]),
+    ...mapActions(postcardStore, ["userLikedPostcardStore"]),
     getAutoComplete() {
-      console.log(this.searchMessage);
+      // console.log(this.searchMessage);
     },
     async submitSearch() {
       if (this.searchMessage !== "") {
-        console.log(this.searchMessage);
+        // console.log(this.searchMessage);
         let searchWord = this.searchMessage;
         await this.getSearchResult(searchWord);
       } else {
-        console.log("검색어 입력하라고");
+        // console.log("검색어 입력하라고");
       }
     },
     goHome() {
@@ -88,6 +91,7 @@ export default {
     if (this.foundationSearchResult == "") {
       this.isThereFoundation = false;
     }
+    this.userLikedPostcardStore(this.userInfo.userSeq);
   },
   watch: {
     letterSearchResult() {
@@ -221,6 +225,8 @@ export default {
   left: 47%;
   height: 5vw;
   width: 5vw;
+  background-image: url("../../public/images/homeicon.png");
+  background-size: 5vw 5vw;
   transform: translate(-50%, -50%);
 }
 </style>

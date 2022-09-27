@@ -7,7 +7,7 @@
   <div class="maingoUpBtn" @click="goUp"></div>
   <div class="mainpageClass">
     <div v-if="showLogo" class="mainLogoClass">
-      <b style="font-size: 2vw;">엽AI사전</b>
+      <!-- <b style="font-size: 2vw;">엽AI사전</b> -->
     </div>
     <div class="mainpageList">
       <!-- 나중에 라우터 링크 혹은 푸쉬로 바꾸자 -->
@@ -15,11 +15,13 @@
       <div class="mainpageBtn" @mouseover="change2" @click="goLetter">letter</div>
       <div class="mainpageBtn" @mouseover="change3" @click="goFoundation">foundation</div>
       <div class="mainpageBtn" @mouseover="change4" @click="goMypage">mypage</div>
-      <div class="mainpageBtn" @mouseover="change2" @click="goBoard">게시판</div>
+      <div class="mainpageBtn" @mouseover="change5" @click="goBoard">board</div>
     </div>
-    <div :class="{ mainopendToggle : opendToggle , mainclosedToggle : !opendToggle}">
+
+
+    <!-- <div :class="{ mainopendToggle : opendToggle , mainclosedToggle : !opendToggle}"> -->
       <!-- 나중에 라우터 링크로 바꾸자 -->
-      <div v-if="toggleContent" data-aos="fade-up" data-aos-duration="500">
+      <!-- <div v-if="toggleContent" data-aos="fade-up" data-aos-duration="500">
         <div class="mainpageBtn">home</div>
         <div class="mainpageBtn">letter</div>
         <div class="mainpageBtn">foundation</div>
@@ -28,18 +30,22 @@
         <div v-if="!isLogged" @click="goLogin" class="mainpageBtn">login</div>
       </div>
     </div>
-    <div class="mainSideBarClass">
+    <div class="mainSideBarClass"> -->
       <!-- 토글 아이콘 넣자 -->
-      <div class="mainsidebarToggle" @click="openSidebar">
-        대충 여기 토글 아이콘 ㄱ
+      <!-- <div class="mainsidebarToggle" @click="openSidebar">
       </div>
-    </div>
+    </div> -->
+
+    <!-- 토글 부분 -->
+    <side-bar></side-bar>
+
     <div
      :class="{
       'maininformationClass': watchingIntro === 1,
       'maininformationClass2': watchingIntro === 2,
       'maininformationClass3': watchingIntro === 3,
       'maininformationClass4': watchingIntro === 4,
+      'maininformationClass5': watchingIntro === 5,
       }">
       <!-- 웹 페이지의 각 기능들을 대표할 수 있는 사진들을 넣어두자 -->
     </div>
@@ -110,31 +116,62 @@
     <div class="mainfamousLetterContentClass">
       <div class="mainfamousLetterTitle"><b>인기엽서 목록</b></div>
       <div v-if="famousLetterBtn" class="mainfamousLetterBoxClass">
-        <div class="mainfamousBigLetterClass">{{ famousLetter[0].userId }}</div>
+        <div class="mainfamousBigLetterClass">
+          <!-- {{ famousLetter[0] }} -->
+          <img :src="famousLetter[0].postcard.postcardImgUrl" style="height: 70vh; width: 34vw; border-radius: 30px;" alt="">
+        </div>
         <div class="mainfamousLittleLetterClass">
           <div class="mainfamousLittleLetterWrap">
-            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[1] }}</div>
-            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[2] }}</div>
+            <div class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[1] }} -->
+              <img :src="famousLetter[1].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt="">
+            </div>
+            <div class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[2] }} -->
+              <!-- 이하 아직 데이터가 없어 일단 주석처리 -->
+              <!-- <img :src="famousLetter[2].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+            </div>
           </div>
           <div style="height: 2vh"></div>
           <div class="mainfamousLittleLetterWrap">
-            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[3] }}</div>
-            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[4] }}</div>
+            <div class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[3] }} -->
+              <!-- <img :src="famousLetter[3].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+            </div>
+            <div class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[4] }} -->
+              <!-- <img :src="famousLetter[4].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+            </div>
           </div>
         </div>
       </div>
       <!-- 다음페이지 ㅇㅇ -->
       <div v-if="!famousLetterBtn" class="mainfamousLetterBoxClass">
-        <div class="mainfamousBigLetterClass">{{ famousLetter[5] }}</div>
+        <div class="mainfamousBigLetterClass">
+          <!-- {{ famousLetter[5] }} -->
+          <!-- <img :src="famousLetter[5].postcard.postcardImgUrl" style="height: 70vh; width: 34vw; border-radius: 30px;" alt=""> -->
+        </div>
         <div class="mainfamousLittleLetterClass">
           <div class="mainfamousLittleLetterWrap">
-            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[6] }}</div>
-            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[7] }}</div>
+            <div class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[6] }} -->
+              <!-- <img :src="famousLetter[6].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+            </div>
+            <div class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[7] }} -->
+              <!-- <img :src="famousLetter[7].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+            </div>
           </div>
           <div style="height: 2vh"></div>
           <div class="mainfamousLittleLetterWrap">
-            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[8] }}</div>
-            <div class="mainfamousLittleLetterItemClass">{{ famousLetter[9] }}</div>
+            <div class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[8] }} -->
+              <!-- <img :src="famousLetter[8].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+            </div>
+            <div class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[9] }} -->
+              <!-- <img :src="famousLetter[9].postcard.postcardImgUrl" style="height: 34vh; width: 17vw; border-radius: 20px;" alt=""> -->
+            </div>
           </div>
         </div>
       </div>
@@ -150,35 +187,48 @@
       <div class="mainfamousFoundationContent">
         <!-- 5개만 보여줘도 될 것 같다는 생각이 든다 -->
         <div @click="foundationDetail(famousFoundation[0])" class="mainfamousFoundationItem">
-          {{ famousFoundation[0] }}
+          <!-- {{ famousFoundation[0] }} -->
+          <img class="mainfamousFoundationImg" :src="famousFoundation[0].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
-            여기 설명이 들어갈 예정입니다
+            재단명: {{ famousFoundation[0].foundationName }}
+            <br>
+            상세정보: {{ famousFoundation[0].foundationContent }}
           </div>
         </div>
         <div @click="foundationDetail(famousFoundation[1])" class="mainfamousFoundationItem">
-          {{ famousFoundation[1] }}
+          <!-- {{ famousFoundation[1] }} -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
+          <img class="mainfamousFoundationImg" :src="famousFoundation[1]" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
         </div>
         <div @click="foundationDetail(famousFoundation[2])" class="mainfamousFoundationItem">
-          {{ famousFoundation[2] }}
+          <!-- {{ famousFoundation[2] }} -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
+          <img class="mainfamousFoundationImg" :src="famousFoundation[2]" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
         </div>
-        <div @click="foundationDetail(famousFoundation[3])" class="mainfamousFoundationItem">
-          {{ famousFoundation[3] }}
+
+        <!-- 재단 3개만 보여주는 쪽으로 바꿈 -->
+        <!-- <div @click="foundationDetail(famousFoundation[3])" class="mainfamousFoundationItem"> -->
+          <!-- {{ famousFoundation[3] }} -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[3].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[3]" style="height: 60vh; width: 10vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
-        </div>
-        <div @click="foundationDetail(famousFoundation[4])" class="mainfamousFoundationItem">
-          {{ famousFoundation[4] }}
+        </div> -->
+        <!-- <div @click="foundationDetail(famousFoundation[4])" class="mainfamousFoundationItem"> -->
+          <!-- {{ famousFoundation[4] }} -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[4].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[4]" style="height: 60vh; width: 10vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
             여기 설명이 들어갈 예정입니다
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -201,6 +251,7 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
+import SideBar from "@/components/Nav/SideBar.vue";
 import AOS from "aos";
 import "aos/dist/aos.css";
 const mainpageStore = "mainpageStore";
@@ -210,6 +261,7 @@ const accountStore = "accountStore"
 export default {
   name:"MainView",
   components: {
+    SideBar,
   },
   computed: {
     ...mapState(mainpageStore, ["letterTop", "foundationTop", "watchingLetter", "watchingFoundation"]),
@@ -282,6 +334,9 @@ export default {
     change4() {
       this.watchingIntro = 4;
     },
+    change5() {
+      this.watchingIntro = 5;
+    },
 
     goHome() {
       this.$router.go();
@@ -292,7 +347,7 @@ export default {
       console.log("홈 새로고침");
     },
     goLetter() {      
-      this.$router.push('/makecard');
+      this.$router.push('/canvasTest');
       console.log("홈 새로고침");
     },
     goMypage() {
@@ -436,10 +491,9 @@ export default {
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-color: white;
-  background-image: url('../../public/homedesign/images/main_dummy1.gif');
+  background-image: url('../../public/images/main_1.png');
   background-size: 78vw 95vh;
-  transition: 0.4s;
+  transition: 0.6s;
 }
 .maininformationClass2 {
   position: absolute;
@@ -449,10 +503,9 @@ export default {
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-color: white;
-  background-image: url('../../public/homedesign/images/main_dummy2.gif');
+  background-image: url('../../public/images/main_2.png');
   background-size: 78vw 95vh;
-  transition: 0.4s;
+  transition: 0.6s;
 }
 .maininformationClass3 {
   position: absolute;
@@ -462,10 +515,9 @@ export default {
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-color: white;
-  background-image: url('../../public/homedesign/images/main_dummy3.gif');
+  background-image: url('../../public/images/main_3.png');
   background-size: 78vw 95vh;
-  transition: 0.4s;
+  transition: 0.6s;
 }
 .maininformationClass4 {
   position: absolute;
@@ -475,18 +527,36 @@ export default {
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-color: white;
-  background-image: url('../../public/homedesign/images/main_dummy2.gif');
+  background-image: url('../../public/images/main_4.png');
   background-size: 78vw 95vh;
-  transition: 0.4s;
+  transition: 0.6s;
+}
+.maininformationClass5 {
+  position: absolute;
+  top: 50%;
+  left: 53%;
+  transform: translate(-50%, -50%);
+  height: 95vh;
+  width: 78vw;
+  border-radius: 20px;
+  background-image: url('../../public/images/main_5.png');
+  background-size: 78vw 95vh;
+  transition: 0.6s;
 }
 
 /* 메인페이지 로고 관리 */
 .mainLogoClass {
   z-index: 1;
   position: fixed;
-  margin-left: 5vh;
-  font-size: 1vw;
+  top: 0%;
+  left: 0%;
+  transform: translate(0%, -20%);
+  height: 10vw;
+  width: 10vw;
+  margin-left: 1vw;
+  background-image: url("../../public/images/logo.png");
+  background-size: 10vw 10vw;
+  background-repeat: no-repeat;
 }
 
 
@@ -670,16 +740,21 @@ export default {
 
 .mainfamousFoundationContent {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-top: 20px;
   height: 60vh;
   width: 80vw;
 }
 
+.mainfamousFoundationImg {
+
+}
+
 .mainfamousFoundationItem {
+  display: flex;
   height: 60vh;
   width: 15vw;
-  background-color: #eeccee;
+  background-color: #c0c0c0;
   border-radius: 20px;
   transition: 0.4s;
 }
@@ -694,12 +769,12 @@ export default {
 }
 
 .mainfamousFoundationItem:hover {
-  width: 80vw;
+  width: 40vw;
 }
 
 .mainfamousFoundationItem:hover > .mainfamousFoundationItemContent {
-  width: 40vw;
-  height: 40vh;
+  width: 30vw;
+  height: 60vh;
 }
 
 .mainfamousFoundationChange {
@@ -758,8 +833,5 @@ export default {
 }
 
 
-/* 사이드바 토글 관리 */
-.mainsidebarToggle {
-  cursor: pointer;
-}
+/* 사이드바 토글 관리 -> sidebar 컴포넌트 부분에 빼둠*/
 </style>

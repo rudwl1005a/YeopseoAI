@@ -16,19 +16,19 @@
   <side-bar></side-bar>
   <div v-if="test" class="Mypage">
     <br>
-    <p class="profileText">username's Profile</p>
+    <p class="profileText">{{this.userInfo.userName}}'s Profile</p>
 
     <!-- 내 정보 부분 -->
     <div class="myInfo row">
-      <div class="myProfileBox  justify-content-around">
+      <div class="myProfileBox row justify-content-around">
 
         <div class="myProfileImage align-self-center">
         </div>
 
         <div class="myProfileInfo align-self-center row justify-content-center">
           <h1>안녕 난 박정현!</h1>
-          <h1>무에타이 12년, 기부 14년의 경력이 있지</h1>
-          <h1>배경 풀로 까니까 예쁘진 않네</h1>
+          <h1>{{this.mypageUserInfo.donationCnt}}회 기부</h1>
+          <h1>총 기부 금액:{{this.mypageUserInfo.donationMoney}}</h1>
         </div>
 
       </div>
@@ -36,12 +36,12 @@
     <br>
 
     <!-- 유저의 모든 엽서 보여주기 -->
-    <div class="allCardsTitle">All of username's cards</div>
+    <p class="profileText">Made by {{this.userInfo.userName}}</p>
     <div class="mypageCarousel">
       <div class="wrap">
         <ul class="">
-          <li v-for="(card, index) in this.userCards " :key="index">
-            <img class="cardItem " :src="card" alt="">
+          <li v-for="(postcard, index) in this.postcardList " :key="index">
+            <img class="cardItem" :src="postcard.postcard.postcardImgUrl" alt="">
           </li>
         </ul>
       </div>
@@ -50,7 +50,7 @@
     <br>
 
     <!-- 좋아하는 엽서 목록 부분 -->
-    <div class="remindButton" @click="showPostcards">username's favorite cards</div>
+    <div class="remindButton" @click="showPostcards">{{this.userInfo.userName}}'s favorite cards</div>
     <br>
     <!-- <div @click="choseImage">이미지 넣으실?</div> -->
     
@@ -81,13 +81,19 @@
     </div>
 
 
+    <!-- 좋아하는 엽서 목록 3 -->
+    <div class="d-flex justify-content-center">
+      <favorite-postcards-b></favorite-postcards-b>
+    </div>
+
+
 
     <!-- 팔로워 부분 -->
     <br><br>
     <hr style="width: 70vw; margin: 0 auto;">
     <div class="followUsers">
       <p class="profileText">Following</p>
-      <div id="followingList" class="mypageCarousel">
+      <div id="postcardList" class="mypageCarousel">
       <div class="wrap">
         <ul id="ul" class="">
           <li v-for="(card, index) in this.userCards " :key="index">
@@ -96,7 +102,25 @@
         </ul>
       </div>
     </div>
-    </div>        
+    </div>      
+    
+
+    <!-- 유저가 좋아요한 포스트카드 -->
+    <br><br>
+    <hr style="width: 70vw; margin: 0 auto;">
+    <div class="followUsers">
+      <p class="profileText">Liked</p>
+      <div id="followingList" class="mypageCarousel">
+      <div class="wrap">
+        <ul id="ul" class="">
+          <li v-for="(card, index) in this.userLikedPostcard.postcardList " :key="index">
+            <img class="cardItem " :src="card.postcard.postcardImgUrl" alt="">
+          </li>
+        </ul>
+      </div>
+    </div>
+    </div> 
+
   </div>
 
 
@@ -126,9 +150,11 @@ import AOS from 'aos';
 import "aos/dist/aos.css";
 import SideBar from "@/components/Nav/SideBar.vue";
 import FavoritePostcardsA from "@/components/Collection/favoritePostcardsA.vue";
+import FavoritePostcardsB from "@/components/Collection/favoritePostcardsB.vue";
 import { mapActions, mapGetters } from "vuex";
 const mypageStore = "mypageStore";
 const accountStore = "accountStore";
+const postcardStore = "postcardStore";
 
 
 export default {
@@ -137,6 +163,7 @@ export default {
   components: {
     SideBar,
     FavoritePostcardsA,
+    FavoritePostcardsB,
   },
 
   data() {
@@ -191,10 +218,15 @@ export default {
       "donationList",
       "followList",
       "profileImage",
+      "mypageUserInfo",
     ]),
     ...mapGetters(accountStore, [
       "userInfo",
       "token",
+    ]),
+    ...mapGetters(postcardStore, [
+      "postcardList",
+      "userLikedPostcard",
     ]),
   },
 
@@ -206,7 +238,13 @@ export default {
       "changeUserProfile",
       "getDonationList",
       "getFollowerList",
+      "setMypageUserInfo",
     ]),
+    ...mapActions(postcardStore, [
+      "userPostcardList",
+      "getUserLikedPostcard",
+    ]),
+
 
     // 회원탈퇴
     secession() {
@@ -242,6 +280,15 @@ export default {
     // 스토어에서 user_seq 들고와서 넣어줘야됨
     this.getDonationList(this.userInfo.userSeq)
     this.getFollowerList(this.userInfo.userSeq)
+    this.userPostcardList(this.userInfo.userSeq)
+    this.getUserLikedPostcard(this.userInfo.userSeq)
+    // 기부총액, 기부횟수 계산
+    let donationCnt = this.donationList.length
+    let donationMoney = 0
+    this.donationList.forEach(dontaion => {
+      donationMoney += dontaion.donationPay
+    });
+    this.setMypageUserInfo({donationCnt: donationCnt, donationMoney: donationMoney })
     AOS.init()    
   },
 
@@ -249,6 +296,9 @@ export default {
   mounted() {
     console.log(screen.width)
     console.log(screen.height)
+    console.log('asdasfsagsdg')
+    console.log(this.userLikedPostcard)
+    
 
     // 캐러셀
 
@@ -517,12 +567,12 @@ export default {
 .mypageCarousel > .wrap > ul {
   list-style: none;
   white-space: nowrap;
-  height: 200px;
+  height: 28vh;
 }
 .mypageCarousel > .wrap > ul > li {
   display: inline-block;
   vertical-align: middle;
-  height: 100%;
+  height: 28vh;
   margin: 0 0 0 1vw;
   position: relative;
   /* overflow: hidden; */
@@ -536,6 +586,7 @@ export default {
   border-radius: 10px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
 }
 .mypageCarousel {
   width: 70vw;
