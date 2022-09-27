@@ -256,6 +256,7 @@ export default {
         let modalBox = document.getElementById('modalBox')
         let i = 0
         this.organizationDonationList.forEach((donation) => {
+            // console.log(donation.donationImgUrl)
             const randomAngle = Math.random() * (10) - 5
             const postcard = document.createElement('div')
             // postcard.setAttribute(':src', `${this.showImages[0].imageUrl}`)
