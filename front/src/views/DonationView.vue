@@ -84,6 +84,7 @@
       </div>
       <div class="d-flex title">
         <h3 class="titleText">좋아요한 엽서 목록</h3>
+        {{this.likedPostcards.length}}
         <div class="d-flex titleText">
           <i class="bi bi-chevron-left" @click="postcardMove('L-left')"></i>
           <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.likedPostcards.length / 5)}}</b>
@@ -258,9 +259,9 @@ export default {
       } else if (direction === 'L-left' && this.likedPostcardStage > 0) {
         this.likedPostcardStage -= 1
         // 좋아요한 엽서 목록 페이지 변경
-      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.userLikedPostcard.postcardList.length / 5) - 1) {
+      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.likedPostcards.length / 5) - 1) {
         this.likedPostcardStage += 1
-      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.userLikedPostcard.postcardList.length / 5) - 1) {
+      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.postcardList.length / 5) - 1) {
         this.postcardStage += 1
       }
     },
@@ -348,7 +349,7 @@ export default {
 <style>
 .donaForm {
   position: relative;
-  width: 93vw;
+  width: 94vw;
   height: 100vh;
   background-color: antiquewhite;
 }
