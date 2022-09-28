@@ -27,6 +27,20 @@ public class User {
     String userEmail;
     String userProfileUrl;
 
+    int userTemplate;
+    int userRemind1;
+    int userRemind2;
+    int userRemind3;
+    int userRemind4;
+    int userRemind5;
+    int userRemind6;
+    int userRemind7;
+    int userRemind8;
+    int userRemind9;
+    int userRemind10;
+    int userRemind11;
+    int userRemind12;
+
     @CreationTimestamp
     @Column(name = "REG_DTM", nullable = false)
     private LocalDateTime REG_DTM;

@@ -66,6 +66,9 @@
           <div v-for="(postcard, idx) in this.postcardList.slice(index * 15, (index + 1) * 15)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
             <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
           </div>
+          iv v-for="(postcard, idx) in this.postcardList.slice(index * 15, (index + 1) * 15)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+          </div>
         </div>
       </div>
     </div>
@@ -213,7 +216,6 @@
     <br>
     <br>
     <br>
-  </div>
   </div>
 
 
