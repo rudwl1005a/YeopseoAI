@@ -18,7 +18,7 @@
           <div class="foundationInfo">
             <div 
             class="remindButton"
-            @click="setFoundationDonationList(organizationList[0].foundationSeq)"
+            @click="setFoundationDonationList(organizationList[0])"
             ><b>{{ organizationList[0].foundationName }}</b>이 받은 기부목록 보기
             </div>
             
@@ -34,9 +34,7 @@
           <div class="foundationInfo">
             <div 
             class="remindButton"
-            @click="setFoundationDonationList(organizationList[1].foundationSeq)" 
-            data-bs-toggle="modal" 
-            data-bs-target="#exampleModal"
+            @click="setFoundationDonationList(organizationList[1])"
             ><b>{{ organizationList[0].foundationName }}</b>이 받은 기부목록 보기
             </div>
             <div class="donationButton" @click="setFoundationInfo(organizationList[0].foundationSeq)">{{ organizationList[0].foundationContent }}</div>
@@ -51,9 +49,7 @@
           <div class="foundationInfo">
             <div 
             class="remindButton"
-            @click="setFoundationDonationList(organizationList[3].foundationSeq)" 
-            data-bs-toggle="modal" 
-            data-bs-target="#exampleModal"
+            @click="setFoundationDonationList(organizationList[2])"
             ><b>{{ organizationList[0].foundationName }}</b>이 받은 기부목록 보기
             </div>
             <div class="donationButton" @click="setFoundationInfo(organizationList[0].foundationSeq)">{{ organizationList[0].foundationContent }}</div>
@@ -75,9 +71,9 @@
   
   <!-- 상세모달 -->
   <div v-if="showModal" style="z-index: 9999; position: relative;">
-    <foundation-modal style="position: fixed; top: 5%; left: 5%; z-index: 9999;">
+    <foundation-modal :seeingFoundation="seeingFoundation" style="position: fixed; top: 5%; left: 5%; z-index: 9999;">
     </foundation-modal>
-    <div type="button" @click="setFoundationDonationList(organizationList[0].foundationSeq)" style="width: 4vw; height: 4vw; font-size: 7vw; top: 5%; left: 90vw; position: fixed; z-index: 10000;">X</div>
+    <div type="button" @click="closeFoundationModal" style="width: 4vw; height: 4vw; font-size: 7vw; top: 5%; left: 90vw; position: fixed; z-index: 10000;">X</div>
   </div>
   
 </template>
@@ -151,34 +147,18 @@ export default {
     },
 
     // 재단이 받은 엽서 리스트 들고오기
-    async setFoundationDonationList(foundationSeq) {
-      await this.getFoundationDonationList(foundationSeq)
+    async setFoundationDonationList(foundation) {
+      await this.getFoundationDonationList(foundation.foundationSeq)
       this.showModal = !this.showModal
-      // 스토어에서 foundation_Seq 들고와서 넣어줘야됨
-      // let modalBox = document.getElementById('modalBox')
-      // let i = 0
-      // this.organizationDonationList.forEach((donation) => {
-      //     const randomAngle = Math.random() * (10) - 5
-      //     const postcard = document.createElement('div')
-      //     // postcard.setAttribute(':src', `${this.showImages[0].imageUrl}`)
-      //     // postcard.style.backgroundImage = '../../../public/images/test6.jpg'
-      //     postcard.style.backgroundImage = `url(${donation.donationImgUrl})`
-      //     postcard.style.backgroundRepeat = 'no-repeat'
-      //     postcard.style.backgroundSize = '100% 100%'
-      //     postcard.style.position = 'absolute'
-      //     postcard.style.top = `${10 + 6 * (parseInt(i/13)) + randomAngle/10}vw`
-      //     postcard.style.left = `${6 + 6 * (i%13) + randomAngle/10}vw`
-      //     postcard.style.width = '5vw'
-      //     postcard.style.height = '5vw'
-      //     postcard.style.boxShadow = '0 0.5vw 1vw rgba(0, 0, 0, 0.15)'
-
-
-      //     postcard.style.transform = `rotate(${randomAngle}deg)`
-
-      //     modalBox.appendChild(postcard)
-      //     i = (i+1) % (13*5)
-      // });
+      this.seeingFoundation = {
+        foundationName: foundation.foundationName,
+        foundationContent: foundation.foundationContent,
+      }
     },
+
+    closeFoundationModal() {
+      this.showModal = !this.showModal
+    }
   },
 
 
