@@ -5,7 +5,7 @@
     <!-- 엽서 이미지 넣을거임 -->
     <img :src="searchItem.postcard.postcardImgUrl" style="height: 20vw; width: 30vw;" alt="">
   </div>
-  <div class="searchPostcardArtist">
+  <div class="searchPostcardArtist" @click="goArtistMypage(searchItem.postcard.userSeq)">
     {{ searchItem.userId }}
     {{ searchItem.postcard.postcardSeq }}
   </div>
@@ -58,6 +58,10 @@ export default {
       this.isLiked = !this.isLiked;
     },
     
+    // 아티스트 마이페이지 가는 버튼
+    goArtistMypage(userSeq) {
+      this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: userSeq}});
+    },
 
   },
   async created() {

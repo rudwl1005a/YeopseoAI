@@ -10,7 +10,7 @@
     <div v-if="!isLogged" @click="goLogin" class="mainpageBtn">login</div>
   </div>
 </div>
-<div class="mainSideBarClass">
+<div style="background-color: #faf8f5;" class="mainSideBarClass">
   <!-- 토글 아이콘 넣자 -->
   <div :class="{ mainsidebarToggle : !opendToggle , mainsidebarToggle2 : opendToggle }" @click="openSidebar"></div>
 </div>
