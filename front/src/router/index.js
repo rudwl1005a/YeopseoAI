@@ -13,6 +13,7 @@ import QuestionView from "../views/QuestionView";
 import QuestionDetailView from "../views/QuestionDetailView";
 import PatchBoardView from "../views/PatchBoardView";
 import CanvasTestView from "../views/CanvasTestView";
+import HtmlCanvasView from "../views/HtmlCanvasView";
 
 const routes = [
   {
@@ -89,6 +90,11 @@ const routes = [
     path: "/canvasTest",
     name: "CanvasTestView",
     component: CanvasTestView,
+  },
+  {
+    path: "/canvasNew",
+    name: "HtmlCanvasView",
+    component: HtmlCanvasView,
   },
 ];
 
