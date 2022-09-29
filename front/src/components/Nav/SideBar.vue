@@ -73,7 +73,8 @@ export default {
       this.$router.push('/organizationlist');
     },
     goMypage() {
-      this.$router.push('/mypage');
+      this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}});
+      console.log("홈 새로고침");
     },
   }
 }

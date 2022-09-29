@@ -1,8 +1,6 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.api.request.UserUpdatePostReq;
-import com.ssafy.api.request.UserUpdateProfilePostReq;
+import com.ssafy.api.request.*;
 import com.ssafy.db.entity.User;
 
 public interface UserService {
@@ -14,6 +12,10 @@ public interface UserService {
     User updateUser(int userSeq, UserUpdatePostReq userUpdateInfo);
 
     User updateUserProfile(int userSeq, UserUpdateProfilePostReq userUpdateProfileInfo);
+
+    User updateTemplate(int userSeq, UserUpdateTemplatePostReq userUpdateTemplateInfo);
+
+    User updateDonation(int userSeq, int userRemind, UserUpdateDonationPostReq donationSeq);
 
     User selectUser(int userSeq);
 

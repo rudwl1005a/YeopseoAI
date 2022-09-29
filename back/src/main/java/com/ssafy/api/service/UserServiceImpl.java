@@ -1,8 +1,6 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.UserRegisterPostReq;
-import com.ssafy.api.request.UserUpdatePostReq;
-import com.ssafy.api.request.UserUpdateProfilePostReq;
+import com.ssafy.api.request.*;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +47,47 @@ public class UserServiceImpl implements UserService{
     public User updateUserProfile(int userSeq, UserUpdateProfilePostReq userUpdateProfileInfo) {
         User user = selectUser(userSeq);
         user.setUserProfileUrl(userUpdateProfileInfo.getUserProfileUrl());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updateTemplate(int userSeq, UserUpdateTemplatePostReq userUpdateTemplateInfo) {
+        User user = selectUser(userSeq);
+        user.setUserTemplate(userUpdateTemplateInfo.getUserTemplate());
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User updateDonation(int userSeq, int userRemind, UserUpdateDonationPostReq donationSeq) {
+        User user = selectUser(userSeq);
+
+        switch (userRemind){
+            case 1 : user.setUserRemind1(donationSeq.getDonationSeq());
+                break;
+            case 2 : user.setUserRemind2(donationSeq.getDonationSeq());
+                break;
+            case 3 : user.setUserRemind3(donationSeq.getDonationSeq());
+                break;
+            case 4 : user.setUserRemind4(donationSeq.getDonationSeq());
+                break;
+            case 5 : user.setUserRemind5(donationSeq.getDonationSeq());
+                break;
+            case 6 : user.setUserRemind6(donationSeq.getDonationSeq());
+                break;
+            case 7 : user.setUserRemind7(donationSeq.getDonationSeq());
+                break;
+            case 8 : user.setUserRemind8(donationSeq.getDonationSeq());
+                break;
+            case 9 : user.setUserRemind9(donationSeq.getDonationSeq());
+                break;
+            case 10 : user.setUserRemind10(donationSeq.getDonationSeq());
+                break;
+            case 11 : user.setUserRemind11(donationSeq.getDonationSeq());
+                break;
+            case 12 : user.setUserRemind12(donationSeq.getDonationSeq());
+                break;
+        }
+
         return userRepository.save(user);
     }
 

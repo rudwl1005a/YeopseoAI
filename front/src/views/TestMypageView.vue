@@ -8,20 +8,20 @@
   
   <div v-if="test" class="Mypage">
     <div class="mypageNav">
-      <!-- 나중에 라우터 링크 혹은 푸쉬로 바꾸자 -->
       <div class="mypageBtn" @click="goProfile" @mouseover="change1">profile</div>
       <div class="mypageBtn" @click="goDonations" @mouseover="change3">donations</div>
-      <div class="mypageBtn" @click="goLikedPostcards" @mouseover="change2">liked postcards</div>
       <div class="mypageBtn" @click="goMade" @mouseover="change5">made by {{userInfo.userName}}</div>
+      <div class="mypageBtn" @click="goLikedPostcards" @mouseover="change2">liked postcards</div>
       <div class="mypageBtn" @click="goFollowing" @mouseover="change4">following</div>
     </div>
     <div class="updown"></div>
 
+
     <div style="margin-left: 10vw">
     <br>
-    <p id="goProfile" class="profileText">{{this.userInfo.userName}}'s Profile</p>
-
+    
     <!-- 내 정보 부분 -->
+    <p id="goProfile" class="profileText">{{this.userInfo.userName}}'s Profile</p>
     <div class="myInfo row">
       <div class="myProfileBox row justify-content-around">
 
@@ -33,14 +33,65 @@
           <h1>{{this.mypageUserInfo.donationCnt}}회 기부</h1>
           <h1>총 기부 금액:{{this.mypageUserInfo.donationMoney}}</h1>
         </div>
-
       </div>
     </div>
-    <br>
+    <div class="leftRight"></div>
 
-    <!-- 유저의 모든 엽서 보여주기 -->
+
+    <!-- 유저의 기부목록 보여주기 -->
+    <p id="goDonations" class="profileText">{{this.userInfo.userName}}'s donations</p>
+    <div id="donationList" class="mypageCarousel">
+      <div class="wrap">
+        <ul class="">
+          <li v-for="(donation, index) in this.donationList" :key="index">
+            <img class="cardItem" :src="donation.donationImgUrl" alt="">
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- 유저가 기부한 엽서들 페이지네이션해서 보여주는 부분 -->
+    <div class="paginationPage">
+      <div class="d-flex mypaginationTitle">
+        <h3 class="mypaginationText">{{userInfo.userName}}의 기부목록</h3>
+        <div class="d-flex mypaginationText">
+          <i class="bi bi-chevron-left" @click="postcardMove('D-left')"></i>
+          <b>{{this.donationStage +1}} / {{Math.ceil(this.donationList.length / 12)}}</b>
+          <i class="bi bi-chevron-right" @click="postcardMove('D-right')"></i>
+        </div>
+      </div>
+      <div v-for="(page, index) in Math.ceil(this.donationList.length / 12)"
+        :key="`page-${index}`" >
+
+        <div v-show="index === this.donationStage" class="mypaginationPostcardList">
+          <div v-for="(donation, idx) in this.donationList.slice(index * 12, index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+            <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+          </div>
+        </div>
+          
+        <div v-show="index === this.donationStage" class="mypaginationPostcardList">
+          <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+            <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+          </div>
+        </div> 
+
+        <div v-show="index === this.donationStage" class="mypaginationPostcardList">
+          <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+            <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+          </div>
+        </div>
+
+        </div>
+      </div>
+    <div class="leftRight"></div>
+
+
+    <!-- 유저가 만든 모든 엽서 보여주기 -->
     <p id="goMade" class="profileText">Made by {{this.userInfo.userName}}</p>
-    <div class="mypageCarousel">
+    <div id="madeList" class="mypageCarousel">
       <div class="wrap">
         <ul class="">
           <li v-for="(postcard, index) in this.postcardList " :key="index">
@@ -49,8 +100,122 @@
         </ul>
       </div>
     </div>
-    <br>
-    <br>
+
+    <!-- 유저가 만든 엽서들 페이지네이션해서 보여주는 부분 -->
+    <div class="paginationPage">
+      <div class="d-flex mypaginationTitle">
+        <h3 class="mypaginationText">내가 그린 엽서 목록</h3>
+        <div class="d-flex mypaginationText">
+          <i class="bi bi-chevron-left" @click="postcardMove('left')"></i>
+          <b>{{this.postcardStage + 1}} / {{Math.ceil(this.postcardList.length / 12)}}</b>
+          <i class="bi bi-chevron-right" @click="postcardMove('right')"></i>
+        </div>
+      </div>
+      <div v-for="(page, index) in Math.ceil(this.postcardList.length / 12)"
+        :key="`page-${index}`">
+        <div v-show="index === this.postcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.postcardList.slice(index * 12, index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
+          </div>
+        </div>
+
+        <div v-show="index === this.postcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.postcardList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
+          </div>
+        </div>
+
+        <div v-show="index === this.postcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.postcardList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="leftRight"></div>
+
+
+
+
+
+
+    <!-- 팔로워 부분 -->
+     
+    
+
+    <!-- 유저가 좋아요한 포스트카드 -->
+    <div class="followUsers">
+      <p id="goLikedPostcards" class="profileText">Liked</p>
+      <div id="likedList" class="mypageCarousel">
+      <div class="wrap">
+        <ul id="ul" class="">
+          <li v-for="(card, index) in this.userLikedPostcard.postcardList " :key="index">
+            <img class="cardItem " :src="card.postcard.postcardImgUrl" alt="">
+          </li>
+        </ul>
+      </div>
+    </div>
+    </div> 
+
+    <!-- 유저가 좋아요한 엽서들 페이지네이션해서 보여주는 부분 -->
+    <div class="paginationPage">
+
+      <div class="d-flex mypaginationTitle">
+        <h3 class="mypaginationText">좋아요한 엽서 목록</h3>
+        <div class="d-flex mypaginationText">
+          <i class="bi bi-chevron-left" @click="postcardMove('L-left')"></i>
+          <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.userLikedPostcard.postcardList.length / 12)}}</b>
+          <i class="bi bi-chevron-right" @click="postcardMove('L-right')"></i>
+        </div>
+      </div>
+      <div v-for="(page, index) in Math.ceil(this.userLikedPostcard.postcardList.length / 12)"
+        :key="`liked-page-${index}`" >
+        <div v-show="index === this.likedPostcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 0, index * 12 + 4)" :key="`likedPostcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
+          </div>
+        </div>
+
+        <div v-show="index === this.likedPostcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 4, index * 12 + 8)" :key="`likedPostcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
+          </div>
+        </div>
+
+        <div v-show="index === this.likedPostcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 8, index * 12 + 12)" :key="`likedPostcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="leftRight"></div>
+
+
+    <div class="followUsers">
+      <p id="goFollowing" class="profileText">Following</p>
+      <div id="followingList" class="mypageCarousel">
+      <div class="wrap">
+        <ul id="ul" class="">
+          <li v-for="(card, index) in this.userCards " :key="index">
+            <img class="cardItem " :src="card" alt="">
+          </li>
+        </ul>
+      </div>
+    </div>
+    </div> 
+    <!-- 유저가 기부한 엽서들 페이지네이션해서 보여주는 부분 -->
+    <div class="paginationPage">
+    </div>
+
 
     <!-- 좋아하는 엽서 목록 부분 -->
     <div class="remindButton" @click="showPostcards">{{this.userInfo.userName}}'s favorite cards</div>
@@ -88,65 +253,16 @@
     <div class="d-flex justify-content-center">
       <favorite-postcards-b></favorite-postcards-b>
     </div>
-
-
-
-    <!-- 팔로워 부분 -->
-    <br><br>
-    <hr style="width: 70vw; margin: 0 auto;">
-    <div class="followUsers">
-      <p id="goFollowing" class="profileText">Following</p>
-      <div id="postcardList" class="mypageCarousel">
-      <div class="wrap">
-        <ul id="ul" class="">
-          <li v-for="(card, index) in this.userCards " :key="index">
-            <img class="cardItem " :src="card" alt="">
-          </li>
-        </ul>
-      </div>
-    </div>
-    </div>      
-    
-
-    <!-- 유저가 좋아요한 포스트카드 -->
-    <br><br>
-    <hr style="width: 70vw; margin: 0 auto;">
-    <div class="followUsers">
-      <p id="goLikedPostcards" class="profileText">Liked</p>
-      <div id="followingList" class="mypageCarousel">
-      <div class="wrap">
-        <ul id="ul" class="">
-          <li v-for="(card, index) in this.userLikedPostcard.postcardList " :key="index">
-            <img class="cardItem " :src="card.postcard.postcardImgUrl" alt="">
-          </li>
-        </ul>
-      </div>
-    </div>
-    </div> 
-
-  </div>
   </div>
 
 
+    <br>
+    <br>
+    <br>
+    <br>
+  </div>
 
-    <!-- <div v-if="!showRemind" class="d-flex justify-content-center" data-aos="fade-up" data-aos-duration="500">
-      벽지
-      <div class="postcardBackground d-flex justify-content-center">
-        
-        유저가 정한 이미지 6개
-        <img class="postcard postcard1" :src="showImages[0].imageUrl" alt="테스트" />
-        <img class="postcard postcard2" :src="showImages[1].imageUrl" alt="테스트" />
-        <img class="postcard postcard3" :src="showImages[2].imageUrl" alt="테스트" />
-        <img class="postcard postcard4" :src="showImages[3].imageUrl" alt="테스트" />
-        <img class="postcard postcard5" :src="showImages[4].imageUrl" alt="테스트" />
-        <img class="postcard postcard6" :src="showImages[5].imageUrl" alt="테스트" />
-        
-        폴라로이드 이미지
-        <div class="polaroids">          
-        </div>
-      
-      </div>
-    </div> -->
+
 </template>
 
 <script>
@@ -172,6 +288,7 @@ export default {
 
   data() {
     return {
+        ownerSeq: 0,
         test: true,
         showRemind: true,
         showImages: [
@@ -212,7 +329,13 @@ export default {
         require("../../public/images/test1.jpg"),
         require("../../public/images/test1.jpg"),
         require("../../public/images/test1.jpg"),
-      ]
+      ],
+
+      // 페이지네이션
+      donationStage: 0,
+      postcardStage: 0,
+      followingStage: 0,
+      likedPostcardStage: 0,
     };
   },
 
@@ -231,6 +354,7 @@ export default {
     ...mapGetters(postcardStore, [
       "postcardList",
       "userLikedPostcard",
+      "likedPostcards",
     ]),
   },
 
@@ -249,6 +373,27 @@ export default {
       "getUserLikedPostcard",
     ]),
 
+    // 엽서 목록 변경
+    postcardMove(direction) {
+      // 만든 엽서 목록 페이지 변경
+      if (direction === 'left' && this.postcardStage > 0) {
+        this.postcardStage -= 1
+      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.postcardList.length / 12) - 1) {
+        this.postcardStage += 1
+      // 좋아요한 엽서 목록 페이지 변경
+      } else if (direction === 'L-left' && this.likedPostcardStage > 0) {
+        this.likedPostcardStage -= 1
+      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.userLikedPostcard.postcardList.length / 12) - 1) {
+        console.log(this.likedPostcardStage)
+        this.likedPostcardStage += 1
+      //  
+      } else if (direction === 'D-left' && this.donationStage > 0) {
+        this.donationStage -= 1
+      } else if (direction === 'D-right' && this.donationStage < Math.ceil(this.donationList.length / 12) - 1) {
+        this.donationStage += 1
+      }
+    },
+    
     goProfile() {
       // document 와 element 사이의 거리를 구한다
       const getElementY = (element) => {
@@ -321,8 +466,10 @@ export default {
 
 
   created() {
-    console.log(this.userInfo.userSeq)
-    console.log(this.userInfo.userSeq)
+    this.ownerSeq = Number(this.$route.query.ownerSeq)
+    console.log('유저시퀀스, 마이페이지 주인 시퀀스')
+    console.log(this.userInfo.userSeq, this.ownerSeq)
+    
     // 스토어에서 user_seq 들고와서 넣어줘야됨
     this.getDonationList(this.userInfo.userSeq)
     this.getFollowerList(this.userInfo.userSeq)
@@ -342,8 +489,7 @@ export default {
   mounted() {
     console.log(screen.width)
     console.log(screen.height)
-    console.log('asdasfsagsdg')
-    console.log(this.userLikedPostcard)
+    console.log('마운티드')
     
 
     // 캐러셀
@@ -464,15 +610,77 @@ export default {
       }
     }
               
-    var carouselElm = document.querySelector('.mypageCarousel')
+    var madeList = document.querySelector('#madeList')
     var followElm = document.querySelector('#followingList')
-    new HoverCarousel(carouselElm)                          
+    var likedList = document.querySelector('#likedList')
+    var donationList = document.querySelector('#donationList')
+    new HoverCarousel(madeList)
     new HoverCarousel(followElm)
+    new HoverCarousel(likedList)
+    new HoverCarousel(donationList)
       },
     }
 </script>
 
 <style>
+/* 페이지네이션 */
+.mypaginationTitle {
+  /* margin: auto; */
+  justify-content: space-between;
+  width: 100%;
+  font-size: 3vw;
+}
+.mypaginationText {
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+  font-size: 3vw;
+}
+.mypaginationPostcardList {
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+}
+/* .mypaginationPostcardSmallList {
+  display: flex;
+} */
+.mypaginationPostcardImg{
+  width: 11vw;
+  height: 11vw;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
+}
+.mypaginationImgSize {
+  width: 14vw;
+  margin-left: 2.5vw;
+  height: 17vw;
+  padding-top: 1vw;
+  margin-top: 3vw;
+  background-color: #fff;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
+}
+.mypaginationPostcardName {
+  display: inline-block;
+  margin-top: 1vw;
+  font-size: 2vw;
+  /* text-align: center */
+}
+
+
+
+.leftRight {
+  /* position: fixed; */
+  border-top : solid black;
+  width: 0.01px;
+  /* top: 15vh;
+  left: 15vw; */
+  /* height: 70vh; */
+  width: 65vw;
+  margin-left: 11.5vw;
+  margin-top: 7vh;
+  margin-bottom: 10vh;
+  opacity: 0.1;
+  z-index: 10000;
+}
 .mypageNav {
   position: fixed;
   top: 30vh;
@@ -499,19 +707,30 @@ export default {
 .Mypage {
   position: relative;
   height: 100%;
+  width: 94vw;
   /* background-image: url(../../public/images/mypageBackground.jpg);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   background-attachment: fixed; */
   background-color: whitesmoke;
 }
+
+.paginationPage {
+  height: 70vw;
+  width: 60vw;
+  margin: 0 auto;
+  /* border:#555; */
+}
+
 .profileText {
+  margin: 0 auto;
+  margin-top: 5vh;
   font-size: 8vh;
   font-family: 'Nanum Pen Script', cursive;;
 }
 .myInfo {
   /* position: absolute; */
-  margin-top: 10vh;
+  margin-bottom: 0vh;
   /* padding: 0 5vw; */
   /* width: 100vw; */
 }
@@ -569,11 +788,11 @@ export default {
   display: block;
   font-size: 0;
   border-radius: 8px;
-  padding: 8px;
+  padding: 3.5vh;
   box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
   background: white;
   transform: translateZ(0);
-  height: 200px;
+  height: 30vh;
   -webkit-overflow-scrolling: touch;
   /* for tablets */
 }
@@ -595,7 +814,7 @@ export default {
   z-index: 4;
   bottom: -4px;
   left: 0;
-  background: #D82B6A;
+  background: #d8872b;
   height: 4px;
   border-radius: 4px;
   opacity: 0;
@@ -637,12 +856,12 @@ export default {
 .mypageCarousel > .wrap > ul {
   list-style: none;
   white-space: nowrap;
-  height: 28vh;
+  height: 18vh;
 }
 .mypageCarousel > .wrap > ul > li {
   display: inline-block;
   vertical-align: middle;
-  height: 28vh;
+  height: 18vh;
   margin: 0 0 0 1vw;
   position: relative;
   /* overflow: hidden; */
@@ -652,16 +871,17 @@ export default {
   margin: 0;
 }
 .cardItem {
-  height: 28vh;
+  height: 12vh;
   border-radius: 10px;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
 }
 .mypageCarousel {
-  width: 70vw;
-  height: 30vh;
+  width: 60vw;
+  height: 18vh;
   margin: auto;
+  margin-bottom: 7vh;
 }
 
 
