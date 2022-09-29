@@ -117,7 +117,7 @@
       <h1>사랑을 전해주세요</h1>
       <label for="pay">기부 금액 : </label>
       <input v-model="this.donationInfo.donationPay" class="payInput" type="number" id="pay" />
-      <p v-show="!(this.donationInfo.donationPay >= 100)" style="color:red;">* 기부를 위해선최소 100원 이상의 금액이 필요합니다.</p>
+      <p v-show="!(this.donationInfo.donationPay >= 100)" style="color:red;">* 기부를 위해선 100원 이상의 금액이 필요합니다.</p>
     </div>
     <button v-if="this.donationInfo.donationPay >= 100" class="donaButton" @click="pay">
       <i @click="pay" class="fa-solid fa-hand-holding-heart" style="donaIcon" ></i>
@@ -130,6 +130,7 @@
     </div>
     <img @click="goHome" src="../../public/images/homeicon.png" class="homeIcon">
   </div>
+  <!-- 로고 이동 -->
   <div v-if="this.logoLoding" class="mainLoadingContent"></div>
   <!-- 기부 성공 후 보여줄 모달 -->
     <div v-if="this.modalShow" class="donaModal">
@@ -323,7 +324,7 @@ export default {
       this.reset()
     },
     goMypage() {
-      this.$router.push('/mypage')
+      this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}})
       this.reset()
     },
     // 결제하기
