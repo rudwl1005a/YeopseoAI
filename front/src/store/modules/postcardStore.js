@@ -175,8 +175,8 @@ const postcardStore = {
       await postcardListjs(
         userSeq,
         (response) => {
-          console.log("당신의 엽서 리스트 들고왔어요");
-          console.log(response.data);
+          // console.log("당신의 엽서 리스트 들고왔어요");
+          // console.log(response.data);
           commit("SET_POSTCARDLIST", response.data.postcardList);
         },
         (error) => {
@@ -189,8 +189,8 @@ const postcardStore = {
     async popularPostcardList({ commit }) {
       await popularPostcardListjs(
         (response) => {
-          console.log("인기 엽서 리스트 들고왔어요");
-          console.log(response.data);
+          // console.log("인기 엽서 리스트 들고왔어요");
+          // console.log(response.data);
           commit("SET_POPULARPOSTCARDLIST", response.data);
         },
         (error) => {
@@ -202,8 +202,8 @@ const postcardStore = {
     // 좋아요누른 엽서들 가져오기
     async getUserLikedPostcard({ commit }, userSeq) {
       await userLikedPostcardjs(userSeq, (response) => {
-        console.log("유저가 좋아요누른 엽서 목록 들고왔어요");
-        console.log(response.data);
+        // console.log("유저가 좋아요누른 엽서 목록 들고왔어요");
+        // console.log(response.data);
         commit("SET_USERLIKEDPOSTCARD", response.data);
       });
     },
@@ -212,7 +212,7 @@ const postcardStore = {
       await userLikedPostcard(
         userSeq,
         (response) => {
-          console.log(response.data);
+          // console.log(response.data);
           commit("SET_LIKEDPOSTCARD", response.data.postcardList);
         },
         (error) => {

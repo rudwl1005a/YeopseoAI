@@ -3,7 +3,6 @@ import DonationView from "../views/DonationView";
 import LoginView from "../views/LoginView";
 import MainView from "../views/MainView";
 import MakeCardView from "../views/MakeCardView";
-import MypageView from "../views/MypageView";
 import OrganizationListView from "../views/OrganizationListView";
 import SearchView from "../views/SearchView";
 import SignupView from "../views/SignupView";
@@ -47,11 +46,6 @@ const routes = [
     component: MakeCardView,
   },
   {
-    path: "/mypage/:user_id",
-    name: "MypageView",
-    component: MypageView,
-  },
-  {
     path: "/organizationlist",
     name: "OrganizationListView",
     component: OrganizationListView,
@@ -67,7 +61,7 @@ const routes = [
     component: SignupView,
   }, 
   {
-    path: "/mypage",
+    path: "/mypage/:userSeq",
     name: "TestMypageView",
     component: TestMypageView,
   }, 

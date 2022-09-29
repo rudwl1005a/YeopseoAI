@@ -385,8 +385,7 @@ export default {
       console.log("홈 새로고침");
     },
     goMypage() {
-      // this.$router.push({ name: "MypageView", params: { user_id: this.user_id } })
-      this.$router.push('/mypage');
+      this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}});
       console.log("홈 새로고침");
     },
     goBoard() {
