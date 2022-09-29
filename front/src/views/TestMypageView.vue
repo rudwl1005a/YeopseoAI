@@ -817,7 +817,10 @@ export default {
   width: 98vw;
   background-color: #faf8f5;
   margin: 0 auto;
+  padding-bottom: 1vh;
+  padding-top: 1vh;
   /* margin-top: 5vh; */
+  text-align: center;
   font-size: 8vh;
   font-family: 'Nanum Pen Script', cursive;;
 }
