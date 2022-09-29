@@ -56,22 +56,36 @@
         <h3 class="mypaginationText">{{userInfo.userName}}의 기부목록</h3>
         <div class="d-flex mypaginationText">
           <i class="bi bi-chevron-left" @click="postcardMove('D-left')"></i>
-          <b>{{this.donationStage +1}} / {{Math.ceil(this.donationList.length / 15)}}</b>
+          <b>{{this.donationStage +1}} / {{Math.ceil(this.donationList.length / 12)}}</b>
           <i class="bi bi-chevron-right" @click="postcardMove('D-right')"></i>
         </div>
       </div>
-      <div v-for="(page, index) in Math.ceil(this.postcardList.length / 15)"
+      <div v-for="(page, index) in Math.ceil(this.donationList.length / 12)"
         :key="`page-${index}`" >
+
         <div v-show="index === this.donationStage" class="mypaginationPostcardList">
-          <div v-for="(postcard, idx) in this.postcardList.slice(index * 15, (index + 1) * 15)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
-            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
-          </div>
-          iv v-for="(postcard, idx) in this.postcardList.slice(index * 15, (index + 1) * 15)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
-            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+          <div v-for="(donation, idx) in this.donationList.slice(index * 12, index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+            <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
           </div>
         </div>
+          
+        <div v-show="index === this.donationStage" class="mypaginationPostcardList">
+          <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+            <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+          </div>
+        </div> 
+
+        <div v-show="index === this.donationStage" class="mypaginationPostcardList">
+          <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+            <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+          </div>
+        </div>
+
+        </div>
       </div>
-    </div>
     <div class="leftRight"></div>
 
 
@@ -87,25 +101,39 @@
       </div>
     </div>
 
-
-    <!-- 유저가 기부한 엽서들 페이지네이션해서 보여주는 부분 -->
+    <!-- 유저가 만든 엽서들 페이지네이션해서 보여주는 부분 -->
     <div class="paginationPage">
       <div class="d-flex mypaginationTitle">
         <h3 class="mypaginationText">내가 그린 엽서 목록</h3>
         <div class="d-flex mypaginationText">
           <i class="bi bi-chevron-left" @click="postcardMove('left')"></i>
-          <b>{{this.postcardStage +1}} / {{Math.ceil(this.postcardList.length / 5)}}</b>
+          <b>{{this.postcardStage + 1}} / {{Math.ceil(this.postcardList.length / 12)}}</b>
           <i class="bi bi-chevron-right" @click="postcardMove('right')"></i>
         </div>
       </div>
-      <div v-for="(page, index) in Math.ceil(this.postcardList.length / 5)"
-        :key="`page-${index}`" >
+      <div v-for="(page, index) in Math.ceil(this.postcardList.length / 12)"
+        :key="`page-${index}`">
         <div v-show="index === this.postcardStage" class="mypaginationPostcardList">
-          <div v-for="(postcard, idx) in this.postcardList.slice(index * 5, (index + 1) *5)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+          <div v-for="(postcard, idx) in this.postcardList.slice(index * 12, index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
             <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
-            <!-- <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)"> -->
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
           </div>
         </div>
+
+        <div v-show="index === this.postcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.postcardList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
+          </div>
+        </div>
+
+        <div v-show="index === this.postcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.postcardList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="leftRight"></div>
@@ -133,22 +161,37 @@
     </div>
     </div> 
 
-    <!-- 유저가 기부한 엽서들 페이지네이션해서 보여주는 부분 -->
+    <!-- 유저가 좋아요한 엽서들 페이지네이션해서 보여주는 부분 -->
     <div class="paginationPage">
 
       <div class="d-flex mypaginationTitle">
         <h3 class="mypaginationText">좋아요한 엽서 목록</h3>
         <div class="d-flex mypaginationText">
           <i class="bi bi-chevron-left" @click="postcardMove('L-left')"></i>
-          <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.likedPostcards.length / 5)}}</b>
+          <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.userLikedPostcard.postcardList.length / 12)}}</b>
           <i class="bi bi-chevron-right" @click="postcardMove('L-right')"></i>
         </div>
       </div>
-      <div v-for="(page, idx) in Math.ceil(this.likedPostcards.length / 5)"
-        :key="`liked-page-${idx}`" >
-        <div v-show="idx === this.likedPostcardStage" class="mypaginationPostcardList">
-          <div v-for="(postcard, idx) in this.likedPostcards.slice(idx * 5, (idx + 1) *5)" :key="`likedPostcard-${page}-${idx}`" class="mypaginationImgSize">
+      <div v-for="(page, index) in Math.ceil(this.userLikedPostcard.postcardList.length / 12)"
+        :key="`liked-page-${index}`" >
+        <div v-show="index === this.likedPostcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 0, index * 12 + 4)" :key="`likedPostcard-${page}-${idx}`" class="mypaginationImgSize">
             <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
+          </div>
+        </div>
+
+        <div v-show="index === this.likedPostcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 4, index * 12 + 8)" :key="`likedPostcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
+          </div>
+        </div>
+
+        <div v-show="index === this.likedPostcardStage" class="mypaginationPostcardList">
+          <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 8, index * 12 + 12)" :key="`likedPostcard-${page}-${idx}`" class="mypaginationImgSize">
+            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="mypaginationPostcardName">#{{tag}} &nbsp;</p>
           </div>
         </div>
       </div>
@@ -210,6 +253,7 @@
     <div class="d-flex justify-content-center">
       <favorite-postcards-b></favorite-postcards-b>
     </div>
+  </div>
 
 
     <br>
@@ -244,6 +288,7 @@ export default {
 
   data() {
     return {
+        ownerSeq: 0,
         test: true,
         showRemind: true,
         showImages: [
@@ -333,17 +378,18 @@ export default {
       // 만든 엽서 목록 페이지 변경
       if (direction === 'left' && this.postcardStage > 0) {
         this.postcardStage -= 1
-      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.postcardList.length / 5) - 1) {
+      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.postcardList.length / 12) - 1) {
         this.postcardStage += 1
       // 좋아요한 엽서 목록 페이지 변경
       } else if (direction === 'L-left' && this.likedPostcardStage > 0) {
         this.likedPostcardStage -= 1
-      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.likedPostcards.length / 5) - 1) {
+      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.userLikedPostcard.postcardList.length / 12) - 1) {
+        console.log(this.likedPostcardStage)
         this.likedPostcardStage += 1
       //  
       } else if (direction === 'D-left' && this.donationStage > 0) {
         this.donationStage -= 1
-      } else if (direction === 'D-right' && this.donationStage < Math.ceil(this.donationList.length / 5) - 1) {
+      } else if (direction === 'D-right' && this.donationStage < Math.ceil(this.donationList.length / 12) - 1) {
         this.donationStage += 1
       }
     },
@@ -420,8 +466,10 @@ export default {
 
 
   created() {
-    console.log(this.userInfo.userSeq)
-    console.log(this.userInfo.userSeq)
+    this.ownerSeq = Number(this.$route.query.ownerSeq)
+    console.log('유저시퀀스, 마이페이지 주인 시퀀스')
+    console.log(this.userInfo.userSeq, this.ownerSeq)
+    
     // 스토어에서 user_seq 들고와서 넣어줘야됨
     this.getDonationList(this.userInfo.userSeq)
     this.getFollowerList(this.userInfo.userSeq)
@@ -441,8 +489,7 @@ export default {
   mounted() {
     console.log(screen.width)
     console.log(screen.height)
-    console.log('asdasfsagsdg')
-    console.log(this.userLikedPostcard)
+    console.log('마운티드')
     
 
     // 캐러셀
@@ -594,16 +641,31 @@ export default {
   width: 100%;
   margin: 0 auto;
 }
+/* .mypaginationPostcardSmallList {
+  display: flex;
+} */
 .mypaginationPostcardImg{
-  width: 10vw;
-  height: 10vw;
-  margin: 1px;
+  width: 11vw;
+  height: 11vw;
   box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
 }
 .mypaginationImgSize {
-  width: 20%;
-  height: 100%;
+  width: 14vw;
+  margin-left: 2.5vw;
+  height: 17vw;
+  padding-top: 1vw;
+  margin-top: 3vw;
+  background-color: #fff;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
 }
+.mypaginationPostcardName {
+  display: inline-block;
+  margin-top: 1vw;
+  font-size: 2vw;
+  /* text-align: center */
+}
+
+
 
 .leftRight {
   /* position: fixed; */
@@ -654,7 +716,7 @@ export default {
 }
 
 .paginationPage {
-  height: 40vw;
+  height: 70vw;
   width: 60vw;
   margin: 0 auto;
   /* border:#555; */
