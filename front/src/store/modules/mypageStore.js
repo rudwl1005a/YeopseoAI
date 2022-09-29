@@ -110,8 +110,8 @@ import {
         await donationList(
             user_seq,
           (response) => {
-            console.log("회원님의 기부목록이에요");
-            console.log(response);
+            // console.log("회원님의 기부목록이에요");
+            // console.log(response);
             commit('SET_DONATIONLIST', response.data);
           },
           (error) => {
@@ -126,8 +126,8 @@ import {
         await followList(
             user_seq,
           (response) => {
-            console.log("회원님의 팔로워 목록이에요");
-            console.log(response);
+            // console.log("회원님의 팔로워 목록이에요");
+            // console.log(response);
             commit('SET_DONATIONLIST', response.data);
           },
           (error) => {
