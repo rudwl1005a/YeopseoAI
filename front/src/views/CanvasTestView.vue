@@ -344,6 +344,7 @@
   </div>
   <div @click="goHome">홈으로</div>
   <div @click="changeImage">이미지 변환!</div>
+  <button @click="testFile" class="btn btn-primary">테스트해보자</button>
 </template>
 
 <script type="module">
@@ -428,6 +429,11 @@ export default {
       let coordinates = this.$refs.VueCanvasDrawing.getCoordinates(event);
       this.x = coordinates.x;
       this.y = coordinates.y;
+    },
+    testFile() {
+      // console.log(this.$refs.VueCanvasDrawing.getAllStrokes()[1])
+      // let coordinates = this.$refs.VueCanvasDrawing.getCoordinates(event)
+      console.log(this.image)
     },
     getStrokes() {
       window.localStorage.setItem(
