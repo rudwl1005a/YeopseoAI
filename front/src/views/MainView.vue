@@ -277,7 +277,7 @@ export default {
     FoundationModal,
   },
   computed: {
-    ...mapState(mainpageStore, ["letterTop", "foundationTop", "watchingLetter", "watchingFoundation"]),
+    ...mapState(mainpageStore, ["mainEffectIsntShowed", "letterTop", "foundationTop", "watchingLetter", "watchingFoundation"]),
     ...mapState(searchStore, ["letterSearchResult", "foundationSearchResult"]),
     ...mapState(accountStore, ["userInfo"]),
     ...mapGetters(accountStore, ["isLogged"]),
@@ -318,7 +318,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(mainpageStore, ["getFamousLetterStore", "getFamousFoundationStore", "getLetterDetail", "likeLetterStore", "dislikeLetterStore", "getFoundationDetail"]),
+    ...mapActions(mainpageStore, ["setMainEffect", "getFamousLetterStore", "getFamousFoundationStore", "getLetterDetail", "likeLetterStore", "dislikeLetterStore", "getFoundationDetail"]),
     ...mapActions(searchStore, ["getSearchResult"]),
     ...mapActions(accountStore, ["userLogout"]),
     ...mapActions(postcardStore, ["userLikedPostcardStore"]),
@@ -381,7 +381,7 @@ export default {
       console.log("홈 새로고침");
     },
     goLetter() {      
-      this.$router.push('/canvasTest');
+      this.$router.push('/makecard');
       console.log("홈 새로고침");
     },
     goMypage() {
@@ -446,16 +446,23 @@ export default {
   async created() {
     // 인기엽서, 인기재단 받아오자. async await 써서 받아야 할 듯
     AOS.init();
+    this.showLogoLoding = this.mainEffectIsntShowed;
     await this.getFamousLetterStore();
     await this.getFamousFoundationStore();
     console.log(this.letterTop);
     this.famousLetter = this.letterTop;
     this.famousFoundation = this.foundationTop;
+    // 로그인시 최초 1회만 화면 전환 이펙트를 넣을 예정
+    // 해당 값을 관리해줄 필요가 있음 -> mainpageStore에 mainEffectIsntShowed를 넣고
+    // 해당 값이 true일 경우 화면전환 이펙트를 넣자
+
     // 여기에 로딩 이미지 넣으면 될 듯?
     setTimeout(() => {
       // 로딩 이미지를 띄워줄 data값을 변경해주자
       this.showLogoLoding = false; // 3초 지나면 안보이게 하자
     }, 1000);
+    await this.setMainEffect();
+
   },
   mounted() {
     document.addEventListener("scroll", this.scrollEvent);
@@ -485,20 +492,24 @@ export default {
   background-size: 30vw 30vw;
   background-repeat: no-repeat;
   animation-name: logoFade;
-  animation-duration: 0.7s;
+  animation-duration: 1s;
 }
 
 @keyframes logoFade {
   from {
-    opacity: 0;
-    height: 0vw;
-    width: 0vw;
+    /* opacity: 0; */
+    height: 10vw;
+    width: 10vw;
+    background-size: 10vw 10vw;
+    transform: translate(0%, -20%);
     top: 0%;
     left: 0%;
   } to {
-    opacity: 1;
+    /* opacity: 1; */
     height: 30vw;
     width: 30vw;
+    background-size: 30vw 30vw;
+    transform: translate(-50%, -50%);
     top: 50%;
     left: 50%;
   }
@@ -613,6 +624,7 @@ export default {
 /* 메인페이지 로고 관리 */
 .mainLogoClass {
   z-index: 1;
+  cursor: pointer;
   position: fixed;
   top: 0%;
   left: 0%;

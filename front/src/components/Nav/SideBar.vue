@@ -1,4 +1,5 @@
 <template>
+<div class="mainLogoClass" @click="goHome"></div>
 <div :class="{ mainopendToggle : opendToggle , mainclosedToggle : !opendToggle}">
   <!-- 나중에 라우터 링크로 바꾸자 -->
   <div v-if="toggleContent" data-aos="fade-up" data-aos-duration="500">
@@ -13,6 +14,9 @@
 <div style="background-color: #faf8f5;" class="mainSideBarClass">
   <!-- 토글 아이콘 넣자 -->
   <div :class="{ mainsidebarToggle : !opendToggle , mainsidebarToggle2 : opendToggle }" @click="openSidebar"></div>
+  <div class="instaLogo"></div>
+  <div class="phoneLogo"></div>
+  <div class="phoneNum"></div>
 </div>
 </template>
 
@@ -77,23 +81,49 @@ export default {
 </script>
 
 <style>
+.phoneLogo {
+  position: absolute;
+  height: 2vw;
+  width: 2vw;
+  top: 85%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-size: 2vw 2vw;
+  background-repeat: no-repeat;
+  background-image: url("../../../public/images/phoneLogo.png");
+}
+
+.instaLogo {
+  position: absolute;
+  height: 2vw;
+  width: 2vw;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-size: 2vw 2vw;
+  background-repeat: no-repeat;
+  background-image: url("../../../public/images/instaLogo.png");
+}
+
 .mainsidebarToggle {
   cursor: pointer;
   margin: auto;
-  height: 4vw;
-  width: 4vw;
+  margin-top: 1vh;
+  height: 3vw;
+  width: 3vw;
   background-image: url("../../../public/images/sidebar_toggle.png");
-  background-size: 4vw 4vw;
+  background-size: 3vw 3vw;
   background-repeat: no-repeat;
   transition: 0.8s;
 }
 .mainsidebarToggle2 {
   cursor: pointer;
   margin: auto;
-  height: 5vw;
-  width: 5vw;
+  margin-top: 1vh;
+  height: 4vw;
+  width: 4vw;
   background-image: url("../../../public/images/sidebar_toggle.png");
-  background-size: 5vw 5vw;
+  background-size: 4vw 4vw;
   background-repeat: no-repeat;
   transform: rotate(270deg);
   transition: 0.8s;

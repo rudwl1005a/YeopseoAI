@@ -1,6 +1,5 @@
 <template>
 <side-bar></side-bar>
-<div class="mainLogoClass"></div>
 <div class="boardClass">
   <div class="boardTitle">문의사항</div>
   <div class="boardGoQuestion" @click="goQuestion">문의하기</div>

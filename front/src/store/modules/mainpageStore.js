@@ -14,6 +14,7 @@ const mainpageStore = {
     foundationTop: [],
     watchingLetter: [],
     watchingFoundation: [],
+    mainEffectIsntShowed: true,
   },
   getters: {},
   mutations: {
@@ -29,8 +30,24 @@ const mainpageStore = {
     SET_FOUNDATIONDETAIL: (state, foundation) => {
       state.watchingFoundation = foundation;
     },
+    SET_MAINEFFECTISNTSHOWED: (state) => {
+      state.mainEffectIsntShowed = false;
+    },
+    SET_BEGINNINGMAINEFFECT: (state) => {
+      state.mainEffectIsntShowed = true;
+    }
   },
   actions: {
+    // 비기닝페이지 진입시 메인페이지 진입 효과 세팅
+    async setBeginningMainEffect({ commit }) {
+      commit("SET_BEGINNINGMAINEFFECT");
+    },
+
+    // 메인페이지 진입 효과 관리
+    async setMainEffect({ commit }) {
+      commit("SET_MAINEFFECTISNTSHOWED");
+    },
+
     async getFamousLetterStore({ commit }) {
       // 인기 편지 목록 받아오기
       await getFamousLetter(
