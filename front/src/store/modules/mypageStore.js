@@ -1,9 +1,12 @@
+import { userDetail } from "@/api/account";
 import {
     usersecession,
     userUpdate,
     changeProfile,
     donationList,
     followList,
+    callChangeTemplate,
+    callChangeRemind,
   } from "@/api/mypage.js"
   
   const mypageStore = {
@@ -13,6 +16,7 @@ import {
       followList: [],
       profileImage: '',
       mypageUserInfo: {},
+      ownerInfo: {},
     },
 
 
@@ -29,6 +33,9 @@ import {
       },
       mypageUserInfo(state) {
         return state.mypageUserInfo;
+      },
+      ownerInfo(state) {
+        return state.ownerInfo;
       },
     },
 
@@ -47,6 +54,9 @@ import {
       SET_MYPAGEUSERINFO: (state, mypageUserInfo) => {
         state.mypageUserInfo = mypageUserInfo;
       },     
+      SET_OWNERINFO: (state, ownerInfo) => {
+        state.ownerInfo = ownerInfo;
+      },  
     },
 
 
@@ -93,7 +103,7 @@ import {
         await changeProfile(
             profileInfo,
           (response) => {
-            console.log("인기 재단 데이터 어떻게 들어오는지 확인");
+            console.log("이미지");
             console.log(response);
             commit('SET_PROFILEIMAGE', response.data);
           },
@@ -136,12 +146,60 @@ import {
         )
       },
 
+      // 마이페이지 주인 유저정보 할당
+      async setOwnerInfo({ commit }, userSeq) {
+        console.log('dho?')
+        await userDetail(
+          userSeq,
+          (response) => {
+            // if (response.data.message === "Success") {
+              // 받은 유저 정보 데이터 입력
+            console.log('zz');
+            console.log(response);
+            commit('SET_OWNERINFO', response.data);
+            // }
+          },
+          // 사용안해도 콜백함수 필요
+          (fail) => {
+            console.log("유저 정보 받기 실패");
+            console.log(fail);
+          }
+        );
+
+      },
 
       // 마이페이지 유저정보 할당
       async setMypageUserInfo({ commit }, userInfo) {
         commit('SET_MYPAGEUSERINFO', userInfo);
       },
 
+
+      // 탬플릿 변경요청
+      async changeTemplate({ commit }, templateInfo) {
+        await callChangeTemplate(
+          templateInfo,
+          () => {
+            commit()
+          },
+          () => {
+          }
+        );
+
+      },
+
+
+      // 리마인드 변경요청
+      async changeRemind({ commit }, templateInfo) {
+        await callChangeRemind(
+          templateInfo,
+          () => {
+            commit()
+          },
+          () => {
+          }
+        );
+
+      },
 
     },
   };
