@@ -156,6 +156,7 @@
   import AOS from 'aos';
   import {checkID} from "@/api/account";
   const accountStore = "accountStore";
+  const mainpageStore = "mainpageStore";
   
   
   export default {
@@ -207,6 +208,8 @@
       'userCheckID',
       'userLogin',
     ]),
+
+    ...mapActions(mainpageStore, ["setBeginningMainEffect"]),
   
     // 로그인 바로가기
     goLogin() {
@@ -338,6 +341,7 @@
   
   
     mounted() {
+      this.setBeginningMainEffect();
       // 클립 문법:::
       // rect(엘리먼트 제일 위로부터 보여줄 부분의 윗변 까지의 거리, 엘리먼트 제일 왼쪽으로 부터 보여줄 끝 부분 까지의 거리, 
       //      엘리먼트 제일 위로부터 보여줄 끝 부분 까지의 거리, 엘리먼트 제일 왼쪽으로 부터 보여줄 시작 부분 까지의 거리)

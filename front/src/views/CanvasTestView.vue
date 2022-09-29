@@ -46,6 +46,8 @@
             class="bi bi-lock"
             viewBox="0 0 16 16"
           > -->
+
+          
           <svg
             width="16"
             height="16"
@@ -53,6 +55,7 @@
             class="bi bi-lock"
             viewBox="0 0 16 16"
           >
+          <!-- viewBox 전부 00으로 교체 (원랜 0 0 16 16) -->
             <path
               v-if="!disabled"
               d="M11 1a2 2 0 0 0-2 2v4a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h5V3a3 3 0 0 1 6 0v4a.5.5 0 0 1-1 0V3a2 2 0 0 0-2-2zM3 8a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V9a1 1 0 0 0-1-1H3z"
@@ -186,7 +189,7 @@
 
         <!-- 두께 설정 -->
         <select v-model="line">
-          <option v-for="n in 25" :key="'option-' + n" :value="n">
+          <option v-for="n in 65" :key="'option-' + n" :value="n">
             {{ n }}
           </option>
         </select>
@@ -342,6 +345,7 @@
       <img :src="image" style="border: solid 1px #000000" />
     </div>
   </div>
+  <div @click="goNewCanvas">그림판2</div>
   <div @click="goHome">홈으로</div>
   <div @click="changeImage">이미지 변환!</div>
 </template>
@@ -382,12 +386,13 @@ export default {
       eraser: false,
       disabled: false,
       fillShape: false,
-      line: 5,
-      color: "#000000",
+      line: 65,
+      color: "#9ceedd",
       strokeType: "dash",
-      lineCap: "square",
-      lineJoin: "miter",
-      backgroundColor: "#FFFFFF",
+      lineCap: "round",
+      // lineJoin: "miter",
+      lineJoin: "bevel",
+      backgroundColor: "#9ceedd",
       backgroundImage: null,
       watermark: null,
       additionalImages: [],
@@ -447,11 +452,15 @@ export default {
     goHome() {
       this.$router.push("/main");
     },
+    goNewCanvas() {
+      this.$router.push("/canvasNew");
+    },
     async changeImage() {
       // 지금은 이미지 변환 클릭하면 엽서 등록 + 태그 등록됨
       // 로직 확인용이고, 잘 들어가는거 체크함
       console.log(document.getElementById("VueDrawingCanvas"));
       const canvas = document.getElementById("VueDrawingCanvas");
+      console.log(canvas);
       console.log(canvas.toDataURL()); // data:image/png;base64,
       const dataUrl = canvas.toDataURL("image/png");
       const blobData = this.dataURItoBlob(dataUrl);
