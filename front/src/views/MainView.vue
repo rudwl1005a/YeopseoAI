@@ -630,11 +630,11 @@ export default {
   top: 0%;
   left: 0%;
   transform: translate(0%, -20%);
-  height: 10vw;
-  width: 10vw;
+  height: 15vh;
+  width: 8vw;
   margin-left: 1vw;
   background-image: url("../../public/images/logo.png");
-  background-size: 10vw 10vw;
+  background-size: 8vw 15vh;
   background-repeat: no-repeat;
 }
 
