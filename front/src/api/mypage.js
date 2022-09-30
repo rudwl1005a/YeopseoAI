@@ -4,6 +4,8 @@
 // 기부 전체조회
 // 기부 상세조회
 // 친구목록 불러오기
+// 탬플릿 변경
+// 탬플릿에 보여줄 기부정보 변경
 
 // await api.post(`/api/follow`, {data: follow}).then(success).catch(fail); // body에 담을 때 이렇게 요청보내면 됨
 
@@ -26,7 +28,7 @@ async function userUpdate(updateInfo, success, fail) {
 
 // 프사 변경
 async function changeProfile(profileInfo, success, fail) {
-    await api.delete(`/api/users/profile/${profileInfo.user_seq}`, JSON.stringify(profileInfo.profile)).then(success).catch(fail);
+    await api.patch(`/api/users/profile/${profileInfo.user_seq}`, JSON.stringify(profileInfo.profile)).then(success).catch(fail);
 }
 
 
@@ -41,10 +43,26 @@ async function followList(user_seq, success, fail) {
     await api.get(`/api/donations/userList/${user_seq}`).then(success).catch(fail);
 } 
 
+
+// 탬플릿 변경
+async function callChangeTemplate(templateInfo, success, fail) {
+    await api.patch(`/api/user/template/${templateInfo.userSeq}`, JSON.stringify(templateInfo.donationSeq)).then(success).catch(fail);
+} 
+
+
+// 탬플릿에 보여줄 기부정보 변경
+async function callChangeRemind(remindInfo, success, fail) {
+    await api.patch(`/api/donations/userList/${remindInfo.userSeq}/${remindInfo.donationSeq}`, JSON.stringify()).then(success).catch(fail);
+} 
+
+
+
 export {
     usersecession,
     userUpdate,
     changeProfile,
     donationList,
     followList,
+    callChangeTemplate,
+    callChangeRemind,
 }

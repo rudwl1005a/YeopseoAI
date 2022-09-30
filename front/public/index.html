@@ -28,6 +28,9 @@
   
   </body>
   <style>
+    body::-webkit-scrollbar {
+      display: none;
+    }
     body, p {
       margin: 0;
       padding: 0;
@@ -44,6 +47,10 @@
       div
       {
         font-family: 'Nanum Pen Script', cursive;;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
   </style>
 </html>

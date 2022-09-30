@@ -41,6 +41,7 @@ export default {
     // 해당하는 imgURL을 세팅할 수 없다
   },
   created() {
+    console.log('b')
 
   },
 }
