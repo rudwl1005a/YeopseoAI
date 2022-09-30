@@ -1,14 +1,23 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.request.*;
+import com.ssafy.common.util.S3Uploader;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.repository.UserRepository;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Service("UserService")
 public class UserServiceImpl implements UserService{
+
+    @Autowired
+    S3Uploader s3Uploader;
 
     @Autowired
     UserRepository userRepository;
@@ -44,9 +53,23 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User updateUserProfile(int userSeq, UserUpdateProfilePostReq userUpdateProfileInfo) {
+    @Transactional
+    public User updateUserProfile(int userSeq, MultipartFile profile) throws IOException {
+
         User user = selectUser(userSeq);
-        user.setUserProfileUrl(userUpdateProfileInfo.getUserProfileUrl());
+
+        String result;
+        try{
+            // S3에 저장
+            LocalDateTime today = LocalDateTime.now();
+            result = s3Uploader.upload(profile, "profile_imgages_folder/" + user.getUserId() + "/" + today.toString().substring(0,10));
+        } catch(Exception e){
+            e.printStackTrace();
+            return null;
+        }
+
+        // DB 업데이트
+        user.setUserProfileUrl(result);
         return userRepository.save(user);
     }
 
