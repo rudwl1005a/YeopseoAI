@@ -28,7 +28,16 @@ async function userUpdate(updateInfo, success, fail) {
 
 // 프사 변경
 async function changeProfile(profileInfo, success, fail) {
-    await api.patch(`/api/users/profile/${profileInfo.user_seq}`, JSON.stringify(profileInfo.profile)).then(success).catch(fail);
+    console.log('프로필 정보=============')
+    // console.log(profileInfo)
+    let user_seq = profileInfo.user_seq
+    let profile = profileInfo.profile
+    // console.log()
+    for (var pair of profile.entries()) {
+        console.log(pair[0]+ ', ' + pair[1]); 
+      }
+    // console.log(profile)
+    await api.patch(`/api/users/profile/${user_seq}`, profile).then(success).catch(fail);
 }
 
 
@@ -46,13 +55,13 @@ async function followList(user_seq, success, fail) {
 
 // 탬플릿 변경
 async function callChangeTemplate(templateInfo, success, fail) {
-    await api.patch(`/api/user/template/${templateInfo.userSeq}`, JSON.stringify(templateInfo.donationSeq)).then(success).catch(fail);
+    await api.patch(`/api/users/template/${templateInfo.userSeq}`, JSON.stringify(templateInfo.userTemplate)).then(success).catch(fail);
 } 
 
 
 // 탬플릿에 보여줄 기부정보 변경
 async function callChangeRemind(remindInfo, success, fail) {
-    await api.patch(`/api/donations/userList/${remindInfo.userSeq}/${remindInfo.donationSeq}`, JSON.stringify()).then(success).catch(fail);
+    await api.patch(`/api/users/template/${remindInfo.userSeq}/${remindInfo.uesrRemind}`, JSON.stringify({ donationSeq: remindInfo.donationSeq })).then(success).catch(fail);
 } 
 
 

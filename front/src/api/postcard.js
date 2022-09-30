@@ -16,6 +16,7 @@ const api = apiInstance();
 // 엽서 업로드
 // postcardInfo = {postcard: 이미지파일, tag: [태그리스트], userId: 'string',}
 async function uploadPostcardjs(postcardObj, success, fail) {
+    console.log('postcardObj==========');
     console.log(postcardObj);
     let userId = postcardObj.userId;
     let canvasData = postcardObj.postcard;

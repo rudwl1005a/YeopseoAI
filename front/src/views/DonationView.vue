@@ -110,7 +110,8 @@
     <!-- 텍스트 입력 -->
     <div v-show="this.stage.three">
       <h1>마음을 담은 글귀 입력</h1>
-      <textarea @input="check" maxlength="100" class="inputText" v-model.trim="this.donationInfo.donationText" placeholder="간단한 글귀로 마음을 표현하세요(100자 내)"></textarea>
+      <div>{{donationInfo.donationText}}</div>
+      <textarea @input="checkTest" maxlength="100" class="inputText" placeholder="간단한 글귀로 마음을 표현하세요(100자 내)"></textarea>
     </div>
     <!-- 기부금 선택 입력 -->
     <div v-show="this.stage.four">
@@ -232,6 +233,11 @@ export default {
     // 엽서 리스트 용
     ...mapActions(postcardStore, ["userPostcardList", "userLikedPostcardStore"]),
     // 상위 버튼을 통한 이동
+
+    checkTest(event) {
+      this.donationInfo.donationText = event.target.innerText
+    },
+
     move(num) {
       if (num === 1) {
         this.stage.one = true

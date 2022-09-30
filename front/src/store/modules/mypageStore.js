@@ -1,4 +1,5 @@
 import { userDetail } from "@/api/account";
+import router from "@/router";
 import {
     usersecession,
     userUpdate,
@@ -17,6 +18,7 @@ import {
       profileImage: '',
       mypageUserInfo: {},
       ownerInfo: {},
+      userRemind: -1,
     },
 
 
@@ -36,6 +38,9 @@ import {
       },
       ownerInfo(state) {
         return state.ownerInfo;
+      },
+      userRemind(state) {
+        return state.userRemind;
       },
     },
 
@@ -57,6 +62,9 @@ import {
       SET_OWNERINFO: (state, ownerInfo) => {
         state.ownerInfo = ownerInfo;
       },  
+      SET_USERREMIND: (state, userRemind) => {
+        state.userRemind = userRemind;
+      },  
     },
 
 
@@ -71,8 +79,8 @@ import {
           (response) => {
             console.log("탈퇴됐슴");
             console.log(response);
-            alert('탈퇴됐어요~')
-            this.$router.push('/login')
+            alert('다시 만나요~!')
+            router.push('/')
           },
           (error) => {
             console.log(error);
@@ -148,13 +156,12 @@ import {
 
       // 마이페이지 주인 유저정보 할당
       async setOwnerInfo({ commit }, userSeq) {
-        console.log('dho?')
         await userDetail(
           userSeq,
           (response) => {
             // if (response.data.message === "Success") {
               // 받은 유저 정보 데이터 입력
-            console.log('zz');
+            console.log('마이페이지 주인 정보');
             console.log(response);
             commit('SET_OWNERINFO', response.data);
             // }
@@ -174,6 +181,11 @@ import {
       },
 
 
+      // 리마인드 번호 인식용
+      async changeUserRemind({ commit }, userRemind) {
+        commit('SET_USERREMIND', userRemind)
+      },
+
       // 탬플릿 변경요청
       async changeTemplate({ commit }, templateInfo) {
         await callChangeTemplate(
@@ -190,12 +202,16 @@ import {
 
       // 리마인드 변경요청
       async changeRemind({ commit }, templateInfo) {
+        console.log(templateInfo)
         await callChangeRemind(
           templateInfo,
           () => {
+            console.log('잘 저장됐어요')
+            // router.push({path: `/mypage/${templateInfo.userSeq}`, query: {ownerSeq: templateInfo.userSeq}});
             commit()
           },
           () => {
+            // router.push({path: `/mypage/${templateInfo.userSeq}`, query: {ownerSeq: templateInfo.userSeq}});
           }
         );
 
