@@ -4,15 +4,36 @@
   <side-bar></side-bar>
 
   
-  
+  <!-- Button trigger modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">회원탈퇴</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="mypaginationPostcardName" style="margin-top: 2vw; margin-bottom: 2vw;">
+        진짜 탈퇴하실건가요??
+      </div>
+      <div class="modal-footer">
+        <div class="mypaginationPostcardName" style="margin-top: 2vw; margin-bottom: 2vw;" data-bs-dismiss="modal">아니요!</div>
+        <div class="mypaginationPostcardName" @click="secession" style="margin-top: 2vw; margin-bottom: 2vw;">네..</div>
+      </div>
+    </div>
+  </div>
+</div>
   
   <div v-if="test" class="Mypage">
     <div class="mypageNav">
       <div class="mypageBtn" @click="goProfile" @mouseover="change1">profile</div>
       <div class="mypageBtn" @click="goDonations" @mouseover="change3">donations</div>
-      <div class="mypageBtn" @click="goMade" @mouseover="change5">made by {{ownerInfo.userName}}</div>
+      <div class="mypageBtn" @click="goMade" @mouseover="change5">{{ownerInfo.userName}} made</div>
       <div class="mypageBtn" @click="goLikedPostcards" @mouseover="change2">liked postcards</div>
       <div class="mypageBtn" @click="goFollowing" @mouseover="change4">following</div>
+      <div v-if="isOwner" class="mypageBtn" style="font-size: 1.3vw; margin-top: 12vw;" @click="showUpdateInfo" @mouseover="change4">회원정보수정</div>
+      <div v-if="isOwner" class="mypageBtn" style="font-size: 1.3vw;" data-bs-toggle="modal" data-bs-target="#exampleModal" @mouseover="change4">회원탈퇴</div>
     </div>
     <div class="updown"></div>
 
@@ -20,6 +41,12 @@
     <p id="goProfile" class="profileTitle">{{this.ownerInfo.userName}}'s profile page</p>
     <div style="margin-left: 10vw">
     <br>
+
+
+
+
+
+
     
     <!-- 내 정보 부분 -->
     <div class="myInfo row">
@@ -27,20 +54,30 @@
 
 
           <div class="myProfileImageBox ">
-            <img class="myProfileImage" id="profileImg" :src="profileImg" alt="">
-            <label for="changeImg" style="font-size: 2vw; cursor: pointer; max-width: 10vw; margin: 0 auto;">프로필 변경</label>
-            <input @change="tempImg" style="display: none;" type="file" accept="image/*" id="changeImg">
+            <img  class="myProfileImage" id="profileImg" :src="profileImg" alt="">
+              <label v-if="isOwner" class="mpButton" for="changeImg">
+              프로필 변경
+              </label>
+              <input style="display: none;" id="changeImg" type="file" accept="image/*" @change="tempImg"/>
           </div>
 
 
         <div class="myProfileInfo align-self-center row justify-content-center">
-          <h1 style="border-width: 1vw; border: black; cursor: pointer;" @click="showCollection">컬렉션 보기</h1>
           <h1>기부 횟수: {{this.mypageUserInfo.donationCnt}}</h1>
           <h1>기부 금액: {{this.mypageUserInfo.donationMoney}}</h1>
+          <h1 style="border-width: 1vw; border: black; cursor: pointer;" @click="showCollection">컬렉션 보기</h1>
         </div>
       </div>
     </div>
     <div class="leftRight"></div>
+
+
+
+
+
+
+
+
 
 
     <!-- 유저의 기부목록 보여주기 -->
@@ -56,73 +93,104 @@
     </div>
     
     <!-- 유저가 기부한 엽서들 페이지네이션해서 보여주는 부분 -->
+    <div v-if="Math.ceil(this.donationList.length / 12)">
     <div class="paginationPage">
       <div class="d-flex mypaginationTitle">
         <h3 class="mypaginationText">{{ownerInfo.userName}}의 기부목록</h3>
         <div class="d-flex mypaginationText">
           <i class="bi bi-chevron-left" @click="postcardMove('D-left')"></i>
-          <b>{{this.donationStage +1}} / {{Math.ceil(this.donationList.length / 12)}}</b>
+          <b v-if="Math.ceil(this.donationList.length / 12)">{{this.donationStage +1}} / {{Math.ceil(this.donationList.length / 12)}}</b>
+          <b v-else>0 / 0</b>
           <i class="bi bi-chevron-right" @click="postcardMove('D-right')"></i>
         </div>
       </div>
-      <div v-for="(page, index) in Math.ceil(this.donationList.length / 12)"
-        :key="`page-${index}`" >
+      
+        <div v-for="(page, index) in Math.ceil(this.donationList.length / 12)"
+          :key="`page-${index}`" >
 
-        <div v-if="index === this.donationStage" data-aos="flip-left" data-aos-duration="200">
-          
-          <!-- 앞면 -->
-          <div class="mypaginationPostcardList">
-            <div v-for="(donation, idx) in this.donationList.slice(index * 12, index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="spin">
-              <div class="spinItem front">
-                <div class="mypaginationImgSize">
-                  <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
-                  <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
-                </div>
-              </div>
-              <div class="spinItem back">
-                <div class="mypaginationImgSize">
-                  <p class="mypaginationPostcardName">{{donation.donationText}}</p>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div v-if="index === this.donationStage" data-aos="flip-left" data-aos-duration="200">
             
-          <div class="mypaginationPostcardList">
-            <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="spin">
-              <div class="spinItem front">
-                <div class="mypaginationImgSize">
-                  <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
-                  <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+            <!-- 앞면 -->
+            <div class="mypaginationPostcardList">
+              <div v-for="(donation, idx) in this.donationList.slice(index * 12, index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="spin">
+                <div class="spinItem front">
+                  <div class="mypaginationImgSize">
+                    <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+                    <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+                  </div>
                 </div>
-              </div>
-              <div class="spinItem back">
-                <div class="mypaginationImgSize">
-                  <p class="mypaginationPostcardName">{{donation.donationText}}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="mypaginationPostcardList">
-            <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="spin">
-              <div class="spinItem front">
-                <div class="mypaginationImgSize">
-                  <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
-                  <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
-                </div>
-              </div>
-              <div class="spinItem back">
-                <div class="mypaginationImgSize">
-                  <p class="mypaginationPostcardName">{{donation.donationText}}</p>
+                <div class="spinItem back">
+                  <div class="mypaginationImgSize">
+                    <p class="mypaginationPostcardName">{{donation.donationText}}</p>
+                    <div v-if="isOwner" style="position: absolute; top: 12vw;">
+                      <div class="mypaginationPostcardName">후원금액</div>
+                      <div class="mypaginationPostcardName">{{donation.donationPay}} 원</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+              
+            <div class="mypaginationPostcardList">
+              <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="spin">
+                <div class="spinItem front">
+                  <div class="mypaginationImgSize">
+                    <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+                    <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+                  </div>
+                </div>
+                <div class="spinItem back">
+                  <div class="mypaginationImgSize">
+                    <p class="mypaginationPostcardName">{{donation.donationText}}</p>                  
+                    <div v-if="isOwner" style="position: absolute; top: 12vw;">
+                      <div class="mypaginationPostcardName">후원금액</div>
+                      <div class="mypaginationPostcardName">{{donation.donationPay}} 원</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-        </div>
+            <div class="mypaginationPostcardList">
+              <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="spin">
+                <div class="spinItem front">
+                  <div class="mypaginationImgSize">
+                    <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+                    <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+                  </div>
+                </div>
+                <div class="spinItem back">
+                  <div class="mypaginationImgSize">
+                    <p class="mypaginationPostcardName">{{donation.donationText}}</p>
+                    <div v-if="isOwner" style="position: absolute; top: 12vw;">
+                      <div class="mypaginationPostcardName">후원금액</div>
+                      <div class="mypaginationPostcardName">{{donation.donationPay}} 원</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          </div>
         </div>
       </div>
+
+      <div v-else>
+        <div style="font-size:5vw; margin-top:10vw;">기부목록이 없습니다...</div>
+        <div v-if="this.isOwner" class="mpButton" style="margin-bottom:10vw;" @click="goDonation">기부하러가기</div>
+      </div>
     <div class="leftRight"></div>
+
+
+
+
+
+
+
+
+
+
 
 
     <!-- 유저가 만든 모든 엽서 보여주기 -->
@@ -138,12 +206,14 @@
     </div>
 
     <!-- 유저가 만든 엽서들 페이지네이션해서 보여주는 부분 -->
+    <div v-if="Math.ceil(this.postcardList.length / 12)">
     <div class="paginationPage">
       <div class="d-flex mypaginationTitle">
-        <h3 class="mypaginationText">내가 그린 엽서 목록</h3>
+        <h3 class="mypaginationText">{{ownerInfo.userName}}의 엽서 목록</h3>
         <div class="d-flex mypaginationText">
           <i class="bi bi-chevron-left" @click="postcardMove('left')"></i>
-          <b>{{this.postcardStage + 1}} / {{Math.ceil(this.postcardList.length / 12)}}</b>
+          <b v-if="Math.ceil(this.postcardList.length / 12)">{{this.postcardStage +1}} / {{Math.ceil(this.postcardList.length / 12)}}</b>
+          <b v-else>0 / 0</b>
           <i class="bi bi-chevron-right" @click="postcardMove('right')"></i>
         </div>
       </div>
@@ -153,32 +223,82 @@
         <div v-if="index === this.postcardStage" data-aos="flip-left" data-aos-duration="200">
 
 
-
-
-          
-          <div class="mypaginationPostcardList" style="margin-left: 0vw;">
-            <div v-for="(postcard, idx) in this.postcardList.slice(index * 12, index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
-              <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
-              <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
+          <div class="mypaginationPostcardList">
+            <div v-for="(postcard, idx) in this.postcardList.slice(index * 12 , index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="spin">
+              <div class="spinItem front">
+                <div class="mypaginationImgSize">
+                  <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+                  <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
+                </div>
+              </div>
+              <div class="spinItem back">
+                <div class="mypaginationImgSize">
+                  <p class="mypaginationPostcardName">made by</p>
+                  <p class="mypaginationPostcardName" style="margin-top: 0px;">{{ownerInfo.userName}}</p>
+                  <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
+                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="mypaginationPostcardList" style="margin-left: 0vw;">
-            <div v-for="(postcard, idx) in this.postcardList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
-              <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
-              <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
+          <div class="mypaginationPostcardList">
+            <div v-for="(postcard, idx) in this.postcardList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="spin">
+              <div class="spinItem front">
+                <div class="mypaginationImgSize">
+                  <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+                  <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
+                </div>
+              </div>
+              <div class="spinItem back">
+                <div class="mypaginationImgSize">
+                  <p class="mypaginationPostcardName">made by</p>
+                  <p class="mypaginationPostcardName" style="margin-top: 0px;">{{ownerInfo.userName}}</p>
+                  <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
+                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div class="mypaginationPostcardList" style="margin-left: 0vw;">
+
+          <div class="mypaginationPostcardList">
+            <div v-for="(postcard, idx) in this.postcardList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="spin">
+              <div class="spinItem front">
+                <div class="mypaginationImgSize">
+                  <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+                  <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
+                </div>
+              </div>
+              <div class="spinItem back">
+                <div class="mypaginationImgSize">
+                  <p class="mypaginationPostcardName">made by</p>
+                  <p class="mypaginationPostcardName" style="margin-top: 0px;">{{ownerInfo.userName}}</p>
+                  <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
+                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- <div class="mypaginationPostcardList" style="margin-left: 0vw;">
             <div v-for="(postcard, idx) in this.postcardList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="mypaginationImgSize">
               <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
               <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
             </div>
-          </div>
+          </div> -->
 
         </div>
       </div>
+    </div>
+    </div>
+    <div v-else>
+      <div style="font-size:5vw; margin-top:10vw;">엽서목록이 없습니다...</div>
+      <div v-if="this.isOwner" class="mpButton" style="margin-bottom:10vw;" @click="goLetter">엽서 만들기</div>
     </div>
     <div class="leftRight"></div>
 
@@ -187,7 +307,10 @@
 
 
 
-    <!-- 팔로워 부분 -->
+
+
+
+
      
     
 
@@ -206,13 +329,16 @@
     </div> 
 
     <!-- 유저가 좋아요한 엽서들 페이지네이션해서 보여주는 부분 -->
+    <div v-if="Math.ceil(this.userLikedPostcard.postcardList.length / 12)">
+
     <div class="paginationPage">
 
       <div class="d-flex mypaginationTitle">
-        <h3 class="mypaginationText">좋아요한 엽서 목록</h3>
+        <h3 class="mypaginationText">{{ownerInfo.userName}}님이 좋아하는 엽서 목록</h3>
         <div class="d-flex mypaginationText">
           <i class="bi bi-chevron-left" @click="postcardMove('L-left')"></i>
-          <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.userLikedPostcard.postcardList.length / 12)}}</b>
+          <b v-if="Math.ceil(this.userLikedPostcard.postcardList.length / 12)">{{this.likedPostcardStage +1}} / {{Math.ceil(this.userLikedPostcard.postcardList.length / 12)}}</b>
+          <b v-else>0 / 0</b>
           <i class="bi bi-chevron-right" @click="postcardMove('L-right')"></i>
         </div>
       </div>
@@ -221,31 +347,98 @@
 
         <div v-if="index === this.likedPostcardStage" data-aos="flip-left" data-aos-duration="200">
 
-        <div class="mypaginationPostcardList" style="margin-left: 0vw;">
-          <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 0, index * 12 + 4)" :key="`likedPostcard-${page}-${idx}`" class="mypaginationImgSize">
-            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
-            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
+          <div class="mypaginationPostcardList">
+            <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12, index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="spin">
+              <div class="spinItem front">
+                <div class="mypaginationImgSize">
+                  <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+                  <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
+                </div>
+              </div>
+              <div class="spinItem back">
+                <div class="mypaginationImgSize">
+                  <p class="mypaginationPostcardName">made by</p>
+                  <!-- <router-view :key="$route.fullPath"/> -->
+                  <p class="mypaginationPostcardName" @click="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
+                  <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
+                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="mypaginationPostcardList" style="margin-left: 0vw;">
-          <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 4, index * 12 + 8)" :key="`likedPostcard-${page}-${idx}`" class="mypaginationImgSize">
-            <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
-            <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
+          <div class="mypaginationPostcardList">
+            <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="spin">
+              <div class="spinItem front">
+                <div class="mypaginationImgSize">
+                  <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+                  <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
+                </div>
+              </div>
+              <div class="spinItem back">
+                <div class="mypaginationImgSize">
+                  <p class="mypaginationPostcardName">made by</p>
+                  <p class="mypaginationPostcardName" @click="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
+                  <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
+                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div class="mypaginationPostcardList" style="margin-left: 0vw;">
+          <div class="mypaginationPostcardList">
+            <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="spin">
+              <div class="spinItem front">
+                <div class="mypaginationImgSize">
+                  <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl">
+                  <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
+                </div>
+              </div>
+              <div class="spinItem back">
+                <div class="mypaginationImgSize">
+                  <p class="mypaginationPostcardName">made by</p>
+                  <p class="mypaginationPostcardName" @click="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
+                  <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
+                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        <!-- <div class="mypaginationPostcardList" style="margin-left: 0vw;">
           <div v-for="(postcard, idx) in this.userLikedPostcard.postcardList.slice(index * 12 + 8, index * 12 + 12)" :key="`likedPostcard-${page}-${idx}`" class="mypaginationImgSize">
             <img class="mypaginationPostcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
             <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
           </div>
-        </div>
+        </div> -->
+
+
       </div>
       
       </div>
+      </div>
+    </div>
+    <div v-else>
+      <div style="font-size:5vw; margin-top: 10vw; margin-bottom: 3vw;">좋아요한 엽서가 없습니다...</div>
+      <div v-if="this.isOwner" @click="goHome" style="font-size:3vw; margin-bottom: 10vw; cursor: pointer;">메인페이지에서 마음에 드는 엽서를 찾아보세요!</div>
+      <!-- <div class="mpButton" @click="goLetter">엽서 만들기</div> -->
     </div>
     <div class="leftRight"></div>
+
+
+
+
+
+
+
+
+
+
 
 
     <div class="followUsers">
@@ -261,41 +454,144 @@
     </div>
     </div> 
     <!-- 유저가 기부한 엽서들 페이지네이션해서 보여주는 부분 -->
+    <div v-if="Math.ceil(this.followList.length / 12)">
+      <div class="paginationPage">
+        {{this.followList}}
+      </div>
+    </div>
+
+  
+  </div>
+  
+  
+  <br>
+  <br>
+  <br>
+  <br>
+</div>
+
+<!-- 컬렉션 창 -->
+<div v-if="showRemind" style="z-index: 900; position: relative;">
+
+<!-- 좋아하는 엽서 목록 1 -->
+  <favorite-postcards-a v-if="ownerInfo.userTemplate === 2" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0); " class=""></favorite-postcards-a>
+
+<!-- 좋아하는 엽서 목록 2 -->
+  <favorite-postcards-b v-if="ownerInfo.userTemplate === 2" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0); " class="d-flex justify-content-center"></favorite-postcards-b>
+
+<!-- 좋아하는 엽서 목록 3 -->
+  <favorite-postcards-c v-if="ownerInfo.userTemplate === 1" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0);" class="d-flex justify-content-center"></favorite-postcards-c>
+  
+  <div type="button" @click="showCollection" style="width: 4vw; height: 4vw; font-size: 7vw; top: 2%; left: 80vw; position: fixed; z-index: 900;">X</div>
+  
+  <div v-if="isOwner" @click="showChangeTemplate" class="mpButton" style="top: 5%; left: 85vw; position: fixed; z-index: 900;" for="changeImg">
+  템플릿 변경
+  </div>
+</div>
+
+
+<!-- 탬플릿 선택 Modal -->
+<div class="modal fade" id="choiceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-size" style="margin-bottom: 5vw;">
+    <div class="modal-content" style="padding-top: 2vw; margin-bottom: 5vw;">
+      
+      <div type="button" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw; height: 4vw; font-size: 7vw; top: 3%; left: 80vw; position: fixed; z-index: 900;">X</div>
+      
+      <div v-if="Math.ceil(this.donationList.length / 12)">
     <div class="paginationPage">
+      <div class="d-flex mypaginationTitle">
+        <h3 class="mypaginationText">당신의 기부목록</h3>
+        <div class="d-flex mypaginationText">
+          <i class="bi bi-chevron-left" @click="postcardMove('D-left')"></i>
+          <b v-if="Math.ceil(this.donationList.length / 12)">{{this.donationStage +1}} / {{Math.ceil(this.donationList.length / 12)}}</b>
+          <b v-else>0 / 0</b>
+          <i class="bi bi-chevron-right" @click="postcardMove('D-right')"></i>
+        </div>
+      </div>
+      
+        <div v-for="(page, index) in Math.ceil(this.donationList.length / 12)"
+          :key="`page-${index}`" >
+
+          <div v-if="index === this.donationStage" data-aos="flip-left" data-aos-duration="200">
+            
+            <!-- 앞면 -->
+            <div class="mypaginationPostcardList">
+              <div v-for="(donation, idx) in this.donationList.slice(index * 12, index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="spin">
+                
+                  <div class="spinItem front" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                    <div class="mypaginationImgSize">
+                      <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+                      <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+                    </div>
+                  </div>
+                  <div class="spinItem back" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                    <div class="mypaginationImgSize">
+                      <p class="mypaginationPostcardName">{{donation.donationText}}</p>
+                      <div v-if="isOwner" style="position: absolute; top: 12vw;">
+                        <div class="mypaginationPostcardName">후원금액</div>
+                        <div class="mypaginationPostcardName">{{donation.donationPay}} 원</div>
+                      </div>
+                    </div>
+                  </div>
+
+              </div>
+            </div>
+              
+            <div class="mypaginationPostcardList">
+              <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="spin">
+                
+                  <div class="spinItem front" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                    <div class="mypaginationImgSize">
+                      <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+                      <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+                    </div>
+                  </div>
+                  <div class="spinItem back">
+                    <div class="mypaginationImgSize" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                      <p class="mypaginationPostcardName">{{donation.donationText}}</p>                  
+                      <div v-if="isOwner" style="position: absolute; top: 12vw;">
+                        <div class="mypaginationPostcardName">후원금액</div>
+                        <div class="mypaginationPostcardName">{{donation.donationPay}} 원</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+              </div>
+            </div>
+
+            <div class="mypaginationPostcardList">
+              <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="spin">
+                
+                  <div class="spinItem front" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                    <div class="mypaginationImgSize">
+                      <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
+                      <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
+                    </div>
+                  </div>
+                  <div class="spinItem back" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                    <div class="mypaginationImgSize">
+                      <p class="mypaginationPostcardName">{{donation.donationText}}</p>
+                      <div v-if="isOwner" style="position: absolute; top: 12vw;">
+                        <div class="mypaginationPostcardName">후원금액</div>
+                        <div class="mypaginationPostcardName">{{donation.donationPay}} 원</div>
+                      </div>
+                    </div>
+                  </div>
+                  
+              </div>
+            </div>
+
+          </div>
+          </div>
+        </div>
+      </div>
+
+
     </div>
-
-    
-    <!-- 컬렉션 모달 -->
-
-    <div v-if="showRemind" style="z-index: 9999; position: relative;">
-
-    <!-- 좋아하는 엽서 목록 1 -->
-    <div v-if="ownerInfo.userTemplate === 1" style="position: fixed; z-index: 9999;" class="d-flex justify-content-center">
-      <favorite-postcards-a></favorite-postcards-a>
-    </div>
-
-    <!-- 좋아하는 엽서 목록 2 -->
-    <div v-if="ownerInfo.userTemplate === 2" style="position: fixed; z-index: 9999;" class="d-flex justify-content-center">
-      <favorite-postcards-b></favorite-postcards-b>
-    </div>
-
-    <!-- 좋아하는 엽서 목록 3 -->
-    <div v-if="ownerInfo.userTemplate === 3" style="position: fixed; z-index: 9999;" class="d-flex justify-content-center">
-      <favorite-postcards-c></favorite-postcards-c>
-    </div>
-
-    </div>
-
-
-
   </div>
+</div>
 
 
-    <br>
-    <br>
-    <br>
-    <br>
-  </div>
 
 
 </template>
@@ -303,6 +599,7 @@
 <script>
 import AOS from 'aos';
 import "aos/dist/aos.css";
+import html2canvas from 'html2canvas';
 import SideBar from "@/components/Nav/SideBar.vue";
 import FavoritePostcardsA from "@/components/Collection/favoritePostcardsA.vue";
 import FavoritePostcardsB from "@/components/Collection/favoritePostcardsB.vue";
@@ -325,6 +622,10 @@ export default {
 
   data() {
     return {
+      // 탬플릿 변경 관련 함수
+      // 
+      showUpdate : false,
+      isShowChangeTemplate: 0,
       ownerSeq: 0,
       isOwner: 0,
       test: true,
@@ -348,6 +649,7 @@ export default {
       "profileImage",
       "mypageUserInfo",
       "ownerInfo",
+      "userRemind",
     ]),
     ...mapGetters(accountStore, [
       "userInfo",
@@ -370,11 +672,67 @@ export default {
       "getFollowerList",
       "setMypageUserInfo",
       "setOwnerInfo",
+      "changeTemplate",
+      "changeRemind",
     ]),
     ...mapActions(postcardStore, [
       "userPostcardList",
       "getUserLikedPostcard",
     ]),
+
+    templateChange(url) {
+      const templateInfo = { userSeq: this.userInfo.userSeq, uesrRemind: this.userRemind, donationSeq: url }
+      
+      this.changeRemind(templateInfo)
+    },
+
+    // 메인으로
+    goHome() {      
+      this.$router.push('/search');
+    },
+
+    // 엽서만들러가기
+    goLetter() {      
+      this.$router.push('/makecard');
+    },
+
+    // 기부하러가기
+    goDonation() {
+      this.$router.push('/donation')
+    },
+
+    // 다른유저 페이지로 가는 함수
+    async goUserPage(userSeq) {
+    this.ownerSeq = userSeq
+    // console.log('유저시퀀스, 마이페이지 주인 시퀀스')
+    // console.log(this.userInfo.userSeq, this.ownerSeq)
+    if (this.userInfo.userSeq === this.ownerSeq) {
+      this.isOwner = 1
+    }
+    
+    // 스토어에서 user_seq 들고와서 넣어줘야됨
+    await this.setOwnerInfo(this.ownerSeq)
+    this.getDonationList(this.ownerSeq)
+    this.getFollowerList(this.ownerSeq)
+    this.userPostcardList(this.ownerSeq)
+    this.getUserLikedPostcard(this.ownerSeq)
+    // 기부총액, 기부횟수 계산
+    let donationCnt = this.donationList.length
+    let donationMoney = 0
+    this.donationList.forEach(dontaion => {
+      donationMoney += dontaion.donationPay
+    });
+    this.setMypageUserInfo({donationCnt: donationCnt, donationMoney: donationMoney })
+    this.profileImg = this.ownerInfo.userProfileUrl
+
+    // console.log(this.userLikedPostcard)
+    this.$router.push({path: `/mypage/${userSeq}`, query: {ownerSeq: userSeq}});
+    },
+
+    // 컬렉션 정보 변경 창 띄우기
+    showChangeTemplate() {
+      this.isShowChangeTemplate = !this.isShowChangeTemplate
+    },
 
     // 컬랙션 보기
     showCollection() {
@@ -393,7 +751,6 @@ export default {
       } else if (direction === 'L-left' && this.likedPostcardStage > 0) {
         this.likedPostcardStage -= 1
       } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.userLikedPostcard.postcardList.length / 12) - 1) {
-        console.log(this.likedPostcardStage)
         this.likedPostcardStage += 1
       //  
       } else if (direction === 'D-left' && this.donationStage > 0) {
@@ -449,7 +806,11 @@ export default {
     // 회원탈퇴
     secession() {
       // 스토어에서 user_seq 들고와서 넣어줘야됨
-      this.userSecession()
+      this.userSecession(this.userInfo.userSeq)
+    },
+
+    showUpdateInfo() {
+      this.showUpdate = !this.showUpdate
     },
 
     // 유저정보 업데이트
@@ -463,23 +824,26 @@ export default {
       this.changeProfile()
     },
 
-    // async changeProfile() {
-    //   // 지금은 이미지 변환 클릭하면 엽서 등록 + 태그 등록됨
-    //   // 로직 확인용이고, 잘 들어가는거 체크함
-    //   const img = document.getElementById("profileImg");
-    //   const canvas = await html2canvas(img);
-    //   const dataUrl = canvas.toDataURL("image/png");
-    //   const blobData = this.dataURItoBlob(dataUrl);
-    //   const now = new Date();
-    //   // 파일 이름
-    //   const filename = `yeupseo-${this.userInfo.userSeq}${now.getHours()}${now.getMinutes()}${now.getSeconds()}.png`
-    //   // 파일 만들기
-    //   const tempFile = new File([blobData], filename, { type: 'image/png' });
-    //   // 폼데이터
-    //   let canvasData = new FormData;
-    //   canvasData.append('postcard', tempFile); // 생성된 canvasData 정해진 uri로 axios 요청 보내면 될 듯
-    //   this.changeUserProfile({ user_seq: this.ownerInfo.userSeq, profile: canvasData })
-    // },
+    async changeProfile() {
+      // 지금은 이미지 변환 클릭하면 엽서 등록 + 태그 등록됨
+      // 로직 확인용이고, 잘 들어가는거 체크함
+      const element = document.getElementById("profileImg");
+      const canvas = await html2canvas(element);
+      console.log('canvas')
+      console.log(canvas)
+      const dataUrl = canvas.toDataURL("image/png");
+      const blobData = this.dataURItoBlob(dataUrl);
+      const now = new Date();
+      // 파일 이름
+      const filename = `yeupseo-${this.userInfo.userSeq}${now.getHours()}${now.getMinutes()}${now.getSeconds()}.png`
+      // 파일 만들기
+      const tempFile = new File([blobData], filename, { type: 'image/png' });
+      // 폼데이터
+      let canvasData = new FormData;
+      canvasData.append('userProfileUrl', tempFile); // 생성된 canvasData 정해진 uri로 axios 요청 보내면 될 듯
+      this.changeUserProfile({ user_seq: this.ownerInfo.userSeq, profile: canvasData })
+      // this.$router.go()
+    },
 
     dataURItoBlob(dataURI) {
       var binary = atob(dataURI.split(',')[1]);
@@ -501,6 +865,7 @@ export default {
 
 
   async created() {
+    console.log('크리에이트가 되나?')
     this.ownerSeq = Number(this.$route.query.ownerSeq)
     // console.log('유저시퀀스, 마이페이지 주인 시퀀스')
     // console.log(this.userInfo.userSeq, this.ownerSeq)
@@ -510,27 +875,49 @@ export default {
     
     // 스토어에서 user_seq 들고와서 넣어줘야됨
     await this.setOwnerInfo(this.ownerSeq)
-    this.getDonationList(this.ownerSeq)
-    this.getFollowerList(this.ownerSeq)
-    this.userPostcardList(this.ownerSeq)
-    this.getUserLikedPostcard(this.ownerSeq)
+    await this.getDonationList(this.ownerSeq)
+    await this.getFollowerList(this.ownerSeq)
+    await this.userPostcardList(this.ownerSeq)
+    await this.getUserLikedPostcard(this.ownerSeq)
     // 기부총액, 기부횟수 계산
     let donationCnt = this.donationList.length
     let donationMoney = 0
-    this.donationList.forEach(dontaion => {
+    await this.donationList.forEach(dontaion => {
       donationMoney += dontaion.donationPay
     });
-    this.setMypageUserInfo({donationCnt: donationCnt, donationMoney: donationMoney })
+    await this.setMypageUserInfo({donationCnt: donationCnt, donationMoney: donationMoney })
     this.profileImg = this.ownerInfo.userProfileUrl
     AOS.init()    
   },
 
 
-  mounted() {
-    console.log(screen.width)
-    console.log(screen.height)
+  async mounted() {
+    this.ownerSeq = Number(this.$route.query.ownerSeq)
+    // console.log('유저시퀀스, 마이페이지 주인 시퀀스')
+    // console.log(this.userInfo.userSeq, this.ownerSeq)
+    if (this.userInfo.userSeq === this.ownerSeq) {
+      this.isOwner = 1
+    }
+    
+    // 스토어에서 user_seq 들고와서 넣어줘야됨
+    await this.setOwnerInfo(this.ownerSeq)
+    await this.getDonationList(this.ownerSeq)
+    await this.getFollowerList(this.ownerSeq)
+    await this.userPostcardList(this.ownerSeq)
+    await this.getUserLikedPostcard(this.ownerSeq)
+    // 기부총액, 기부횟수 계산
+    let donationCnt = this.donationList.length
+    let donationMoney = 0
+    await this.donationList.forEach(dontaion => {
+      donationMoney += dontaion.donationPay
+    });
+    await this.setMypageUserInfo({donationCnt: donationCnt, donationMoney: donationMoney })
+    this.profileImg = this.ownerInfo.userProfileUrl
+
+    // console.log(screen.width)
+    // console.log(screen.height)
     console.log('마운티드')
-    console.log(this.ownerInfo)
+    // console.log(this.userLikedPostcard)
     
 
     // 캐러셀
@@ -664,6 +1051,14 @@ export default {
 </script>
 
 <style>
+
+.bi {
+  cursor: pointer;
+}
+.bi:hover {
+  font-style:italic;
+  color:rgb(169, 169, 169);
+}
 /* 페이지네이션 */
 .mypaginationTitle {
   /* margin: auto; */
@@ -681,7 +1076,7 @@ export default {
   display: flex;
   width: 100%;
   margin: 0 auto;
-  margin-left: -3vw;
+  margin-left: -2.5vw;
 }
 /* .mypaginationPostcardSmallList {
   display: flex;
@@ -692,6 +1087,7 @@ export default {
   box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
 }
 .mypaginationImgSize {
+  position: relative;
   width: 12vw;
   margin-left: 2.5vw;
   height: 17vw;
@@ -774,7 +1170,7 @@ export default {
   top: 15vh;
   left: 15vw;
   height: 70vh;
-  opacity: 0.3;
+  opacity: 0.2;
 }
 .mypageBtn {
   cursor: pointer;
@@ -859,8 +1255,7 @@ export default {
   padding-top: 2vw; 
   margin-left: 7vw;
   border-radius: 25%;
-  width: 15vw;
-  height: 15vw;
+  width: 17vw;
   box-sizing: border-box;
 }
 .myProfileInfo {
@@ -1011,8 +1406,35 @@ export default {
 }
 
 
+.mpButton {
+  /* position: absolute; */
+  /* transform: translate(-50%, -50%); */
+  margin: 0 auto;
+  margin-top: 1vw;
+  height: 7vh;
+  width: 10vw;
+  cursor: pointer;
+  border-radius: 20px;
+  font-size: 2vw;
+  color: #fcf4e0;
+  background-color: #fd8a69;
+  box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
+  line-height: 7vh;
+  vertical-align: middle;
+  transition: 0.4s;
+}
+.mpButton:hover {
+  background-color: #e85b34;
+}
 
-
-/* 리마인드 파트 */
+.modal-size {
+    /* position: fixed; */
+    /* margin: 0 auto; */
+    max-width:90vw;
+    width: 75vw;
+    height: 70vw;
+    
+    /* overflow: hidden; */
+}
 
 </style>

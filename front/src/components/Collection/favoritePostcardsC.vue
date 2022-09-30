@@ -1,10 +1,39 @@
 <template>
+
+
+
     <!-- 포스트카드 나오는 부분 -->
-    <div class="d-flex justify-content-center" data-aos="fade-up" data-aos-duration="500">
+    <!-- 본인 창이면 -->
+    <div v-if="this.isOwner" class="d-flex justify-content-center" data-aos="fade-up" data-aos-duration="500">
       <!-- 벽지 -->
       <div class="remindBackground d-flex justify-content-center">
         
         <!-- 유저가 정한 이미지 6개 -->
+
+
+        <img class="postcard postcard1" style="cursor: pointer;" @click="changeUserRemind(0)" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="showImages[0].imageUrl" alt="테스트" />
+        <img class="postcard postcard2" style="cursor: pointer;" @click="changeUserRemind(1)" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="showImages[1].imageUrl" alt="테스트" />
+        <img class="postcard postcard3" style="cursor: pointer;" @click="changeUserRemind(2)" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="showImages[2].imageUrl" alt="테스트" />
+        <img class="postcard postcard4" style="cursor: pointer;" @click="changeUserRemind(3)" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="showImages[3].imageUrl" alt="테스트" />
+        <img class="postcard postcard5" style="cursor: pointer;" @click="changeUserRemind(4)" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="showImages[4].imageUrl" alt="테스트" />
+        <img class="postcard postcard6" style="cursor: pointer;" @click="changeUserRemind(5)" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="showImages[5].imageUrl" alt="테스트" />
+        
+        <!-- 폴라로이드 이미지 -->
+        <div class="polaroids">          
+        </div>
+      
+      </div>
+    </div>
+
+
+    <!-- 다른사람 페이지면 -->
+    <div v-else class="d-flex justify-content-center" data-aos="fade-up" data-aos-duration="500">
+      <!-- 벽지 -->
+      <div class="remindBackground d-flex justify-content-center">
+        
+        <!-- 유저가 정한 이미지 6개 -->
+
+
         <img class="postcard postcard1" :src="showImages[0].imageUrl" alt="테스트" />
         <img class="postcard postcard2" :src="showImages[1].imageUrl" alt="테스트" />
         <img class="postcard postcard3" :src="showImages[2].imageUrl" alt="테스트" />
@@ -18,13 +47,26 @@
       
       </div>
     </div>
+
+
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+const mypageStore = "mypageStore";
+const accountStore = "accountStore";
+const postcardStore = "postcardStore";
+
+
+
 export default {
     name: "favoritePostcardC",
     data() {
     return {
+      isOwner: 0,
+      showTemp: false,
+      changeSeq: 0,
+      changeDonationSeq: 0,
         showImages: [
         {
           imageUrl: require("../../../public/images/test1.jpg")
@@ -47,14 +89,37 @@ export default {
       ],
     }
     },
+
+    computed: {
+    ...mapGetters(mypageStore, [
+      "donationList",
+      "ownerInfo",
+    ]),
+    ...mapGetters(accountStore, [
+      "userInfo",
+    ]),
+    ...mapGetters(postcardStore, [
+      "postcardList",
+      "userLikedPostcard",
+      "likedPostcards",
+    ]),
+  },
+
     methods: {
-    // data의 imgURL을 변경해주는 로직이 필요
-    // 현 시점에선 사용자가 좋아하는 엽서 목록을 받지 못해
-    // 해당하는 imgURL을 세팅할 수 없다
+    ...mapActions(mypageStore, [
+      "userSecession",
+      "updateUserInfo",
+      "getDonationList",
+      "changeTemplate",
+      "changeRemind",
+      "changeUserRemind",
+    ]),
+
     },
     created() {
-      console.log('c')
-
+      if (this.ownerInfo.userSeq === this.userInfo.userSeq) {
+        this.isOwner = true
+      }
     },
 }
 </script>

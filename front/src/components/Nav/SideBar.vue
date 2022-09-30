@@ -34,7 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(accountStore, ["isLogged"]),
+    ...mapGetters(accountStore, ["isLogged", "userInfo"]),
   },
   methods: {
     ...mapActions(accountStore, ["userLogout"]),
