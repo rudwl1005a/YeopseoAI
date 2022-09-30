@@ -19,11 +19,11 @@
       <!-- <div class="tagCheck">입력중인 태그: {{ tag }}</div> -->
       <div class="tagCheck" @click="openTagInput">
         Tag
-        <div v-for="(ta, index) in tag" :key="index">
+        <div class="imgUploadTag" v-for="(ta, index) in tag" :key="index" @click="deleteTag(index)">
           #{{ ta }}
         </div>
       </div>
-      <div class="tagClickInfo">Click!!</div>
+      <div class="tagClickInfo">Click-삭제</div>
       <label for="file">
         이미지 업로드
         <div class="makecardLoading"></div>
@@ -34,8 +34,8 @@
       </div>
 
       <!-- 태그 입력 모달 -->
-      <div v-if="tagModal" class="tagInputClass">
-        <div style="cursor: pointer;" @click="openTagInput">Tag 입력창 닫기</div>
+      <div class="tagInputClass">
+        <div style="cursor: pointer;" @click="openTagInput">Tag를 입력해주세요</div>
         <input class="tagInputInput" v-model="tagItem" type="text" @keyup.enter="appendTag">
       </div>
 
@@ -123,9 +123,18 @@ export default {
     },
 
     appendTag() {
-      this.tag.push(this.tagItem);
+      console.log(this.tagItem);
+      if (!this.tag.includes(this.tagItem)) {
+        this.tag.unshift(this.tagItem);
+        this.tagItem = "";
+      }
       this.tagItem = "";
       console.log(this.tag);
+    },
+
+    // 태그 빼기
+    deleteTag(idx) {
+      this.tag.splice(idx, 1);
     },
 
     openTagInput() {
@@ -238,6 +247,15 @@ export default {
   </script>
   
 <style>
+.imgUploadTag {
+
+}
+
+.imgUploadTag:hover {
+  background-color: #c5c3c2;
+  border-radius: 20px;
+}
+
 .tagCheck {
   position: absolute;
   cursor: pointer;
@@ -257,11 +275,11 @@ export default {
   display: none;
 }
 
-.tagCheck:active {
+/* .tagCheck:active {
   width: 8vh;
   height: 12vh;
   background-color: #929190;
-}
+} */
 
 .tagClickInfo {
   position: absolute;
@@ -269,6 +287,7 @@ export default {
   top: 95%;
   left: 10%;
   transform: translate(-50%, -50%);
+  font-size: 1.2vw;
 }
 
 .tagInputClass {
