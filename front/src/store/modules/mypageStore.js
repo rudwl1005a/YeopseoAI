@@ -1,4 +1,5 @@
 import { userDetail } from "@/api/account";
+import router from "@/router";
 import {
     usersecession,
     userUpdate,
@@ -79,7 +80,7 @@ import {
             console.log("탈퇴됐슴");
             console.log(response);
             alert('다시 만나요~!')
-            this.$router.push('/')
+            router.push('/')
           },
           (error) => {
             console.log(error);
@@ -205,9 +206,12 @@ import {
         await callChangeRemind(
           templateInfo,
           () => {
+            console.log('잘 저장됐어요')
+            // router.push({path: `/mypage/${templateInfo.userSeq}`, query: {ownerSeq: templateInfo.userSeq}});
             commit()
           },
           () => {
+            // router.push({path: `/mypage/${templateInfo.userSeq}`, query: {ownerSeq: templateInfo.userSeq}});
           }
         );
 

@@ -7,7 +7,7 @@
   <!-- Button trigger modal -->
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="secession" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" style="width: ">
     <div class="modal-content">
       <div class="modal-header">
@@ -32,8 +32,8 @@
       <div class="mypageBtn" @click="goMade" @mouseover="change5">{{ownerInfo.userName}} made</div>
       <div class="mypageBtn" @click="goLikedPostcards" @mouseover="change2">liked postcards</div>
       <div class="mypageBtn" @click="goFollowing" @mouseover="change4">following</div>
-      <div v-if="isOwner" class="mypageBtn" style="font-size: 1.3vw; margin-top: 12vw;" @click="showUpdateInfo" @mouseover="change4">회원정보수정</div>
-      <div v-if="isOwner" class="mypageBtn" style="font-size: 1.3vw;" data-bs-toggle="modal" data-bs-target="#exampleModal" @mouseover="change4">회원탈퇴</div>
+      <div v-if="isOwner" class="mypageBtn" style="font-size: 1.3vw; margin-top: 10vw;" @click="showUpdateInfo" @mouseover="change4">회원정보수정</div>
+      <div v-if="isOwner" class="mypageBtn" style="font-size: 1.3vw; margin-bottom: ;" data-bs-toggle="modal" data-bs-target="#secession" @mouseover="change4">회원탈퇴</div>
     </div>
     <div class="updown"></div>
 
@@ -54,7 +54,9 @@
 
 
           <div class="myProfileImageBox ">
-            <img  class="myProfileImage" id="profileImg" :src="profileImg" alt="">
+            <img v-if="ownerInfo.userProfileUrl !== null" class="myProfileImage" id="profileImg" :src="profileImg" alt="">
+            <img v-else class="myProfileImage" id="profileImg" :src="defaultProfile.imageUrl" alt="zzz">
+              
               <label v-if="isOwner" class="mpButton" for="changeImg">
               프로필 변경
               </label>
@@ -64,7 +66,7 @@
 
         <div class="myProfileInfo align-self-center row justify-content-center">
           <h1>기부 횟수: {{this.mypageUserInfo.donationCnt}}</h1>
-          <h1>기부 금액: {{this.mypageUserInfo.donationMoney}}</h1>
+          <h1>총 기부 금액: {{this.mypageUserInfo.donationMoney}}</h1>
           <h1 style="border-width: 1vw; border: black; cursor: pointer;" @click="showCollection">컬렉션 보기</h1>
         </div>
       </div>
@@ -474,23 +476,46 @@
 <div v-if="showRemind" style="z-index: 900; position: relative;">
 
 <!-- 좋아하는 엽서 목록 1 -->
-  <favorite-postcards-a v-if="ownerInfo.userTemplate === 2" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0); " class=""></favorite-postcards-a>
+  <favorite-postcards-a v-if="ownerInfo.userTemplate === 1" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0); " class=""></favorite-postcards-a>
 
 <!-- 좋아하는 엽서 목록 2 -->
   <favorite-postcards-b v-if="ownerInfo.userTemplate === 2" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0); " class="d-flex justify-content-center"></favorite-postcards-b>
 
 <!-- 좋아하는 엽서 목록 3 -->
-  <favorite-postcards-c v-if="ownerInfo.userTemplate === 1" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0);" class="d-flex justify-content-center"></favorite-postcards-c>
+  <favorite-postcards-c v-if="ownerInfo.userTemplate === 0" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0);" class="d-flex justify-content-center"></favorite-postcards-c>
   
   <div type="button" @click="showCollection" style="width: 4vw; height: 4vw; font-size: 7vw; top: 2%; left: 80vw; position: fixed; z-index: 900;">X</div>
   
-  <div v-if="isOwner" @click="showChangeTemplate" class="mpButton" style="top: 5%; left: 85vw; position: fixed; z-index: 900;" for="changeImg">
+  <div v-if="isOwner" @click="showChangeTemplate" class="mpButton" data-bs-toggle="modal" data-bs-target="#changeTemplate" style="top: 5%; left: 85vw; position: fixed; z-index: 900;" for="changeImg">
   템플릿 변경
   </div>
 </div>
 
 
+
 <!-- 탬플릿 선택 Modal -->
+<div class="modal fade" id="changeTemplate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-size">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">템플릿 선택</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- 탬플릿 기부 선택 Modal -->
 <div class="modal fade" id="choiceModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-size" style="margin-bottom: 5vw;">
     <div class="modal-content" style="padding-top: 2vw; margin-bottom: 5vw;">
@@ -498,17 +523,18 @@
       <div type="button" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw; height: 4vw; font-size: 7vw; top: 3%; left: 80vw; position: fixed; z-index: 900;">X</div>
       
       <div v-if="Math.ceil(this.donationList.length / 12)">
-    <div class="paginationPage">
-      <div class="d-flex mypaginationTitle">
-        <h3 class="mypaginationText">당신의 기부목록</h3>
-        <div class="d-flex mypaginationText">
-          <i class="bi bi-chevron-left" @click="postcardMove('D-left')"></i>
-          <b v-if="Math.ceil(this.donationList.length / 12)">{{this.donationStage +1}} / {{Math.ceil(this.donationList.length / 12)}}</b>
-          <b v-else>0 / 0</b>
-          <i class="bi bi-chevron-right" @click="postcardMove('D-right')"></i>
-        </div>
-      </div>
-      
+        <div class="paginationPage">
+          <div class="d-flex mypaginationTitle">
+            <h3 class="mypaginationText">당신의 기부목록</h3>
+            <h3 class="mypaginationText">추억할 사진을 선택하세요</h3>
+            <div class="d-flex mypaginationText">
+              <i class="bi bi-chevron-left" @click="postcardMove('D-left')"></i>
+              <b v-if="Math.ceil(this.donationList.length / 12)">{{this.donationStage +1}} / {{Math.ceil(this.donationList.length / 12)}}</b>
+              <b v-else>0 / 0</b>
+              <i class="bi bi-chevron-right" @click="postcardMove('D-right')"></i>
+            </div>
+          </div>
+          
         <div v-for="(page, index) in Math.ceil(this.donationList.length / 12)"
           :key="`page-${index}`" >
 
@@ -518,13 +544,13 @@
             <div class="mypaginationPostcardList">
               <div v-for="(donation, idx) in this.donationList.slice(index * 12, index * 12 + 4)" :key="`postcard-${page}-${idx}`" class="spin">
                 
-                  <div class="spinItem front" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                  <div class="spinItem front" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" @click="templateChange(donation.donationSeq)">
                     <div class="mypaginationImgSize">
                       <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
                       <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
                     </div>
                   </div>
-                  <div class="spinItem back" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                  <div class="spinItem back" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" @click="templateChange(donation.donationSeq)">
                     <div class="mypaginationImgSize">
                       <p class="mypaginationPostcardName">{{donation.donationText}}</p>
                       <div v-if="isOwner" style="position: absolute; top: 12vw;">
@@ -540,14 +566,14 @@
             <div class="mypaginationPostcardList">
               <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 4, index * 12 + 8)" :key="`postcard-${page}-${idx}`" class="spin">
                 
-                  <div class="spinItem front" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                  <div class="spinItem front" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" @click="templateChange(donation.donationSeq)">
                     <div class="mypaginationImgSize">
                       <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
                       <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
                     </div>
                   </div>
                   <div class="spinItem back">
-                    <div class="mypaginationImgSize" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                    <div class="mypaginationImgSize" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" @click="templateChange(donation.donationSeq)">
                       <p class="mypaginationPostcardName">{{donation.donationText}}</p>                  
                       <div v-if="isOwner" style="position: absolute; top: 12vw;">
                         <div class="mypaginationPostcardName">후원금액</div>
@@ -562,13 +588,13 @@
             <div class="mypaginationPostcardList">
               <div v-for="(donation, idx) in this.donationList.slice(index * 12 + 8, index * 12 + 12)" :key="`postcard-${page}-${idx}`" class="spin">
                 
-                  <div class="spinItem front" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                  <div class="spinItem front" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" @click="templateChange(donation.donationSeq)">
                     <div class="mypaginationImgSize">
                       <img class="mypaginationPostcardImg" v-bind:src="donation.donationImgUrl" @click="selPostcard(donationList.donationImgUrl)">
                       <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
                     </div>
                   </div>
-                  <div class="spinItem back" style="cursor: pointer;" @click="templateChange(donation.donationImgUrl)">
+                  <div class="spinItem back" style="cursor: pointer;" data-bs-dismiss="modal" aria-label="Close" @click="templateChange(donation.donationSeq)">
                     <div class="mypaginationImgSize">
                       <p class="mypaginationPostcardName">{{donation.donationText}}</p>
                       <div v-if="isOwner" style="position: absolute; top: 12vw;">
@@ -586,6 +612,10 @@
         </div>
       </div>
 
+      <div v-else>
+        <div style="font-size:5vw; margin-top:10vw;">기부목록이 없습니다...</div>
+        <div v-if="this.isOwner" class="mpButton" data-bs-dismiss="modal" aria-label="Close" style="margin-bottom:10vw;" @click="goDonation">기부하러가기</div>
+      </div>
 
     </div>
   </div>
@@ -624,6 +654,7 @@ export default {
     return {
       // 탬플릿 변경 관련 함수
       // 
+      changeTemplateNum: 0,
       showUpdate : false,
       isShowChangeTemplate: 0,
       ownerSeq: 0,
@@ -631,7 +662,7 @@ export default {
       test: true,
       showRemind: false,
       profileImg: '',
-
+      defaultProfile: { imageUrl: require("../../public/images/mypageDummyImage.png")},
       
       // 페이지네이션
       donationStage: 0,
@@ -684,6 +715,7 @@ export default {
       const templateInfo = { userSeq: this.userInfo.userSeq, uesrRemind: this.userRemind, donationSeq: url }
       
       this.changeRemind(templateInfo)
+      this.$router.go()
     },
 
     // 메인으로
@@ -819,14 +851,14 @@ export default {
       this.updateUserInfo(this.updateInfo)
     },
 
-    tempImg(image) {
+    async tempImg(image) {
       this.profileImg = URL.createObjectURL(image.target.files[0])
-      this.changeProfile()
+      setTimeout(() => {
+        this.changeProfile()
+      }, 100)
     },
 
     async changeProfile() {
-      // 지금은 이미지 변환 클릭하면 엽서 등록 + 태그 등록됨
-      // 로직 확인용이고, 잘 들어가는거 체크함
       const element = document.getElementById("profileImg");
       const canvas = await html2canvas(element);
       console.log('canvas')
@@ -840,9 +872,13 @@ export default {
       const tempFile = new File([blobData], filename, { type: 'image/png' });
       // 폼데이터
       let canvasData = new FormData;
-      canvasData.append('userProfileUrl', tempFile); // 생성된 canvasData 정해진 uri로 axios 요청 보내면 될 듯
-      this.changeUserProfile({ user_seq: this.ownerInfo.userSeq, profile: canvasData })
-      // this.$router.go()
+      canvasData.append('profile', tempFile); // 생성된 canvasData 정해진 uri로 axios 요청 보내면 될 듯
+      await this.changeUserProfile({ user_seq: this.ownerInfo.userSeq, profile: canvasData })
+      this.pageReload()  
+    },
+    
+    pageReload() {
+      this.$router.go()
     },
 
     dataURItoBlob(dataURI) {
@@ -1094,7 +1130,7 @@ export default {
   padding-top: 1vw;
   margin-top: 3vw;
   background-color: #faf8f5;
-  /* background-color: #fff; */
+  overflow: hidden;
   box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
 }
 
