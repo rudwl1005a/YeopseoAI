@@ -155,7 +155,7 @@ export default {
       // console.log(this.postcardInfo.postcard)
       // this.uploadPostcard(this.postcardInfo)
       const element = document.getElementById("uploadFile");
-      const canvas = await html2canvas(element); // html to canvas
+      const canvas = await html2canvas(element); // html to canvaszz
       // console.log(canvas);
       // console.log("===============");
       // console.log(canvas)

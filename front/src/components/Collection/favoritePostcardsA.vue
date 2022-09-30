@@ -1,7 +1,8 @@
 <template>
+          
   <!-- TestMypageView의 좋아하는 엽서 목록 부분에 v-if  등으로 숨겨둘 것.
   사용자가 이걸 선택하면 보여주도록 로직 추가 필요 -->
-  <div class="favoritePics">
+  <div id="modalBox" data-aos="fade-up" data-aos-duration="500" class="favoritePics">
     <!-- 좌측 상단부 -->
     <div class="favoritePics1">
       <div class="favoritePics1_1">
@@ -80,6 +81,7 @@ export default {
 .favoritePics:hover {
   /* transform: rotate(360deg); */
   width: 120vh;
+  transition: 0.4s;
 }
 
 /* 좋아하는 엽서 좌측 상단부 */
