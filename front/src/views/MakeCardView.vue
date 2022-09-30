@@ -20,7 +20,7 @@
       <div class="tagCheck" @click="openTagInput">
         Tag
         <div v-for="(ta, index) in tag" :key="index">
-          {{ ta }},
+          #{{ ta }}
         </div>
       </div>
       <div class="tagClickInfo">Click!!</div>
@@ -30,13 +30,13 @@
       </label>
       <input id="file" type="file" accept="image/*" @change="changeImage" />
       <div class="showImageClass">
-        <img id="uploadFile" v-if="showImage" style="width: 40vh; height: 40vh" :src="showPostcard" alt="">
+        <img id="uploadFile" v-if="showImage" style="width: 20vw; height: 40vh" :src="showPostcard" alt="">
       </div>
 
       <!-- 태그 입력 모달 -->
       <div v-if="tagModal" class="tagInputClass">
-        <input v-model="tagItem" type="text" @keyup.enter="appendTag">
-        <div style="cursor: pointer;" @click="openTagInput">닫기</div>
+        <div style="cursor: pointer;" @click="openTagInput">Tag 입력창 닫기</div>
+        <input class="tagInputInput" v-model="tagItem" type="text" @keyup.enter="appendTag">
       </div>
 
       <!-- <div v-if="showImage" class="uploadFileYeupBtn" :onclick="upload">엽서ㄱㄱ?</div> -->
@@ -244,16 +244,23 @@ export default {
   top: 65%;
   left: 10%;
   transform: translate(-50%, -50%);
-  width: 10vh;
+  width: 5vw;
   height: 15vh;
   background-color: white;
-  border-radius: 30px;
+  border-radius: 10px;
   overflow: auto;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
+  transition: 0.2s;
 }
 
 .tagCheck::-webkit-scrollbar {
   display: none;
+}
+
+.tagCheck:active {
+  width: 8vh;
+  height: 12vh;
+  background-color: #929190;
 }
 
 .tagClickInfo {
@@ -267,11 +274,19 @@ export default {
 .tagInputClass {
   z-index: 10;
   position: absolute;
-  top: 20%;
+  top: -50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 50vh;
-  width: 50vh;
+  font-size: 1.5vw;
+  height: 10vh;
+  width: 15vw;
+}
+
+.tagInputInput {
+  border: none;
+  width: 15vw;
+  height: 4vh;
+  box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
 }
 
 .finModal {
@@ -302,7 +317,7 @@ export default {
   top: 30%;
   left: 50%;
   height: 40vh;
-  width: 40vh;
+  width: 20vw;
   transform: translate(-50%, -50%);
   border-radius: 20px;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);

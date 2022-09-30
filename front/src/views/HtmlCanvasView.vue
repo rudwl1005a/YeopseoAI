@@ -36,6 +36,14 @@
     <div class="colorTree" @click="changeColorTree">나무</div>
     <div class="colorTreeColumn" @click="changeColorTreeColumn">나무기둥</div>
   </div>
+  <div class="eraserClass" @click="changeColorSky"></div>
+  <!-- <div @click="changeFat">굵기 {{ lineFat }}</div> -->
+  <select class="changeLineFat" v-model="lineFat">
+    <option v-for="n in 50" :key="n" :value="n">
+      {{ n }}
+    </option>
+  </select>
+  <div class="eraseAll" @click="eraseAll">전체 삭제</div>
   <div class="translateBtn">이미지 변환</div>
   <div class="translatedResult">
     <div class="translatedImg"></div>
@@ -60,6 +68,7 @@ export default {
       painting: false,
       ctx: "",
       color: "#a8c832",
+      lineFat: 20,
     }
   },
   methods: {
@@ -218,20 +227,26 @@ export default {
     },
     startPainting() {
       this.painting = true;
+    },
+
+    // 지우기
+    eraseAll() {
+      this.$router.go();
     }
   },
   mounted() {
     const canvas = document.getElementById("canvasId");
-    let size = 35 * window.innerWidth / 100;
-    canvas.width = size;
-    canvas.height = size;
-    canvas.style.width = size;
-    canvas.style.height = size;
+    let sizeWidth = 30 * window.innerWidth / 100;
+    let sizeHeight = 55 * window.innerHeight / 100;
+    canvas.width = sizeWidth;
+    canvas.height = sizeHeight;
+    canvas.style.width = sizeWidth;
+    canvas.style.height = sizeHeight;
     this.ctx = canvas.getContext('2d');
     this.ctx.filter = "url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxmaWx0ZXIgaWQ9ImZpbHRlciIgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgY29sb3ItaW50ZXJwb2xhdGlvbi1maWx0ZXJzPSJzUkdCIj48ZmVDb21wb25lbnRUcmFuc2Zlcj48ZmVGdW5jUiB0eXBlPSJpZGVudGl0eSIvPjxmZUZ1bmNHIHR5cGU9ImlkZW50aXR5Ii8+PGZlRnVuY0IgdHlwZT0iaWRlbnRpdHkiLz48ZmVGdW5jQSB0eXBlPSJkaXNjcmV0ZSIgdGFibGVWYWx1ZXM9IjAgMSIvPjwvZmVDb21wb25lbnRUcmFuc2Zlcj48L2ZpbHRlcj48L3N2Zz4=#filter)";
     // this.ctx.strokeStyle = "#a8c832";
     this.ctx.strokeStyle = this.color;
-    this.ctx.lineWidth = 20;
+    this.ctx.lineWidth = this.lineFat;
     this.ctx.imageSmoothingEnabled = false;
     this.ctx.mozImageSmoothingEnabled = false;
     this.ctx.oImageSmoothingEnabled = false;
@@ -246,6 +261,12 @@ export default {
       canvas.addEventListener("mouseup", this.stopPainting);
       canvas.addEventListener("mouseleave", this.stopPainting);
     }
+  },
+  watch: {
+    lineFat() {
+      // console.log(this.lineFat);
+      this.ctx.lineWidth = this.lineFat;
+    }
   }
 }
 </script>
@@ -259,29 +280,92 @@ export default {
 
 .htmlCanvasClass {
   position: absolute;
-  top: 50%;
-  left: 20%;
+  top: 45%;
+  left: 19%;
   transform: translate(-50%, -50%);
   background-color: #9ceedd;
-  width: 35vw;
-  height: 35vw;
+  width: 30vw;
+  height: 55vh;
   image-rendering: pixelated;
 }
+
+.eraserClass {
+  position: absolute;
+  cursor: pointer;
+  top: 77%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  width: 3vw;
+  height: 5vh;
+  background-image: url("../../public/images/erase.png");
+  background-size: 3vw 5vh;
+  background-repeat: no-repeat;
+}
+
+.eraserClass:hover {
+  animation-name: switchErase;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-duration: 1s;
+}
+
+@keyframes switchErase {
+  from {
+    transform: translate(-50%, -50%) rotate(-15deg);
+  } to {
+    transform: translate(-50%, -50%) rotate(15deg);
+  }
+}
+
+.changeLineFat {
+  cursor: pointer;
+  position: absolute;
+  top: 77%;
+  left: 19%;
+  transform: translate(-50%, -50%);
+  width: 5vw;
+  height: 2vw;
+  background-color: #faf8f5;
+  font-size: 1.7vw;
+  line-height: 2vw;
+  vertical-align: middle;
+}
+
+.eraseAll {
+  position: absolute;
+  cursor: pointer;
+  top: 77%;
+  left: 28%;
+  transform: translate(-50%, -50%);
+  width: 6vw;
+  height: 2vw;
+  font-size: 1.5vw;
+  line-height: 2vw;
+  vertical-align: middle;
+  transition: 0.4s;
+  border-radius: 20px;
+}
+
+.eraseAll:hover {
+  background-color: #696969;
+  color: #fcf4e0;
+}
+
 
 .translateBtn {
   position: absolute;
   top: 90%;
-  left: 20%;
+  left: 19%;
   transform: translate(-50%, -50%);
-  height: 10vh;
-  width: 15vw;
+  height: 8vh;
+  width: 12vw;
   cursor: pointer;
   border-radius: 20px;
-  font-size: 3vw;
+  font-size: 2vw;
   color: #fcf4e0;
   background-color: #fd8a69;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
-  line-height: 10vh;
+  line-height: 8vh;
   vertical-align: middle;
   transition: 0.4s;
 }
@@ -297,10 +381,10 @@ export default {
 .translatedImg {
   position: absolute;
   width: 30vw;
-  height: 30vw;
+  height: 55vh;
   transform: translate(-50%, -50%);
   top: 45%;
-  left: 77%;
+  left: 75%;
   background-color: #fcf4e0;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
 }
@@ -308,17 +392,17 @@ export default {
 .resultSaveBtn {
   position: absolute;
   top: 90%;
-  left: 77%;
+  left: 75%;
   transform: translate(-50%, -50%);
-  height: 10vh;
-  width: 15vw;
+  height: 8vh;
+  width: 12vw;
   cursor: pointer;
   border-radius: 20px;
-  font-size: 3vw;
+  font-size: 2vw;
   color: #fcf4e0;
   background-color: #fd8a69;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
-  line-height: 10vh;
+  line-height: 8vh;
   vertical-align: middle;
   transition: 0.4s;
 }
@@ -330,7 +414,7 @@ export default {
 .resultTitleBend {
   position: absolute;
   top: 80%;
-  left: 77%;
+  left: 75%;
   transform: translate(-50%, -50%);
   font-size: 2vw;
 }
@@ -338,7 +422,7 @@ export default {
 .colorPallet {
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 47%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-wrap: wrap;
@@ -356,7 +440,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorWooltari {
@@ -368,7 +452,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorHouse {
@@ -380,7 +464,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorPlatform {
@@ -392,7 +476,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorRoof {
@@ -404,7 +488,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorBeukDol {
@@ -416,7 +500,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorDolBeuk {
@@ -428,7 +512,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorTreeWall {
@@ -440,7 +524,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorSoil {
@@ -452,7 +536,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorMiniDol {
@@ -464,7 +548,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorEct {
@@ -476,7 +560,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorMud {
@@ -488,7 +572,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorGoodRoad {
@@ -500,7 +584,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorRoad {
@@ -512,7 +596,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorBigSoil {
@@ -524,7 +608,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorCloud {
@@ -536,7 +620,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorFog {
@@ -548,7 +632,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorHill {
@@ -560,7 +644,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorMountain {
@@ -572,7 +656,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorRiver {
@@ -584,7 +668,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorRock {
@@ -596,7 +680,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorSea {
@@ -608,7 +692,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorSky {
@@ -620,7 +704,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorSnow {
@@ -632,7 +716,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorDol {
@@ -644,7 +728,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorWater {
@@ -656,7 +740,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorBush {
@@ -668,7 +752,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorFlower {
@@ -680,7 +764,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorPool {
@@ -692,7 +776,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorZip {
@@ -704,7 +788,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorTree {
@@ -716,7 +800,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 .colorTreeColumn {
@@ -728,7 +812,7 @@ export default {
   margin: 1vw;
   line-height: 3vw;
   vertical-align: middle;
-  font-size: 1.5vw;
+  font-size: 1.2vw;
   color: white;
 }
 </style>

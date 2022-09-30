@@ -179,7 +179,8 @@
   </div>
   <!-- 재단 모달 -->
   <div v-if="showModal" class="mainFoundationModal">
-    <foundation-modal :seeingFoundation="seeingFoundation" style="height: 80vh; width: 80vw;"></foundation-modal>
+    <div class="modalShadow"></div>
+    <foundation-modal :seeingFoundation="seeingFoundation"></foundation-modal>
     <div type="button" @click="setFoundationDonationList(famousFoundation[0])" style="width: 4vw; height: 4vw; font-size: 7vw; top: 5%; left: 90%; position: fixed; z-index: 10000;">X</div>
   </div>
   <!-- 재단 목록 -->
@@ -871,8 +872,14 @@ export default {
   z-index: 100;
   position: fixed;
   top: 50%;
-  left: 47%;
+  left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.modalShadow {
+  height: 0;
+  width: 0;
+  box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
 }
 
 
