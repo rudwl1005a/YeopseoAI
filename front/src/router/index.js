@@ -59,12 +59,12 @@ const routes = [
     path: "/signup",
     name: "SignupView",
     component: SignupView,
-  }, 
+  },
   {
     path: "/mypage/:userSeq",
     name: "TestMypageView",
     component: TestMypageView,
-  }, 
+  },
   {
     path: "/board",
     name: "BoardView",
