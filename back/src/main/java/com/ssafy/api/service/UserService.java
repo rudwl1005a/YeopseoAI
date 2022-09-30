@@ -2,6 +2,9 @@ package com.ssafy.api.service;
 
 import com.ssafy.api.request.*;
 import com.ssafy.db.entity.User;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public interface UserService {
 
@@ -11,7 +14,7 @@ public interface UserService {
 
     User updateUser(int userSeq, UserUpdatePostReq userUpdateInfo);
 
-    User updateUserProfile(int userSeq, UserUpdateProfilePostReq userUpdateProfileInfo);
+    User updateUserProfile(int userSeq, MultipartFile profile) throws IOException;
 
     User updateTemplate(int userSeq, UserUpdateTemplatePostReq userUpdateTemplateInfo);
 
