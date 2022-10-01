@@ -17,6 +17,8 @@ public class DonationRes {
 	String foundationName;
 	@ApiModelProperty(name="User Id", example="홍길동")
 	String userId;
+	@ApiModelProperty(name="기부seq", example="1")
+	int donationSeq;
 	@ApiModelProperty(name="엽서이미지 url", example="url")
 	String donationImgUrl;
 	@ApiModelProperty(name="엽서 내용", example="안녕하세요")
@@ -30,6 +32,7 @@ public class DonationRes {
 
 		res.setFoundationName(foundationName);
 		res.setUserId(userId);
+		res.setDonationSeq(donation.getDonationSeq());
 		res.setDonationImgUrl(donation.getDonationImgUrl());
 		res.setDonationText(donation.getDonationText());
 		res.setDonationPay(donation.getDonationPay());

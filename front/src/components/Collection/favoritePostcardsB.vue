@@ -1,5 +1,5 @@
 <template>
-<div class="favoritePicsB">
+<div id="modalBox" data-aos="fade-up" data-aos-duration="500" class="favoritePicsB">
   <div class="favoritePicsB1">
     <img class="favoriteImg" :src="imgURL" style="height: 42vh; width: 22vh;" alt="">
   </div>

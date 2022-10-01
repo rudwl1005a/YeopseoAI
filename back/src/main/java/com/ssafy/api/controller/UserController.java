@@ -11,7 +11,9 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -122,12 +124,17 @@ public class UserController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<? extends BaseResponseBody> updateProfile(
-            @PathVariable("userSeq") @ApiParam(value="회원정보 수정", required = true) int userSeq
-            , @RequestBody @ApiParam(value="회원정보 수정", required = true) UserUpdateProfilePostReq updateProfileInfo) {
+            @PathVariable("userSeq") @ApiParam(value="회원정보 수정", required = true) int userSeq,
+            @RequestPart @ApiParam(value="프로필 사진 파일", required = true) MultipartFile profile) throws IOException {
 
-        userService.updateUserProfile(userSeq, updateProfileInfo);
+        try {
+            User user = userService.updateUserProfile(userSeq, profile);
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Fail"));
+        }
 
-        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
     @GetMapping("/check/{userId}")
