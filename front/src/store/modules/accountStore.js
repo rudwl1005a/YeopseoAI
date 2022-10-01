@@ -40,6 +40,10 @@ const accountStore = {
     SET_TOKEN: (state, token) => {
       state.token = token;
     },
+    SET_STATE: (state) => {
+      const initialState = { userInfo: null, accountError: null, token: null };
+      Object.assign(state, initialState);
+    },
   },
   actions: {
     // 유저 정보 받아오기
@@ -111,12 +115,9 @@ const accountStore = {
       });
     },
 
-    // 로그아웃
-    async userLogout({ commit }) {
-      // 현재 유저 정보 삭제
-      commit("SET_USER_INFO", null);
-      // 세션 내 토큰 삭제
-      commit("SET_TOKEN", null);
+    // 스테이트 리셋
+    accountStoreReset({ commit }) {
+      commit("SET_STATE");
     },
   },
 };

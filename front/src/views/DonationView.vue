@@ -80,7 +80,9 @@
           <i class="bi bi-chevron-right" @click="postcardMove('right')"></i>
         </div>
       </div>
-        <h3 v-if="!(Math.ceil(this.postcardList.length / 5) > 1)">현재 작성한 엽서가 없어요 먼저 엽서를 작성해 주세요</h3>
+        <h3 v-if="!this.postcardList.length" class="noListText">현재 작성한 엽서가 없어요.
+          <button class="btn btn-primary" @click="goLetters">엽서 만들기</button>
+        </h3>
       <div v-for="(page, index) in Math.ceil(this.postcardList.length / 5)"
         :key="`page-${index}`" >
         <div v-show="index === this.postcardStage" class="postcardList">
@@ -97,7 +99,9 @@
           <i class="bi bi-chevron-right" @click="postcardMove('L-right')"></i>
         </div>
       </div>
-      <h3 v-if="!(Math.ceil(this.likedPostcards.length / 5) > 1)">현재 좋아요를 한 엽서 목록이 없어요.</h3>
+      <h3 v-if="!this.likedPostcards.length" class="noListText">현재 좋아요를 한 엽서 목록이 없어요.
+        <button class="btn btn-primary" @click="goSearch" >엽서 구경하기</button>
+      </h3>
       <div v-for="(page, idx) in Math.ceil(this.likedPostcards.length / 5)"
         :key="`liked-page-${idx}`" >
         <div v-show="idx === this.likedPostcardStage" class="postcardList">
@@ -110,7 +114,7 @@
     <!-- 텍스트 입력 -->
     <div v-show="this.stage.three">
       <h1>마음을 담은 글귀 입력</h1>
-      <textarea @input="check" maxlength="100" class="inputText" v-model.trim="this.donationInfo.donationText" placeholder="간단한 글귀로 마음을 표현하세요(100자 내)"></textarea>
+      <textarea @input="changInput" maxlength="100" class="inputText" :value="this.donationInfo.donationText" placeholder="간단한 글귀로 마음을 표현하세요(100자 내)"></textarea>
     </div>
     <!-- 기부금 선택 입력 -->
     <div v-show="this.stage.four">
@@ -120,7 +124,7 @@
       <p v-show="!(this.donationInfo.donationPay >= 100)" style="color:red;">* 기부를 위해선 100원 이상의 금액이 필요합니다.</p>
     </div>
     <button v-if="this.donationInfo.donationPay >= 100" class="donaButton" @click="pay">
-      <i @click="pay" class="fa-solid fa-hand-holding-heart" style="donaIcon" ></i>
+      <i @click="pay" class="fa-solid fa-hand-holding-heart donaIcon" ></i>
       <p>기부</p>
     </button>
     <div class="donaButtons">
@@ -172,6 +176,7 @@ const donationStore = "donationStore";
 const organizationStore = "organizationStore";
 const postcardStore = "postcardStore";
 const accountStore = "accountStore";
+const searchStore = "searchStore";
 
 export default {
   name: "OrganizationListView",
@@ -227,10 +232,12 @@ export default {
 
   methods: {
     ...mapActions(donationStore, ["doDonate"]),
-    // 재단 리스트 용
+    // 재단 리스트용
     ...mapActions(organizationStore, ["getFoundationList"]),
-    // 엽서 리스트 용
+    // 엽서 리스트용
     ...mapActions(postcardStore, ["userPostcardList", "userLikedPostcardStore"]),
+    // 검색 이동용
+    ...mapActions(searchStore, ["getSearchResult"]),
     // 상위 버튼을 통한 이동
     move(num) {
       if (num === 1) {
@@ -323,9 +330,25 @@ export default {
       this.$router.push('/main')
       this.reset()
     },
+    // 마이페이지로
     goMypage() {
       this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}})
       this.reset()
+    },
+    // 좋아요 리스트를 위해 검색 페이지로
+    async goSearch(){
+      // 없는 값을 보냄
+      await this.getSearchResult("구글 26년차 시니어 개발자 박정현")
+      // 이동
+      this.$router.push({ name: "SearchView" })
+    },
+    // 우편 작성 페이지로
+    goLetters() {
+      this.$router.push('/makecard')
+    },
+    // 문구창 입력 변경
+    changInput(e) {
+      this.donationInfo.donationText = e.target.value;
     },
     // 결제하기
     pay() {
@@ -592,6 +615,11 @@ export default {
   margin-top: 1vh;
   margin-bottom: 1vh;
 }
+/* 엽서가 없는 경우 나올 글 */
+.noListText{
+  color: blue;
+}
+
 /* 모달 */
 .donaModal {
   position: absolute;
