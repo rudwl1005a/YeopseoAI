@@ -23,6 +23,13 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 const accountStore = "accountStore";
+const boardStore = "boardStore";
+const donationStore = "donationStore";
+const mainpageStore = "mainpageStore";
+const mypageStore = "mypageStore";
+const organizationStore = "organizationStore";
+const postcardStore = "postcardStore";
+const searchStore = "searchStore";
 
 export default {
   name: "SideBar",
@@ -37,7 +44,15 @@ export default {
     ...mapGetters(accountStore, ["isLogged", "userInfo"]),
   },
   methods: {
-    ...mapActions(accountStore, ["userLogout"]),
+    ...mapActions(accountStore, ["accountStoreReset"]),
+    ...mapActions(boardStore, ["boardStoreReset"]),
+    ...mapActions(donationStore, ["donationStoreReset"]),
+    ...mapActions(mainpageStore, ["mainpageStoreReset"]),
+    ...mapActions(mypageStore, ["mypageStoreReset"]),
+    ...mapActions(organizationStore, ["organizationStoreReset"]),
+    ...mapActions(postcardStore, ["postcardStoreReset"]),
+    ...mapActions(searchStore, ["searchStoreReset"]),
+
     openSidebar() {
       console.log("토글 열어보자");
       // 토글 닫기
@@ -60,7 +75,16 @@ export default {
       this.$router.push({name: "beginningView"});
     },
     userLogoutandGo() {
-      this.userLogout();
+      // 각 module 초기화
+      this.accountStoreReset();
+      this.donationStoreReset()
+      this.mainpageStoreReset()
+      this.mypageStoreReset()
+      this.organizationStoreReset()
+      this.postcardStoreReset()
+      this.searchStoreReset()
+      // // 세션 초기화
+      // window.sessionStorage.clear()
       this.$router.push({name: "beginningView"});
     },
     goHome() {
