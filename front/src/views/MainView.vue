@@ -4,7 +4,9 @@
   <div class="mainLoadingContent"></div>
 </div>
 <div class="mainClass" v-if="!showLogoLoding">
-  <div class="maingoUpBtn" @click="goUp"></div>
+  <div class="maingoUpBtn" @click="goUp">
+    <i class="fa-solid fa-magnifying-glass maingoUpBtnIcon"></i>
+  </div>
   <div class="mainpageClass">
     <div v-if="showLogo" class="mainLogoClass">
       <!-- <b style="font-size: 2vw;">엽AI사전</b> -->
@@ -524,12 +526,17 @@ export default {
   position: fixed;
   top: 90%;
   left: 5%;
-  width: 5vh;
-  height: 5vh;
+  width: 4vh;
+  height: 4vh;
   border-radius: 1000px;
   background-color: #484233;
 }
-
+/* 내부 아이콘 */
+.maingoUpBtnIcon {
+  color: white;
+  font-size: 3vh;
+  margin-top: 0.2vh;
+}
 
 /* 메인페이지 전체 관리 */
 .mainClass {

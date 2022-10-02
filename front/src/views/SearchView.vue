@@ -215,8 +215,8 @@ export default {
   z-index: 1;
   cursor: pointer;
   position: fixed;
-  top: 95%;
-  left: 0.3%;
-  font-size: 3vw;
+  bottom: 1%;
+  left: 0.5%;
+  font-size: 2.5vw;
 }
 </style>
