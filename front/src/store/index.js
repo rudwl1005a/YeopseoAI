@@ -1,7 +1,7 @@
-import { createStore } from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
-import mainpageStore from './modules/mainpageStore';
-import searchStore from './modules/searchStore';
+import { createStore } from "vuex";
+import createPersistedState from "vuex-persistedstate";
+import mainpageStore from "./modules/mainpageStore";
+import searchStore from "./modules/searchStore";
 import accountStore from "./modules/accountStore";
 import mypageStore from "./modules/mypageStore";
 import organizationStore from "./modules/organizationStore";

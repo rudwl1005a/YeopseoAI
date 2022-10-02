@@ -1,38 +1,56 @@
-import {
-  search,
-} from "@/api/search.js"
+import { search } from "@/api/search.js";
+import _ from "lodash";
 
 const searchStore = {
   namespaced: true,
   state: {
     letterSearchResult: [],
-    foundationSearchResult: [],
+    searchedWord: "",
   },
   getters: {
-
+    letterSearchResult: (state) => {
+      return state.letterSearchResult;
+    },
+    isSearchResult: (state) => {
+      return !_.isEmpty(state.letterSearchResult);
+    },
+    searchedWord: (state) => {
+      return state.searchedWord;
+    },
   },
   mutations: {
     SET_SEARCHRESULT: (state, searchResult) => {
-      state.letterSearchResult = searchResult.postcardLists;
-      state.foundationSearchResult = searchResult.foundationSearchLists;
-    }
+      state.letterSearchResult = searchResult;
+    },
+    SET_SEARCHEDWORD: (state, word) => {
+      state.searchedWord = word;
+    },
+    SET_STATE: (state) => {
+      const initialState = {
+        letterSearchResult: [],
+        searchedWord: "",
+      };
+      Object.assign(state, initialState);
+    },
   },
   actions: {
     async getSearchResult({ commit }, searchWord) {
       await search(
         searchWord,
         (response) => {
-          console.log("검색어 입력시 어떤 응답이 오는지 확인")
-          console.log(response);
-          console.log(response.data);
-          commit('SET_SEARCHRESULT', response.data);
+          commit("SET_SEARCHRESULT", response.data.postcardLists);
+          commit("SET_SEARCHEDWORD", response.config.params.searchWord);
         },
         (error) => {
           console.log(error);
         }
-      )
+      );
+    },
+    // state 리셋
+    searchStoreReset({ commit }) {
+      commit("SET_STATE");
     },
   },
-}
+};
 
 export default searchStore;

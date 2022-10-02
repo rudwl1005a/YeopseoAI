@@ -24,6 +24,14 @@ const boardStore = {
     SET_QUESTIONBOARDLIST: (state, boards) => {
       state.questionList = boards;
     },
+    SET_STATE: (state) => {
+      const initialState = {
+        watchingBoard: [],
+        noticeList: [],
+        questionList: [],
+      };
+      Object.assign(state, initialState);
+    },
   },
   actions: {
     // 게시글 상세조회
@@ -32,7 +40,7 @@ const boardStore = {
         boardSeq,
         (response) => {
           console.log(response);
-          commit('SET_DETAILBOARD', response); // response 형태 보고 확정
+          commit("SET_DETAILBOARD", response); // response 형태 보고 확정
         },
         (error) => {
           console.log(error);
@@ -47,17 +55,21 @@ const boardStore = {
         (response) => {
           console.log(response.data);
           if (boardCode === 201) {
-            commit('SET_NOTICEBOARDLIST', response.data);
+            commit("SET_NOTICEBOARDLIST", response.data);
           } else if (boardCode === 202) {
-            commit('SET_QUESTIONBOARDLIST', response.data);
+            commit("SET_QUESTIONBOARDLIST", response.data);
           }
         },
         (error) => {
           console.log(error);
         }
       );
-    }
+    },
+    // 스테이트 리셋
+    boardStoreReset({ commit }) {
+      commit("SET_STATE");
+    },
   },
-}
+};
 
 export default boardStore;

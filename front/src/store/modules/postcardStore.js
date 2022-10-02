@@ -79,6 +79,18 @@ const postcardStore = {
     SET_LIKEDPOSTCARD: (state, likedPostcards) => {
       state.likedPostcards = likedPostcards;
     },
+    SET_STATE: (state) => {
+      const initialState = {
+        uploadedPostcard: [],
+        postcardInfo: [],
+        postcardList: [],
+        popularPostcardList: [],
+        justUploadedPostcard: [],
+        userLikedPostcard: [],
+        likedPostcards: [],
+      };
+      Object.assign(state, initialState);
+    },
   },
 
   actions: {
@@ -220,6 +232,10 @@ const postcardStore = {
           console.log(error);
         }
       );
+    },
+    // state 리셋
+    postcardStoreReset({ commit }) {
+      commit("SET_STATE");
     },
   },
 };

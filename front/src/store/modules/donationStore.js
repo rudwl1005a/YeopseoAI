@@ -20,6 +20,10 @@ const donationStore = {
     SET_DONATIONINFO: (state, donationInfo) => {
       state.donationInfo = donationInfo;
     },
+    SET_STATE: (state) => {
+      const initialState = { donationInfo: [] };
+      Object.assign(state, initialState);
+    },
   },
 
   actions: {
@@ -51,6 +55,10 @@ const donationStore = {
           console.log(error);
         }
       );
+    },
+    //state 리셋
+    donationStoreReset({ commit }) {
+      commit("SET_STATE");
     },
   },
 };
