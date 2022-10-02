@@ -37,7 +37,7 @@
       <div v-if="this.isSearchResult" class="searchEvenLine">
         <div v-for="(num, index) in Math.floor(this.letterSearchResult.length/4)"
           :key="`postcard2-${index}`">
-          <SearchPostCard :searchItem="this.letterSearchResult[index*4+3]" />
+          <SearchPostCard :searchItem="this.letterSearchResult[index*4+3]"/>
         </div>
       </div>
       <!-- 엽서 조회결과 화면 -->
@@ -48,7 +48,7 @@
       </div>
     </div>
     <!-- 화면을 위로 전환시키는 버튼 -->
-    <div class="maingoUpBtn" @click="goUp"></div>
+    <i v-show="this.upBtn" class="fa-regular fa-circle-up searchgoUpBtn" @click="goUp"></i>
   </div>
 </template>
 
@@ -69,6 +69,7 @@ export default {
   data() {
     return {
       searchMessage: "",
+      upBtn: false,
     }
   },
   computed: {
@@ -94,15 +95,26 @@ export default {
     goUp() {
       window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
     },
+    upScroll() {
+      if (scrollY <= 10) {
+        this.upBtn = false;
+      } else {
+        this.upBtn = true;
+      }
+    },
 
     // 검색 결과 없을 때 로직
     // 엽서 결과 없을 때 -> 엽서 파티션에 "엽서 검색 결과가 없어요" 보여주고
     // 적당한 이미지를 띄워주자
 
   },
-  created () {
-    console.log(this.letterSearchResult.length)
-  }
+  // 스크롤 이벤트에 추가
+  mounted() {
+    document.addEventListener("scroll", this.upScroll);
+  },
+  unmounted() {
+    document.removeEventListener("scroll", this.upScroll);
+  },
 }
 </script>
 
@@ -159,12 +171,12 @@ export default {
   left: 0;
   right: 0; 
 
-  width: 85vw;
+  width: 100vw;
   height: auto;
   background-color: #faf8f5;
   overflow: auto;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
 }
 .searchResult::-webkit-scrollbar {
   display: none;
@@ -172,9 +184,10 @@ export default {
 /* 각 줄 설정 */
 .searchOddLine {
   display: flex;
-  margin-top: 2vh;
+  margin-top: 4vh;
   flex-direction: column;
-  width: 24%;
+  width: 20%;
+  margin-left: 2%;
   /* 부모의 자식 요소가 3차원의 애니메이션 효과를 가질때, 300px의 거리에서 보는 원근감을 줌 */
   perspective: 300px;
 }
@@ -182,8 +195,9 @@ export default {
   display: flex;
   flex-direction: column;
   margin-top: 8vh;
-  margin-bottom: 2vh;
-  width: 24%;
+  margin-bottom: 4vh;
+  margin-left: 2%;
+  width: 20%;
   /* 부모의 자식 요소가 3차원의 애니메이션 효과를 가질때, 300px의 거리에서 보는 원근감을 줌 */
   perspective: 300px;
 }
@@ -197,17 +211,12 @@ export default {
 }
 
 /* 위로 올리는 버튼 */
-.maingoUpBtn {
-  z-index: 50;
+.searchgoUpBtn {
+  z-index: 1;
   cursor: pointer;
   position: fixed;
-  top: 95%;
-  left: 0.3%;
-  width: 3vh;
-  height: 3vh;
-  border-radius: 1000px;
-  background-color: #484233;
+  bottom: 1%;
+  left: 0.5%;
+  font-size: 2.5vw;
 }
-
-
 </style>

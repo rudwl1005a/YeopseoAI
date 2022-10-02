@@ -12,7 +12,7 @@
   </div>
   <!-- 뒷면 -->
   <div v-show="this.back" class="searchPostcard back">
-    <!--  -->
+    <!-- 내용들 -->
     <div class="searchMade">
       <h5 style="margin-bottom:0;">작가: </h5>
       <button class="searchProfileBtn" @click="goArtistMypage(this.searchItem.postcard.userSeq)">
@@ -20,11 +20,14 @@
       </button>
     </div>
     <hr>
+    <h5>관련 태그</h5>
+    <!-- 태그들 -->
     <div class="searchTag">
       <div v-for="(tag, idx) in this.searchItem.tag" :key="`postcard-${idx}`">
         <button @click="submitSearch(tag)" class="searchProfileTag">{{tag}}</button>
       </div>
     </div>
+    <hr>
     <button class="searchPostcardButton" @click="changeFace">
       엽서보기
     </button>
@@ -121,8 +124,10 @@ export default {
   transition: 0.7s;
 }
 .searchPostcard:hover {
-  transform: scale3d(1.3, 1.3, 1.3);
+  transform: scale3d(1.1, 1.1, 1.1);
+  z-index: 1
 }
+
 .searchPostcard .front {
   /* 앞면 카드가 부유하게 되어, 뒷면 카드가 아래에서 위로 올라감 -> 요소 두개가 겹치게 됨*/
   position: absolute;
@@ -196,7 +201,7 @@ export default {
 .searchTag {
   background-color: beige;
   width: 16vw;
-  height: 10vw;
+  height: 8vw;
   margin: auto;
   display: flex;
   justify-content: flex-start;
