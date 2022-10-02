@@ -161,8 +161,8 @@ import {
           (response) => {
             // if (response.data.message === "Success") {
               // 받은 유저 정보 데이터 입력
-            console.log('마이페이지 주인 정보');
-            console.log(response);
+            // console.log('마이페이지 주인 정보');
+            // console.log(response);
             commit('SET_OWNERINFO', response.data);
             // }
           },

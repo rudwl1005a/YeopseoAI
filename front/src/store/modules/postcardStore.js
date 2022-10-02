@@ -199,15 +199,16 @@ const postcardStore = {
       );
     },
 
-    // 좋아요누른 엽서들 가져오기
-    async getUserLikedPostcard({ commit }, userSeq) {
-      await userLikedPostcardjs(userSeq, (response) => {
+    // 페이지 주인이 좋아요누른 엽서들 가져오기
+    async getUserLikedPostcard({ commit }, ownerSeq) {
+      await userLikedPostcardjs(ownerSeq, (response) => {
         // console.log("유저가 좋아요누른 엽서 목록 들고왔어요");
         // console.log(response.data);
         commit("SET_USERLIKEDPOSTCARD", response.data);
       });
     },
-    // 좋아요 한 엽서 목록 조회
+
+    // 사용자가 좋아요 한 엽서 목록 조회
     async userLikedPostcardStore({ commit }, userSeq) {
       await userLikedPostcard(
         userSeq,

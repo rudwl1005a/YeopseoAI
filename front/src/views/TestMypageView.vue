@@ -238,7 +238,8 @@
                   <p class="mypaginationPostcardName">made by</p>
                   <p class="mypaginationPostcardName" style="margin-top: 0px;">{{ownerInfo.userName}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="margin-left: -0.5vw">좋아요 취소</p>
                   </div>
                 </div>
               </div>
@@ -258,7 +259,8 @@
                   <p class="mypaginationPostcardName">made by</p>
                   <p class="mypaginationPostcardName" style="margin-top: 0px;">{{ownerInfo.userName}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="margin-left: -0.5vw">좋아요 취소</p>
                   </div>
                 </div>
               </div>
@@ -279,7 +281,8 @@
                   <p class="mypaginationPostcardName">made by</p>
                   <p class="mypaginationPostcardName" style="margin-top: 0px;">{{ownerInfo.userName}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="margin-left: -0.5vw">좋아요 취소</p>
                   </div>
                 </div>
               </div>
@@ -363,7 +366,8 @@
                   <!-- <router-view :key="$route.fullPath"/> -->
                   <p class="mypaginationPostcardName" @click="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="margin-left: -0.5vw">좋아요 취소</p>
                   </div>
                 </div>
               </div>
@@ -383,7 +387,8 @@
                   <p class="mypaginationPostcardName">made by</p>
                   <p class="mypaginationPostcardName" @click="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="margin-left: -0.5vw">좋아요 취소</p>
                   </div>
                 </div>
               </div>
@@ -403,7 +408,8 @@
                   <p class="mypaginationPostcardName">made by</p>
                   <p class="mypaginationPostcardName" @click="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="">좋아요</p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="margin-left: -0.5vw">좋아요 취소</p>
                   </div>
                 </div>
               </div>
@@ -502,11 +508,19 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <div class="d-flex" style="vertical-align: center;">
+          <div @click="tempChoice(0)" class="temp1"></div>
+          <p @click="tempChoice(0)" class="mpButton" data-bs-toggle="modal" data-bs-target="#changeTemplate" style="margin-top: 14vw;">
+           선택
+          </p>
+        </div>
+
+        <div class="d-flex" style="vertical-align: center;">
+          <div @click="tempChoice(1)" class="temp2"></div>
+          <p @click="tempChoice(1)" class="mpButton" data-bs-toggle="modal" data-bs-target="#changeTemplate" style="margin-top: 14vw;">
+           선택
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -627,6 +641,7 @@
 </template>
 
 <script>
+import { likeLetter, dislikeLetter } from "@/api/mainpage.js";
 import AOS from 'aos';
 import "aos/dist/aos.css";
 import html2canvas from 'html2canvas';
@@ -709,7 +724,45 @@ export default {
     ...mapActions(postcardStore, [
       "userPostcardList",
       "getUserLikedPostcard",
+      "userLikedPostcardStore",
     ]),
+
+    tempChoice(tempN) {
+      this.changeTemplate({ userSeq: this.userInfo.userSeq, userTemplate: {userTemplate: tempN} })
+      setTimeout(() => {
+        this.$router.go()
+      }, 100)
+    },
+
+    async dolikeLetter(postcardSeq) {
+      // console.log(postcardSeq)
+      const likes = document.querySelectorAll(`#l${postcardSeq}`)
+      likes.forEach((like) => {
+        // console.log(like)
+        like.style.display = 'none'
+      })
+      const dislikes = document.querySelectorAll(`#dl${postcardSeq}`)
+      dislikes.forEach((dislike) => {
+        // console.log(dislike)
+        dislike.style.display = 'block'
+      })
+
+      await likeLetter(postcardSeq, this.userInfo.userSeq);
+    },
+    async dodislikeLetter(postcardSeq) {
+      // console.log(postcardSeq)
+      const likes = document.querySelectorAll(`#l${postcardSeq}`)
+      likes.forEach((like) => {
+        // console.log(like)
+        like.style.display = 'block'
+      })
+      const dislikes = document.querySelectorAll(`#dl${postcardSeq}`)
+      dislikes.forEach((dislike) => {
+        // console.log(dislike)
+        dislike.style.display = 'none'
+      })
+      await dislikeLetter(postcardSeq, this.userInfo.userSeq);
+    },
 
     templateChange(url) {
       const templateInfo = { userSeq: this.userInfo.userSeq, uesrRemind: this.userRemind, donationSeq: url }
@@ -748,6 +801,7 @@ export default {
     this.getFollowerList(this.ownerSeq)
     this.userPostcardList(this.ownerSeq)
     this.getUserLikedPostcard(this.ownerSeq)
+    this.userLikedPostcardStore(this.userInfo.userSeq)
     // 기부총액, 기부횟수 계산
     let donationCnt = this.donationList.length
     let donationMoney = 0
@@ -769,7 +823,7 @@ export default {
     // 컬랙션 보기
     showCollection() {
       this.showRemind = !this.showRemind
-      console.log(this.showRemind)
+      // console.log(this.showRemind)
     },
 
     // 엽서 목록 변경
@@ -861,8 +915,8 @@ export default {
     async changeProfile() {
       const element = document.getElementById("profileImg");
       const canvas = await html2canvas(element);
-      console.log('canvas')
-      console.log(canvas)
+      // console.log('canvas')
+      // console.log(canvas)
       const dataUrl = canvas.toDataURL("image/png");
       const blobData = this.dataURItoBlob(dataUrl);
       const now = new Date();
@@ -901,7 +955,10 @@ export default {
 
 
   async created() {
-    console.log('크리에이트가 되나?')
+    
+    // console.log(this.postcardList)
+    
+    // console.log('크리에이트가 되나?')
     this.ownerSeq = Number(this.$route.query.ownerSeq)
     // console.log('유저시퀀스, 마이페이지 주인 시퀀스')
     // console.log(this.userInfo.userSeq, this.ownerSeq)
@@ -915,9 +972,28 @@ export default {
     await this.getFollowerList(this.ownerSeq)
     await this.userPostcardList(this.ownerSeq)
     await this.getUserLikedPostcard(this.ownerSeq)
+    await this.userLikedPostcardStore(this.userInfo.userSeq)
     // 기부총액, 기부횟수 계산
     let donationCnt = this.donationList.length
     let donationMoney = 0
+    await this.postcardList.forEach((mPostcard) =>{
+      mPostcard.postcard.isLiked = false
+      this.likedPostcards.forEach((lPostcard) => {
+        if (lPostcard.postcard.postcardSeq === mPostcard.postcard.postcardSeq) {
+          mPostcard.postcard.isLiked = true;
+          return false;
+        }
+      })
+    });
+    await this.userLikedPostcard.postcardList.forEach((mPostcard) =>{
+      mPostcard.postcard.isLiked = false
+      this.likedPostcards.forEach((lPostcard) => {
+        if (lPostcard.postcard.postcardSeq === mPostcard.postcard.postcardSeq) {
+          mPostcard.postcard.isLiked = true;
+          return false;
+        }
+      })
+    });
     await this.donationList.forEach(dontaion => {
       donationMoney += dontaion.donationPay
     });
@@ -939,8 +1015,8 @@ export default {
     await this.setOwnerInfo(this.ownerSeq)
     await this.getDonationList(this.ownerSeq)
     await this.getFollowerList(this.ownerSeq)
-    await this.userPostcardList(this.ownerSeq)
-    await this.getUserLikedPostcard(this.ownerSeq)
+    // await this.userPostcardList(this.ownerSeq)
+    // await this.getUserLikedPostcard(this.ownerSeq)
     // 기부총액, 기부횟수 계산
     let donationCnt = this.donationList.length
     let donationMoney = 0
@@ -952,7 +1028,7 @@ export default {
 
     // console.log(screen.width)
     // console.log(screen.height)
-    console.log('마운티드')
+    // console.log('마운티드')
     // console.log(this.userLikedPostcard)
     
 
@@ -1087,6 +1163,28 @@ export default {
 </script>
 
 <style>
+
+.temp1 {
+  cursor: pointer;
+  width: 30vw;
+  height: 30vw;
+  margin-bottom: 5vw;
+  background-image: url(../../public/images/temp1Ex.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
+}
+
+.temp2 {
+  cursor: pointer;
+  width: 30vw;
+  height: 30vw;
+  margin-bottom: 5vw;
+  background-image: url(../../public/images/mypageBackground.jpg);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
+}
 
 .bi {
   cursor: pointer;
