@@ -55,6 +55,7 @@ async function followList(user_seq, success, fail) {
 
 // 탬플릿 변경
 async function callChangeTemplate(templateInfo, success, fail) {
+    console.log(templateInfo)
     await api.patch(`/api/users/template/${templateInfo.userSeq}`, JSON.stringify(templateInfo.userTemplate)).then(success).catch(fail);
 } 
 

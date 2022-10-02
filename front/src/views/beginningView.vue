@@ -612,7 +612,7 @@
     margin: 0 auto;
     top: 53%;
     bottom: 0;
-    left: 33%;
+    left: 25%;
     right: 0;
     font-size: 5vh;
     font-family: 'Nanum Pen Script', cursive;
