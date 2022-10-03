@@ -4,9 +4,10 @@
   <div class="mainLoadingContent"></div>
 </div>
 <div class="mainClass" v-if="!showLogoLoding">
-  <div class="maingoUpBtn" @click="goUp">
-    <i class="fa-solid fa-magnifying-glass maingoUpBtnIcon"></i>
-  </div>
+  <!-- <div :class="{'maingoUpBtn' : isTop === false, 'maingosearchBtn' : isTop === true,}" @click="goUp"> -->
+    <div v-if="isTop" class="maingosearchBtn" @click="goUp"></div>
+    <div v-else class="maingoUpBtn" @click="goUp"></div>
+  <!-- </div> -->
   <div class="mainpageClass">
     <div v-if="showLogo" class="mainLogoClass">
       <!-- <b style="font-size: 2vw;">엽AI사전</b> -->
@@ -187,7 +188,7 @@
   </div>
   <!-- 재단 목록 -->
   <div class="mainfamousFoundationClass">
-    <div class="mainfamousFoundationChange"></div>
+    <!-- <div class="mainfamousFoundationChange"></div> -->
     <div class="mainfamousFoundationWrap">
       <div class="mainfamousFoundationTitle">
         <b>재단 목록</b>
@@ -196,7 +197,8 @@
         <!-- 3개만 보여줘도 될 것 같다는 생각이 든다 -->
         <div @click="setFoundationDonationList(famousFoundation[0])" class="mainfamousFoundationItem">
           <!-- {{ famousFoundation[0] }} -->
-          <img class="mainfamousFoundationImg" :src="famousFoundation[0].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[0].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
+          <img class="mainfamousFoundationImg" src="../../public/images/ssafyFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
             재단명: {{ famousFoundation[0].foundationName }}
             <br>
@@ -206,7 +208,8 @@
         <div @click="setFoundationDonationList(famousFoundation[1])" class="mainfamousFoundationItem">
           <!-- {{ famousFoundation[1] }} -->
           <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
-          <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
+          <img class="mainfamousFoundationImg" src="../../public/images/ssafyChildFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
             재단명: {{ famousFoundation[1].foundationName }}
             <br>
@@ -216,7 +219,8 @@
         <div @click="setFoundationDonationList(famousFoundation[2])" class="mainfamousFoundationItem">
           <!-- {{ famousFoundation[2] }} -->
           <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
-          <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
+          <img class="mainfamousFoundationImg" src="../../public/images/ssafyWorldFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
           <div class="mainfamousFoundationItemContent">
             재단명: {{ famousFoundation[2].foundationName }}
             <br>
@@ -255,8 +259,10 @@
       </div>
     </div>
   </div>
-  <div>
-    기타 정보
+  <div class="contactUsPage">
+    <div class="contactUsContent">
+      contact us
+    </div>
   </div>
 </div>
 </template>
@@ -318,6 +324,9 @@ export default {
 
       // 로고 관리
       showLogo: true,
+
+      // 화면 이동 버튼 관리
+      isTop: true,
     }
   },
   methods: {
@@ -429,10 +438,12 @@ export default {
     },
     // 로고 스크롤 이벤트
     scrollEvent() {
-      if (scrollY <= 10) {
+      if (scrollY === 0) {
         this.showLogo = true;
+        this.isTop = true;
       } else {
         this.showLogo = false;
+        this.isTop = false;
       }
     },
 
@@ -526,10 +537,26 @@ export default {
   position: fixed;
   top: 90%;
   left: 5%;
-  width: 4vh;
-  height: 4vh;
-  border-radius: 1000px;
-  background-color: #484233;
+  width: 5vh;
+  height: 5vh;
+  /* border-radius: 1000px; */
+  /* background-color: #484233; */
+  background-image: url("../../public/images/goUpIcon.png");
+  background-size: 5vh 5vh;
+}
+
+.maingosearchBtn {
+  z-index: 50;
+  cursor: pointer;
+  position: fixed;
+  top: 90%;
+  left: 5%;
+  width: 5vh;
+  height: 5vh;
+  /* border-radius: 1000px; */
+  /* background-color: #c0a45d; */
+  background-image: url("../../public/images/searchIcon.png");
+  background-size: 5vh 5vh;
 }
 /* 내부 아이콘 */
 .maingoUpBtnIcon {
@@ -779,13 +806,17 @@ export default {
 }
 
 .mainfamousBigLetterClass {
+  cursor: pointer;
   height: 70vh;
   width: 34vw;
   border-radius: 30px;
   background-color: #faf8f5;
+  box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
+  transition: 0.4s;
 }
 
 .mainfamousLittleLetterClass {
+  cursor: pointer;
   height: 70vh;
   width: 35vw;
   border-radius: 30px;
@@ -801,6 +832,7 @@ export default {
   width: 17vw;
   border-radius: 20px;
   background-color: #faf8f5;
+  box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
 }
 
 
@@ -838,10 +870,12 @@ export default {
 
 .mainfamousFoundationItem {
   display: flex;
+  cursor: pointer;
   height: 60vh;
   width: 15vw;
-  background-color: #c0c0c0;
+  background-color: transparent;
   border-radius: 20px;
+  box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
   transition: 0.4s;
 }
 
@@ -934,4 +968,19 @@ export default {
 
 
 /* 사이드바 토글 관리 -> sidebar 컴포넌트 부분에 빼둠*/
+
+.contactUsPage {
+  position: relative;
+  height: 20vh;
+  background-color: #faf8f5;
+}
+
+.contactUsContent {
+  position: absolute;
+  width: 100vw;
+  height: 20vh;
+  top: 50%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+}
 </style>

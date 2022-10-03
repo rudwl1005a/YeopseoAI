@@ -1,14 +1,24 @@
 <template>
 <side-bar></side-bar>
-<div>상세 조회 페이지</div>
-  {{ watchingDetail.data.userId }}
-  <br>
-  {{ watchingDetail.data.boardTitle }}
-  <br>
-  {{ watchingDetail.data.boardContent }}
-<div v-if="itsMe" @click="goPatchBoard">수정하기</div>
-<div v-if="itsMe" @click="doDeleteBoard(watchingDetail.data.boardSeq)">삭제하기</div>
-<div @click="goBoard">문의사항 목록으로</div>
+<div class="boardQuestionClass">
+  <div class="boardQuestionInside">
+    <h2>{{ watchingDetail.data.boardTitle }}</h2>
+    <div>
+      <div class="boardQuesDetailWriter">
+        작성자 ({{ watchingDetail.data.userId }})
+        <hr>
+      </div>
+      <div class="boardQuesdetailContent">
+        {{ watchingDetail.data.boardContent }}
+      </div>
+    </div>
+    <div class="boardDetailBtns">
+      <div v-if="itsMe" @click="goPatchBoard" style="cursor: pointer;">수정하기</div>
+      <div v-if="itsMe" @click="doDeleteBoard(watchingDetail.data.boardSeq)" style="cursor: pointer;">삭제하기</div>
+      <div @click="goBoard" style="cursor: pointer;">문의사항 목록으로</div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
@@ -58,5 +68,33 @@ export default {
 </script>
 
 <style>
-
+.boardQuesDetailWriter {
+  position: absolute;
+  top: 10%;
+  left: 0%;
+  height: 5vh;
+  width: 80vw;
+  text-align: left;
+  font-size: 1.5vw;
+}
+.boardQuesdetailContent {
+  position: absolute;
+  top: 20%;
+  left: 0%;
+  font-size: 2vw;
+  height: 55vh;
+  width: 80vw;
+  text-align: left;
+  box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
+  overflow: auto;
+}
+.boardQuesdetailContent::-webkit-scrollbar {
+  display: none;
+}
+.boardDetailBtns {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
