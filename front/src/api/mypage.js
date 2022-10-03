@@ -48,8 +48,8 @@ async function donationList(user_seq, success, fail) {
 
 
 // 팔로우 리스트 조회
-async function followList(user_seq, success, fail) {
-    await api.get(`/api/donations/userList/${user_seq}`).then(success).catch(fail);
+async function followList(myId, success, fail) {
+    await api.get(`/api/follows/${myId}`).then(success).catch(fail);
 } 
 
 
@@ -66,6 +66,18 @@ async function callChangeRemind(remindInfo, success, fail) {
 } 
 
 
+// 팔로우요청
+async function addFollow(followInfo, success, fail) {
+    await api.post(`/api/follows/${followInfo.myId}/${followInfo.followId}`, ).then(success).catch(fail);
+} 
+
+
+// 언팔요청
+async function deleteFollow(followInfo, success, fail) {
+    await api.delete(`/api/follows/${followInfo.myId}/${followInfo.followId}`, ).then(success).catch(fail);
+} 
+
+
 
 export {
     usersecession,
@@ -75,4 +87,6 @@ export {
     followList,
     callChangeTemplate,
     callChangeRemind,
+    addFollow,
+    deleteFollow,
 }

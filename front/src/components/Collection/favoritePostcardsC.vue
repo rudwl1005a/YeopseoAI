@@ -40,7 +40,7 @@
 
 
 <!-- 다른사람 페이지면 -->
-<div v-else class="d-flex justify-content-center" data-aos="fade-up" data-aos-duration="500">
+<div v-else class="d-flex justify-content-center" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0);" data-aos="fade-up" data-aos-duration="500" >
   <!-- 벽지 -->
   <div class="glass">
       </div>
