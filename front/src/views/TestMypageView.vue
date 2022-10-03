@@ -489,7 +489,7 @@
 <!-- 좋아하는 엽서 목록 3 -->
   <favorite-postcards-c v-if="ownerInfo.userTemplate === 0" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0);" class="d-flex justify-content-center"></favorite-postcards-c>
   
-  <div type="button" @click="showCollection" style="width: 4vw; height: 4vw; font-size: 7vw; top: 2%; left: 80vw; position: fixed; z-index: 900;">X</div>
+  <div type="button" @click="showCollection" style="width: 4vw; height: 4vw; font-size: 7vw; top: -5%; left: 80vw; position: fixed; z-index: 900;">X</div>
   
   <div v-if="isOwner" @click="showChangeTemplate" class="mpButton" data-bs-toggle="modal" data-bs-target="#changeTemplate" style="top: 5%; left: 85vw; position: fixed; z-index: 900;" for="changeImg">
   템플릿 변경
@@ -500,7 +500,7 @@
 
 <!-- 탬플릿 선택 Modal -->
 <div class="modal fade" id="changeTemplate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-size">
+  <div class="modal-dialog modal--choice-size">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">템플릿 선택</h5>
@@ -536,7 +536,7 @@
       <div type="button" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw; height: 4vw; font-size: 7vw; top: 3%; left: 80vw; position: fixed; z-index: 900;">X</div>
       
       <div v-if="Math.ceil(this.donationList.length / 12)">
-        <div class="paginationPage">
+        <div class="choicePaginationPage">
           <div class="d-flex mypaginationTitle">
             <h3 class="mypaginationText">당신의 기부목록</h3>
             <h3 class="mypaginationText">추억할 사진을 선택하세요</h3>
@@ -1211,7 +1211,7 @@ export default {
   width: 30vw;
   height: 30vw;
   margin-bottom: 5vw;
-  background-image: url(../../public/images/mypageBackground.jpg);
+  background-image: url(../../public/images/temp2Ex.PNG);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
@@ -1373,6 +1373,12 @@ export default {
   margin: 0 auto;
   /* border:#555; */
 }
+.choicePaginationPage {
+  height: 70vw;
+  width: 60vw;
+  margin: 0 auto;
+
+}
 .profileTitle {
   position: sticky;
   width: 98vw;
@@ -1428,6 +1434,8 @@ export default {
   padding: 3vh;
   width: 30vw;
   height: 40vh;
+  border-radius: 20px;
+  box-shadow: 0.5vw 0.5vw 1vw rgba(0, 0, 0, 0.15);
 }
 
 /* 모든 카드 보여주는 부분 */
@@ -1600,6 +1608,17 @@ export default {
     height: 70vw;
     
     /* overflow: hidden; */
+}
+.modal--choice-size {
+    /* position: fixed; */
+    /* margin: 0 auto; */
+    max-width:90vw;
+    width: 75vw;
+    height: 70vw;
+    background-image: url(../../public/images/foundationBack.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
 }
 
 </style>
