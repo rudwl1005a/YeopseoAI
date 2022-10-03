@@ -558,7 +558,12 @@ export default {
   background-image: url("../../public/images/searchIcon.png");
   background-size: 5vh 5vh;
 }
-
+/* 내부 아이콘 */
+.maingoUpBtnIcon {
+  color: white;
+  font-size: 3vh;
+  margin-top: 0.2vh;
+}
 
 /* 메인페이지 전체 관리 */
 .mainClass {

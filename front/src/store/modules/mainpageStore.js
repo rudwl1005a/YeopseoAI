@@ -5,7 +5,7 @@ import {
   dislikeLetter,
   letterDetail,
   foundationDetail,
-} from "@/api/mainpage.js"
+} from "@/api/mainpage.js";
 
 const mainpageStore = {
   namespaced: true,
@@ -35,7 +35,17 @@ const mainpageStore = {
     },
     SET_BEGINNINGMAINEFFECT: (state) => {
       state.mainEffectIsntShowed = true;
-    }
+    },
+    SET_STATE: (state) => {
+      const initialState = {
+        letterTop: [],
+        foundationTop: [],
+        watchingLetter: [],
+        watchingFoundation: [],
+        mainEffectIsntShowed: true,
+      };
+      Object.assign(state, initialState);
+    },
   },
   actions: {
     // 비기닝페이지 진입시 메인페이지 진입 효과 세팅
@@ -126,13 +136,17 @@ const mainpageStore = {
         (response) => {
           console.log(response);
           console.log(response.data);
-          commit('SET_FOUNDATIONDETAIL', response.data);
+          commit("SET_FOUNDATIONDETAIL", response.data);
         },
         (error) => {
           console.log(error);
-        },
-      )
-    }
+        }
+      );
+    },
+    // state 리셋
+    mainpageStoreReset({ commit }) {
+      commit("SET_STATE");
+    },
   },
 };
 

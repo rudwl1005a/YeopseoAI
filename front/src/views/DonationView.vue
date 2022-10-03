@@ -4,7 +4,7 @@
   <div class="donaForm" :class="{ donaModalBack : this.logoLoding}">
     <h1 style="marginTop:0">Donation</h1>
     <!-- 현재 위치 -->
-    <div class="container d-flex margin my-5" >
+    <div class="container d-flex my-5 mb-1" >
       <h3 v-show="!this.donationInfo.foundationSeq" @click.prevent class="col nowForm" :class="{ now: this.stage.one }">
         1. 기부 재단 선택
       </h3>
@@ -31,24 +31,20 @@
       </h3>
     </div>
     <!-- 현황판 -->
-    <div v-show="!this.stage.two" class="donaPostcard">
+    <div class="donaPostcard">
       <!-- 재단 로고 -->
       <img v-show="this.selOrganizationInfo.logURL" class="organLogo" v-bind:src="this.selOrganizationInfo.logURL" alt="선택재단">
       <div v-show="!this.selOrganizationInfo.logURL" class="organLogo"> 
         <img src="../../public/images/logo.png" style="width: 100%; height:100%" alt="엽AI로고">
       </div>
+      
       <img class="selPostImg" v-if="this.donationInfo.donationImgUrl" v-bind:src="this.donationInfo.donationImgUrl">
-      <div class="myLogo"></div>
       <!-- 입력 글 보여주기 -->
       <div class="donaTextBox">
         <div v-for="(line, idx) in this.donationInfo.donationText.split('\n')" :key="`textline-${idx}`">
           <h3 class="donaText">{{line}}</h3>
         </div>
       </div>
-    </div>
-    <!-- 현황판 뒷면 우편 선택 -->
-    <div v-show="this.stage.two" class="donaPostcardBack">
-      <img class="selImg"  v-if="this.donationInfo.donationImgUrl" v-bind:src="this.donationInfo.donationImgUrl" alt="엽서사진" />
     </div>
     <!-- 재단 선택 리스트 -->
     <div v-show="this.organizationList && this.stage.one">
@@ -80,7 +76,9 @@
           <i class="bi bi-chevron-right" @click="postcardMove('right')"></i>
         </div>
       </div>
-        <h3 v-if="!(Math.ceil(this.postcardList.length / 5) > 1)">현재 작성한 엽서가 없어요 먼저 엽서를 작성해 주세요</h3>
+        <h3 v-if="!this.postcardList.length" class="noListText">현재 작성한 엽서가 없어요.
+          <button class="btn btn-primary" @click="goLetters">엽서 만들기</button>
+        </h3>
       <div v-for="(page, index) in Math.ceil(this.postcardList.length / 5)"
         :key="`page-${index}`" >
         <div v-show="index === this.postcardStage" class="postcardList">
@@ -97,7 +95,9 @@
           <i class="bi bi-chevron-right" @click="postcardMove('L-right')"></i>
         </div>
       </div>
-      <h3 v-if="!(Math.ceil(this.likedPostcards.length / 5) > 1)">현재 좋아요를 한 엽서 목록이 없어요.</h3>
+      <h3 v-if="!this.likedPostcards.length" class="noListText">현재 좋아요를 한 엽서 목록이 없어요.
+        <button class="btn btn-primary" @click="goSearch" >엽서 구경하기</button>
+      </h3>
       <div v-for="(page, idx) in Math.ceil(this.likedPostcards.length / 5)"
         :key="`liked-page-${idx}`" >
         <div v-show="idx === this.likedPostcardStage" class="postcardList">
@@ -110,8 +110,7 @@
     <!-- 텍스트 입력 -->
     <div v-show="this.stage.three">
       <h1>마음을 담은 글귀 입력</h1>
-      <div>{{donationInfo.donationText}}</div>
-      <textarea @input="checkTest" maxlength="100" class="inputText" placeholder="간단한 글귀로 마음을 표현하세요(100자 내)"></textarea>
+      <textarea @input="changInput" maxlength="100" class="inputText" :value="this.donationInfo.donationText" placeholder="간단한 글귀로 마음을 표현하세요(100자 내)"></textarea>
     </div>
     <!-- 기부금 선택 입력 -->
     <div v-show="this.stage.four">
@@ -121,7 +120,7 @@
       <p v-show="!(this.donationInfo.donationPay >= 100)" style="color:red;">* 기부를 위해선 100원 이상의 금액이 필요합니다.</p>
     </div>
     <button v-if="this.donationInfo.donationPay >= 100" class="donaButton" @click="pay">
-      <i @click="pay" class="fa-solid fa-hand-holding-heart" style="donaIcon" ></i>
+      <i @click="pay" class="fa-solid fa-hand-holding-heart donaIcon" ></i>
       <p>기부</p>
     </button>
     <div class="donaButtons">
@@ -135,32 +134,30 @@
   <div v-if="this.logoLoding" class="mainLoadingContent"></div>
   <!-- 기부 성공 후 보여줄 모달 -->
     <div v-if="this.modalShow" class="donaModal">
-      <h1 class="modalTitle">기부 확인</h1>
+      <h1 class="modalTitle">기부 내용</h1>
       <ul class="modalList">
         <li class="modalItem">
           <b>재단명:</b>
-          <b>{{this.receipt.foundation}}</b>
-          <hr>
-        </li>
-        <li class="modalItem">
-          <b>재단명:</b>
-          <b>{{this.receipt.foundation}}</b>
+          <b class="modalContentColor">{{this.receipt.foundation}}</b>
           <hr>
         </li>
         <li class="modalItem">
           <b>기부자:</b>
-          <b>{{this.receipt.Name}}</b>
+          <b class="modalContentColor">{{this.receipt.Name}}</b>
           <hr>
         </li>
         <li class="modalItem">
           <b>기부금액:</b>
-          <b>{{this.receipt.pay}}</b>
+          <b class="modalContentColor">{{this.receipt.pay}}</b>
           <hr>
         </li>
         <li class="modalItem">
           <b>결제 번호:</b>
-          <b>{{this.receipt.payNum}}</b>
+          <b class="modalContentColor">{{this.receipt.payNum}}</b>
           <hr>
+        </li>
+        <li class="modalItem">
+          <b class="modalContentColor">당신의 따뜻한 마음을 잘 전달하겠습니다.</b>
         </li>
       </ul>
       <button class="modalButton" @click="goMypage">확인 완료</button>
@@ -173,6 +170,7 @@ const donationStore = "donationStore";
 const organizationStore = "organizationStore";
 const postcardStore = "postcardStore";
 const accountStore = "accountStore";
+const searchStore = "searchStore";
 
 export default {
   name: "OrganizationListView",
@@ -228,10 +226,12 @@ export default {
 
   methods: {
     ...mapActions(donationStore, ["doDonate"]),
-    // 재단 리스트 용
+    // 재단 리스트용
     ...mapActions(organizationStore, ["getFoundationList"]),
-    // 엽서 리스트 용
+    // 엽서 리스트용
     ...mapActions(postcardStore, ["userPostcardList", "userLikedPostcardStore"]),
+    // 검색 이동용
+    ...mapActions(searchStore, ["getSearchResult"]),
     // 상위 버튼을 통한 이동
 
     checkTest(event) {
@@ -329,9 +329,25 @@ export default {
       this.$router.push('/main')
       this.reset()
     },
+    // 마이페이지로
     goMypage() {
       this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}})
       this.reset()
+    },
+    // 좋아요 리스트를 위해 검색 페이지로
+    async goSearch(){
+      // 없는 값을 보냄
+      await this.getSearchResult("구글 26년차 시니어 개발자 박정현")
+      // 이동
+      this.$router.push({ name: "SearchView" })
+    },
+    // 우편 작성 페이지로
+    goLetters() {
+      this.$router.push('/makecard')
+    },
+    // 문구창 입력 변경
+    changInput(e) {
+      this.donationInfo.donationText = e.target.value;
     },
     // 결제하기
     pay() {
@@ -482,27 +498,12 @@ export default {
   width: 50vw;
   height: 45vh;
   align-self: center;
+  /* 입체 그림자효과 */
+  filter: drop-shadow(10px 6px 6px #c3c3c3);
 }
-.donaPostcardBack {
-  margin: auto;
-  position: relative;
-  background-color: white;
-  width: 40vw;
-  height: 40vh;
-  align-self: center;
-}
+
 /* 선택 재단의 로고 */
 .organLogo {
-  position: absolute;
-  left: 1vw;
-  top: 1vh;
-  width: 5vw;
-  height: 6vw;
-  border: 1px solid;
-}
-/* 현황판 내 엽AI사전 로고 */
-.myLogo {
-  background: url("../../public/images/logo.png");
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -512,18 +513,24 @@ export default {
   width: 5vw;
   height: 13vh;
 }
-/* 선택된 엽서 이미지(앞면) */
+/* 엽서 프레임 */
+.donaFrame {
+  background: url("../../public/images/DonationFrame.png");
+  position: absolute;
+  left: 0.5vw;
+  top: 8vh;
+  width: 24vw;
+  height: 34vh;
+}
+/* 선택된 엽서 이미지 */
 .selPostImg {
   position: absolute;
-  left: 2vw;
-  top: 18vh;
-  width: 20vw;
-  height: 20vh;
-}
-/* 선택된 엽서 이미지(뒷면) */
-.selImg {
-  width: 100%;
-  height: 100%;
+  left: 0.5vw;
+  top: 8vh;
+  width: 24vw;
+  height: 34vh;
+  /* 프레임 */
+  border-radius: 5px;
 }
 /* 입력된 텍스트 모음 */
 .donaTextBox {
@@ -550,17 +557,21 @@ export default {
 .donaCardList {
   position: relative;
   display: flex;
-  width: 50vw;
+  /* 중앙정렬 */
+  width: 40vw;
   margin: auto
 }
 /* 재단 리스트 개별 카드 크기 */
 .donaCard {
   width: 12vw;
   height: 18vh;
-  margin: 3px;
-  border: 0.1px solid;
+  margin: 0.5vw;
+  border: 0.1px solid white;
   border-radius: 10px;
   background-color: white;
+}
+.donaCard:hover {
+  transform: scale3d(1.1, 1.1, 1.1);
 }
 /* 재단 리스트의 이미지 */
 .donaImg {
@@ -585,7 +596,13 @@ export default {
 .postcardImg{
   width: 12vw;
   height: 12vh;
-  margin: 1px;
+  margin: 0.3vw;
+  border: 1px solid #484233;
+  border-radius: 5px;
+  filter: drop-shadow(10px 6px 6px #c3c3c3);
+}
+.postcardImg:hover {
+  transform: scale3d(1.1, 1.1, 1.1);
 }
 /* 엽서 구분 좋아요 OR 그린 글 + 페이지내이션  */
 .title {
@@ -598,6 +615,11 @@ export default {
   margin-top: 1vh;
   margin-bottom: 1vh;
 }
+/* 엽서가 없는 경우 나올 글 */
+.noListText{
+  color: blue;
+}
+
 /* 모달 */
 .donaModal {
   position: absolute;
@@ -620,9 +642,15 @@ export default {
   justify-content: space-between;
   margin: 1vw;
 }
+.modalContentColor {
+  color: blue
+}
 /* 모달 닫기 버튼 */
 .modalButton{
-  margin: 1vw;
+  margin-bottom: 0.5vw;
+  background-color: rgb(36, 36, 116);
+  border-radius: 5px;
+  color: white;
 }
 /* 모달 생성시 뒷 배경 투명도 조절 */
 .donaModalBack {
@@ -632,14 +660,14 @@ export default {
 /* 마지막 버튼 모음 */
 .donaButtons {
   position: absolute;
-  right: 3vw;
+  right: 1vw;
   bottom: 1vh;
-  margin: 2vw;
 }
 /* 좌우 이동 아이콘 */
 .stageIcon {
-  color: black;
+  color: #484233;
   font-size: 3rem;
+  margin: 0.2vw;
 }
 
 /* 메인화면 이동 아이콘 */

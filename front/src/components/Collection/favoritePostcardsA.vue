@@ -2,73 +2,203 @@
           
   <!-- TestMypageView의 좋아하는 엽서 목록 부분에 v-if  등으로 숨겨둘 것.
   사용자가 이걸 선택하면 보여주도록 로직 추가 필요 -->
-  <div id="modalBox" data-aos="fade-up" data-aos-duration="500" class="favoritePics">
+  <!-- 내가보는거 -->
+  <div v-if="this.isOwner" id="modalBox" data-aos="fade-up" data-aos-duration="500" class="favoritePics">
+    
+
+    
     <!-- 좌측 상단부 -->
+    <div class="glass">
+    </div>
     <div class="favoritePics1">
       <div class="favoritePics1_1">
-        <img class="favoriteImg" :src="imgURL" style="height: 22vh; width: 22vh;" alt="">
+        <img v-if="ownerInfo.donations[0]" @click="changeUserRemind(1)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[0].donationImgUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
+        <img v-else @click="changeUserRemind(1)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="defaultImg.imageUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
       </div>
       <div class="favoritePics1_2">
-        <img class="favoriteImg" :src="imgURL" style="height: 22vh; width: 22vh;" alt="">
+        <img v-if="ownerInfo.donations[1]" @click="changeUserRemind(2)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[1].donationImgUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
+        <img v-else @click="changeUserRemind(2)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="defaultImg.imageUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
       </div>
     </div>
 
     <!-- 중간측 상단부 -->
     <div class="favoritePics2">
-      <img class="favoriteImg" :src="imgURL" style="height: 27vh; width: 27vh;" alt="">
+      <img v-if="ownerInfo.donations[2]" @click="changeUserRemind(3)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[2].donationImgUrl" style="height: 27vh; width: 27vh; cursor: pointer;" alt="">
+      <img v-else @click="changeUserRemind(3)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="defaultImg.imageUrl" style="height: 27vh; width: 27vh; cursor: pointer;" alt="">
+      
     </div>
 
     <!-- 우측 -->
     <div class="favoritePics3">
       <div class="favoritePics3_1">
-        <img class="favoriteImg" :src="imgURL" style="height: 18vh; width: 18vh;" alt="">
+        <img v-if="ownerInfo.donations[3]" @click="changeUserRemind(4)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[3].donationImgUrl" style="height: 18vh; width: 18vh; cursor: pointer;" alt="">
+        <img v-else @click="changeUserRemind(4)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="defaultImg.imageUrl" style="height: 18vh; width: 18vh; cursor: pointer;" alt="">
+      
       </div>
       <div class="favoritePics3_2">
-        <img class="favoriteImg" :src="imgURL" style="height: 18vh; width: 18vh;" alt="">
+        <img v-if="ownerInfo.donations[4]" @click="changeUserRemind(5)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[4].donationImgUrl" style="height: 18vh; width: 18vh; cursor: pointer;" alt="">
+        <img v-else @click="changeUserRemind(5)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="defaultImg.imageUrl" style="height: 18vh; width: 18vh; cursor: pointer;" alt="">
+      
       </div>
       <div class="favoritePics3_3">
-        <img class="favoriteImg" :src="imgURL" style="height: 18vh; width: 18vh;" alt="">
+        <img v-if="ownerInfo.donations[5]" @click="changeUserRemind(6)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[5].donationImgUrl" style="height: 18vh; width: 18vh; cursor: pointer;" alt="">
+        <img v-else @click="changeUserRemind(6)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="defaultImg.imageUrl" style="height: 18vh; width: 18vh; cursor: pointer;" alt="">
+      
       </div>
       <div class="favoritePics3_4">
-        <img class="favoriteImg" :src="imgURL" style="height: 18vh; width: 18vh;" alt="">
+        <img v-if="ownerInfo.donations[6]" @click="changeUserRemind(7)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[6].donationImgUrl" style="height: 18vh; width: 18vh; cursor: pointer;" alt="">
+        <img v-else @click="changeUserRemind(7)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="defaultImg.imageUrl" style="height: 18vh; width: 18vh; cursor: pointer;" alt="">
+      
       </div>
     </div>
 
     <!-- 좌측 하단부 -->
     <div class="favoritePics4">
       <div class="favoritePics4_1">
-        <img class="favoriteImg" :src="imgURL" style="height: 22vh; width: 22vh;" alt="">
+
+        <img v-if="ownerInfo.donations[7]" @click="changeUserRemind(8)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[7].donationImgUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
+        <img v-else @click="changeUserRemind(8)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="defaultImg.imageUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
+      
       </div>
       <div class="favoritePics4_2">
-        <img class="favoriteImg" :src="imgURL" style="height: 22vh; width: 22vh;" alt="">
+
+        <img v-if="ownerInfo.donations[8]" @click="changeUserRemind(9)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[8].donationImgUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
+        <img v-else @click="changeUserRemind(9)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="defaultImg.imageUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
+      
       </div>
       <div class="favoritePics4_3">
-        <img class="favoriteImg" :src="imgURL" style="height: 22vh; width: 22vh;" alt="">
+
+        <img v-if="ownerInfo.donations[9]" @click="changeUserRemind(10)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[9].donationImgUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
+        <img v-else @click="changeUserRemind(10)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="defaultImg.imageUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
+      
       </div>
     </div>
   </div>
+
+
+
+  <!-- 다른사람이 보는거 -->
+  <div v-else id="modalBox" data-aos="fade-up" data-aos-duration="500" class="favoritePics">
+    <div class="glass">
+    </div>
+    <!-- 좌측 상단부 -->
+    <div class="favoritePics1">
+      <div class="favoritePics1_1">
+        <img v-if="ownerInfo.donations[0]" class="favoriteImg" :src="imgURL" style="height: 22vh; width: 22vh;" alt="">
+      </div>
+      <div class="favoritePics1_2">
+        <img v-if="ownerInfo.donations[1]" class="favoriteImg" :src="imgURL" style="height: 22vh; width: 22vh;" alt="">
+      </div>
+    </div>
+
+    <!-- 중간측 상단부 -->
+    <div class="favoritePics2">
+      <img v-if="ownerInfo.donations[2]" class="favoriteImg" :src="imgURL" style="height: 27vh; width: 27vh;" alt="">
+    </div>
+
+    <!-- 우측 -->
+    <div class="favoritePics3">
+      <div class="favoritePics3_1">
+        <img v-if="ownerInfo.donations[3]" class="favoriteImg" :src="imgURL" style="height: 18vh; width: 18vh;" alt="">
+      </div>
+      <div class="favoritePics3_2">
+        <img v-if="ownerInfo.donations[4]" class="favoriteImg" :src="imgURL" style="height: 18vh; width: 18vh;" alt="">
+      </div>
+      <div class="favoritePics3_3">
+        <img v-if="ownerInfo.donations[5]" class="favoriteImg" :src="imgURL" style="height: 18vh; width: 18vh;" alt="">
+      </div>
+      <div class="favoritePics3_4">
+        <img v-if="ownerInfo.donations[6]" class="favoriteImg" :src="imgURL" style="height: 18vh; width: 18vh;" alt="">
+      </div>
+    </div>
+
+    <!-- 좌측 하단부 -->
+    <div class="favoritePics4">
+      <div class="favoritePics4_1">
+        <img v-if="ownerInfo.donations[7]" class="favoriteImg" :src="imgURL" style="height: 22vh; width: 22vh;" alt="">
+      </div>
+      <div class="favoritePics4_2">
+        <img v-if="ownerInfo.donations[8]" class="favoriteImg" :src="imgURL" style="height: 22vh; width: 22vh;" alt="">
+      </div>
+      <div class="favoritePics4_3">
+        <img v-if="ownerInfo.donations[9]" class="favoriteImg" :src="imgURL" style="height: 22vh; width: 22vh;" alt="">
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+const mypageStore = "mypageStore";
+const accountStore = "accountStore";
+const postcardStore = "postcardStore";
+
 export default {
   name: "favoritePostcardsA",
   data() {
     return {
-      imgURL: require("../../../public/images/test1.jpg")
+      imgURL: require("../../../public/images/test1.jpg"),
+      isOwner: 0,
+      showTemp: false,
+      changeSeq: 0,
+      changeDonationSeq: 0,
+      defaultImg:{ imageUrl: require("../../../public/images/addImg.png") },
     }
   },
+
+  computed: {
+    ...mapGetters(mypageStore, [
+      "donationList",
+      "ownerInfo",
+    ]),
+    ...mapGetters(accountStore, [
+      "userInfo",
+    ]),
+    ...mapGetters(postcardStore, [
+      "postcardList",
+      "userLikedPostcard",
+      "likedPostcards",
+    ]),
+  },
+
   methods: {
     // data의 imgURL을 변경해주는 로직이 필요
     // 현 시점에선 사용자가 좋아하는 엽서 목록을 받지 못해
     // 해당하는 imgURL을 세팅할 수 없다
+    ...mapActions(mypageStore, [
+      "userSecession",
+      "updateUserInfo",
+      "getDonationList",
+      "changeTemplate",
+      "changeRemind",
+      "changeUserRemind",
+    ]),
   },
+
   created() {
-    console.log('a')
+    if (this.ownerInfo.userSeq === this.userInfo.userSeq) {
+      this.isOwner = true
+    }
   },
 }
 </script>
 
 <style>
+.glass {
+  content: "";
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 50%; 
+  transform: translate(-50%, 0);
+  /* background: inherit; 배경 속성을 상속 받음 */
+  /* top: -25px; 반투명 효과 영역을 25px 왼쪽으로 이동 */
+  /* left: -25px; 반투명효과 영역을 25px 위로 이동 */
+  box-shadow: inset 0 0 0 1000px rgba(255,255,255,0.5); /* 반투명 흰색 그림자 효과를 영역 안쪽에 아주 크게 생성 */
+  filter: blur(15px); /* 블러 효과로 배경 이미지를 흐리게 만듬 */
+}
+
 /* 좋아하는 엽서 모음 전체 */
 .favoritePics {
   position: relative;

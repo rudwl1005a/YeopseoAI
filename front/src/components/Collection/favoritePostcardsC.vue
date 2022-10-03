@@ -42,6 +42,8 @@
 <!-- 다른사람 페이지면 -->
 <div v-else class="d-flex justify-content-center" data-aos="fade-up" data-aos-duration="500">
   <!-- 벽지 -->
+  <div class="glass">
+      </div>
   <div class="remindBackground d-flex justify-content-center">
     
 
@@ -106,8 +108,8 @@ export default {
       "changeRemind",
       "changeUserRemind",
     ]),
-
     },
+
     created() {
       if (this.ownerInfo.userSeq === this.userInfo.userSeq) {
         this.isOwner = true
