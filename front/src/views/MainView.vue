@@ -16,7 +16,7 @@
       <!-- 나중에 라우터 링크 혹은 푸쉬로 바꾸자 -->
       <div class="mainpageBtn" @mouseover="change1" @click="goHome">home</div>
       <div class="mainpageBtn" @mouseover="change2" @click="goLetter">letter</div>
-      <div class="mainpageBtn" @mouseover="change3" @click="goFoundation">foundation</div>
+      <div class="mainpageBtn" @mouseover="change3" @click="goFoundation">donation</div>
       <div class="mainpageBtn" @mouseover="change4" @click="goMypage">mypage</div>
       <div class="mainpageBtn" @mouseover="change5" @click="goBoard">board</div>
     </div>
@@ -389,7 +389,7 @@ export default {
       console.log("홈 새로고침");
     },
     goFoundation() {
-      this.$router.push('/organizationlist');
+      this.$router.push('/donation');
       console.log("홈 새로고침");
     },
     goLetter() {      

@@ -8,6 +8,8 @@ import {
   followList,
   callChangeTemplate,
   callChangeRemind,
+  addFollow,
+  deleteFollow,
 } from "@/api/mypage.js";
 
 const mypageStore = {
@@ -15,6 +17,7 @@ const mypageStore = {
   state: {
     donationList: [],
     followList: [],
+    myFollowList: [],
     profileImage: "",
     mypageUserInfo: {},
     ownerInfo: {},
@@ -27,6 +30,9 @@ const mypageStore = {
     },
     followList(state) {
       return state.followList;
+    },
+    myFollowList(state) {
+      return state.myFollowList;
     },
     profileImage(state) {
       return state.profileImage;
@@ -48,6 +54,9 @@ const mypageStore = {
     },
     SET_FOLLOWLIST: (state, followList) => {
       state.followList = followList;
+    },
+    SET_MYFOLLOWLIST: (state, myFollowList) => {
+      state.myFollowList = myFollowList;
     },
     SET_PROFILEIMAGE: (state, profileImage) => {
       state.profileImage = profileImage;
@@ -140,13 +149,29 @@ const mypageStore = {
         (response) => {
           // console.log("회원님의 팔로워 목록이에요");
           // console.log(response);
-          commit('SET_DONATIONLIST', response.data);
+          commit('SET_FOLLOWLIST', response.data);
         },
         (error) => {
           console.log(error);
         }
       )
     },
+
+    // 회원의 팔로워 목록 가져오기
+    async getMyFollowerList({ commit }, user_seq) {
+      await followList(
+          user_seq,
+        (response) => {
+          // console.log("회원님의 팔로워 목록이에요");
+          // console.log(response);
+          commit('SET_MYFOLLOWLIST', response.data);
+        },
+        (error) => {
+          console.log(error);
+        }
+      )
+    },
+
 
     // 마이페이지 주인 유저정보 할당
     async setOwnerInfo({ commit }, userSeq) {
@@ -205,6 +230,35 @@ const mypageStore = {
       }
     );
   },
+
+
+  // 팔로우요청
+  async follow({ commit }, followInfo) {
+    await addFollow(
+      followInfo,
+      () => {
+        console.log("팔로우됨");
+        commit();
+      },
+      () => {
+      }
+    );
+  },
+
+
+    // 언팔요청
+    async unFollow({ commit }, followInfo) {
+      await deleteFollow(
+        followInfo,
+        () => {
+          console.log("언팔됨");
+          commit();
+        },
+        () => {
+        }
+      );
+    },
+
 },
 
 

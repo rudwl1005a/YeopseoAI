@@ -5,7 +5,7 @@
   <div v-if="toggleContent" data-aos="fade-up" data-aos-duration="500">
     <div class="mainpageBtn" @click="goHome">home</div>
     <div class="mainpageBtn" @click="goLetter">letter</div>
-    <div class="mainpageBtn" @click="goFoundation">foundation</div>
+    <div class="mainpageBtn" @click="goFoundation">donation</div>
     <div class="mainpageBtn" @click="goMypage">mypage</div>
     <div v-if="isLogged" @click="userLogoutandGo" class="mainpageBtn">logout</div>
     <div v-if="!isLogged" @click="goLogin" class="mainpageBtn">login</div>
@@ -94,7 +94,7 @@ export default {
       this.$router.push('/makecard');
     },
     goFoundation() {
-      this.$router.push('/organizationlist');
+      this.$router.push('/donation');
     },
     goMypage() {
       this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}});
