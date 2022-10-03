@@ -2,9 +2,9 @@
   <!-- 전체 폼 -->
   <side-bar></side-bar>
   <div class="donaForm" :class="{ donaModalBack : this.logoLoding}">
-    <h1 style="marginTop:0">Donation</h1>
+    <h1 class="normalText">Donation</h1>
     <!-- 현재 위치 -->
-    <div class="container d-flex my-5 mb-1" >
+    <div class="donaStage">
       <h3 v-show="!this.donationInfo.foundationSeq" @click.prevent class="col nowForm" :class="{ now: this.stage.one }">
         1. 기부 재단 선택
       </h3>
@@ -33,11 +33,10 @@
     <!-- 현황판 -->
     <div class="donaPostcard">
       <!-- 재단 로고 -->
-      <img v-show="this.selOrganizationInfo.logURL" class="organLogo" v-bind:src="this.selOrganizationInfo.logURL" alt="선택재단">
-      <div v-show="!this.selOrganizationInfo.logURL" class="organLogo"> 
+      <img v-show="this.selOrganizationInfo.logoURL" class="organLogo" v-bind:src="this.selOrganizationInfo.logoURL" alt="선택재단">
+      <div v-show="!this.selOrganizationInfo.logoURL" class="organLogo"> 
         <img src="../../public/images/logo.png" style="width: 100%; height:100%" alt="엽AI로고">
       </div>
-      
       <img class="selPostImg" v-if="this.donationInfo.donationImgUrl" v-bind:src="this.donationInfo.donationImgUrl">
       <!-- 입력 글 보여주기 -->
       <div class="donaTextBox">
@@ -49,7 +48,7 @@
     <!-- 재단 선택 리스트 -->
     <div v-show="this.organizationList && this.stage.one">
       <!-- 재단 목록 -->
-      <h1>재단 선택</h1>
+      <h1 class="normalText">재단 선택</h1>
       <div class="donaCardList">
         <div
           v-for="(organization, index) in this.organizationList"
@@ -57,10 +56,9 @@
         >
           <div class="donaCard" @click="selOrg(organization.foundationName,
                     organization.foundationLogoUrl, organization.foundationSeq)">
-            <img v-if="organization.foundationUrlLogo" v-bind:src="organization.foundationUrlLogo"
+            <img v-if="organization.foundationLogoUrl" v-bind:src="organization.foundationLogoUrl"
               class="donaImg"
             />
-            <img v-if="!organization.foundationUrlLogo" src="../../public/images/logo.png" class="donaImg">
             <h4 class="donaTitle">{{ organization.foundationName }}</h4>
           </div>
         </div>
@@ -69,66 +67,83 @@
     <!-- 엽서 선택 리스트 -->
     <div v-show="this.postcardList && this.stage.two">
       <div class="d-flex title">
-        <h3 class="titleText">내가 그린 엽서 목록</h3>
-        <div v-if="Math.ceil(this.postcardList.length / 5) > 1" class="d-flex titleText">
+        <div class="d-flex">
+          <h3 class="titleText" @click="changeList" :class="{donaModalBack: !this.myPostcardList}">내가 그린 엽서 목록</h3>
+          <h3 class="titleText" @click="changeList" :class="{donaModalBack: this.myPostcardList}">좋아요한 엽서 목록</h3>
+        </div>
+        <div v-if="(Math.ceil(this.postcardList.length / 10) > 1) && this.myPostcardList" class="d-flex titleText">
           <i class="bi bi-chevron-left" @click="postcardMove('left')"></i>
-          <b>{{this.postcardStage +1}} / {{Math.ceil(this.postcardList.length / 5)}}</b>
+          <b>{{this.postcardStage +1}} / {{Math.ceil(this.postcardList.length / 10)}}</b>
           <i class="bi bi-chevron-right" @click="postcardMove('right')"></i>
         </div>
-      </div>
-        <h3 v-if="!this.postcardList.length" class="noListText">현재 작성한 엽서가 없어요.
-          <button class="btn btn-primary" @click="goLetters">엽서 만들기</button>
-        </h3>
-      <div v-for="(page, index) in Math.ceil(this.postcardList.length / 5)"
-        :key="`page-${index}`" >
-        <div v-show="index === this.postcardStage" class="postcardList">
-          <div v-for="(postcard, idx) in this.postcardList.slice(index * 5, (index + 1) *5)" :key="`postcard-${page}-${idx}`">
-            <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
-          </div>
-        </div>
-      </div>
-      <div class="d-flex title">
-        <h3 class="titleText">좋아요한 엽서 목록</h3>
-        <div v-if="Math.ceil(this.likedPostcards.length / 5) > 1" class="d-flex titleText">
+        <div v-if="(Math.ceil(this.likedPostcards.length / 10) > 1 && !this.myPostcardList)" class="d-flex titleText">
           <i class="bi bi-chevron-left" @click="postcardMove('L-left')"></i>
-          <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.likedPostcards.length / 5)}}</b>
+          <b>{{this.likedPostcardStage +1}} / {{Math.ceil(this.likedPostcards.length / 10)}}</b>
           <i class="bi bi-chevron-right" @click="postcardMove('L-right')"></i>
         </div>
       </div>
-      <h3 v-if="!this.likedPostcards.length" class="noListText">현재 좋아요를 한 엽서 목록이 없어요.
-        <button class="btn btn-primary" @click="goSearch" >엽서 구경하기</button>
+      <h3 v-if="!this.postcardList.length && this.myPostcardList" class="noListText">현재 작성한 엽서가 없어요.
+        <button class="postcardMoveIcon" @click="goLetters">엽서 만들기</button>
       </h3>
-      <div v-for="(page, idx) in Math.ceil(this.likedPostcards.length / 5)"
-        :key="`liked-page-${idx}`" >
-        <div v-show="idx === this.likedPostcardStage" class="postcardList">
-          <div v-for="(postcard, idx) in this.likedPostcards.slice(idx * 5, (idx + 1) *5)" :key="`likedPostcard-${page}-${idx}`">
-            <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+      <div v-if="this.myPostcardList">
+        <div v-for="(page, index) in Math.ceil(this.postcardList.length / 10)"
+          :key="`page-${index}`">
+          <div v-show="index === this.postcardStage" class="postcardList">
+            <div class="postcardLine">
+              <div v-for="(postcard, idx) in this.postcardList.slice(index * 5, (index + 1) *5)" :key="`postcard-${page}-${idx}`">
+                <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+              </div>
+            </div>
+            <div class="postcardLine">
+              <div v-for="(postcard, idx) in this.postcardList.slice((index + 1) * 5, (index + 2) *5)" :key="`postcard-${page}-${idx}`">
+                <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3 v-if="!this.likedPostcards.length && !this.myPostcardList" class="noListText">현재 좋아요를 한 엽서 목록이 없어요.
+        <button class="postcardMoveIcon" @click="goSearch" >엽서 구경하기</button>
+      </h3>
+      <div v-if="!this.myPostcardList">
+        <div v-for="(page, idx) in Math.ceil(this.likedPostcards.length / 10)"
+          :key="`liked-page-${idx}`">
+          <div v-show="idx === this.likedPostcardStage" class="postcardList">
+            <div class="postcardLine">
+              <div v-for="(postcard, idx) in this.likedPostcards.slice(idx * 5, (idx + 1) *5)" :key="`likedPostcard-${page}-${idx}`">
+                <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+              </div>
+            </div>
+            <div class="postcardLine">
+              <div v-for="(postcard, idx) in this.likedPostcards.slice((idx + 1) *5, (idx + 2) *5)" :key="`likedPostcard-${page}-${idx}`">
+                <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
     <!-- 텍스트 입력 -->
     <div v-show="this.stage.three">
-      <h1>마음을 담은 글귀 입력</h1>
+      <h1 class="normalText">마음을 담은 문구 입력</h1>
       <textarea @input="changInput" maxlength="100" class="inputText" :value="this.donationInfo.donationText" placeholder="간단한 글귀로 마음을 표현하세요(100자 내)"></textarea>
     </div>
     <!-- 기부금 선택 입력 -->
     <div v-show="this.stage.four">
-      <h1>사랑을 전해주세요</h1>
-      <label for="pay">기부 금액 : </label>
+      <h1 class="normalText">사랑을 전해주세요</h1>
+      <label for="pay" class="normalText">기부 금액 : </label>
       <input v-model="this.donationInfo.donationPay" class="payInput" type="number" id="pay" />
       <p v-show="!(this.donationInfo.donationPay >= 100)" style="color:red;">* 기부를 위해선 100원 이상의 금액이 필요합니다.</p>
     </div>
-    <button v-if="this.donationInfo.donationPay >= 100" class="donaButton" @click="pay">
+    <button v-if="(this.donationInfo.donationPay >= 100) && this.stage.four" class="donaButton" @click="pay">
       <i @click="pay" class="fa-solid fa-hand-holding-heart donaIcon" ></i>
       <p>기부</p>
     </button>
     <div class="donaButtons">
-      <b>{{ errorMSG }}</b>
+      <b class="normalText">{{ errorMSG }}</b>
       <i @click.prevent="preStage" v-show="!this.stage.one" class="bi bi-arrow-left-square stageIcon"/>
       <i @click.prevent="nextStage" v-show="!this.stage.four" class="bi bi-arrow-right-square stageIcon"/>
     </div>
-    <img @click="goHome" src="../../public/images/homeicon.png" class="homeIcon">
   </div>
   <!-- 로고 이동 -->
   <div v-if="this.logoLoding" class="mainLoadingContent"></div>
@@ -199,6 +214,8 @@ export default {
         three: false,
         four: false,
       },
+      // 우편 선택 여부
+      myPostcardList: true,
       // 우편 페이지내이션
       postcardStage: 0,
       likedPostcardStage: 0,
@@ -298,9 +315,9 @@ export default {
       this.errorMSG = null
     },
     // 재단 선택
-    selOrg(name, URL, Seq) {
+    selOrg(name, logoURL, Seq) {
       this.selOrganizationInfo.name = name;
-      this.selOrganizationInfo.logoURL = URL;
+      this.selOrganizationInfo.logoURL = logoURL;
       this.donationInfo.foundationSeq = Seq;
       this.errorMSG = null;
     },
@@ -308,6 +325,10 @@ export default {
     selPostcard(URL) {
       this.donationInfo.donationImgUrl = URL;
       this.errorMSG = null;
+    },
+    // 엽서 리스트 분류 변경
+    changeList() {
+      this.myPostcardList = !this.myPostcardList
     },
     // 엽서 목록 변경
     postcardMove(direction) {
@@ -317,17 +338,11 @@ export default {
       } else if (direction === 'L-left' && this.likedPostcardStage > 0) {
         this.likedPostcardStage -= 1
         // 좋아요한 엽서 목록 페이지 변경
-      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.likedPostcards.length / 5) - 1) {
+      } else if (direction === 'L-right' && this.likedPostcardStage < Math.ceil(this.likedPostcards.length / 10) - 1) {
         this.likedPostcardStage += 1
-      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.postcardList.length / 5) - 1) {
+      } else if (direction === 'right' && this.postcardStage < Math.ceil(this.postcardList.length / 10) - 1) {
         this.postcardStage += 1
       }
-    },
-    
-    // 메인페이지로
-    goHome() {
-      this.$router.push('/main')
-      this.reset()
     },
     // 마이페이지로
     goMypage() {
@@ -337,7 +352,7 @@ export default {
     // 좋아요 리스트를 위해 검색 페이지로
     async goSearch(){
       // 없는 값을 보냄
-      await this.getSearchResult("구글 26년차 시니어 개발자 박정현")
+      await this.getSearchResult(" ")
       // 이동
       this.$router.push({ name: "SearchView" })
     },
@@ -411,6 +426,7 @@ export default {
       };
       this.selOrganizationInfo = { name: null, logoURL: null };
       this.stage = { one: true, two: false, three: false, four: false };
+      this.myPostcardList = true,
       this.postcardStage = 0;
       this.likedPostcardStage = 0;
       this.logoLoding = false
@@ -421,7 +437,6 @@ export default {
         payNum: null,
       },
       this.modalShow = false,
-      // 에러 메시지
       this.errorMSG = null;
     }
   },
@@ -440,7 +455,6 @@ export default {
     if (!this.likedPostcards.length) {
       this.userLikedPostcardStore(this.userInfo.userSeq)
     }
-    console.log(this.likedPostcards)
     // 시작과 동시에 링크로 온 재단을 선택하게 변경
     // this.userInfo.foundationSeq = this.params.foundationSeq
   },
@@ -451,39 +465,50 @@ export default {
 </script>
 
 <style>
+/* 전체 폼 */
 .donaForm {
+  background: url("../../public/images/deskBack.png");
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   position: relative;
   width: 94vw;
   height: 100vh;
   background-color: antiquewhite;
 }
+/* 일반 글 색 */
+.normalText {
+  color: #f7f4ed;
+}
+/* 현재 단계 창 전체 폼 */
+.donaStage {
+  display: flex;
+  margin-top: 5vh;
+  margin-bottom: 2vh;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70vw;
+  justify-content: space-around;
+}
+/* 상단 폼 */
 .nowForm {
-  border: 3px double;
-  border-color: black;
+  margin: auto;
   border-radius: 10px;
   background-color: #f5f5dc;
   pointer-events: none;
+  filter: drop-shadow(6px 4px 4px #c3c3c3);
 }
+/* 작성이 완료된 단계 */
 .nowDoneForm {
-  border: 3px double;
-  border-color: black;
+  margin: auto;
   border-radius: 10px;
-  background-color: #ece6cc;
+  background-color: #f3e9be;
+  filter: drop-shadow(6px 4px 4px #c3c3c3);
+  cursor: pointer;
 }
-
+/* 현재 진행하고 있는 단계 */
 .now {
   background-color: #fbceb1;
-}
-.organizationclass {
-  background-color: skyblue;
-}
-.organizationItem {
-  background-color: antiquewhite;
-}
-.textBack {
-  width: 50vw;
-  height: 25vh;
-  align-self: center;
 }
 
 /* 예시 현황판*/
@@ -492,14 +517,14 @@ export default {
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  margin: auto;
+  margin: 2vh auto;
   position: relative;
   background-color: white;
   width: 50vw;
   height: 45vh;
   align-self: center;
   /* 입체 그림자효과 */
-  filter: drop-shadow(10px 6px 6px #c3c3c3);
+  filter: drop-shadow(6px 4px 4px #c3c3c3);
 }
 
 /* 선택 재단의 로고 */
@@ -508,14 +533,13 @@ export default {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   position: absolute;
-  right: 2.8vw;
-  top: 0.7vh;
-  width: 5vw;
-  height: 13vh;
+  right: 3vw;
+  top: 4vh;
+  width: 4vw;
+  height: 7vh;
 }
 /* 엽서 프레임 */
 .donaFrame {
-  background: url("../../public/images/DonationFrame.png");
   position: absolute;
   left: 0.5vw;
   top: 8vh;
@@ -546,6 +570,7 @@ export default {
 .donaText {
   text-decoration: underline black 1px;
 }
+
 /* 글자 입력 */
 .inputText{
   display: flex;
@@ -559,12 +584,13 @@ export default {
   display: flex;
   /* 중앙정렬 */
   width: 40vw;
-  margin: auto
+  margin: auto;
+  filter: drop-shadow(6px 4px 4px #c3c3c3);
 }
 /* 재단 리스트 개별 카드 크기 */
 .donaCard {
   width: 12vw;
-  height: 18vh;
+  height: 22vh;
   margin: 0.5vw;
   border: 0.1px solid white;
   border-radius: 10px;
@@ -588,24 +614,28 @@ export default {
 /* 엽서 모음 */
 .postcardList {
   position: relative;
-  display: flex;
   width: 60vw;
-  margin: auto
+  margin: auto;
+}
+/* 포스트 카드 개별 줄(10개니 5개씩 2줄) */
+.postcardLine {
+  display: flex;
 }
 /* 엽서 이미지 */
 .postcardImg{
-  width: 12vw;
+  width: 11vw;
   height: 12vh;
   margin: 0.3vw;
   border: 1px solid #484233;
   border-radius: 5px;
-  filter: drop-shadow(10px 6px 6px #c3c3c3);
+  filter: drop-shadow(6px 4px 4px #c3c3c3);
 }
 .postcardImg:hover {
   transform: scale3d(1.1, 1.1, 1.1);
 }
 /* 엽서 구분 좋아요 OR 그린 글 + 페이지내이션  */
 .title {
+  color: #f7f4ed;
   margin: auto;
   justify-content: space-between;
   width: 60vw;
@@ -614,10 +644,22 @@ export default {
 .titleText {
   margin-top: 1vh;
   margin-bottom: 1vh;
+  margin-right: 2vw;
+  cursor: pointer;
 }
 /* 엽서가 없는 경우 나올 글 */
 .noListText{
-  color: blue;
+  color: #f7f4ed;
+}
+/* 엽서 없을 경우 이동 버튼 */
+.postcardMoveIcon {
+  background-color: #fbceb1;
+  margin: 0.2vw;
+  border: 0px;
+  border-radius: 10px;
+}
+.postcardMoveIcon:hover{
+  transform: scale3d(1.1, 1.1, 1.1);
 }
 
 /* 모달 */
@@ -665,19 +707,11 @@ export default {
 }
 /* 좌우 이동 아이콘 */
 .stageIcon {
-  color: #484233;
+  color: #f7f4ed;
   font-size: 3rem;
   margin: 0.2vw;
 }
 
-/* 메인화면 이동 아이콘 */
-.homeIcon{
-  position: absolute;
-  left: 1vw;
-  bottom: 1vh;
-  width: 3vw;
-  height: 4vh;
-}
 /* 기부금 입력창 */
 .payInput{
   vertical-align: middle;
