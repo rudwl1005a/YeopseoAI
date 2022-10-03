@@ -1,11 +1,20 @@
 <template>
 <side-bar></side-bar>
-<div>문의 페이지</div>
-<div>
-  <input v-model="board.boardTitle" class="questionTitle" type="text">
-  <input v-model="board.boardContent" class="questionContent" type="text">
+<div class="boardQuestionClass">
+  <div class="boardQuestionInside">
+    <h2>문의 작성</h2>
+    <div class="boardQuesWrap">
+      <div class="boardQuesTitle">
+        <input v-model="board.boardTitle" class="questionTitle" type="text" placeholder="제목" style="border:0 solid black">
+      </div>
+      <div class="boardQuesContent">
+        <textarea v-model="board.boardContent" class="questionContent" type="textarea" placeholder="내용을 입력하세요" style="border:0 solid black"></textarea>
+      </div>
+    </div>
+    <div class="boardpostBtn" @click="doPostBoard">등록</div>
+    <div class="boardGoBoardmain" @click="goBoard">문의사항 목록으로</div>
+  </div>
 </div>
-<div @click="doPostBoard">등록</div>
 </template>
 
 <script>
@@ -46,6 +55,9 @@ export default {
     async doDeleteBoard() {
       await deleteBoard();
     },
+    goBoard() {
+      this.$router.push('/board');
+    }
   },
   created() {
     this.board.userSeq = this.userInfo.userSeq;
@@ -54,5 +66,68 @@ export default {
 </script>
 
 <style>
-
+.boardQuestionClass {
+  height: 100vh;
+  width: 100vw;
+  background-color: #fcf4e0;
+}
+.boardQuestionInside {
+  position: absolute;
+  top: 50%;
+  left: 47%;
+  height: 80vh;
+  width: 80vw;
+  transform: translate(-50%, -50%);
+}
+.boardQuesWrap {
+  
+}
+.questionTitle {
+  height: 5vh;
+  width: 80vw;
+  background: transparent;
+  margin-bottom: 3vh;
+  box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
+}
+.questionTitle:focus {
+  outline: none;
+}
+.questionContent {
+  height: 60vh;
+  width: 80vw;
+  background: transparent;
+  box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
+}
+.questionContent:focus {
+  outline: none;
+}
+.boardpostBtn {
+  position: absolute;
+  cursor: pointer;
+  top: 100%;
+  left: 47%;
+  height: 5vh;
+  width: 5vw;
+  border-radius: 20px;
+  font-size: 2vw;
+  color: #fcf4e0;
+  background-color: #fd8a69;
+  box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
+  line-height: 5vh;
+  vertical-align: middle;
+  transition: 0.4s;
+}
+.boardpostBtn:hover {
+  background-color: #e85b34;
+}
+.boardGoBoardmain {
+  cursor: pointer;
+  position: absolute;
+  width: 8vw;
+  height: 3vh;
+  font-size: 1.5vw;
+  top: 100%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+}
 </style>
