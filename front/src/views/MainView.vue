@@ -15,10 +15,10 @@
     <div class="mainpageList">
       <!-- 나중에 라우터 링크 혹은 푸쉬로 바꾸자 -->
       <div class="mainpageBtn" @mouseover="change1" @click="goHome">home</div>
-      <div class="mainpageBtn" @mouseover="change2" @click="goLetter">letter</div>
+      <div class="mainpageBtn" @mouseover="change2" @click="goLetter">postcard</div>
       <div class="mainpageBtn" @mouseover="change3" @click="goFoundation">donation</div>
       <div class="mainpageBtn" @mouseover="change4" @click="goMypage">mypage</div>
-      <div class="mainpageBtn" @mouseover="change5" @click="goBoard">board</div>
+      <div class="mainpageBtn" @mouseover="change5" @click="goBoard">Q&A</div>
     </div>
 
 
@@ -52,6 +52,252 @@
     </div>
     <div class="maininformationClassShadow"></div>
   </div>
+  <div class="mainsearchClass">
+    <div class="mainsearchTitle"><b style="font-size: 1.2vw;">검색</b></div>
+    <div class="mainsearchBar">
+      <div class="mainsearchBarBody">
+        <input v-model="searchMessage" @input="getAutoComplete" @keyup.enter="submitSearch" class="mainsearchBarInput" placeholder=". . . search" type="text">
+      </div>
+    </div>
+  </div>
+
+  <div class="mainfamousLetterClass">
+    <!-- 버튼 클릭하면 다음 페이지로 옮겨보자 -->
+    <div class="mainfamousLetterBtn" @click="changeFamousLetter"></div>
+    <div class="mainfamousLetterContentClass">
+      <div class="mainfamousLetterTitle"><b>인기엽서</b></div>
+      <div v-if="famousLetterBtn" class="mainfamousLetterBoxClass">
+
+
+        <div id="faf0" class="mainfamousBigLetterClass">
+          <!-- {{ famousLetter[0] }} -->
+          <img :src="famousLetter[0].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
+          <div id='hoverText'>
+            <!-- <div class="bigMaker">{{famousLetter[0].postcard}}</div> -->
+            <div @click="goOtherPage(famousLetter[0].postcard.userSeq)" class="bigMaker">{{famousLetter[0].userId}}</div>
+          </div>
+        </div>
+
+
+        <div class="mainfamousLittleLetterClass">
+          <div class="mainfamousLittleLetterWrap">
+
+
+            <div id="faf1" class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[1] }} -->
+              <img :src="famousLetter[1].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <div id='hoverText'>
+                <div @click="goOtherPage(famousLetter[1].postcard.userSeq)" class="smallMaker">{{famousLetter[1].userId}}</div>
+              </div> 
+            </div>
+
+
+            <div id="faf2" class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[2] }} -->
+              <img :src="famousLetter[2].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <div id='hoverText'>
+                <div @click="goOtherPage(famousLetter[2].postcard.userSeq)" class="smallMaker">{{famousLetter[2].userId}}</div>
+              </div> 
+            </div>
+
+
+          </div>
+          <div style="height: 2vw"></div>
+          <div class="mainfamousLittleLetterWrap">
+
+
+            <div id="faf3" class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[3] }} -->
+              <img :src="famousLetter[3].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <div id='hoverText'>
+                <div @click="goOtherPage(famousLetter[3].postcard.userSeq)" class="smallMaker">{{famousLetter[3].userId}}</div>
+              </div> 
+            </div>
+
+
+            <div id="faf4" class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[4] }} -->
+              <img :src="famousLetter[4].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <div id='hoverText'>
+                <div @click="goOtherPage(famousLetter[4].postcard.userSeq)" class="smallMaker">{{famousLetter[4].userId}}</div>
+              </div> 
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+      <!-- 다음페이지 ㅇㅇ -->
+      <div v-if="!famousLetterBtn" class="mainfamousLetterBoxClass">
+
+
+        <div id="faf5" class="mainfamousBigLetterClass">
+          <!-- {{ famousLetter[5] }} -->
+          <img :src="famousLetter[5].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
+          <div id='hoverText'>
+            <div @click="goOtherPage(famousLetter[5].postcard.userSeq)" class="bigMaker">{{famousLetter[5].userId}}</div>
+          </div> 
+        </div>
+
+
+        <div class="mainfamousLittleLetterClass">
+          <div class="mainfamousLittleLetterWrap">
+
+
+            <div id="faf6" class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[6] }} -->
+              <img :src="famousLetter[6].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <div id='hoverText'>
+                <div @click="goOtherPage(famousLetter[6].postcard.userSeq)" class="smallMaker">{{famousLetter[6].userId}}</div>
+              </div> 
+            </div>
+
+            
+            <div id="faf7" class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[7] }} -->
+              <img :src="famousLetter[7].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <div id='hoverText'>
+                <div @click="goOtherPage(famousLetter[7].postcard.userSeq)" class="smallMaker">{{famousLetter[7].userId}}</div>
+              </div> 
+            </div>
+
+
+          </div>
+          <div style="height: 2vw"></div>
+          <div class="mainfamousLittleLetterWrap">
+
+            <div id="faf8" class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[8] }} -->
+              <img :src="famousLetter[8].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <div id='hoverText'>
+                <div @click="goOtherPage(famousLetter[8].postcard.userSeq)" class="smallMaker">{{famousLetter[8].userId}}</div>
+              </div> 
+            </div>
+
+
+            <div id="faf9" class="mainfamousLittleLetterItemClass">
+              <!-- {{ famousLetter[9] }} -->
+              <img :src="famousLetter[9].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <div id='hoverText'>
+                <div @click="goOtherPage(famousLetter[9].postcard.userSeq)" class="smallMaker">{{famousLetter[9].userId}}</div>
+              </div> 
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <!-- 재단 모달 -->
+  <div v-if="showModal" class="mainFoundationModal">
+    <div class="modalShadow"></div>
+    <foundation-modal :seeingFoundation="seeingFoundation"></foundation-modal>
+    <div type="button" @click="setFoundationDonationList(famousFoundation[0])" style="width: 4vw; height: 4vw; font-size: 7vw; top: 5%; left: 90%; position: fixed; z-index: 10000;">X</div>
+  </div>
+
+
+
+
+  <!-- 재단 목록 -->
+  <div class="mainfamousFoundationClass">
+    <!-- <div class="mainfamousFoundationChange"></div> -->
+    <div class="mainfamousFoundationWrap">
+      <div class="mainfamousFoundationTitle">
+        <b>재단 목록</b>
+      </div>
+      <div class="mainfamousFoundationContent">
+        <!-- 3개만 보여줘도 될 것 같다는 생각이 든다 -->
+        <div @click="setFoundationDonationList(famousFoundation[0])" class="mainfamousFoundationItem">
+          <!-- {{ famousFoundation[0] }} -->
+          <img class="mainfamousFoundationImg" :src="famousFoundation[0].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <!-- <img class="mainfamousFoundationImg" src="../../public/images/ssafyFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
+          <div class="mainfamousFoundationItemContent">
+            재단명: {{ famousFoundation[0].foundationName }}
+            <br>
+            상세정보: {{ famousFoundation[0].foundationContent }}
+          </div>
+        </div>
+        <div @click="setFoundationDonationList(famousFoundation[1])" class="mainfamousFoundationItem">
+          <!-- {{ famousFoundation[1] }} -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
+          <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <!-- <img class="mainfamousFoundationImg" src="../../public/images/ssafyChildFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
+          <div class="mainfamousFoundationItemContent">
+            재단명: {{ famousFoundation[1].foundationName }}
+            <br>
+            상세정보: {{ famousFoundation[1].foundationContent }}
+          </div>
+        </div>
+        <div @click="setFoundationDonationList(famousFoundation[2])" class="mainfamousFoundationItem">
+          <!-- {{ famousFoundation[2] }} -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
+          <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <!-- <img class="mainfamousFoundationImg" src="../../public/images/ssafyWorldFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
+          <div class="mainfamousFoundationItemContent">
+            재단명: {{ famousFoundation[2].foundationName }}
+            <br>
+            상세정보: {{ famousFoundation[2].foundationContent }}
+          </div>
+        </div>
+
+        <!-- 재단 3개만 보여주는 쪽으로 바꿈 -->
+        <!-- <div @click="foundationDetail(famousFoundation[3])" class="mainfamousFoundationItem"> -->
+          <!-- {{ famousFoundation[3] }} -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[3].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[3]" style="height: 60vh; width: 10vw; border-radius: 20px;" alt="">
+          <div class="mainfamousFoundationItemContent">
+            여기 설명이 들어갈 예정입니다
+          </div>
+        </div> -->
+        <!-- <div @click="foundationDetail(famousFoundation[4])" class="mainfamousFoundationItem"> -->
+          <!-- {{ famousFoundation[4] }} -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[4].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
+          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[4]" style="height: 60vh; width: 10vw; border-radius: 20px;" alt="">
+          <div class="mainfamousFoundationItemContent">
+            여기 설명이 들어갈 예정입니다
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="mainpageServiceIntro">
+    <div class="mainpageServiceIntroContent">
+      <br>
+      <br>
+      <br>
+      <b style="font-size: 1.5vw;">service</b>
+      <br>
+      <br>
+      <br>
+      <b style="font-size: 2vw;">엽서사전에서 가능합니다</b>
+      <div class="mainpageServiceIntroWrap">
+        <!-- 이 부분은 아이콘이나 그림 잘 만들어서 보여줘야 할듯 -->
+        <div class="mainpageServiceIntroContentItem">postcard</div>
+        <div class="mainpageServiceIntroContentItem">Foundation</div>
+        <div class="mainpageServiceIntroContentItem">Donation</div>
+        <div class="mainpageServiceIntroContentItem">sns</div>
+      </div>
+      <div class="mainToMoreInfo">
+        <!-- 라우터 링크로 바꿔주자. 어디로 이동시켜줄까? 아님 그냥 넣어만 둘까? -->
+        추가 정보
+      </div>
+    </div>
+  </div>
+
+
+
+
+
   <div data-aos="zoom-in" class="mainpageAboutClass">
     <div class="mainpageAboutContentClass">
       <b style="font-size: 1.5vw; bold">about</b>
@@ -89,236 +335,21 @@
       </p>
     </div>
   </div>
-  <div class="mainpageServiceIntro">
-    <div class="mainpageServiceIntroContent">
-      <br>
-      <br>
-      <br>
-      <b style="font-size: 1.5vw;">service</b>
-      <br>
-      <br>
-      <br>
-      <b style="font-size: 2vw;">엽서사전에서 가능합니다</b>
-      <div class="mainpageServiceIntroWrap">
-        <!-- 이 부분은 아이콘이나 그림 잘 만들어서 보여줘야 할듯 -->
-        <div class="mainpageServiceIntroContentItem">letter</div>
-        <div class="mainpageServiceIntroContentItem">Foundation</div>
-        <div class="mainpageServiceIntroContentItem">Donation</div>
-        <div class="mainpageServiceIntroContentItem">sns</div>
-      </div>
-      <div class="mainToMoreInfo">
-        <!-- 라우터 링크로 바꿔주자. 어디로 이동시켜줄까? 아님 그냥 넣어만 둘까? -->
-        추가 정보
-      </div>
-    </div>
-  </div>
-  <div class="mainfamousLetterClass">
-    <!-- 버튼 클릭하면 다음 페이지로 옮겨보자 -->
-    <div class="mainfamousLetterBtn" @click="changeFamousLetter"></div>
-    <div class="mainfamousLetterContentClass">
-      <div class="mainfamousLetterTitle"><b>인기엽서</b></div>
-      <div v-if="famousLetterBtn" class="mainfamousLetterBoxClass">
 
 
-        <div id="faf0" class="mainfamousBigLetterClass">
-          <!-- {{ famousLetter[0] }} -->
-          <img :src="famousLetter[0].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
-          <div id='hoverText'>
-            <!-- <div class="bigMaker">{{famousLetter[0].postcard}}</div> -->
-            <div class="bigMaker">넣을 컨텐츠가 없나?</div>
-          </div>
-        </div>
 
-
-        <div class="mainfamousLittleLetterClass">
-          <div class="mainfamousLittleLetterWrap">
-
-
-            <div id="faf1" class="mainfamousLittleLetterItemClass">
-              <!-- {{ famousLetter[1] }} -->
-              <img :src="famousLetter[1].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
-              <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
-              </div> 
-            </div>
-
-
-            <div id="faf2" class="mainfamousLittleLetterItemClass">
-              <!-- {{ famousLetter[2] }} -->
-              <img :src="famousLetter[2].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
-              <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
-              </div> 
-            </div>
-
-
-          </div>
-          <div style="height: 2vw"></div>
-          <div class="mainfamousLittleLetterWrap">
-
-
-            <div id="faf3" class="mainfamousLittleLetterItemClass">
-              <!-- {{ famousLetter[3] }} -->
-              <img :src="famousLetter[3].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
-              <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
-              </div> 
-            </div>
-
-
-            <div id="faf4" class="mainfamousLittleLetterItemClass">
-              <!-- {{ famousLetter[4] }} -->
-              <img :src="famousLetter[4].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
-              <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
-              </div> 
-            </div>
-
-
-          </div>
-        </div>
-      </div>
-      <!-- 다음페이지 ㅇㅇ -->
-      <div v-if="!famousLetterBtn" class="mainfamousLetterBoxClass">
-
-
-        <div id="faf5" class="mainfamousBigLetterClass">
-          <!-- {{ famousLetter[5] }} -->
-          <img :src="famousLetter[5].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
-          <div id='hoverText'>
-            <div class="bigMaker">넣을 컨텐츠가 없나?</div>
-          </div> 
-        </div>
-
-
-        <div class="mainfamousLittleLetterClass">
-          <div class="mainfamousLittleLetterWrap">
-
-
-            <div id="faf6" class="mainfamousLittleLetterItemClass">
-              <!-- {{ famousLetter[6] }} -->
-              <img :src="famousLetter[6].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
-              <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
-              </div> 
-            </div>
-
-            
-            <div id="faf7" class="mainfamousLittleLetterItemClass">
-              <!-- {{ famousLetter[7] }} -->
-              <img :src="famousLetter[7].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
-              <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
-              </div> 
-            </div>
-
-
-          </div>
-          <div style="height: 2vw"></div>
-          <div class="mainfamousLittleLetterWrap">
-
-            <div id="faf8" class="mainfamousLittleLetterItemClass">
-              <!-- {{ famousLetter[8] }} -->
-              <img :src="famousLetter[8].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
-              <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
-              </div> 
-            </div>
-
-
-            <div id="faf9" class="mainfamousLittleLetterItemClass">
-              <!-- {{ famousLetter[9] }} -->
-              <img :src="famousLetter[9].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
-              <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
-              </div> 
-            </div>
-
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- 재단 모달 -->
-  <div v-if="showModal" class="mainFoundationModal">
-    <div class="modalShadow"></div>
-    <foundation-modal :seeingFoundation="seeingFoundation"></foundation-modal>
-    <div type="button" @click="setFoundationDonationList(famousFoundation[0])" style="width: 4vw; height: 4vw; font-size: 7vw; top: 5%; left: 90%; position: fixed; z-index: 10000;">X</div>
-  </div>
-  <!-- 재단 목록 -->
-  <div class="mainfamousFoundationClass">
-    <!-- <div class="mainfamousFoundationChange"></div> -->
-    <div class="mainfamousFoundationWrap">
-      <div class="mainfamousFoundationTitle">
-        <b>재단 목록</b>
-      </div>
-      <div class="mainfamousFoundationContent">
-        <!-- 3개만 보여줘도 될 것 같다는 생각이 든다 -->
-        <div @click="setFoundationDonationList(famousFoundation[0])" class="mainfamousFoundationItem">
-          <!-- {{ famousFoundation[0] }} -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[0].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
-          <img class="mainfamousFoundationImg" src="../../public/images/ssafyFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
-          <div class="mainfamousFoundationItemContent">
-            재단명: {{ famousFoundation[0].foundationName }}
-            <br>
-            상세정보: {{ famousFoundation[0].foundationContent }}
-          </div>
-        </div>
-        <div @click="setFoundationDonationList(famousFoundation[1])" class="mainfamousFoundationItem">
-          <!-- {{ famousFoundation[1] }} -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
-          <img class="mainfamousFoundationImg" src="../../public/images/ssafyChildFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
-          <div class="mainfamousFoundationItemContent">
-            재단명: {{ famousFoundation[1].foundationName }}
-            <br>
-            상세정보: {{ famousFoundation[1].foundationContent }}
-          </div>
-        </div>
-        <div @click="setFoundationDonationList(famousFoundation[2])" class="mainfamousFoundationItem">
-          <!-- {{ famousFoundation[2] }} -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
-          <img class="mainfamousFoundationImg" src="../../public/images/ssafyWorldFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
-          <div class="mainfamousFoundationItemContent">
-            재단명: {{ famousFoundation[2].foundationName }}
-            <br>
-            상세정보: {{ famousFoundation[2].foundationContent }}
-          </div>
-        </div>
-
-        <!-- 재단 3개만 보여주는 쪽으로 바꿈 -->
-        <!-- <div @click="foundationDetail(famousFoundation[3])" class="mainfamousFoundationItem"> -->
-          <!-- {{ famousFoundation[3] }} -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[3].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[3]" style="height: 60vh; width: 10vw; border-radius: 20px;" alt="">
-          <div class="mainfamousFoundationItemContent">
-            여기 설명이 들어갈 예정입니다
-          </div>
-        </div> -->
-        <!-- <div @click="foundationDetail(famousFoundation[4])" class="mainfamousFoundationItem"> -->
-          <!-- {{ famousFoundation[4] }} -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[4].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[4]" style="height: 60vh; width: 10vw; border-radius: 20px;" alt="">
-          <div class="mainfamousFoundationItemContent">
-            여기 설명이 들어갈 예정입니다
-          </div>
-        </div> -->
-      </div>
-    </div>
-  </div>
+  
 
   <!-- 검색바 관련. input 될 때마다 자동완성 결과를 불러오는 요청 필요, enter시 결과를 store에 저장 후 검색 페이지로 넘어가 store에 저장된
   검색 결과를 불러오도록 하자. -->
-  <div class="mainsearchClass">
+  <!-- <div class="mainsearchClass">
     <div class="mainsearchTitle"><b style="font-size: 1.2vw;">검색</b></div>
     <div class="mainsearchBar">
       <div class="mainsearchBarBody">
         <input v-model="searchMessage" @input="getAutoComplete" @keyup.enter="submitSearch" class="mainsearchBarInput" placeholder=". . . search" type="text">
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="contactUsPage">
     <div class="contactUsContent">
       contact us
@@ -460,6 +491,10 @@ export default {
       this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}});
       console.log("홈 새로고침");
     },
+    goOtherPage(userSeq) {
+      this.$router.push({path: `/mypage/${userSeq}`, query: {ownerSeq: userSeq}});
+      console.log("홈 새로고침");
+    },
     goBoard() {
       this.$router.push('/board');
     },
@@ -539,6 +574,9 @@ export default {
 
   },
   mounted() {
+    console.log('this.famousLetter')
+    console.log(this.famousLetter)
+    
     document.addEventListener("scroll", this.scrollEvent);
   },
   unmounted() {
@@ -548,6 +586,15 @@ export default {
 </script>
 
 <style>
+/* input::placeholder {
+  line-height: 2vh;
+}
+input::-webkit-input-placeholder { line-height: 2vh !important; }
+input::-moz-placeholder { line-height: 2vh !important; }
+input:-ms-input-placeholder { line-height: 2vh !important; }
+input:-moz-placeholder { line-height: 2vh !important; }
+input::placeholder { line-height: 2vh !important; } */
+
 /* 메인페이지 진입 효과 관리 */
 .mainLoading {
   width: 100vw;
@@ -973,6 +1020,10 @@ export default {
   transition: 0.4s;
 }
 
+.mainfamousFoundationItemContent::-webkit-scrollbar {
+  display: none;
+}
+
 .mainfamousFoundationItem:hover {
   width: 40vw;
 }
@@ -1090,13 +1141,13 @@ export default {
   opacity: 1; 
 }
 .bigMaker {
-  margin-top: 25vw;
+  padding-top: 25vw;
   font-size: 3vw;
   color: white;
   transition: 0.4s;
 }
 .smallMaker {
-  margin-top: 12vw;
+  padding-top: 12vw;
   font-size: 1.5vw;
   color: white;
   transition: 0.4s;

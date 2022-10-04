@@ -3,12 +3,12 @@
 <div :class="{ mainopendToggle : opendToggle , mainclosedToggle : !opendToggle}">
   <!-- 나중에 라우터 링크로 바꾸자 -->
   <div v-if="toggleContent" data-aos="fade-up" data-aos-duration="500">
-    <div class="mainpageBtn" @click="goHome">home</div>
-    <div class="mainpageBtn" @click="goLetter">letter</div>
-    <div class="mainpageBtn" @click="goFoundation">donation</div>
-    <div class="mainpageBtn" @click="goMypage">mypage</div>
-    <div v-if="isLogged" @click="userLogoutandGo" class="mainpageBtn">logout</div>
-    <div v-if="!isLogged" @click="goLogin" class="mainpageBtn">login</div>
+    <div class="sideBtn" @click="goHome">home</div>
+    <div class="sideBtn" @click="goLetter">letter</div>
+    <div class="sideBtn" @click="goFoundation">donation</div>
+    <div class="sideBtn" @click="goMypage">mypage</div>
+    <div v-if="isLogged" @click="userLogoutandGo" class="sideBtn">logout</div>
+    <div v-if="!isLogged" @click="goLogin" class="sideBtn">login</div>
   </div>
 </div>
 <div style="background-color: #faf8f5;" class="mainSideBarClass">
@@ -105,6 +105,28 @@ export default {
 </script>
 
 <style>
+.sideBtn {
+  margin-left: 5vw;
+  margin-top: 3vh;
+  cursor: pointer;
+  width: 5vw;
+  height: 5vh;
+  font-size: 2.5vw;
+  text-align: left;
+  transition: 0.4s;
+}
+.sideBtn:hover {
+  margin-left: 5vw;
+  margin-top: 2vh;
+  cursor: pointer;
+  width: 5vw;
+  height: 5vh;
+  font-size: 2.5vw;
+  text-align: left;
+  transition: 0.4s;
+  font-size: 2.6vw;
+}
+
 .phoneLogo {
   position: absolute;
   height: 2vw;
@@ -149,7 +171,7 @@ export default {
   background-image: url("../../../public/images/sidebar_toggle.png");
   background-size: 4vw 4vw;
   background-repeat: no-repeat;
-  transform: rotate(270deg);
+  transform: rotate(90deg);
   transition: 0.8s;
 }
 </style>

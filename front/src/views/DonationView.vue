@@ -716,7 +716,7 @@ export default {
 /* 에러 메시지 */
 .donaErrorMSG {
   color: rgb(202, 81, 1);
-  font-size: 3vw;
+  font-size: 1.5vw;
 }
 /* 좌우 이동 아이콘 */
 .stageIconLeft {

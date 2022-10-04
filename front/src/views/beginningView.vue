@@ -480,8 +480,8 @@
   top: 40vh;
   left: 65vw;
   transform: translate(-50%, -50%);
-  height: 20vh;
-  width: 20vh;
+  height: 7vw;
+  width: 7vw;
   background-image: url(../../public/images/scrollArrow.png);
   background-size: cover;
   background-repeat: no-repeat;
@@ -493,10 +493,10 @@
 }
 @keyframes moveArrow {
   from {
-    top: 35vh;
+    top: 21vw;
   }
   to {
-    top: 45vh;
+    top: 23vw;
   }
 }
 
