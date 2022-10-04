@@ -89,7 +89,9 @@
       </p>
     </div>
   </div>
-  <div class="mainpageServiceIntro">
+
+
+  <!-- <div class="mainpageServiceIntro">
     <div class="mainpageServiceIntroContent">
       <br>
       <br>
@@ -99,19 +101,21 @@
       <br>
       <br>
       <b style="font-size: 2vw;">엽서사전에서 가능합니다</b>
-      <div class="mainpageServiceIntroWrap">
+      <div class="mainpageServiceIntroWrap"> -->
         <!-- 이 부분은 아이콘이나 그림 잘 만들어서 보여줘야 할듯 -->
-        <div class="mainpageServiceIntroContentItem">letter</div>
+        <!-- <div class="mainpageServiceIntroContentItem">letter</div>
         <div class="mainpageServiceIntroContentItem">Foundation</div>
         <div class="mainpageServiceIntroContentItem">Donation</div>
         <div class="mainpageServiceIntroContentItem">sns</div>
       </div>
-      <div class="mainToMoreInfo">
+      <div class="mainToMoreInfo"> -->
         <!-- 라우터 링크로 바꿔주자. 어디로 이동시켜줄까? 아님 그냥 넣어만 둘까? -->
         추가 정보
-      </div>
+      <!-- </div>
     </div>
-  </div>
+  </div> -->
+
+
   <div class="mainfamousLetterClass">
     <!-- 버튼 클릭하면 다음 페이지로 옮겨보자 -->
     <div class="mainfamousLetterBtn" @click="changeFamousLetter"></div>
