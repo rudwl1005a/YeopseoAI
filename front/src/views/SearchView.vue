@@ -70,6 +70,7 @@ export default {
     return {
       searchMessage: "",
       upBtn: false,
+      searchItemList: [],
     }
   },
   computed: {
@@ -86,7 +87,7 @@ export default {
         let searchWord = this.searchMessage;
         await this.getSearchResult(searchWord);
       }
-      this.$router.go();
+      this.$router.push({ name: "SearchView" });
     },
     goHome() {
       this.$router.push({ name: "MainView" });
@@ -125,6 +126,8 @@ export default {
   width: 94vw;
   height: 100vh;
   background-color: #faf8f5;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* 검색 바 관련 */
@@ -187,7 +190,7 @@ export default {
   margin-top: 4vh;
   flex-direction: column;
   width: 20%;
-  margin-left: 2%;
+  margin-left: 1vw;
   /* 부모의 자식 요소가 3차원의 애니메이션 효과를 가질때, 300px의 거리에서 보는 원근감을 줌 */
   perspective: 300px;
 }

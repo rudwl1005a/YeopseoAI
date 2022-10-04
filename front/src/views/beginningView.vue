@@ -59,7 +59,7 @@
   
             <label class="password" for="password">Password:</label>
             <input class="passwordInput" v-model.trim="loginCredentials.userPassword" type="password" id="password" placeholder="비밀번호를 입력해 주세요." required>
-  
+            <p class="logErrorMSG">{{this.logErrorMSG}}</p>
             <button class="login" style="vertical-align: middle;" type="submit"><p style="position:absolute; top: -1vh; left: 2vw;">로그인</p></button>
         </form>
         <div @click="changeLoginSignup" class="changeButton">Signup</div>
@@ -202,6 +202,7 @@
         pattern1 : /[0-9]/,
         pattern2 : /[a-zA-Z]/,
         pattern3 : /[~!@#$%^&*()_+|<>?:{}]/,
+        logErrorMSG : "",
     }
   },
   
@@ -295,6 +296,10 @@
         this.loginCredentials = { userId: null, userPassword: null}
         // 메인페이지로 이동
         this.$router.push({ name: "MainView" });
+        // 에러 초기화
+        this.logErrorMSG = ""
+      } else {
+        this.logErrorMSG = "* 아이디와 비밀번호를 다시 확인해주세요"
       }
     },
   
@@ -718,6 +723,12 @@
     width: 25vw;
     height: 6vh;
     border-radius: 10px;
+  }
+  .logErrorMSG {
+    position: absolute;
+    top: 18vh;
+    left: 33vw;
+    color: rgb(240, 92, 92);
   }
   .login {
     position: absolute;

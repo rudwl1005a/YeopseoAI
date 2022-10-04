@@ -45,6 +45,7 @@
         </div>
       </div>
     </div>
+    <b v-show="this.errorMSG" class="donaErrorMSG">{{ errorMSG }}</b>
     <!-- 재단 선택 리스트 -->
     <div v-show="this.organizationList && this.stage.one">
       <!-- 재단 목록 -->
@@ -90,12 +91,13 @@
           :key="`page-${index}`">
           <div v-show="index === this.postcardStage" class="postcardList">
             <div class="postcardLine">
-              <div v-for="(postcard, idx) in this.postcardList.slice(index * 5, (index + 1) *5)" :key="`postcard-${page}-${idx}`">
+              <div v-for="(postcard, idx) in this.postcardList.slice(index * 10, index*10 +5)" :key="`postcard-${page}-${idx}`">
+
                 <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
               </div>
             </div>
             <div class="postcardLine">
-              <div v-for="(postcard, idx) in this.postcardList.slice((index + 1) * 5, (index + 2) *5)" :key="`postcard-${page}-${idx}`">
+              <div v-for="(postcard, idx) in this.postcardList.slice(index*10 +5, (index + 1) *10)" :key="`postcard-${page}-${idx}`">
                 <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
               </div>
             </div>
@@ -110,12 +112,12 @@
           :key="`liked-page-${idx}`">
           <div v-show="idx === this.likedPostcardStage" class="postcardList">
             <div class="postcardLine">
-              <div v-for="(postcard, idx) in this.likedPostcards.slice(idx * 5, (idx + 1) *5)" :key="`likedPostcard-${page}-${idx}`">
+              <div v-for="(postcard, idx) in this.likedPostcards.slice(idx * 10, idx *10 +5)" :key="`likedPostcard-${page}-${idx}`">
                 <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
               </div>
             </div>
             <div class="postcardLine">
-              <div v-for="(postcard, idx) in this.likedPostcards.slice((idx + 1) *5, (idx + 2) *5)" :key="`likedPostcard-${page}-${idx}`">
+              <div v-for="(postcard, idx) in this.likedPostcards.slice(idx *10 +5, (idx + 1) *10)" :key="`likedPostcard-${page}-${idx}`">
                 <img class="postcardImg" v-bind:src="postcard.postcard.postcardImgUrl" @click="selPostcard(postcard.postcard.postcardImgUrl)">
               </div>
             </div>
@@ -139,14 +141,12 @@
       <i @click="pay" class="fa-solid fa-hand-holding-heart donaIcon" ></i>
       <p>기부</p>
     </button>
-    <div class="donaButtons">
-      <b class="normalText">{{ errorMSG }}</b>
-      <i @click.prevent="preStage" v-show="!this.stage.one" class="bi bi-arrow-left-square stageIcon"/>
-      <i @click.prevent="nextStage" v-show="!this.stage.four" class="bi bi-arrow-right-square stageIcon"/>
-    </div>
+    <!-- 좌우이동 아이콘 -->
+    <i class="bi bi-chevron-left stageIconLeft" @click.prevent="preStage" v-show="!this.stage.one"></i>
+    <i class="bi bi-chevron-right stageIconRight" @click.prevent="nextStage" v-show="!this.stage.four"></i>
   </div>
   <!-- 로고 이동 -->
-  <div v-if="this.logoLoding" class="mainLoadingContent"></div>
+  <div v-if="this.logoLoding" class="donaCompleteLogo"></div>
   <!-- 기부 성공 후 보여줄 모달 -->
     <div v-if="this.modalShow" class="donaModal">
       <h1 class="modalTitle">기부 내용</h1>
@@ -455,8 +455,6 @@ export default {
     if (!this.likedPostcards.length) {
       this.userLikedPostcardStore(this.userInfo.userSeq)
     }
-    // 시작과 동시에 링크로 온 재단을 선택하게 변경
-    // this.userInfo.foundationSeq = this.params.foundationSeq
   },
   mounted() {
     this.reset();
@@ -467,7 +465,7 @@ export default {
 <style>
 /* 전체 폼 */
 .donaForm {
-  background: url("../../public/images/deskBack.png");
+  background: url("../../public/images/woodBack.png");
   background-position: center bottom;
   background-repeat: no-repeat;
   background-size: 100% 100%;
@@ -662,6 +660,22 @@ export default {
   transform: scale3d(1.1, 1.1, 1.1);
 }
 
+/* 기부후 아이콘 */
+.donaCompleteLogo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 30vw;
+  width: 30vw;
+  background-image: url("../../public/images/logo.png");
+  background-size: 30vw 30vw;
+  background-repeat: no-repeat;
+  animation-name: logoFade;
+  animation-duration: 1s;
+  filter: drop-shadow(13px 10px 10px #c3c3c3);
+}
+
 /* 모달 */
 .donaModal {
   position: absolute;
@@ -699,17 +713,25 @@ export default {
   opacity: 30%;
 }
 
-/* 마지막 버튼 모음 */
-.donaButtons {
-  position: absolute;
-  right: 1vw;
-  bottom: 1vh;
+/* 에러 메시지 */
+.donaErrorMSG {
+  color: rgb(202, 81, 1);
+  font-size: 3vw;
 }
 /* 좌우 이동 아이콘 */
-.stageIcon {
+.stageIconLeft {
+  position: absolute;
+  top: 30vh;
+  left: 0.5vw;
   color: #f7f4ed;
-  font-size: 3rem;
-  margin: 0.2vw;
+  font-size: 10rem;
+}
+.stageIconRight {
+  position: absolute;
+  top: 30vh;
+  right: 0.5vw;
+  color: #f7f4ed;
+  font-size: 10rem;
 }
 
 /* 기부금 입력창 */

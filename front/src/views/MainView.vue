@@ -1041,10 +1041,14 @@ export default {
 
 .mainsearchBarInput {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 47%;
   transform: translate(-50%, -50%);
   width: 20vw;
+  /* 자체 높이 */
+  line-height: 5vh;
+  /* 폰트 사이즈 */
+  font-size: 3vh;
   border: none;
   background: none;
   outline: none;
