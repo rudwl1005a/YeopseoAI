@@ -14,9 +14,9 @@
 <div style="background-color: #faf8f5;" class="mainSideBarClass">
   <!-- 토글 아이콘 넣자 -->
   <div :class="{ mainsidebarToggle : !opendToggle , mainsidebarToggle2 : opendToggle }" @click="openSidebar"></div>
-  <div class="instaLogo"></div>
+  <a href="https://instagram.com/yeopseo_ai?r=nametag"><div class="instaLogo"></div></a>
   <div class="phoneLogo"></div>
-  <div class="phoneNum"></div>
+  <div class="phoneNum">010-1010-1010</div>
 </div>
 </template>
 
@@ -131,7 +131,7 @@ export default {
   position: absolute;
   height: 2vw;
   width: 2vw;
-  top: 85%;
+  top: 80%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-size: 2vw 2vw;
@@ -140,15 +140,35 @@ export default {
 }
 
 .instaLogo {
+  cursor: pointer;
   position: absolute;
   height: 2vw;
   width: 2vw;
-  top: 75%;
+  top: 70%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-size: 2vw 2vw;
   background-repeat: no-repeat;
   background-image: url("../../../public/images/instaLogo.png");
+}
+
+.phoneNum {
+  position: absolute;
+  line-height: 6vw;
+  vertical-align: middle;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 20vh;
+  width: 6vw;
+  writing-mode: vertical-rl;
+  font-size: 2.5vh;
+  margin: auto;
+  overflow: auto;
+}
+
+.phoneNum::-webkit-scrollbar {
+  display: none;
 }
 
 .mainsidebarToggle {

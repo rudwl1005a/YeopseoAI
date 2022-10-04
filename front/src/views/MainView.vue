@@ -5,8 +5,8 @@
 </div>
 <div class="mainClass" v-if="!showLogoLoding">
   <!-- <div :class="{'maingoUpBtn' : isTop === false, 'maingosearchBtn' : isTop === true,}" @click="goUp"> -->
-    <div v-if="isTop" class="maingosearchBtn" @click="goUp"></div>
-    <div v-else class="maingoUpBtn" @click="goUp"></div>
+    <!-- <div v-if="isTop" class="maingosearchBtn" @click="goUp"></div> -->
+    <div v-if="!isTop" class="maingoUpBtn" @click="goUp"></div>
   <!-- </div> -->
   <div class="mainpageClass">
     <div v-if="showLogo" class="mainLogoClass">
@@ -50,10 +50,39 @@
       'maininformationClass5': watchingIntro === 5,
     }">
     </div>
-    <div class="maininformationClassShadow"></div>
+    <!-- <div class="maininformationClassShadow"></div> -->
   </div>
+
+  
+
+
+  <!-- <div class="mainpageServiceIntro">
+    <div class="mainpageServiceIntroContent">
+      <br>
+      <br>
+      <br>
+      <b style="font-size: 1.5vw;">service</b>
+      <br>
+      <br>
+      <br>
+      <b style="font-size: 2vw;">엽서사전에서 가능합니다</b>
+      <div class="mainpageServiceIntroWrap"> -->
+        <!-- 이 부분은 아이콘이나 그림 잘 만들어서 보여줘야 할듯 -->
+        <!-- <div class="mainpageServiceIntroContentItem">letter</div>
+        <div class="mainpageServiceIntroContentItem">Foundation</div>
+        <div class="mainpageServiceIntroContentItem">Donation</div>
+        <div class="mainpageServiceIntroContentItem">sns</div>
+      </div>
+      <div class="mainToMoreInfo"> -->
+        <!-- 라우터 링크로 바꿔주자. 어디로 이동시켜줄까? 아님 그냥 넣어만 둘까? -->
+        <!-- 추가 정보 -->
+      <!-- </div>
+    </div>
+  </div> -->
+
   <div class="mainsearchClass">
-    <div class="mainsearchTitle"><b style="font-size: 1.2vw;">검색</b></div>
+    <div class="mainsearchTitle"><b style="font-size: 7vh;">엽서 검색</b></div>
+    <div class="mainSearchPopularInput"><b style="font-size: 2vw;">(인기 검색어: 하늘, 구름)</b></div>
     <div class="mainsearchBar">
       <div class="mainsearchBarBody">
         <input v-model="searchMessage" @input="getAutoComplete" @keyup.enter="submitSearch" class="mainsearchBarInput" placeholder=". . . search" type="text">
@@ -270,7 +299,8 @@
 
 
 
-  <div class="mainpageServiceIntro">
+  <!-- 얘 빼자 -->
+  <!-- <div class="mainpageServiceIntro">
     <div class="mainpageServiceIntroContent">
       <br>
       <br>
@@ -280,19 +310,20 @@
       <br>
       <br>
       <b style="font-size: 2vw;">엽서사전에서 가능합니다</b>
-      <div class="mainpageServiceIntroWrap">
+      <div class="mainpageServiceIntroWrap"> -->
         <!-- 이 부분은 아이콘이나 그림 잘 만들어서 보여줘야 할듯 -->
-        <div class="mainpageServiceIntroContentItem">postcard</div>
+        <!-- <div class="mainpageServiceIntroContentItem">postcard</div>
         <div class="mainpageServiceIntroContentItem">Foundation</div>
         <div class="mainpageServiceIntroContentItem">Donation</div>
         <div class="mainpageServiceIntroContentItem">sns</div>
       </div>
-      <div class="mainToMoreInfo">
+      <div class="mainToMoreInfo"> -->
         <!-- 라우터 링크로 바꿔주자. 어디로 이동시켜줄까? 아님 그냥 넣어만 둘까? -->
-        추가 정보
-      </div>
+        <!-- 추가 정보 -->
+      <!-- </div>
     </div>
-  </div>
+  </div> -->
+  <!-- 잘가라 -->
 
 
 
@@ -350,11 +381,11 @@
       </div>
     </div>
   </div> -->
-  <div class="contactUsPage">
+  <!-- <div class="contactUsPage">
     <div class="contactUsContent">
       contact us
     </div>
-  </div>
+  </div> -->
 </div>
 </template>
 
@@ -674,7 +705,7 @@ input::placeholder { line-height: 2vh !important; } */
 
 /* 메인페이지 전체 관리 */
 .mainClass {
-  height: 580vh;
+  /* height: 500vh; */
   background-color: whitesmoke;
 }
 
@@ -722,9 +753,12 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_1.png');
+  background-image: url('../../public/images/main_1.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
+  /* filter: grayscale(20%); */
+  /* filter: saturate(70%); */
+  filter: opacity(85%);
 }
 .maininformationClass2 {
   position: absolute;
@@ -734,9 +768,12 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_2.png');
+  background-image: url('../../public/images/main_2.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
+  /* filter: grayscale(20%); */
+  /* filter: saturate(80%); */
+  filter: opacity(85%);
 }
 .maininformationClass3 {
   position: absolute;
@@ -746,9 +783,11 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_3.png');
+  background-image: url('../../public/images/main_3.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
+  /* filter: grayscale(20%); */
+  filter: opacity(85%);
 }
 .maininformationClass4 {
   position: absolute;
@@ -758,9 +797,11 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_4.png');
+  background-image: url('../../public/images/main_4.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
+  /* filter: grayscale(20%); */
+  filter: opacity(85%);
 }
 .maininformationClass5 {
   position: absolute;
@@ -770,9 +811,11 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_5.png');
+  background-image: url('../../public/images/main_5.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
+  /* filter: grayscale(20%); */
+  filter: opacity(85%);
 }
 
 /* 메인페이지 로고 관리 */
@@ -833,7 +876,7 @@ input::placeholder { line-height: 2vh !important; } */
 /* 엽서사전 about 관리(프로젝트 설명 간단히 보여주는 부분) */
 .mainpageAboutClass {
   position: relative;
-  height: 100vh;
+  height: 70vh;
   background-color: #faf8f5;
 }
 
@@ -842,7 +885,7 @@ input::placeholder { line-height: 2vh !important; } */
   width: 50vw;
   height: 60vh;
   top: 50%;
-  left: 47%;
+  left: 50%;
   transform: translate(-50%, -50%);
   color: #484233;
 }
@@ -890,33 +933,35 @@ input::placeholder { line-height: 2vh !important; } */
 .mainfamousLetterBtn {
   position: absolute;
   cursor: pointer;
-  top: 90%;
-  left: 47%;
+  top: 60%;
+  left: 89%;
   transform: translate(-50%, -50%);
-  height: 5vh;
-  width:  5vh;
-  border-radius: 1000px;
-  background-color: #484233;
+  height: 5vw;
+  width:  5vw;
+  background-image: url("../../public/images/scrollArrow.png");
+  background-size: 5vw 5vw;
+  background-repeat: no-repeat;
 }
 
 .mainfamousLetterClass {
   position: relative;
-  height: 100vh;
-  background-color: #ffffff;
+  height: 40vw;
+  background-color: #faf8f5;
 }
 
 .mainfamousLetterContentClass {
   position: absolute;
   top: 50%;
-  left: 47%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  height: 80vh;
+  height: 30vw;
   width: 70vw;
+  border-radius: 30px;
 }
 
 .mainfamousLetterTitle {
-  font-size: 7vh;
-  margin-bottom: 20px;
+  font-size: 3vw;
+  /* margin-bottom: 20px; */
 }
 
 .mainfamousLetterBoxClass {
@@ -980,12 +1025,12 @@ input::placeholder { line-height: 2vh !important; } */
   height: 80vh;
   width: 80vw;
   top: 50%;
-  left: 47%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .mainfamousFoundationTitle {
-  font-size: 3vh
+  font-size: 7vh
 }
 
 .mainfamousFoundationContent {
@@ -1063,21 +1108,30 @@ input::placeholder { line-height: 2vh !important; } */
 /* 검색 관리 */
 .mainsearchClass {
   position: relative;
-  height: 60vh;
-  background-color: #ffc322;
+  height: 35vh;
+  background-color: #faf8f5;
+  /* background: linear-gradient(#fcf4e0, #faf8f5); */
+}
+
+.mainSearchPopularInput {
+  z-index: 50;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .mainsearchTitle {
   position: absolute;
-  top: 10%;
-  left: 47%;
+  top: 40%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .mainsearchBar {
   position: absolute;
-  top: 50%;
-  left: 47%;
+  top: 75%;
+  left: 50%;
   transform: translate(-50%, -50%);
   height: 5vh;
   width: 25vw;
