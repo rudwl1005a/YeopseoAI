@@ -225,7 +225,6 @@ const postcardStore = {
       await userLikedPostcard(
         userSeq,
         (response) => {
-          // console.log(response.data);
           commit("SET_LIKEDPOSTCARD", response.data.postcardList);
         },
         (error) => {
