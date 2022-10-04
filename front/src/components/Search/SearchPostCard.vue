@@ -7,8 +7,8 @@
     <button class="searchPostcardButton" @click="changeFace">
       상세정보
     </button>
-    <i v-show="!isLiked" @click="dolikeLetter(searchItem.postcard.postcardSeq)"  class="fa-solid fa-heart searchPostcardLike" ></i>
-    <i v-show="isLiked" @click="dodislikeLetter(searchItem.postcard.postcardSeq)" class="fa-regular fa-heart searchPostcardLike"></i>
+    <i v-show="isLiked" @click="dodislikeLetter(searchItem.postcard.postcardSeq)"  class="fa-solid fa-heart searchPostcardLike" ></i>
+    <i v-show="!isLiked" @click="dolikeLetter(searchItem.postcard.postcardSeq)" class="fa-regular fa-heart searchPostcardLike"></i>
   </div>
   <!-- 뒷면 -->
   <div v-show="this.back" class="searchPostcard back">
@@ -27,7 +27,6 @@
         <button @click="submitSearch(tag)" class="searchProfileTag">{{tag}}</button>
       </div>
     </div>
-    <hr>
     <button class="searchPostcardButton" @click="changeFace">
       엽서보기
     </button>
@@ -78,7 +77,7 @@ export default {
     // 검색
     async submitSearch(tag) {
       await this.getSearchResult(tag);
-      this.$router.push('/search');
+      this.$router.go(0);
     },
     // 앞뒤 변경 버튼
     changeFace() {
@@ -88,16 +87,15 @@ export default {
     // 아티스트 마이페이지 가는 버튼
     goArtistMypage(userSeq) {
       this.$router.push({path: `/mypage/${userSeq}`, query: {ownerSeq: userSeq}});
+      window.scrollTo(0, 0)
     },
 
   },
   async created() {
-    await this.likedPostcards.forEach((postcard) => {
-        if (postcard.postcard.postcardSeq === this.searchItem.postcard.postcardSeq) {
-          this.isLiked = true;
-          return false;
+    this.isLiked = await this.likedPostcards.some((postcard) => {
+        return postcard.postcard.postcardSeq === this.searchItem.postcard.postcardSeq 
         }  
-      });
+      );
     },
     // 사용자의 좋아요 목록을 순회, 만약 해당 엽서가 좋아요 목록에 있다면?
     // 좋아요 누른 엽서 목록을 받아오는 로직
@@ -121,7 +119,7 @@ export default {
   filter: drop-shadow(10px 6px 6px #c3c3c3);
   /*카드의 뒷면을 안보이게 처리-카드가 뒤집히면 뒷면이 안보임*/
   backface-visibility: hidden;
-  transition: 0.7s;
+  transition: 0.3s;
 }
 .searchPostcard:hover {
   transform: scale3d(1.1, 1.1, 1.1);
@@ -218,6 +216,7 @@ export default {
   border-radius: 5px;
   border: 0px;
   background-color: azure;
+  font-size: 1vw;
 }
 .searchProfileTag:hover {
   transform: scale3d(1.3, 1.3, 1.3);
