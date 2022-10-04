@@ -197,8 +197,8 @@
         <!-- 3개만 보여줘도 될 것 같다는 생각이 든다 -->
         <div @click="setFoundationDonationList(famousFoundation[0])" class="mainfamousFoundationItem">
           <!-- {{ famousFoundation[0] }} -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[0].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
-          <img class="mainfamousFoundationImg" src="../../public/images/ssafyFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <img class="mainfamousFoundationImg" :src="famousFoundation[0].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <!-- <img class="mainfamousFoundationImg" src="../../public/images/ssafyFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
           <div class="mainfamousFoundationItemContent">
             재단명: {{ famousFoundation[0].foundationName }}
             <br>
@@ -208,8 +208,8 @@
         <div @click="setFoundationDonationList(famousFoundation[1])" class="mainfamousFoundationItem">
           <!-- {{ famousFoundation[1] }} -->
           <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
-          <img class="mainfamousFoundationImg" src="../../public/images/ssafyChildFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <img class="mainfamousFoundationImg" :src="famousFoundation[1].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <!-- <img class="mainfamousFoundationImg" src="../../public/images/ssafyChildFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
           <div class="mainfamousFoundationItemContent">
             재단명: {{ famousFoundation[1].foundationName }}
             <br>
@@ -219,8 +219,8 @@
         <div @click="setFoundationDonationList(famousFoundation[2])" class="mainfamousFoundationItem">
           <!-- {{ famousFoundation[2] }} -->
           <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 10vw; border-radius: 20px;" alt=""> -->
-          <!-- <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
-          <img class="mainfamousFoundationImg" src="../../public/images/ssafyWorldFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <img class="mainfamousFoundationImg" :src="famousFoundation[2].foundationLogoUrl" style="height: 60vh; width: 15vw; border-radius: 20px;" alt="">
+          <!-- <img class="mainfamousFoundationImg" src="../../public/images/ssafyWorldFoundation.png" style="height: 60vh; width: 15vw; border-radius: 20px;" alt=""> -->
           <div class="mainfamousFoundationItemContent">
             재단명: {{ famousFoundation[2].foundationName }}
             <br>
@@ -886,6 +886,10 @@ export default {
   border-radius: 20px;
   overflow: auto;
   transition: 0.4s;
+}
+
+.mainfamousFoundationItemContent::-webkit-scrollbar {
+  display: none;
 }
 
 .mainfamousFoundationItem:hover {

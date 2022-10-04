@@ -5,6 +5,13 @@
     등록 완료!!
     <!-- <div @click="showFinModal">닫기</div> -->
   </div>
+
+  <!-- 로딩 화면 -->
+  <div v-if="loadopen" class="canvasLoadingScene">
+    <div class="canvasLoadingContent"></div>
+    <div class="canvasLoadingWrite">이미지 변환중!!</div>
+  </div>
+
   <canvas ref="canvas" id="canvasId" class="htmlCanvasClass"></canvas>
   
   <!-- 팔레트 -->
@@ -77,7 +84,10 @@
 
 
   </div>
-  <div class="eraserClass" @click="changeColorSky"></div>
+  <div class="nowColor">선택중: {{ colorMap[color] }}</div>
+  <!-- <div v-if="!fillType" @click="changeFillType">펜</div>
+  <div v-if="fillType" @click="changeFillType">채우기</div> -->
+  <div class="eraserClass" @click="eraser"></div>
   <!-- <div @click="changeFat">굵기 {{ lineFat }}</div> -->
   <select class="changeLineFat" v-model="lineFat">
     <option v-for="n in 50" :key="n" :value="n">
@@ -159,6 +169,9 @@ export default {
       tagItem: "",
       resultimg: "",
       showFin: false,
+      loadopen: false,
+      nowErase: false,
+      fillType: false, // 채우기 형식인지 아닌지를 보여줌
       colorMap: {
         "#5e5bc5": "다리",
         "#706419": "울타리",
@@ -207,6 +220,7 @@ export default {
     },
     closeModal1() {
       this.opened1 = false;
+      this.loadopen = false; // 첫번째 모달 꺼주면서 로딩화면도 꺼주자. 로딩화면 꺼진 다음 두번째 모달이 열릴 것
     },
 
     // 모달2 열기/닫기
@@ -234,18 +248,33 @@ export default {
       this.tag.splice(idx, 1);
     },
 
+    // 로딩화면
+    openLoading() {
+      this.loadopen = true;
+    },
+
     // 스케치와 화풍 선택 정보 전달
     async changeImage() {
       await console.log("hi");
       // 캔버스 부분을 formdata로 만들어 전송하는 로직 + 화풍 정보 전달하는 로직 필요
       // await 이용, 해당 formdata 전송이 완료된 후 다음 코드 실행되도록 ㄱ
       // 순서: 로딩화면 띄우는 함수 -> 데이터 전송 후 결과 받음 -> 로딩화면 끄는 함수 -> 두번째 모달로 이동하는 함수
-      await this.closeModal1();
+      // 로딩화면 켜기
+      await this.openLoading();
+      // canvas 데이터 및 선택한 화풍 정보 전송 함수
+
+      await setTimeout(() => {
+        this.closeModal1(); // 여기 로딩화면 끄는 부분도 포함되어 있음
+      }, 1000);
       await this.openModal2();
     },
 
     // 엽서 업로드
     async upload() {
+      // 로딩부분 추가
+      await this.openLoading();
+      //
+
       const element = document.getElementById("uploadFile");
       const canvas = await html2canvas(element);
       const dataUrl = canvas.toDataURL("image/png");
@@ -271,6 +300,13 @@ export default {
       }
 
       await this.uploadTag(tagObj);
+
+      // 로딩부분 추가
+      // await setTimeout(() => {
+      //   this.closeModal1(); // 여기 로딩화면 끄는 부분도 포함되어 있음
+      // }, 1000);
+      await this.closeModal1();
+      //
       await this.showFinModal();
     },
 
@@ -287,134 +323,185 @@ export default {
       return new Blob([new Uint8Array(array)], { type: 'image/png' });
     },
 
+    // 색 채우기/펜 변경
+    changeFillType() {
+      this.fillType = !this.fillType;
+    },
+
+    fillPaint(event) {
+      if (this.fillType === true) {
+        console.log(event);
+        this.ctx.fillStyle = this.color;
+        console.log(this.color);
+        this.ctx.fill();
+      }
+    },
+
     // 색 변경
     changeColorBridge() {
       this.color = "#5e5bc5";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorWooltari() {
       this.color = "#706419";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorHouse() {
       this.color = "#7f4502";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorPlatform() {
       this.color = "#8f2a91";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorRoof() {
       this.color = "#9600b1";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorBeukDol() {
       this.color = "#aad16a";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorDolBeuk() {
       this.color = "#ae2974";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorTreeWall() {
       this.color = "#b0c1c3";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorSoil() {
       this.color = "#6e6e28";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorMiniDol() {
       this.color = "#7c32c8";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorEct() {
       this.color = "#7d3054";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorMud() {
       this.color = "#87716f";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorGoodRoad() {
       this.color = "#8b3027";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorRoad() {
       this.color = "#946e28";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorBigSoil() {
       this.color = "#999900";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorCloud() {
       this.color = "#696969";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorFog() {
       this.color = "#77ba1d";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorHill() {
       this.color = "#7ec864";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorMountain() {
       this.color = "#869664";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorRiver() {
       this.color = "#9364c8";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorRock() {
       this.color = "#956432";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorSea() {
       this.color = "#9ac6da";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorSky() {
       this.color = "#9ceedd";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorSnow() {
       this.color = "#9e9eaa";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorDol() {
       this.color = "#a1a164";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorWater() {
       this.color = "#b1c8ff";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorBush() {
       this.color = "#606e32";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorFlower() {
       this.color = "#760000";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorPool() {
       this.color = "#7bc800";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorZip() {
       this.color = "#a2a3eb";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorTree() {
       this.color = "#a8c832";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
     },
     changeColorTreeColumn() {
       this.color = "#b57b00";
       this.ctx.strokeStyle = this.color;
+      this.nowErase = false; // 색 선택하면 지우개 끄자
+    },
+
+    // 지우기
+    eraser() {
+      this.nowErase = !this.nowErase;
     },
 
     // 그리기
@@ -422,7 +509,9 @@ export default {
       // console.log(event);
       this.x = event.offsetX;
       this.y = event.offsetY;
-      if (!this.painting) {
+      if (this.nowErase === true && this.painting === true) {
+        this.ctx.clearRect(this.x, this.y, this.lineFat, this.lineFat);
+      } else if (!this.painting) {
         this.ctx.beginPath();
         this.ctx.moveTo(this.x, this.y);
       } else {
@@ -448,7 +537,12 @@ export default {
 
     // 지우기
     eraseAll() {
-      this.$router.go();
+      // this.$router.go();
+      let sizeWidth = 43 * window.innerWidth / 100;
+      let sizeHeight = 80 * window.innerHeight / 100;
+      this.ctx.clearRect(0, 0, sizeWidth, sizeHeight);
+      // 모두 지웠으므로 태그 리스트 또한 비워주자
+      this.tag = [];
     }
   },
   mounted() {
@@ -477,6 +571,7 @@ export default {
       canvas.addEventListener("mousedown", this.startPainting);
       canvas.addEventListener("mouseup", this.stopPainting);
       canvas.addEventListener("mouseleave", this.stopPainting);
+      canvas.addEventListener("click", this.fillPaint);
     }
   },
   watch: {
@@ -489,6 +584,88 @@ export default {
 </script>
 
 <style>
+/* 요청 보낸 후 띄워주는 로딩창 */
+.canvasLoadingScene {
+  position: absolute;
+  z-index: 100;
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  height: 70vh;
+  width: 70vw;
+  background-color: #fcf4e0;
+  box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px; */
+  justify-content: center;
+  align-items: center;
+  width: 70vw;
+  height: 80vh;
+  top: 50%;
+  left: 50%;
+  background-color: #fcf4e0;
+  box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
+  border-radius: 30px;
+  transform: translate(-50%, -50%);
+  display: flex;
+}
+
+.canvasLoadingContent {
+  /* position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30vh;
+  height: 30vh;
+  background-image: url("../../public/images/logo.png");
+  background-size: 30vh 30vh;
+  animation-name: switchingLogo;
+  animation-iteration-count: infinite;
+  animation-duration: 3s; */
+  width: 30vh;
+  height: 30vh;
+  animation: rotate 2.5s infinite;
+  background: linear-gradient(to right, rgb(90, 92, 231) 50%, #f16d6d 50%);
+  background-size: 200% 100%;
+  background-position:right bottom;
+  transform: rotate(-90deg);
+  border-radius: 15%;
+}
+
+@keyframes switchingLogo {
+  from {
+    top: 50%;
+    left: 0%;
+    transform: translate(-50% -50%) rotate(0deg);
+  } to {
+    top: 50%;
+    left: 100%;
+    transform: translate(-50% -50%) rotate(1080deg);
+  }
+}
+
+@keyframes rotate{
+  0%{ 
+    background-position: right bottom;
+  }
+  50%{
+    background-position: left bottom;
+    transform: rotate(90deg);
+  }
+  100%{
+    background-position: right bottom;
+    transform: rotate(270deg);
+  }
+}
+
+.canvasLoadingWrite {
+  position: absolute;
+  top: 90%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3vw;
+}
+
 /* 화풍 선택지 띄워주는 모달 */
 /* opened2Modal 같이 이용 */
 .changePicTitle {
@@ -600,6 +777,16 @@ export default {
   width: 43vw;
   height: 80vh;
   image-rendering: pixelated;
+}
+
+.nowColor {
+  position: absolute;
+  top: 65%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+  width: 8vw;
+  height: 5vh;
+  font-size: 1.5vw;
 }
 
 .eraserClass {

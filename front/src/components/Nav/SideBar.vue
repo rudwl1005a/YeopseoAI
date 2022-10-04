@@ -149,7 +149,7 @@ export default {
   background-image: url("../../../public/images/sidebar_toggle.png");
   background-size: 4vw 4vw;
   background-repeat: no-repeat;
-  transform: rotate(270deg);
+  transform: rotate(90deg);
   transition: 0.8s;
 }
 </style>
