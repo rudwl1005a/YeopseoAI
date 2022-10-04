@@ -202,15 +202,17 @@ export default {
 /* 좋아하는 엽서 모음 전체 */
 .favoritePics {
   position: relative;
-  height: 90vh;
-  width: 105vh;
-  /* background-image: url("../../../public/images/collection_backgroundA.jpg"); */
-  background-size: 105vh 90vh;
+  height: 50vw;
+  width: 70vw;
+  background-image: url("../../../public/images/temp2Back.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 10px;
   transition: 0.4s;
 }
 .favoritePics:hover {
   /* transform: rotate(360deg); */
-  width: 120vh;
+  width: 75vw;
   transition: 0.4s;
 }
 

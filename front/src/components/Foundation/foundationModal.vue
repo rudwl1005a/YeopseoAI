@@ -6,8 +6,8 @@
       <!-- <div class="modal-dialog">
         <div class="modal-content"> -->
             <div id="modalBox" data-aos="fade-up" data-aos-duration="500" class="donationListModal d-flex row">
-                <div style="width: 100vw; height: 4vw; font-size: 3vw; left: -25vw; top: 2vw; position: absolute;">받은 기부 총액: {{organizationModalInfo.totalDonationMoney}}원</div>
-                <div style="width: 100vw; height: 4vw; font-size: 3vw; left: -25vw; top: 5vw; position: absolute;">받은 기부 횟수: {{organizationModalInfo.totalDonationCnt}}회</div>
+                <div style="width: 100vw; height: 4vw; font-size: 3vw; color: black; left: -25vw; top: 2vw; position: absolute;">받은 기부 총액: {{organizationModalInfo.totalDonationMoney}}원</div>
+                <div style="width: 100vw; height: 4vw; font-size: 3vw; color: black; left: -25vw; top: 5vw; position: absolute;">받은 기부 횟수: {{organizationModalInfo.totalDonationCnt}}회</div>
                 <!-- <div class="donationButton">{{ organizationList[0].foundationContent }}</div> -->
                 <!-- <div class="donationButton">{{ seeingFoundation.foundationName }}</div> -->
                 <!-- <div class="donationButton">{{ seeingFoundation.foundationContent }}</div> -->
@@ -135,7 +135,7 @@ export default {
     height: 45vw;
     background-color: white;
     border-radius: 10px;
-    /* background-image: url(../../../public/images/remind_wallpaper.jpg); */
+    background-image: url(../../../public/images/foundationBack.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);

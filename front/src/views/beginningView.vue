@@ -14,6 +14,9 @@
   </div>
   
   <div id="test" v-if="!showLogoLoding">
+    <div class="goFriendPage">
+    </div>
+
     <div class="mainLogoClass">
       <!-- <b style="font-size: 2vw;">엽AI사전</b> -->
     </div>
@@ -466,6 +469,32 @@
   </script>
   
   <style>
+.goFriendPage {
+  /* cursor: pointer; */
+  position: absolute;
+  top: 40vh;
+  left: 65vw;
+  transform: translate(-50%, -50%);
+  height: 20vh;
+  width: 20vh;
+  background-image: url(../../public/images/scrollArrow.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-name: moveArrow;
+  transform: rotate(90deg);
+  z-index: 10000;
+}
+@keyframes moveArrow {
+  from {
+    top: 35vh;
+  }
+  to {
+    top: 45vh;
+  }
+}
+
   /* 메인페이지 진입 효과 관리 */
   .beginningLoading {
     position: absolute;

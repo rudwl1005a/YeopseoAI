@@ -31,7 +31,7 @@
       <div class="mypageBtn" @click="goDonations" @mouseover="change3">donations</div>
       <div class="mypageBtn" @click="goMade" @mouseover="change5">{{ownerInfo.userName}} made</div>
       <div class="mypageBtn" @click="goLikedPostcards" @mouseover="change2">liked postcards</div>
-      <div class="mypageBtn" @click="goFollowing" @mouseover="change4">following</div>
+      <div v-if="isOwner" class="mypageBtn" @click="goFollowing" @mouseover="change4">following</div>
       <div v-if="isOwner" class="mypageBtn" style="font-size: 1.3vw; margin-top: 10vw;" @click="showUpdateInfo" @mouseover="change4">회원정보수정</div>
       <div v-if="isOwner" class="mypageBtn" style="font-size: 1.3vw; margin-bottom: ;" data-bs-toggle="modal" data-bs-target="#secession" @mouseover="change4">회원탈퇴</div>
     </div>
@@ -57,6 +57,13 @@
             <img v-if="ownerInfo.userProfileUrl !== null" class="myProfileImage" id="profileImg" :src="profileImg" alt="">
             <img v-else class="myProfileImage" id="profileImg" :src="defaultProfile.imageUrl" alt="zzz">
               
+              <div v-show="!isOwner && !isFollow" @click="doFollow" id="follow" class="mpButton">
+                팔로우
+              </div>
+              <div v-show="!isOwner && isFollow" @click="doUnFollow" id="unFollow" class="mpButton">
+                팔로우 취소
+              </div>
+
               <label v-if="isOwner" class="mpButton" for="changeImg">
               프로필 변경
               </label>
@@ -449,22 +456,14 @@
 
 
 
-    <div class="followUsers">
+    <div v-if="isOwner" class="followUsers">
       <p id="goFollowing" class="profileText">Following</p>
-      <div id="followingList" class="mypageCarousel">
-      <div class="wrap">
-        <ul id="ul" class="">
-          <li v-for="(card, index) in this.followList" :key="index">
-            <img class="cardItem " :src="card" alt="">
-          </li>
-        </ul>
-      </div>
-    </div>
     </div> 
     <!-- 유저가 기부한 엽서들 페이지네이션해서 보여주는 부분 -->
-    <div v-if="Math.ceil(this.followList.length / 12)">
-      <div class="paginationPage">
-        {{this.followList}}
+    <div v-if="isOwner">
+      <div class="mypaginationText">{{Math.ceil(this.followList.length)}}명</div>
+      <div v-for="(follow, idx) in this.followList" :key="idx" in class="">
+        {{follow.followId}}
       </div>
     </div>
 
@@ -482,15 +481,15 @@
 <div v-if="showRemind" style="z-index: 900; position: relative;">
 
 <!-- 좋아하는 엽서 목록 1 -->
-  <favorite-postcards-a v-if="ownerInfo.userTemplate === 1" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0); " class=""></favorite-postcards-a>
+  <favorite-postcards-a v-if="ownerInfo.userTemplate === 1" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0);" class=""></favorite-postcards-a>
 
 <!-- 좋아하는 엽서 목록 2 -->
-  <favorite-postcards-b v-if="ownerInfo.userTemplate === 2" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0); " class="d-flex justify-content-center"></favorite-postcards-b>
+  <favorite-postcards-b v-if="ownerInfo.userTemplate === 2" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0);" class="d-flex justify-content-center"></favorite-postcards-b>
 
 <!-- 좋아하는 엽서 목록 3 -->
   <favorite-postcards-c v-if="ownerInfo.userTemplate === 0" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0);" class="d-flex justify-content-center"></favorite-postcards-c>
   
-  <div type="button" @click="showCollection" style="width: 4vw; height: 4vw; font-size: 7vw; top: 2%; left: 80vw; position: fixed; z-index: 900;">X</div>
+  <div type="button" @click="showCollection" style="width: 4vw; height: 4vw; font-size: 7vw; top: -5%; left: 80vw; position: fixed; z-index: 900;">X</div>
   
   <div v-if="isOwner" @click="showChangeTemplate" class="mpButton" data-bs-toggle="modal" data-bs-target="#changeTemplate" style="top: 5%; left: 85vw; position: fixed; z-index: 900;" for="changeImg">
   템플릿 변경
@@ -501,7 +500,7 @@
 
 <!-- 탬플릿 선택 Modal -->
 <div class="modal fade" id="changeTemplate" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-size">
+  <div class="modal-dialog modal--choice-size">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">템플릿 선택</h5>
@@ -537,7 +536,7 @@
       <div type="button" data-bs-dismiss="modal" aria-label="Close" style="width: 4vw; height: 4vw; font-size: 7vw; top: 3%; left: 80vw; position: fixed; z-index: 900;">X</div>
       
       <div v-if="Math.ceil(this.donationList.length / 12)">
-        <div class="paginationPage">
+        <div class="choicePaginationPage">
           <div class="d-flex mypaginationTitle">
             <h3 class="mypaginationText">당신의 기부목록</h3>
             <h3 class="mypaginationText">추억할 사진을 선택하세요</h3>
@@ -669,6 +668,7 @@ export default {
     return {
       // 탬플릿 변경 관련 함수
       // 
+      isFollow: 0,
       changeTemplateNum: 0,
       showUpdate : false,
       isShowChangeTemplate: 0,
@@ -692,6 +692,7 @@ export default {
     ...mapGetters(mypageStore, [
       "donationList",
       "followList",
+      "myFollowList",
       "profileImage",
       "mypageUserInfo",
       "ownerInfo",
@@ -716,16 +717,29 @@ export default {
       "changeUserProfile",
       "getDonationList",
       "getFollowerList",
+      "getMyFollowerList",
       "setMypageUserInfo",
       "setOwnerInfo",
       "changeTemplate",
       "changeRemind",
+      "follow",
+      "unFollow",
     ]),
     ...mapActions(postcardStore, [
       "userPostcardList",
       "getUserLikedPostcard",
       "userLikedPostcardStore",
     ]),
+
+    doFollow() {
+      this.follow({ myId: this.userInfo.userId, followId: this.ownerInfo.userId })
+      this.isFollow = 1
+    },
+
+    doUnFollow() {
+      this.unFollow({ myId: this.userInfo.userId, followId: this.ownerInfo.userId })
+      this.isFollow = 0
+    },
 
     tempChoice(tempN) {
       this.changeTemplate({ userSeq: this.userInfo.userSeq, userTemplate: {userTemplate: tempN} })
@@ -797,11 +811,11 @@ export default {
     
     // 스토어에서 user_seq 들고와서 넣어줘야됨
     await this.setOwnerInfo(this.ownerSeq)
-    this.getDonationList(this.ownerSeq)
-    this.getFollowerList(this.ownerSeq)
-    this.userPostcardList(this.ownerSeq)
-    this.getUserLikedPostcard(this.ownerSeq)
-    this.userLikedPostcardStore(this.userInfo.userSeq)
+    await this.getDonationList(this.ownerSeq)
+    await this.getFollowerList(this.ownerInfo.userId)
+    await this.userPostcardList(this.ownerSeq)
+    await this.getUserLikedPostcard(this.ownerSeq)
+    await this.userLikedPostcardStore(this.userInfo.userSeq)
     // 기부총액, 기부횟수 계산
     let donationCnt = this.donationList.length
     let donationMoney = 0
@@ -969,7 +983,8 @@ export default {
     // 스토어에서 user_seq 들고와서 넣어줘야됨
     await this.setOwnerInfo(this.ownerSeq)
     await this.getDonationList(this.ownerSeq)
-    await this.getFollowerList(this.ownerSeq)
+    await this.getFollowerList(this.ownerInfo.userId)
+    await this.getMyFollowerList(this.userInfo.userId)
     await this.userPostcardList(this.ownerSeq)
     await this.getUserLikedPostcard(this.ownerSeq)
     await this.userLikedPostcardStore(this.userInfo.userSeq)
@@ -997,6 +1012,22 @@ export default {
     await this.donationList.forEach(dontaion => {
       donationMoney += dontaion.donationPay
     });
+    if (!this.isOwner) {
+      // const follow = document.querySelector('#follow')
+      // follow.style.display = 'block'
+      console.log(this.myFollowList)
+      await this.myFollowList.forEach(follower => {
+        if (follower.followId === this.ownerInfo.userId) {
+          this.isFollow = 1
+          console.log('ddddddd')
+          // const follow = document.querySelector('#follow')
+          // follow.style.display = 'none'
+          // const unFollow = document.querySelector('#unFollow')
+          // unFollow.style.display = 'block'
+        }
+      });
+    }
+    console.log(this.followList)
     await this.setMypageUserInfo({donationCnt: donationCnt, donationMoney: donationMoney })
     this.profileImg = this.ownerInfo.userProfileUrl
     AOS.init()    
@@ -1014,7 +1045,7 @@ export default {
     // 스토어에서 user_seq 들고와서 넣어줘야됨
     await this.setOwnerInfo(this.ownerSeq)
     await this.getDonationList(this.ownerSeq)
-    await this.getFollowerList(this.ownerSeq)
+    await this.getFollowerList(this.ownerInfo.userId)
     // await this.userPostcardList(this.ownerSeq)
     // await this.getUserLikedPostcard(this.ownerSeq)
     // 기부총액, 기부횟수 계산
@@ -1028,8 +1059,8 @@ export default {
 
     // console.log(screen.width)
     // console.log(screen.height)
-    // console.log('마운티드')
-    // console.log(this.userLikedPostcard)
+    console.log('마운티드')
+    console.log(this.ownerInfo)
     
 
     // 캐러셀
@@ -1180,7 +1211,7 @@ export default {
   width: 30vw;
   height: 30vw;
   margin-bottom: 5vw;
-  background-image: url(../../public/images/mypageBackground.jpg);
+  background-image: url(../../public/images/temp2Ex.PNG);
   background-repeat: no-repeat;
   background-size: 100% 100%;
   box-shadow: 0 0.5vw 1vw rgba(0, 0, 0, 0.15);
@@ -1342,6 +1373,12 @@ export default {
   margin: 0 auto;
   /* border:#555; */
 }
+.choicePaginationPage {
+  height: 70vw;
+  width: 60vw;
+  margin: 0 auto;
+
+}
 .profileTitle {
   position: sticky;
   width: 98vw;
@@ -1397,6 +1434,8 @@ export default {
   padding: 3vh;
   width: 30vw;
   height: 40vh;
+  border-radius: 20px;
+  box-shadow: 0.5vw 0.5vw 1vw rgba(0, 0, 0, 0.15);
 }
 
 /* 모든 카드 보여주는 부분 */
@@ -1569,6 +1608,17 @@ export default {
     height: 70vw;
     
     /* overflow: hidden; */
+}
+.modal--choice-size {
+    /* position: fixed; */
+    /* margin: 0 auto; */
+    max-width:90vw;
+    width: 75vw;
+    height: 70vw;
+    background-image: url(../../public/images/foundationBack.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
 }
 
 </style>
