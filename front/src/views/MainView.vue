@@ -5,8 +5,8 @@
 </div>
 <div class="mainClass" v-if="!showLogoLoding">
   <!-- <div :class="{'maingoUpBtn' : isTop === false, 'maingosearchBtn' : isTop === true,}" @click="goUp"> -->
-    <div v-if="isTop" class="maingosearchBtn" @click="goUp"></div>
-    <div v-else class="maingoUpBtn" @click="goUp"></div>
+    <!-- <div v-if="isTop" class="maingosearchBtn" @click="goUp"></div> -->
+    <div v-if="!isTop" class="maingoUpBtn" @click="goUp"></div>
   <!-- </div> -->
   <div class="mainpageClass">
     <div v-if="showLogo" class="mainLogoClass">
@@ -15,10 +15,10 @@
     <div class="mainpageList">
       <!-- 나중에 라우터 링크 혹은 푸쉬로 바꾸자 -->
       <div class="mainpageBtn" @mouseover="change1" @click="goHome">home</div>
-      <div class="mainpageBtn" @mouseover="change2" @click="goLetter">letter</div>
+      <div class="mainpageBtn" @mouseover="change2" @click="goLetter">postcard</div>
       <div class="mainpageBtn" @mouseover="change3" @click="goFoundation">donation</div>
       <div class="mainpageBtn" @mouseover="change4" @click="goMypage">mypage</div>
-      <div class="mainpageBtn" @mouseover="change5" @click="goBoard">board</div>
+      <div class="mainpageBtn" @mouseover="change5" @click="goBoard">Q&A</div>
     </div>
 
 
@@ -50,45 +50,10 @@
       'maininformationClass5': watchingIntro === 5,
     }">
     </div>
-    <div class="maininformationClassShadow"></div>
+    <!-- <div class="maininformationClassShadow"></div> -->
   </div>
-  <div data-aos="zoom-in" class="mainpageAboutClass">
-    <div class="mainpageAboutContentClass">
-      <b style="font-size: 1.5vw; bold">about</b>
-      <br>
-      <br>
-      <b style="font-size: 2vw">엽서사전</b>
-      <br>
-      <br>
-      <p style="font-size: 1.2vw">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
-        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
-        sapiente necessitatibus provident fugit mollitia.
-      </p>
-      <br>
-      <p style="font-size: 1.2vw">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
-        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
-        sapiente necessitatibus provident fugit mollitia.
-      </p>
-      <br>
-      <p style="font-size: 1.2vw">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
-        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
-        sapiente necessitatibus provident fugit mollitia.
-      </p>
-      <br>
-      <p style="font-size: 1.2vw">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
-        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
-        sapiente necessitatibus provident fugit mollitia.
-      </p>
-    </div>
-  </div>
+
+  
 
 
   <!-- <div class="mainpageServiceIntro">
@@ -110,11 +75,20 @@
       </div>
       <div class="mainToMoreInfo"> -->
         <!-- 라우터 링크로 바꿔주자. 어디로 이동시켜줄까? 아님 그냥 넣어만 둘까? -->
-        추가 정보
+        <!-- 추가 정보 -->
       <!-- </div>
     </div>
   </div> -->
 
+  <div class="mainsearchClass">
+    <div class="mainsearchTitle"><b style="font-size: 7vh;">엽서 검색</b></div>
+    <div class="mainSearchPopularInput"><b style="font-size: 2vw;">(인기 검색어: 하늘, 구름)</b></div>
+    <div class="mainsearchBar">
+      <div class="mainsearchBarBody">
+        <input v-model="searchMessage" @input="getAutoComplete" @keyup.enter="submitSearch" class="mainsearchBarInput" placeholder=". . . search" type="text">
+      </div>
+    </div>
+  </div>
 
   <div class="mainfamousLetterClass">
     <!-- 버튼 클릭하면 다음 페이지로 옮겨보자 -->
@@ -129,7 +103,7 @@
           <img :src="famousLetter[0].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
           <div id='hoverText'>
             <!-- <div class="bigMaker">{{famousLetter[0].postcard}}</div> -->
-            <div class="bigMaker">넣을 컨텐츠가 없나?</div>
+            <div @click="goOtherPage(famousLetter[0].postcard.userSeq)" class="bigMaker">{{famousLetter[0].userId}}</div>
           </div>
         </div>
 
@@ -142,7 +116,7 @@
               <!-- {{ famousLetter[1] }} -->
               <img :src="famousLetter[1].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
+                <div @click="goOtherPage(famousLetter[1].postcard.userSeq)" class="smallMaker">{{famousLetter[1].userId}}</div>
               </div> 
             </div>
 
@@ -151,7 +125,7 @@
               <!-- {{ famousLetter[2] }} -->
               <img :src="famousLetter[2].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
+                <div @click="goOtherPage(famousLetter[2].postcard.userSeq)" class="smallMaker">{{famousLetter[2].userId}}</div>
               </div> 
             </div>
 
@@ -165,7 +139,7 @@
               <!-- {{ famousLetter[3] }} -->
               <img :src="famousLetter[3].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
+                <div @click="goOtherPage(famousLetter[3].postcard.userSeq)" class="smallMaker">{{famousLetter[3].userId}}</div>
               </div> 
             </div>
 
@@ -174,7 +148,7 @@
               <!-- {{ famousLetter[4] }} -->
               <img :src="famousLetter[4].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
+                <div @click="goOtherPage(famousLetter[4].postcard.userSeq)" class="smallMaker">{{famousLetter[4].userId}}</div>
               </div> 
             </div>
 
@@ -190,7 +164,7 @@
           <!-- {{ famousLetter[5] }} -->
           <img :src="famousLetter[5].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
           <div id='hoverText'>
-            <div class="bigMaker">넣을 컨텐츠가 없나?</div>
+            <div @click="goOtherPage(famousLetter[5].postcard.userSeq)" class="bigMaker">{{famousLetter[5].userId}}</div>
           </div> 
         </div>
 
@@ -203,7 +177,7 @@
               <!-- {{ famousLetter[6] }} -->
               <img :src="famousLetter[6].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
+                <div @click="goOtherPage(famousLetter[6].postcard.userSeq)" class="smallMaker">{{famousLetter[6].userId}}</div>
               </div> 
             </div>
 
@@ -212,7 +186,7 @@
               <!-- {{ famousLetter[7] }} -->
               <img :src="famousLetter[7].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
+                <div @click="goOtherPage(famousLetter[7].postcard.userSeq)" class="smallMaker">{{famousLetter[7].userId}}</div>
               </div> 
             </div>
 
@@ -225,7 +199,7 @@
               <!-- {{ famousLetter[8] }} -->
               <img :src="famousLetter[8].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
+                <div @click="goOtherPage(famousLetter[8].postcard.userSeq)" class="smallMaker">{{famousLetter[8].userId}}</div>
               </div> 
             </div>
 
@@ -234,7 +208,7 @@
               <!-- {{ famousLetter[9] }} -->
               <img :src="famousLetter[9].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
-                <div class="smallMaker">넣을 컨텐츠가 없나?</div>
+                <div @click="goOtherPage(famousLetter[9].postcard.userSeq)" class="smallMaker">{{famousLetter[9].userId}}</div>
               </div> 
             </div>
 
@@ -244,12 +218,20 @@
       </div>
     </div>
   </div>
+
+
+
+
   <!-- 재단 모달 -->
   <div v-if="showModal" class="mainFoundationModal">
     <div class="modalShadow"></div>
     <foundation-modal :seeingFoundation="seeingFoundation"></foundation-modal>
     <div type="button" @click="setFoundationDonationList(famousFoundation[0])" style="width: 4vw; height: 4vw; font-size: 7vw; top: 5%; left: 90%; position: fixed; z-index: 10000;">X</div>
   </div>
+
+
+
+
   <!-- 재단 목록 -->
   <div class="mainfamousFoundationClass">
     <!-- <div class="mainfamousFoundationChange"></div> -->
@@ -313,21 +295,97 @@
     </div>
   </div>
 
+
+
+
+
+  <!-- 얘 빼자 -->
+  <!-- <div class="mainpageServiceIntro">
+    <div class="mainpageServiceIntroContent">
+      <br>
+      <br>
+      <br>
+      <b style="font-size: 1.5vw;">service</b>
+      <br>
+      <br>
+      <br>
+      <b style="font-size: 2vw;">엽서사전에서 가능합니다</b>
+      <div class="mainpageServiceIntroWrap"> -->
+        <!-- 이 부분은 아이콘이나 그림 잘 만들어서 보여줘야 할듯 -->
+        <!-- <div class="mainpageServiceIntroContentItem">postcard</div>
+        <div class="mainpageServiceIntroContentItem">Foundation</div>
+        <div class="mainpageServiceIntroContentItem">Donation</div>
+        <div class="mainpageServiceIntroContentItem">sns</div>
+      </div>
+      <div class="mainToMoreInfo"> -->
+        <!-- 라우터 링크로 바꿔주자. 어디로 이동시켜줄까? 아님 그냥 넣어만 둘까? -->
+        <!-- 추가 정보 -->
+      <!-- </div>
+    </div>
+  </div> -->
+  <!-- 잘가라 -->
+
+
+
+
+
+  <div data-aos="zoom-in" class="mainpageAboutClass">
+    <div class="mainpageAboutContentClass">
+      <b style="font-size: 1.5vw; bold">about</b>
+      <br>
+      <br>
+      <b style="font-size: 2vw">엽서사전</b>
+      <br>
+      <br>
+      <p style="font-size: 1.2vw">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
+        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
+        sapiente necessitatibus provident fugit mollitia.
+      </p>
+      <br>
+      <p style="font-size: 1.2vw">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
+        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
+        sapiente necessitatibus provident fugit mollitia.
+      </p>
+      <br>
+      <p style="font-size: 1.2vw">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
+        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
+        sapiente necessitatibus provident fugit mollitia.
+      </p>
+      <br>
+      <p style="font-size: 1.2vw">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
+        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
+        sapiente necessitatibus provident fugit mollitia.
+      </p>
+    </div>
+  </div>
+
+
+
+  
+
   <!-- 검색바 관련. input 될 때마다 자동완성 결과를 불러오는 요청 필요, enter시 결과를 store에 저장 후 검색 페이지로 넘어가 store에 저장된
   검색 결과를 불러오도록 하자. -->
-  <div class="mainsearchClass">
+  <!-- <div class="mainsearchClass">
     <div class="mainsearchTitle"><b style="font-size: 1.2vw;">검색</b></div>
     <div class="mainsearchBar">
       <div class="mainsearchBarBody">
         <input v-model="searchMessage" @input="getAutoComplete" @keyup.enter="submitSearch" class="mainsearchBarInput" placeholder=". . . search" type="text">
       </div>
     </div>
-  </div>
-  <div class="contactUsPage">
+  </div> -->
+  <!-- <div class="contactUsPage">
     <div class="contactUsContent">
       contact us
     </div>
-  </div>
+  </div> -->
 </div>
 </template>
 
@@ -464,6 +522,10 @@ export default {
       this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}});
       console.log("홈 새로고침");
     },
+    goOtherPage(userSeq) {
+      this.$router.push({path: `/mypage/${userSeq}`, query: {ownerSeq: userSeq}});
+      console.log("홈 새로고침");
+    },
     goBoard() {
       this.$router.push('/board');
     },
@@ -543,6 +605,9 @@ export default {
 
   },
   mounted() {
+    console.log('this.famousLetter')
+    console.log(this.famousLetter)
+    
     document.addEventListener("scroll", this.scrollEvent);
   },
   unmounted() {
@@ -552,6 +617,15 @@ export default {
 </script>
 
 <style>
+/* input::placeholder {
+  line-height: 2vh;
+}
+input::-webkit-input-placeholder { line-height: 2vh !important; }
+input::-moz-placeholder { line-height: 2vh !important; }
+input:-ms-input-placeholder { line-height: 2vh !important; }
+input:-moz-placeholder { line-height: 2vh !important; }
+input::placeholder { line-height: 2vh !important; } */
+
 /* 메인페이지 진입 효과 관리 */
 .mainLoading {
   width: 100vw;
@@ -631,7 +705,7 @@ export default {
 
 /* 메인페이지 전체 관리 */
 .mainClass {
-  height: 580vh;
+  /* height: 500vh; */
   background-color: whitesmoke;
 }
 
@@ -679,9 +753,12 @@ export default {
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_1.png');
+  background-image: url('../../public/images/main_1.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
+  /* filter: grayscale(20%); */
+  /* filter: saturate(70%); */
+  filter: opacity(85%);
 }
 .maininformationClass2 {
   position: absolute;
@@ -691,9 +768,12 @@ export default {
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_2.png');
+  background-image: url('../../public/images/main_2.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
+  /* filter: grayscale(20%); */
+  /* filter: saturate(80%); */
+  filter: opacity(85%);
 }
 .maininformationClass3 {
   position: absolute;
@@ -703,9 +783,11 @@ export default {
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_3.png');
+  background-image: url('../../public/images/main_3.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
+  /* filter: grayscale(20%); */
+  filter: opacity(85%);
 }
 .maininformationClass4 {
   position: absolute;
@@ -715,9 +797,11 @@ export default {
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_4.png');
+  background-image: url('../../public/images/main_4.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
+  /* filter: grayscale(20%); */
+  filter: opacity(85%);
 }
 .maininformationClass5 {
   position: absolute;
@@ -727,9 +811,11 @@ export default {
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_5.png');
+  background-image: url('../../public/images/main_5.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
+  /* filter: grayscale(20%); */
+  filter: opacity(85%);
 }
 
 /* 메인페이지 로고 관리 */
@@ -790,7 +876,7 @@ export default {
 /* 엽서사전 about 관리(프로젝트 설명 간단히 보여주는 부분) */
 .mainpageAboutClass {
   position: relative;
-  height: 100vh;
+  height: 70vh;
   background-color: #faf8f5;
 }
 
@@ -799,7 +885,7 @@ export default {
   width: 50vw;
   height: 60vh;
   top: 50%;
-  left: 47%;
+  left: 50%;
   transform: translate(-50%, -50%);
   color: #484233;
 }
@@ -847,33 +933,35 @@ export default {
 .mainfamousLetterBtn {
   position: absolute;
   cursor: pointer;
-  top: 90%;
-  left: 47%;
+  top: 60%;
+  left: 89%;
   transform: translate(-50%, -50%);
-  height: 5vh;
-  width:  5vh;
-  border-radius: 1000px;
-  background-color: #484233;
+  height: 5vw;
+  width:  5vw;
+  background-image: url("../../public/images/scrollArrow.png");
+  background-size: 5vw 5vw;
+  background-repeat: no-repeat;
 }
 
 .mainfamousLetterClass {
   position: relative;
-  height: 100vh;
-  background-color: #ffffff;
+  height: 40vw;
+  background-color: #faf8f5;
 }
 
 .mainfamousLetterContentClass {
   position: absolute;
   top: 50%;
-  left: 47%;
+  left: 50%;
   transform: translate(-50%, -50%);
-  height: 80vh;
+  height: 30vw;
   width: 70vw;
+  border-radius: 30px;
 }
 
 .mainfamousLetterTitle {
-  font-size: 7vh;
-  margin-bottom: 20px;
+  font-size: 3vw;
+  /* margin-bottom: 20px; */
 }
 
 .mainfamousLetterBoxClass {
@@ -937,12 +1025,12 @@ export default {
   height: 80vh;
   width: 80vw;
   top: 50%;
-  left: 47%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .mainfamousFoundationTitle {
-  font-size: 3vh
+  font-size: 7vh
 }
 
 .mainfamousFoundationContent {
@@ -1020,21 +1108,30 @@ export default {
 /* 검색 관리 */
 .mainsearchClass {
   position: relative;
-  height: 60vh;
-  background-color: #ffc322;
+  height: 35vh;
+  background-color: #faf8f5;
+  /* background: linear-gradient(#fcf4e0, #faf8f5); */
+}
+
+.mainSearchPopularInput {
+  z-index: 50;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .mainsearchTitle {
   position: absolute;
-  top: 10%;
-  left: 47%;
+  top: 40%;
+  left: 50%;
   transform: translate(-50%, -50%);
 }
 
 .mainsearchBar {
   position: absolute;
-  top: 50%;
-  left: 47%;
+  top: 75%;
+  left: 50%;
   transform: translate(-50%, -50%);
   height: 5vh;
   width: 25vw;
@@ -1050,9 +1147,10 @@ export default {
 .mainsearchBarInput {
   position: absolute;
   top: 50%;
-  left: 47%;
+  left: 50%;
   transform: translate(-50%, -50%);
   width: 20vw;
+  font-size: 2vh;
   border: none;
   background: none;
   outline: none;
@@ -1094,13 +1192,13 @@ export default {
   opacity: 1; 
 }
 .bigMaker {
-  margin-top: 25vw;
+  padding-top: 25vw;
   font-size: 3vw;
   color: white;
   transition: 0.4s;
 }
 .smallMaker {
-  margin-top: 12vw;
+  padding-top: 12vw;
   font-size: 1.5vw;
   color: white;
   transition: 0.4s;
