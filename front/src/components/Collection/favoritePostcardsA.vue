@@ -4,12 +4,12 @@
   사용자가 이걸 선택하면 보여주도록 로직 추가 필요 -->
   <!-- 내가보는거 -->
   <div v-if="this.isOwner" id="modalBox" data-aos="fade-up" data-aos-duration="500" class="favoritePics">
+    <!-- <div class="glass">
+    </div> -->
     
 
     
     <!-- 좌측 상단부 -->
-    <div class="glass">
-    </div>
     <div class="favoritePics1">
       <div class="favoritePics1_1">
         <img v-if="ownerInfo.donations[0]" @click="changeUserRemind(1)" class="favoriteImg" data-bs-toggle="modal" data-bs-target="#choiceModal" :src="ownerInfo.donations[0].donationImgUrl" style="height: 22vh; width: 22vh; cursor: pointer;" alt="">
@@ -79,8 +79,8 @@
 
   <!-- 다른사람이 보는거 -->
   <div v-else id="modalBox" data-aos="fade-up" data-aos-duration="500" class="favoritePics">
-    <div class="glass">
-    </div>
+    <!-- <div class="glass">
+    </div> -->
     <!-- 좌측 상단부 -->
     <div class="favoritePics1">
       <div class="favoritePics1_1">
@@ -204,7 +204,7 @@ export default {
   position: relative;
   height: 50vw;
   width: 70vw;
-  background-image: url("../../../public/images/temp2Back.jpg");
+  background-image: url("../../../public/images/deskBack.png");
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 10px;
@@ -267,8 +267,8 @@ export default {
   vertical-align: middle;
   background-color: white;
   box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15);
-  top: 12.5%;
-  left: 45%;
+  top: 15%;
+  left: 54%;
   /* transform: translate(-50%, -50%); */
   transform: rotate(-4deg);
   transition: 0.4s;
