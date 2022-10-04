@@ -74,7 +74,7 @@
         <div class="myProfileInfo align-self-center row justify-content-center">
           <h1>기부 횟수: {{this.mypageUserInfo.donationCnt}}</h1>
           <h1>총 기부 금액: {{this.mypageUserInfo.donationMoney}}</h1>
-          <h1 style="border-width: 1vw; border: black; cursor: pointer;" @click="showCollection">컬렉션 보기</h1>
+          <h1 class="mpButton" style="border-width: 1vw; border: black; cursor: pointer;" @click="showCollection">컬렉션 보기</h1>
         </div>
       </div>
     </div>
@@ -91,7 +91,7 @@
 
     <!-- 유저의 기부목록 보여주기 -->
     <p id="goDonations" class="profileText">{{this.ownerInfo.userName}}'s donations</p>
-    <div id="donationList" class="mypageCarousel">
+    <!-- <div id="donationList" class="mypageCarousel">
       <div class="wrap">
         <ul class="">
           <li v-for="(donation, index) in this.donationList" :key="index">
@@ -99,7 +99,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
     
     <!-- 유저가 기부한 엽서들 페이지네이션해서 보여주는 부분 -->
     <div v-if="Math.ceil(this.donationList.length / 12)">
@@ -204,7 +204,7 @@
 
     <!-- 유저가 만든 모든 엽서 보여주기 -->
     <p id="goMade" class="profileText">Made by {{this.ownerInfo.userName}}</p>
-    <div id="madeList" class="mypageCarousel">
+    <!-- <div id="madeList" class="mypageCarousel">
       <div class="wrap">
         <ul class="">
           <li v-for="(postcard, index) in this.postcardList " :key="index">
@@ -212,7 +212,7 @@
           </li>
         </ul>
       </div>
-    </div>
+    </div> -->
 
     <!-- 유저가 만든 엽서들 페이지네이션해서 보여주는 부분 -->
     <div v-if="Math.ceil(this.postcardList.length / 12)">
@@ -329,7 +329,8 @@
     <!-- 유저가 좋아요한 포스트카드 -->
     <div class="followUsers">
       <p id="goLikedPostcards" class="profileText">{{this.ownerInfo.userName}}'s pick</p>
-      <div id="likedList" class="mypageCarousel">
+    </div> 
+    <!-- <div id="likedList" class="mypageCarousel">
       <div class="wrap">
         <ul id="ul" class="">
           <li v-for="(card, index) in this.userLikedPostcard.postcardList " :key="index">
@@ -337,8 +338,7 @@
           </li>
         </ul>
       </div>
-    </div>
-    </div> 
+    </div> -->
 
     <!-- 유저가 좋아요한 엽서들 페이지네이션해서 보여주는 부분 -->
     <div v-if="Math.ceil(this.userLikedPostcard.postcardList.length / 12)">
@@ -462,7 +462,7 @@
     <!-- 유저가 기부한 엽서들 페이지네이션해서 보여주는 부분 -->
     <div v-if="isOwner">
       <div class="mypaginationText">{{Math.ceil(this.followList.length)}}명</div>
-      <div v-for="(follow, idx) in this.followList" :key="idx" in class="">
+      <div v-for="(follow, idx) in this.followList" :key="idx" in class="" style="font-size: 4vw;">
         {{follow.followId}}
       </div>
     </div>
@@ -489,7 +489,7 @@
 <!-- 좋아하는 엽서 목록 3 -->
   <favorite-postcards-c v-if="ownerInfo.userTemplate === 0" style="position: fixed; top: 3vh; left: 50%; transform: translate(-50%, 0);" class="d-flex justify-content-center"></favorite-postcards-c>
   
-  <div type="button" @click="showCollection" style="width: 4vw; height: 4vw; font-size: 7vw; top: -5%; left: 80vw; position: fixed; z-index: 900;">X</div>
+  <div type="button" @click="showCollection" style="width: 4vw; height: 4vw; font-size: 7vw; top: 1.5%; left: 80vw; position: fixed; z-index: 900;">X</div>
   
   <div v-if="isOwner" @click="showChangeTemplate" class="mpButton" data-bs-toggle="modal" data-bs-target="#changeTemplate" style="top: 5%; left: 85vw; position: fixed; z-index: 900;" for="changeImg">
   템플릿 변경
@@ -1035,6 +1035,7 @@ export default {
 
 
   async mounted() {
+    await window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
     this.ownerSeq = Number(this.$route.query.ownerSeq)
     // console.log('유저시퀀스, 마이페이지 주인 시퀀스')
     // console.log(this.userInfo.userSeq, this.ownerSeq)
@@ -1405,6 +1406,7 @@ export default {
 }
 .myProfileBox {
   /* background-color: #faf8f5; */
+  background-color: #faf8f5;
   margin: 0 auto;
   margin-top: 5vh;
   /* border-radius: 30px; */
@@ -1435,6 +1437,7 @@ export default {
   width: 30vw;
   height: 40vh;
   border-radius: 20px;
+  background-color: #ffffff;
   box-shadow: 0.5vw 0.5vw 1vw rgba(0, 0, 0, 0.15);
 }
 
