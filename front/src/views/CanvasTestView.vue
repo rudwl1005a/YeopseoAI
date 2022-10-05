@@ -364,7 +364,12 @@ export default {
   setup: () => {},
   computed: {
     ...mapState(accountStore, ["userInfo"]),
-    ...mapState(postcardStore, ["justUploadedPostcard"]),
+    ...mapState(postcardStore, [
+      "justUploadedPostcard",
+      "filterCode",
+      "beforeTransformImg",
+      "aiTransformResult",
+    ]),
   },
   data() {
     return {
@@ -410,7 +415,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(postcardStore, ["uploadPostcard", "uploadTag", "userPostcardList"]),
+    ...mapActions(postcardStore, [
+      "uploadPostcard", 
+      "uploadTag", 
+      "userPostcardList",
+      "sendTransformStore",
+      "setFilterCode",
+      "setBeforeTransformImg",
+    ]),
     async setImage(event) {
       let URL = window.URL;
       this.backgroundImage = URL.createObjectURL(event.target.files[0]);
@@ -485,11 +497,11 @@ export default {
       }
       let tagList = ["하늘", "구름"];
       console.log(canvasData);
-      let postcardObj = {
-        userId: this.userInfo.userId,
-        postcard: canvasData,
-      }
-      await this.uploadPostcard(postcardObj);
+      // let postcardObj = {
+      //   userId: this.userInfo.userId,
+      //   postcard: canvasData,
+      // }
+      await this.sendTransformStore({ filterCode: this.filterCode, image: canvasData });
       let tagObj = {
         postcardSeq: this.justUploadedPostcard.postcardSeq,
         tagList: tagList,
