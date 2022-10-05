@@ -269,9 +269,13 @@ export default {
     // 스케치와 화풍 선택 정보 전달
     async changeImage() {
       await console.log("hi");
+      // 로딩화면 켜기
+      await this.openLoading();
 
       console.log(document.getElementById("canvasId"));
       const canvas = document.getElementById("canvasId");
+      canvas.height = Math.floor(400*0.264583);
+      canvas.width = Math.floor(600*0.264583);
       console.log(canvas);
       console.log(canvas.toDataURL()); // data:image/png;base64,
       const dataUrl = canvas.toDataURL("image/png");
@@ -297,7 +301,7 @@ export default {
       // }
       console.log('=====================')
       console.log(this.filterCode)
-      await this.sendTransformStore({ filterCode: this.filterCode, image: canvasData });
+      await this.sendTransformStore({ filterCode: this.filterCode, image: {image: canvasData }});
       let tagObj = {
         postcardSeq: this.justUploadedPostcard.postcardSeq,
         tagList: tagList,
@@ -310,8 +314,7 @@ export default {
       // 캔버스 부분을 formdata로 만들어 전송하는 로직 + 화풍 정보 전달하는 로직 필요
       // await 이용, 해당 formdata 전송이 완료된 후 다음 코드 실행되도록 ㄱ
       // 순서: 로딩화면 띄우는 함수 -> 데이터 전송 후 결과 받음 -> 로딩화면 끄는 함수 -> 두번째 모달로 이동하는 함수
-      // 로딩화면 켜기
-      await this.openLoading();
+      
       // canvas 데이터 및 선택한 화풍 정보 전송 함수
 
       await setTimeout(() => {
@@ -599,7 +602,9 @@ export default {
   mounted() {
     const canvas = document.getElementById("canvasId");
     let sizeWidth = 43 * window.innerWidth / 100;
+    // let sizeWidth = 600;
     let sizeHeight = 80 * window.innerHeight / 100;
+    // let sizeHeight = 400;
     canvas.width = sizeWidth;
     canvas.height = sizeHeight;
     canvas.style.width = sizeWidth;

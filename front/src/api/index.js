@@ -16,7 +16,9 @@ function aiInstance() {
         baseURL: AI_BASE_URL,
         headers: {
             "Content-type": "application/json",
-        }
+        },
+        // defaults.xsrfCookieName : 'csrftoken',
+        // defaults.xsrfHeaderName : 'X-CSRFToken',
     });
     return instance;
 }
