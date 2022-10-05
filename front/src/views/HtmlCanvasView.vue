@@ -20,8 +20,9 @@
 
     <!-- 건축물 -->
     <div class="spin2">
-      <div class="colorGunChook front">건물</div>
-      <div class="colorGunChook back">
+      <div @click="spin(0)" class="colorGunChook" :class="{ fronts : spins[0] , front : !spins[0]}"><p style="margin-left: 7vw;">건물</p></div>
+      <!-- <div class="colorGunChook front">건물</div> -->
+      <div @click="spin(0)" class="colorGunChook" :class="{ backs : !spins[0] , back : spins[0]}">
         <div class="colorBridge" @click="changeColorBridge">다리</div>
         <div class="colorWooltari" @click="changeColorWooltari">울타리</div>
         <div class="colorHouse" @click="changeColorHouse">집</div>
@@ -35,8 +36,8 @@
 
     <!-- 지면 -->
     <div class="spin2">
-      <div class="colorGunChook front">지면</div>
-      <div class="colorGunChook back">
+      <div @click="spin(1)" class="colorGunChook" :class="{ fronts : spins[1] , front : !spins[1]}"><p style="margin-left: 7vw;">지면</p></div>
+      <div @click="spin(1)" class="colorGunChook" :class="{ backs : !spins[1] , back : spins[1]}">
         <div class="colorSoil" @click="changeColorSoil">흙</div>
         <div class="colorMiniDol" @click="changeColorMiniDol">자갈</div>
         <div class="colorEct" @click="changeColorEct">기타</div>
@@ -50,8 +51,8 @@
 
     <!-- 풍경 -->
     <div class="spin2">
-      <div class="colorGunChook front">풍경</div>
-      <div class="colorGunChook back">
+      <div @click="spin(2)" class="colorGunChook" :class="{ fronts : spins[2] , front : !spins[2]}"><p style="margin-left: 7vw;">풍경</p></div>
+      <div @click="spin(2)" class="colorGunChook" :class="{ backs : !spins[2] , back : spins[2]}">
         <div class="colorCloud" @click="changeColorCloud">구름</div>
         <div class="colorFog" @click="changeColorFog">안개</div>
         <div class="colorHill" @click="changeColorHill">언덕</div>
@@ -69,8 +70,8 @@
 
     <!-- 식물 -->
     <div class="spin2">
-      <div class="colorGunChook front">식물</div>
-      <div class="colorGunChook back">
+      <div @click="spin(3)" class="colorGunChook" :class="{ fronts : spins[3] , front : !spins[3]}"><p style="margin-left: 7vw;">식물</p></div>
+      <div @click="spin(3)" class="colorGunChook" :class="{ backs : !spins[3] , back : spins[3]}">
         <div class="colorBush" @click="changeColorBush">부쉬</div>
         <div class="colorFlower" @click="changeColorFlower">꽃</div>
         <div class="colorPool" @click="changeColorPool">풀</div>
@@ -118,7 +119,7 @@
   <div v-if="opened2" class="opened2Modal">
     <div class="translatedResult">
       <div class="translatedImg">
-        <img id="uploadFile" src="" alt="" style="width: 35vw; height: 70vh;">
+        <img id="uploadFile" src="data:image/png;base64,{{ image }}" alt="" style="width: 35vw; height: 70vh;">
       </div>
 
       <div class="tagCanvasPage">
@@ -207,6 +208,12 @@ export default {
         "#b57b00": "나무기둥",
       },
       filterCode: 1,
+      spins: [
+        true,
+        true,
+        true,
+        true,
+      ]
     }
   },
   computed: {
@@ -221,6 +228,9 @@ export default {
       "setBeforeTransformImg",
       "sendTransformStore",
     ]),
+    spin(n) {
+      this.spins[n] = !this.spins[n]
+    },
     // 모달1 열기/닫기
     filterSelect(c) {
       this.filterCode = c
@@ -396,161 +406,193 @@ export default {
       this.color = "#5e5bc5";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(0)
     },
     changeColorWooltari() {
       this.color = "#706419";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(0)
     },
     changeColorHouse() {
       this.color = "#7f4502";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(0)
     },
     changeColorPlatform() {
       this.color = "#8f2a91";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(0)
     },
     changeColorRoof() {
       this.color = "#9600b1";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(0)
     },
     changeColorBeukDol() {
       this.color = "#aad16a";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(0)
     },
     changeColorDolBeuk() {
       this.color = "#ae2974";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(0)
     },
     changeColorTreeWall() {
       this.color = "#b0c1c3";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(0)
     },
     changeColorSoil() {
       this.color = "#6e6e28";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(1)
     },
     changeColorMiniDol() {
       this.color = "#7c32c8";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(1)
     },
     changeColorEct() {
       this.color = "#7d3054";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(1)
     },
     changeColorMud() {
       this.color = "#87716f";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(1)
     },
     changeColorGoodRoad() {
       this.color = "#8b3027";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(1)
     },
     changeColorRoad() {
       this.color = "#946e28";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(1)
     },
     changeColorBigSoil() {
       this.color = "#999900";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(1)
     },
     changeColorCloud() {
       this.color = "#696969";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorFog() {
       this.color = "#77ba1d";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorHill() {
       this.color = "#7ec864";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorMountain() {
       this.color = "#869664";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorRiver() {
       this.color = "#9364c8";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorRock() {
       this.color = "#956432";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorSea() {
       this.color = "#9ac6da";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorSky() {
       this.color = "#9ceedd";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorSnow() {
       this.color = "#9e9eaa";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorDol() {
       this.color = "#a1a164";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorWater() {
       this.color = "#b1c8ff";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(2)
     },
     changeColorBush() {
       this.color = "#606e32";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(3)
     },
     changeColorFlower() {
       this.color = "#760000";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(3)
     },
     changeColorPool() {
       this.color = "#7bc800";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(3)
     },
     changeColorZip() {
       this.color = "#a2a3eb";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(3)
     },
     changeColorTree() {
       this.color = "#a8c832";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(3)
     },
     changeColorTreeColumn() {
       this.color = "#b57b00";
       this.ctx.strokeStyle = this.color;
       this.nowErase = false; // 색 선택하면 지우개 끄자
+      this.spin(3)
     },
 
     // 지우기
@@ -991,6 +1033,7 @@ export default {
 }
 
 .spin2 {
+  cursor: pointer;
   width: 20vw;
   height: 12vw;
   margin: 0;
@@ -1004,23 +1047,29 @@ export default {
 
 .spin2 .colorGunChook {
   backface-visibility: hidden;
-  transition: 0.7s;
+  transition: 0.4s;
 }
 
-.spin2 .colorGunChook.front {
+.spin2 .colorGunChook.fronts {
   transform: rotateY(0deg);
 }
 
-.spin2:hover .colorGunChook.front {
+.colorGunChook.front {
+  backface-visibility: hidden;
   transform: rotateY(180deg);
 }
 
 .spin2 .colorGunChook.back {
+  backface-visibility: hidden;
   transform: rotateY(-180deg);
 }
 
-.spin2:hover .colorGunChook.back {
+.colorGunChook.backs {
   transform: rotateY(0deg);
+}
+
+.spin2:hover .colorGunChook.fronts  {
+  transform: scale(1.03)
 }
 
 .chooseG {
@@ -1051,12 +1100,13 @@ export default {
 
 .colorGunChook {
   position: absolute;
+  /* left: 4vw; */
   width: 20vw;
   height: 12vw;
   display: flex;
   flex-wrap: wrap;
   /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.15); */
-  background-color: #faf8f5;
+  /* background-color: #faf8f5; */
   overflow: hidden;
   transition: 0.4s;
 }
