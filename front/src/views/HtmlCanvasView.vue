@@ -104,11 +104,11 @@
       원하는 화풍을 선택한 후 이미지 변환을 눌러주세요
     </div>
     <div class="changePicItems">
-      <div class="changePicItem" @click="changeGogh">고흐</div>
-      <div class="changePicItem" @click="changeGauGan">고갱</div>
-      <div class="changePicItem" @click="changeGangGang">갱갱</div>
-      <div class="changePicItem">고고</div>
-      <div class="changePicItem">ㅋㅋ</div>
+      <div class="changePicItem" @click="filterSelect(1)">고흐</div>
+      <div class="changePicItem" @click="filterSelect(2)">고갱</div>
+      <div class="changePicItem" @click="filterSelect(3)">갱갱</div>
+      <div class="changePicItem" @click="filterSelect(4)">고고</div>
+      <div class="changePicItem" @click="filterSelect(5)">ㅋㅋ</div>
     </div>
     <div class="goChangePic" @click="changeImage">이미지 변환</div>
     <div class="closeModal1" @click="closeModal1">창 닫기</div>
@@ -206,15 +206,26 @@ export default {
         "#a8c832": "나무",
         "#b57b00": "나무기둥",
       },
+      filterCode: 1,
     }
   },
   computed: {
-    ...mapState(postcardStore, ["justUploadedPostcard"]),
+    ...mapState(postcardStore, ["justUploadedPostcard", "aiTransformResult"]),
     ...mapGetters(accountStore, ["userInfo"]),
   },
   methods: {
-    ...mapActions(postcardStore, ["uploadPostcard", "uploadTag"]),
+    ...mapActions(postcardStore, [
+      "uploadPostcard", 
+      "uploadTag",       
+      "setFilterCode",
+      "setBeforeTransformImg",
+      "sendTransformStore",
+    ]),
     // 모달1 열기/닫기
+    filterSelect(c) {
+      this.filterCode = c
+      this.setFilterCode(c)
+    },
     openModal1() {
       this.opened1 = true;
     },
@@ -253,9 +264,49 @@ export default {
       this.loadopen = true;
     },
 
+
+    
     // 스케치와 화풍 선택 정보 전달
     async changeImage() {
       await console.log("hi");
+
+      console.log(document.getElementById("canvasId"));
+      const canvas = document.getElementById("canvasId");
+      console.log(canvas);
+      console.log(canvas.toDataURL()); // data:image/png;base64,
+      const dataUrl = canvas.toDataURL("image/png");
+      const blobData = this.dataURItoBlob(dataUrl);
+      // 날짜
+      const now = new Date();
+      // 파일 이름
+      const filename = `yeupseo-${this.userInfo.userSeq}${now.getHours()}${now.getMinutes()}${now.getSeconds()}.png`
+      // 파일 만들기
+      const tempFile = new File([blobData], filename, { type: 'image/png' });
+      // 폼데이터
+      let canvasData = new FormData;
+      canvasData.append('postcard', tempFile); // 생성된 canvasData 정해진 uri로 axios 요청 보내면 될 듯
+
+      // for (var pair of canvasData.entries()) {
+      //   console.log(pair[0]+ ', ' + pair[1]); 
+      // }
+      let tagList = ["하늘", "구름"];
+      // console.log(canvasData);
+      // let postcardObj = {
+      //   userId: this.userInfo.userId,
+      //   postcard: canvasData,
+      // }
+      console.log('=====================')
+      console.log(this.filterCode)
+      await this.sendTransformStore({ filterCode: this.filterCode, image: canvasData });
+      let tagObj = {
+        postcardSeq: this.justUploadedPostcard.postcardSeq,
+        tagList: tagList,
+      }
+      // console.log(tagObj);
+      await this.uploadTag(tagObj);
+      // console.log(this.userInfo.userId, tagList, canvasData);
+
+
       // 캔버스 부분을 formdata로 만들어 전송하는 로직 + 화풍 정보 전달하는 로직 필요
       // await 이용, 해당 formdata 전송이 완료된 후 다음 코드 실행되도록 ㄱ
       // 순서: 로딩화면 띄우는 함수 -> 데이터 전송 후 결과 받음 -> 로딩화면 끄는 함수 -> 두번째 모달로 이동하는 함수
