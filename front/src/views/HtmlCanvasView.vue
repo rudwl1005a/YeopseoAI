@@ -1,15 +1,25 @@
 <template>
 <side-bar></side-bar>
 <div class="canvasPage">
-  <div v-if="showFin" @click="showFinModal" class="finModal">
+  <div v-if="showFin" @click="goMypage" class="finModal">
     등록 완료!!
     <!-- <div @click="showFinModal">닫기</div> -->
+  </div>
+
+  <!-- 도움말 모달 -->
+  <div v-if="showHelp" class="helpModal2">
+    <div class="helpCloseBtn" @click="openHelp">X</div>
+    <div class="imageHelp3"></div>
+    <div class="imageHelp4"></div>
+    <div class="imageHelp5"></div>
+    <div class="imageHelp6"></div>
+    <div class="imageHelp7"></div>
   </div>
 
   <!-- 로딩 화면 -->
   <div v-if="loadopen" class="canvasLoadingScene">
     <div class="canvasLoadingContent"></div>
-    <div class="canvasLoadingWrite">이미지 변환중!!</div>
+    <div class="canvasLoadingWrite">Loading . . .</div>
   </div>
 
   <canvas ref="canvas" id="canvasId" class="htmlCanvasClass"></canvas>
@@ -85,6 +95,8 @@
 
 
   </div>
+  <!-- 도움말 띄우는 버튼 -->
+  <div class="openHelpBtn2" @click="openHelp"></div>
   <div class="nowColor">선택중: {{ colorMap[color] }}</div>
   <!-- <div v-if="!fillType" @click="changeFillType">펜</div>
   <div v-if="fillType" @click="changeFillType">채우기</div> -->
@@ -105,11 +117,11 @@
       원하는 화풍을 선택한 후 이미지 변환을 눌러주세요
     </div>
     <div class="changePicItems">
-      <div class="changePicItem" @click="filterSelect(1)">고흐</div>
-      <div class="changePicItem" @click="filterSelect(2)">고갱</div>
-      <div class="changePicItem" @click="filterSelect(3)">갱갱</div>
-      <div class="changePicItem" @click="filterSelect(4)">고고</div>
-      <div class="changePicItem" @click="filterSelect(5)">ㅋㅋ</div>
+      <div :class="{'changePicItem':whichClicked[0] === false, 'changePickedItem':whichClicked[0] === true,}" @click="filterSelect(1)">고흐</div>
+      <div :class="{'changePicItem':whichClicked[1] === false, 'changePickedItem':whichClicked[1] === true,}" @click="filterSelect(2)">고갱</div>
+      <div :class="{'changePicItem':whichClicked[2] === false, 'changePickedItem':whichClicked[2] === true,}" @click="filterSelect(3)">갱갱</div>
+      <div :class="{'changePicItem':whichClicked[3] === false, 'changePickedItem':whichClicked[3] === true,}" @click="filterSelect(4)">고고</div>
+      <div :class="{'changePicItem':whichClicked[4] === false, 'changePickedItem':whichClicked[4] === true,}" @click="filterSelect(5)">ㅋㅋ</div>
     </div>
     <div class="goChangePic" @click="changeImage">이미지 변환</div>
     <div class="closeModal1" @click="closeModal1">창 닫기</div>
@@ -173,6 +185,8 @@ export default {
       loadopen: false,
       nowErase: false,
       fillType: false, // 채우기 형식인지 아닌지를 보여줌
+      showHelp: false, // 도움말을 보여주고 있는지 아닌지 확인
+      whichClicked: [false, false, false, false, false],
       colorMap: {
         "#5e5bc5": "다리",
         "#706419": "울타리",
@@ -235,6 +249,8 @@ export default {
     filterSelect(c) {
       this.filterCode = c
       this.setFilterCode(c)
+      this.whichClicked = [false, false, false, false, false]; // 전부 false로 변경 후
+      this.whichClicked[c-1] = true; // 선택한 요소만 true로 변경
     },
     openModal1() {
       this.opened1 = true;
@@ -250,6 +266,11 @@ export default {
     },
     closeModal2() {
       this.opened2 = false;
+    },
+
+    // 도움말 열기
+    openHelp() {
+      this.showHelp = !this.showHelp;
     },
 
     // 태그 넣기
@@ -372,6 +393,12 @@ export default {
       await this.closeModal1();
       //
       await this.showFinModal();
+    },
+
+    goMypage() {
+      this.showFin = !this.showFin;
+      let userSeq = this.userInfo.userSeq;
+      this.$router.push({path: `/mypage/${userSeq}`, query: {ownerSeq: userSeq}});
     },
 
     showFinModal() {
@@ -708,6 +735,75 @@ export default {
   display: flex;
 }
 
+.changePickedItem {
+  cursor: pointer;
+  border-radius: 20px;
+  width: 12vw;
+  height: 40vh;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;
+}
+
+.helpModal2 {
+  z-index: 100;
+  position: absolute;
+  height: 80vh;
+  width: 80vw;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
+  overflow: auto;
+}
+
+.helpModal2::-webkit-scrollbar {
+  display: none;
+}
+
+.imageHelp3 {
+  height: 80vh;
+  width: 80vw;
+  background-image: url("../../public/images/quesImage3.png");
+  background-size: 80vw 80vh;
+  background-repeat: no-repeat;
+  border-radius: 30px;
+}
+.imageHelp4 {
+  height: 80vh;
+  width: 80vw;
+  background-image: url("../../public/images/quesImage4.png");
+  background-size: 80vw 80vh;
+  background-repeat: no-repeat;
+  border-radius: 30px;
+}
+.imageHelp5 {
+  height: 80vh;
+  width: 80vw;
+  background-image: url("../../public/images/quesImage5.png");
+  background-size: 80vw 80vh;
+  background-repeat: no-repeat;
+  border-radius: 30px;
+}
+.imageHelp6 {
+  height: 80vh;
+  width: 80vw;
+  background-image: url("../../public/images/quesImage6.png");
+  background-size: 80vw 80vh;
+  background-repeat: no-repeat;
+  border-radius: 30px;
+}
+.imageHelp7 {
+  height: 80vh;
+  width: 80vw;
+  background-image: url("../../public/images/quesImage7.png");
+  background-size: 80vw 80vh;
+  background-repeat: no-repeat;
+  border-radius: 30px;
+}
+
 .canvasLoadingContent {
   /* position: absolute;
   top: 50%;
@@ -754,6 +850,20 @@ export default {
     background-position: right bottom;
     transform: rotate(270deg);
   }
+}
+
+.openHelpBtn2 {
+  cursor: pointer;
+  position: absolute;
+  top: 65%;
+  left: 60%;
+  transform: translate(-50%, -50%);
+  width: 3vh;
+  height: 3vh;
+  background-image: url("../../public/images/questionMark.png");
+  background-size: 3vh 3vh;
+  background-repeat: no-repeat;
+  opacity: 0.7;
 }
 
 .canvasLoadingWrite {

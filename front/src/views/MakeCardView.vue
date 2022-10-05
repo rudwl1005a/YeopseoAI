@@ -9,6 +9,13 @@
     <!-- <div @click="showFinModal">닫기</div> -->
   </div>
 
+  <!-- 도움말 모달 -->
+  <div v-if="showHelp" class="helpModal">
+    <div class="helpCloseBtn" @click="openHelp">X</div>
+    <div class="imageHelp1"></div>
+    <div class="imageHelp2"></div>
+  </div>
+
   <!-- 크게 2개의 div를 보여줄 예정 -->
   <div class="makecardClass">
     <!-- 파일 직접 업로드하는 화면. 여기선 해당 이미지를 바로 업로드하는 로직을 넣어야 함. 변환 X -->
@@ -38,6 +45,9 @@
         <div style="cursor: pointer;" @click="openTagInput">Tag를 입력해주세요</div>
         <input class="tagInputInput" v-model="tagItem" type="text" @keyup.enter="appendTag">
       </div>
+
+      <!-- 도움말 띄우는 버튼 -->
+      <div class="openHelpBtn" @click="openHelp"></div>
 
       <!-- <div v-if="showImage" class="uploadFileYeupBtn" :onclick="upload">엽서ㄱㄱ?</div> -->
       <div v-if="showImage" class="uploadFileYeupBtn" :onclick="upload">등록!</div>
@@ -83,6 +93,7 @@ export default {
       tag: [],
       tagItem: "",
       showFin: false,
+      showHelp: false,
     };
   },
 
@@ -143,6 +154,11 @@ export default {
 
     showFinModal() {
       this.showFin = !this.showFin;
+    },
+
+    // 도움말 열기
+    openHelp() {
+      this.showHelp = !this.showHelp;
     },
 
     // 엽서 업로드
@@ -247,6 +263,37 @@ export default {
   </script>
   
 <style>
+.openHelpBtn {
+  cursor: pointer;
+  position: absolute;
+  top: -45%;
+  left: 10%;
+  transform: translate(-50%, -50%);
+  width: 3vh;
+  height: 3vh;
+  background-image: url("../../public/images/questionMark.png");
+  background-size: 3vh 3vh;
+  background-repeat: no-repeat;
+  opacity: 0.7;
+}
+
+.imageHelp1 {
+  height: 80vh;
+  width: 80vw;
+  background-image: url("../../public/images/quesImage1.png");
+  background-size: 80vw 80vh;
+  background-repeat: no-repeat;
+  border-radius: 30px;
+}
+.imageHelp2 {
+  height: 80vh;
+  width: 80vw;
+  background-image: url("../../public/images/quesImage2.png");
+  background-size: 80vw 80vh;
+  background-repeat: no-repeat;
+  border-radius: 30px;
+}
+
 .imgUploadTag {
 
 }
@@ -470,4 +517,31 @@ export default {
   vertical-align: middle;
 }
 
+/* 이미지 업로드 부분 도움말 */
+.helpModal {
+  z-index: 100;
+  position: absolute;
+  height: 80vh;
+  width: 80vw;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  box-shadow : rgba(0,0,0,0.5) 0 0 0 9999px;
+  overflow: auto;
+}
+
+.helpModal::-webkit-scrollbar {
+  display: none;
+}
+
+.helpCloseBtn {
+  cursor: pointer;
+  position: fixed;
+  top: 10%;
+  left: 95%;
+  transform: translate(-50%, -50%);
+  font-size: 5vw;
+}
 </style>
