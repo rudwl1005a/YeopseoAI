@@ -248,7 +248,8 @@
           <div class="mainfamousFoundationItemContent">
             재단명: {{ famousFoundation[0].foundationName }}
             <br>
-            상세정보: {{ famousFoundation[0].foundationContent }}
+            <br>
+            대한민국의 미래를 위해 청년들을 지원합니다. SW교육을 기반으로한 취업지원을 도와주세요.
           </div>
         </div>
         <div @click="setFoundationDonationList(famousFoundation[1])" class="mainfamousFoundationItem">
@@ -259,7 +260,8 @@
           <div class="mainfamousFoundationItemContent">
             재단명: {{ famousFoundation[1].foundationName }}
             <br>
-            상세정보: {{ famousFoundation[1].foundationContent }}
+            <br>
+            주변의 불우한 아이들을 지원합니다. 소량의 기부금과 함께 마음을 전하세요. 당신의 따뜻한 메세지를 기다리고 있습니다.
           </div>
         </div>
         <div @click="setFoundationDonationList(famousFoundation[2])" class="mainfamousFoundationItem">
@@ -270,7 +272,8 @@
           <div class="mainfamousFoundationItemContent">
             재단명: {{ famousFoundation[2].foundationName }}
             <br>
-            상세정보: {{ famousFoundation[2].foundationContent }}
+            <br>
+            지구와 인류의 미래를 위해 투자합니다. 말라가는 지구에 비를 내려주세요.
           </div>
         </div>
 
@@ -331,38 +334,26 @@
 
   <div data-aos="zoom-in" class="mainpageAboutClass">
     <div class="mainpageAboutContentClass">
-      <b style="font-size: 1.5vw; bold">about</b>
+      <b style="font-size: 3vw; bold">about</b>
       <br>
       <br>
       <b style="font-size: 2vw">엽서사전</b>
       <br>
       <br>
-      <p style="font-size: 1.2vw">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
-        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
-        sapiente necessitatibus provident fugit mollitia.
+      <p style="font-size: 2vw">
+        엽서사전은 기부를 촉진하고, 진입장벽을 낮추기 위해 만들어진 사이트입니다.
       </p>
       <br>
-      <p style="font-size: 1.2vw">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
-        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
-        sapiente necessitatibus provident fugit mollitia.
+      <p @click="goFoundation" class="aboutContent" style="font-size: 2vw">
+        소량의 기부금으로 마음을 전하고 기념하세요. 
       </p>
       <br>
-      <p style="font-size: 1.2vw">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
-        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
-        sapiente necessitatibus provident fugit mollitia.
+      <p @click="goLetter" class="aboutContent" style="font-size: 2vw">
+        당신의 소중한 마음을 기념하기 위해 AI를 활용한 엽서제작을 제공합니다.
       </p>
       <br>
-      <p style="font-size: 1.2vw">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-        Distinctio rem animi doloribus nemo neque quod rerum eveniet 
-        veniam qui libero reiciendis, numquam facilis aspernatur dicta 
-        sapiente necessitatibus provident fugit mollitia.
+      <p style="font-size: 2vw">
+        
       </p>
     </div>
   </div>
@@ -1076,6 +1067,9 @@ input::placeholder { line-height: 2vh !important; } */
 .mainfamousFoundationItem:hover > .mainfamousFoundationItemContent {
   width: 30vw;
   height: 60vh;
+  font-size: 2vw;
+  padding-left: 2vw;
+  padding-right: 2vw;
 }
 
 .mainfamousFoundationChange {
@@ -1210,4 +1204,12 @@ input::placeholder { line-height: 2vh !important; } */
   display: block;
   opacity: 1; 
 } */
+.aboutContent {
+  cursor: pointer;
+  transition: 0.4s;
+}
+.aboutContent:hover {
+  transform: scale(1.1)
+}
+
 </style>

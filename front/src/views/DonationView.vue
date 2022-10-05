@@ -537,6 +537,7 @@ export default {
   align-self: center;
   /* 입체 그림자효과 */
   filter: drop-shadow(6px 4px 4px #c3c3c3);
+  transition: 0.4s;
 }
 
 /* 선택 재단의 로고 */
@@ -610,6 +611,7 @@ export default {
 }
 .donaCard:hover {
   transform: scale3d(1.1, 1.1, 1.1);
+  transition: 0.2s;
 }
 /* 재단 리스트의 이미지 */
 .donaImg {
