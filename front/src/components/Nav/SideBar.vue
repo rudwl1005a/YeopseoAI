@@ -4,7 +4,7 @@
   <!-- 나중에 라우터 링크로 바꾸자 -->
   <div v-if="toggleContent" data-aos="fade-up" data-aos-duration="500">
     <div class="sideBtn" @click="goHome">home</div>
-    <div class="sideBtn" @click="goLetter">letter</div>
+    <div class="sideBtn" @click="goLetter">postcard</div>
     <div class="sideBtn" @click="goFoundation">donation</div>
     <div class="sideBtn" @click="goMypage">mypage</div>
     <div v-if="isLogged" @click="userLogoutandGo" class="sideBtn">logout</div>
