@@ -21,6 +21,10 @@ import {
   userLikedPostcard,
 } from "@/api/postcard.js";
 
+import {
+  sendTransform,
+} from "@/api/ai.js";
+
 const postcardStore = {
   namespaced: true,
   state: {
@@ -31,6 +35,9 @@ const postcardStore = {
     justUploadedPostcard: [],
     userLikedPostcard: [],
     likedPostcards: [],
+    aiTransformResult: '',
+    filterCode: 1,
+    beforeTransformImg: '',
   },
 
   getters: {
@@ -51,6 +58,18 @@ const postcardStore = {
     },
     likedPostcards(state) {
       return state.likedPostcards;
+    },    
+    aiTransformResult(state) {
+      return state.aiTransformResult;
+    },
+    transformInfo(state) {
+      return state.transformInfo;
+    },
+    filterCode(state) {
+      return state.filterCode;
+    },
+    beforeTransformImg(state) {
+      return state.beforeTransformImg;
     },
   },
 
@@ -90,6 +109,15 @@ const postcardStore = {
         likedPostcards: [],
       };
       Object.assign(state, initialState);
+    },
+    SET_AITRANSFORMRESULT: (state, aiTransformResult) => {
+      state.aiTransformResult = aiTransformResult;
+    },
+    SET_FILTERCODE: (state, filterCode) => {
+      state.filterCode = filterCode;
+    },
+    SET_BEFORETRANSFORMIMG: (state, beforeTransformImg) => {
+      state.beforeTransformImg = beforeTransformImg;
     },
   },
 
@@ -236,6 +264,31 @@ const postcardStore = {
     postcardStoreReset({ commit }) {
       commit("SET_STATE");
     },
+    // AI 변환요청
+    async sendTransformStore({ commit }, transformInfo) {
+      console.log(transformInfo)
+      await sendTransform(
+        transformInfo,
+        (response) => {
+          print('============변환결과물=============')
+          print(response)
+          commit
+          // commit("SET_AITRANSFORMRESULT", response.data.postcardList);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    async setFilterCode({ commit }, filterCode) {
+      commit("SET_FILTERCODE", filterCode);
+    },
+    async setBeforeTransformImg({ commit }, image) {
+      commit("SET_BEFORETRANSFORMIMG", image);
+    },
   },
+
+
+
 };
 export default postcardStore;

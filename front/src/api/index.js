@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "@/config";
+import { API_BASE_URL, AI_BASE_URL } from "@/config";
 
 function apiInstance() {
     const instance = axios.create({
@@ -11,4 +11,16 @@ function apiInstance() {
     return instance;
 }
 
-export { apiInstance }
+function aiInstance() {
+    const instance = axios.create({
+        baseURL: AI_BASE_URL,
+        headers: {
+            "Content-type": "application/json",
+        },
+        // defaults.xsrfCookieName : 'csrftoken',
+        // defaults.xsrfHeaderName : 'X-CSRFToken',
+    });
+    return instance;
+}
+
+export { apiInstance, aiInstance }
