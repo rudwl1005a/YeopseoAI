@@ -75,7 +75,7 @@ INIT_IMAGE = 'random' # or 'content'
 PRESERVE_COLOR = 'True' # 'False'
 PIXEL_CLIP = 'True' # or 'False' - Clipping produces better images
 CONTENT_PATH = 'image/real_img/coco_pretrained/test_latest/images/synthesized_image/0001.png'
-STYLE_PATH = 'images/styl4.png'
+STYLE_PATH = 'images/style4.png'
 
 """
 PRETRAINED VGG MODELS 
