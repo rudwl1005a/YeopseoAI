@@ -482,13 +482,13 @@
   transform: translate(-50%, -50%);
   height: 7vw;
   width: 7vw;
-  background-image: url(../../public/images/scrollArrow.png);
+  background-image: url(../../public/images/goUpIcon.png);
   background-size: cover;
   background-repeat: no-repeat;
   animation-duration: 1s;
   animation-iteration-count: infinite;
   animation-name: moveArrow;
-  transform: rotate(90deg);
+  transform: rotate(180deg);
   z-index: 10000;
 }
 @keyframes moveArrow {

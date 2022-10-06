@@ -2,7 +2,7 @@
   <!-- 전체 폼 -->
   <side-bar></side-bar>
   <div class="donaForm" :class="{ donaModalBack : this.logoLoding}">
-    <h1 class="normalText">Donation</h1>
+    <h1 class="normalText" style="padding-top: 1vw">Donation</h1>
     <!-- 현재 위치 -->
     <div class="donaStage">
       <h3 v-show="!this.donationInfo.foundationSeq" @click.prevent class="col nowForm" :class="{ now: this.stage.one }">
@@ -18,10 +18,10 @@
         2. 엽서 선택 완료
       </h3>
       <h3 v-show="!this.donationInfo.donationText" @click.prevent class="col nowForm" :class="{ now: this.stage.three }">
-        3. 문구 입력
+        3. 메세지 입력
       </h3>
       <h3 v-show="this.donationInfo.donationText" @click="move(3)" class="col nowDoneForm" :class="{ now: this.stage.three }">
-        3. 문구 입력 완료
+        3. 메세지 입력 완료
       </h3>
       <h3 v-show="!(this.donationInfo.donationPay >= 100)" @click.prevent class="col nowForm" :class="{ now: this.stage.four }">
         4. 기부금 선정
@@ -55,7 +55,7 @@
           v-for="(organization, index) in this.organizationList"
           :key="`organizationList-${index}`"
         >
-          <div class="donaCard" @click="selOrg(organization.foundationName,
+          <div :id="organization.foundationName" class="donaCard" @click="selOrg(organization.foundationName,
                     organization.foundationLogoUrl, organization.foundationSeq)">
             <img v-if="organization.foundationLogoUrl" v-bind:src="organization.foundationLogoUrl"
               class="donaImg"
@@ -126,12 +126,12 @@
       </div>
     </div>
     <!-- 텍스트 입력 -->
-    <div v-show="this.stage.three">
-      <h1 class="normalText">마음을 담은 문구 입력</h1>
-      <textarea @input="changInput" maxlength="100" class="inputText" :value="this.donationInfo.donationText" placeholder="간단한 글귀로 마음을 표현하세요(100자 내)"></textarea>
+    <div v-show="this.stage.three" style="margin-top: 7vh;">
+      <h1 class="normalText">당신의 사랑을 전하세요</h1>
+      <textarea @input="changInput" maxlength="100" class="inputText" :value="this.donationInfo.donationText" placeholder="간단한 글귀로 마음을 표현하세요(100자 이내, 생략가능)"></textarea>
     </div>
     <!-- 기부금 선택 입력 -->
-    <div v-show="this.stage.four">
+    <div v-show="this.stage.four" style="margin-top: 7vh;">
       <h1 class="normalText">사랑을 전해주세요</h1>
       <label for="pay" class="normalText">기부 금액 : </label>
       <input v-model="this.donationInfo.donationPay" class="payInput" type="number" id="pay" />
@@ -139,7 +139,7 @@
     </div>
     <button v-if="(this.donationInfo.donationPay >= 100) && this.stage.four" class="donaButton" @click="pay">
       <i @click="pay" class="fa-solid fa-hand-holding-heart donaIcon" ></i>
-      <p>기부</p>
+      <p style="font-size: 2vw">기부하기</p>
     </button>
     <!-- 좌우이동 아이콘 -->
     <i class="bi bi-chevron-left stageIconLeft" @click.prevent="preStage" v-show="!this.stage.one"></i>
@@ -320,6 +320,20 @@ export default {
       this.selOrganizationInfo.logoURL = logoURL;
       this.donationInfo.foundationSeq = Seq;
       this.errorMSG = null;
+      const btn1 = document.getElementById('싸피재단')
+      const btn2 = document.getElementById('싸피어린이재단')
+      const btn3 = document.getElementById('싸피월드재단')
+      btn1.style.filter = 'drop-shadow(0.7vw 0.5vw 0.5vw #c3c3c3)'
+      btn2.style.filter = 'drop-shadow(0.7vw 0.5vw 0.5vw #c3c3c3)'
+      btn3.style.filter = 'drop-shadow(0.7vw 0.5vw 0.5vw #c3c3c3)'
+      btn1.style.border = '0.2vw solid rgb(255, 255, 255)'
+      btn2.style.border = '0.2vw solid rgb(255, 255, 255)'
+      btn3.style.border = '0.2vw solid rgb(255, 255, 255)'
+
+      const btn = document.getElementById(`${name}`)
+      btn.style.filter = 'drop-shadow(0vw 0vw 0vw #c3c3c3)'
+      btn.style.border = '0.4vw solid rgb(61, 48, 18)'
+      // btn.style.
     },
     // 엽서 선택
     selPostcard(URL) {
@@ -448,13 +462,13 @@ export default {
     if (!this.organizationList.length) {
       this.getFoundationList();
     }
-    if (!this.postcardList.length) {
-      this.userPostcardList(this.userInfo.userSeq);
-    }
+    // if (!this.postcardList.length) {
+    // }
+    this.userPostcardList(this.userInfo.userSeq);
     // 좋아요한 엽서 받아오기
-    if (!this.likedPostcards.length) {
-      this.userLikedPostcardStore(this.userInfo.userSeq)
-    }
+    // if (!this.likedPostcards.length) {
+    // }
+    this.userLikedPostcardStore(this.userInfo.userSeq)
   },
   mounted() {
     this.reset();
@@ -481,7 +495,7 @@ export default {
 /* 현재 단계 창 전체 폼 */
 .donaStage {
   display: flex;
-  margin-top: 5vh;
+  margin-top: 2vh;
   margin-bottom: 2vh;
   margin-left: auto;
   margin-right: auto;
@@ -523,6 +537,7 @@ export default {
   align-self: center;
   /* 입체 그림자효과 */
   filter: drop-shadow(6px 4px 4px #c3c3c3);
+  transition: 0.4s;
 }
 
 /* 선택 재단의 로고 */
@@ -583,19 +598,20 @@ export default {
   /* 중앙정렬 */
   width: 40vw;
   margin: auto;
-  filter: drop-shadow(6px 4px 4px #c3c3c3);
 }
 /* 재단 리스트 개별 카드 크기 */
 .donaCard {
+  filter: drop-shadow(0.7vw 0.5vw 0.5vw #c3c3c3);
   width: 12vw;
   height: 22vh;
   margin: 0.5vw;
-  border: 0.1px solid white;
-  border-radius: 10px;
+  border: 0.2vw solid rgb(255, 255, 255);
+  border-radius: 1vw;
   background-color: white;
 }
 .donaCard:hover {
   transform: scale3d(1.1, 1.1, 1.1);
+  transition: 0.2s;
 }
 /* 재단 리스트의 이미지 */
 .donaImg {
@@ -740,18 +756,20 @@ export default {
 }
 /* 기부 버튼 내 아이콘 */
 .donaIcon {
-  font-size: 3rem;
+  font-size: 2vw;
 }
 /* 기부버튼 전체 */
 .donaButton {
   color: red;
   background-color: ivory;
   width: 8vw;
-  height: 8vh;
+  height: 12vh;
   border: 1px solid black;
   border-radius: 5px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 2vh;
+  padding-top: 1vh;
+  
 }
 </style>
