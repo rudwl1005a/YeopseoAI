@@ -305,8 +305,8 @@ export default {
 
       console.log(document.getElementById("canvasId"));
       const canvas = document.getElementById("canvasId");
-      canvas.height = Math.floor(400*0.264583);
-      canvas.width = Math.floor(600*0.264583);
+      // canvas.height = Math.floor(400*0.264583);
+      // canvas.width = Math.floor(600*0.264583);
       console.log(canvas);
       console.log(canvas.toDataURL()); // data:image/png;base64,
       const dataUrl = canvas.toDataURL("image/png");
