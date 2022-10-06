@@ -28,14 +28,14 @@ async function userUpdate(updateInfo, success, fail) {
 
 // 프사 변경
 async function changeProfile(profileInfo, success, fail) {
-    console.log('프로필 정보=============')
+    // console.log('프로필 정보=============')
     // console.log(profileInfo)
     let user_seq = profileInfo.user_seq
     let profile = profileInfo.profile
     // console.log()
-    for (var pair of profile.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]); 
-      }
+    // for (var pair of profile.entries()) {
+    //     console.log(pair[0]+ ', ' + pair[1]); 
+    //   }
     // console.log(profile)
     await api.patch(`/api/users/profile/${user_seq}`, profile).then(success).catch(fail);
 }
@@ -55,7 +55,7 @@ async function followList(myId, success, fail) {
 
 // 탬플릿 변경
 async function callChangeTemplate(templateInfo, success, fail) {
-    console.log(templateInfo)
+    // console.log(templateInfo)
     await api.patch(`/api/users/template/${templateInfo.userSeq}`, JSON.stringify(templateInfo.userTemplate)).then(success).catch(fail);
 } 
 

@@ -39,7 +39,7 @@ const boardStore = {
       await detailBoard(
         boardSeq,
         (response) => {
-          console.log(response);
+          // console.log(response);
           commit("SET_DETAILBOARD", response); // response 형태 보고 확정
         },
         (error) => {
@@ -53,7 +53,7 @@ const boardStore = {
       await listBoard(
         boardCode,
         (response) => {
-          console.log(response.data);
+          // console.log(response.data);
           if (boardCode === 201) {
             commit("SET_NOTICEBOARDLIST", response.data);
           } else if (boardCode === 202) {

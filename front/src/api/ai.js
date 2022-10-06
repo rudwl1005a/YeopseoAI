@@ -6,8 +6,8 @@ const ai = aiInstance();
 
 async function sendTransform(transformInfo, success, fail) {
   // 로그인
-  console.log('================================================================')
-  console.log(transformInfo.image.image)
+  // console.log('================================================================')
+  // console.log(transformInfo.image.image)
   await ai.post(`/ai/yeopseo/${transformInfo.filterCode}`, transformInfo.image.image).then(success).catch(fail);
 }
 

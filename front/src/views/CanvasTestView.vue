@@ -450,7 +450,7 @@ export default {
     testFile() {
       // console.log(this.$refs.VueCanvasDrawing.getAllStrokes()[1])
       // let coordinates = this.$refs.VueCanvasDrawing.getCoordinates(event)
-      console.log(this.image)
+      // console.log(this.image)
     },
     getStrokes() {
       window.localStorage.setItem(
@@ -458,7 +458,7 @@ export default {
         JSON.stringify(this.$refs.VueCanvasDrawing.getAllStrokes())
       );
       // console.log(this.$refs.VueCanvasDrawing.getAllStrokes());
-      console.log(this.$refs.VueCanvasDrawing);
+      // console.log(this.$refs.VueCanvasDrawing);
       alert(
         "Strokes saved, reload your browser to see the canvas with previously saved image"
       );
@@ -476,10 +476,10 @@ export default {
     async changeImage() {
       // 지금은 이미지 변환 클릭하면 엽서 등록 + 태그 등록됨
       // 로직 확인용이고, 잘 들어가는거 체크함
-      console.log(document.getElementById("VueDrawingCanvas"));
+      // console.log(document.getElementById("VueDrawingCanvas"));
       const canvas = document.getElementById("VueDrawingCanvas");
-      console.log(canvas);
-      console.log(canvas.toDataURL()); // data:image/png;base64,
+      // console.log(canvas);
+      // console.log(canvas.toDataURL()); // data:image/png;base64,
       const dataUrl = canvas.toDataURL("image/png");
       const blobData = this.dataURItoBlob(dataUrl);
       // 날짜
@@ -492,11 +492,11 @@ export default {
       let canvasData = new FormData;
       canvasData.append('postcard', tempFile); // 생성된 canvasData 정해진 uri로 axios 요청 보내면 될 듯
 
-      for (var pair of canvasData.entries()) {
-        console.log(pair[0]+ ', ' + pair[1]); 
-      }
+      // for (var pair of canvasData.entries()) {
+      //   console.log(pair[0]+ ', ' + pair[1]); 
+      // }
       let tagList = ["하늘", "구름"];
-      console.log(canvasData);
+      // console.log(canvasData);
       // let postcardObj = {
       //   userId: this.userInfo.userId,
       //   postcard: canvasData,
@@ -506,9 +506,9 @@ export default {
         postcardSeq: this.justUploadedPostcard.postcardSeq,
         tagList: tagList,
       }
-      console.log(tagObj);
+      // console.log(tagObj);
       await this.uploadTag(tagObj);
-      console.log(this.userInfo.userId, tagList, canvasData);
+      // console.log(this.userInfo.userId, tagList, canvasData);
     },
     dataURItoBlob(dataURI) {
       var binary = atob(dataURI.split(',')[1]);

@@ -100,7 +100,7 @@
 
         <div id="faf0" class="mainfamousBigLetterClass">
           <!-- {{ famousLetter[0] }} -->
-          <img :src="famousLetter[0].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
+          <img :src="letterTop[0].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
           <div id='hoverText'>
             <!-- <div class="bigMaker">{{famousLetter[0].postcard}}</div> -->
             <div @click="goOtherPage(famousLetter[0].postcard.userSeq)" class="bigMaker">{{famousLetter[0].userId}}</div>
@@ -114,7 +114,7 @@
 
             <div id="faf1" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[1] }} -->
-              <img :src="famousLetter[1].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[1].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[1].postcard.userSeq)" class="smallMaker">{{famousLetter[1].userId}}</div>
               </div> 
@@ -123,7 +123,7 @@
 
             <div id="faf2" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[2] }} -->
-              <img :src="famousLetter[2].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[2].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[2].postcard.userSeq)" class="smallMaker">{{famousLetter[2].userId}}</div>
               </div> 
@@ -137,7 +137,7 @@
 
             <div id="faf3" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[3] }} -->
-              <img :src="famousLetter[3].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[3].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[3].postcard.userSeq)" class="smallMaker">{{famousLetter[3].userId}}</div>
               </div> 
@@ -146,7 +146,7 @@
 
             <div id="faf4" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[4] }} -->
-              <img :src="famousLetter[4].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[4].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[4].postcard.userSeq)" class="smallMaker">{{famousLetter[4].userId}}</div>
               </div> 
@@ -162,7 +162,7 @@
 
         <div id="faf5" class="mainfamousBigLetterClass">
           <!-- {{ famousLetter[5] }} -->
-          <img :src="famousLetter[5].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
+          <img :src="letterTop[5].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
           <div id='hoverText'>
             <div @click="goOtherPage(famousLetter[5].postcard.userSeq)" class="bigMaker">{{famousLetter[5].userId}}</div>
           </div> 
@@ -175,7 +175,7 @@
 
             <div id="faf6" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[6] }} -->
-              <img :src="famousLetter[6].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[6].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[6].postcard.userSeq)" class="smallMaker">{{famousLetter[6].userId}}</div>
               </div> 
@@ -184,7 +184,7 @@
             
             <div id="faf7" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[7] }} -->
-              <img :src="famousLetter[7].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[7].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[7].postcard.userSeq)" class="smallMaker">{{famousLetter[7].userId}}</div>
               </div> 
@@ -197,7 +197,7 @@
 
             <div id="faf8" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[8] }} -->
-              <img :src="famousLetter[8].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[8].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[8].postcard.userSeq)" class="smallMaker">{{famousLetter[8].userId}}</div>
               </div> 
@@ -206,7 +206,7 @@
 
             <div id="faf9" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[9] }} -->
-              <img :src="famousLetter[9].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[9].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[9].postcard.userSeq)" class="smallMaker">{{famousLetter[9].userId}}</div>
               </div> 
@@ -469,7 +469,7 @@ export default {
     
     // 사이드바 관련
     openSidebar() {
-      console.log("토글 열어보자");
+      // console.log("토글 열어보자");
       // 토글 닫기
       if (this.opendToggle) {
         this.opendToggle = false;
@@ -484,7 +484,7 @@ export default {
           this.toggleContent = true;
         }, 200)
       }
-      console.log(this.opendToggle);
+      // console.log(this.opendToggle);
     },
     // hover시 intro의 사진을 바꿔주기 위한 함수
     // 바뀐 숫자를 가지고 배경화면을 바꾸어주면 될 것
@@ -506,23 +506,23 @@ export default {
 
     goHome() {
       this.$router.go();
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
     goFoundation() {
       this.$router.push('/donation');
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
     goLetter() {      
       this.$router.push('/makecard');
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
     goMypage() {
       this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}});
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
     goOtherPage(userSeq) {
       this.$router.push({path: `/mypage/${userSeq}`, query: {ownerSeq: userSeq}});
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
     goBoard() {
       this.$router.push('/board');
@@ -540,24 +540,31 @@ export default {
 
     changeFamousLetter() { // 인기 엽서 목록 바꿔주는 버튼
       this.famousLetterBtn = !this.famousLetterBtn;
+      if (!this.famousLetterBtn) {
+        const arrow = document.querySelector('.mainfamousLetterBtn')
+        arrow.style.transform = 'translate(-50%, -50%) rotate(180deg)'
+      } else {
+        const arrow = document.querySelector('.mainfamousLetterBtn')
+        arrow.style.transform = 'translate(-50%, -50%) rotate(0deg)'
+      }
     },
 
     // 검색 관리
     getAutoComplete() {
       // input 될 때마다 해당 값을 포함하는 결과를 밑에 띄워주기 위한 함수
-      console.log(this.searchMessage);
+      // console.log(this.searchMessage);
     },
     async submitSearch() {
       await this.userLikedPostcardStore(this.userInfo.userSeq);
       if (this.searchMessage !== "") {
         // enter키를 누르면 searchMessage값을 넣어 검색 실시. store에 검색 결과 넣어둔 후 검색 결과 페이지로 이동하자
-        console.log(this.searchMessage);
+        // console.log(this.searchMessage);
         let searchWord = this.searchMessage;
         await this.getSearchResult(searchWord);
         this.searchMessage = "";
         this.$router.push({ name: "SearchView" });
       } else {
-        console.log("검색어 입력하라고");
+        // console.log("검색어 입력하라고");
       }
     },
     // 로고 스크롤 이벤트
@@ -574,11 +581,11 @@ export default {
     //
     async foundationDetail(foundation) {
       // 클릭시 재단의 상세정보를 보여줘야 함
-      console.log(foundation);
+      // console.log(foundation);
       this.watchingFoundation = foundation;
       // 보고있는 재단 정보를 data에 담고
       await this.getFoundationDetail(this.watchingFoundation.foundationSeq);
-      console.log(this.watchingFoundation);
+      // console.log(this.watchingFoundation);
     }
   },
   async created() {
@@ -587,7 +594,7 @@ export default {
     this.showLogoLoding = this.mainEffectIsntShowed;
     await this.getFamousLetterStore();
     await this.getFamousFoundationStore();
-    console.log(this.letterTop);
+    // console.log(this.letterTop);
     this.famousLetter = this.letterTop;
     this.famousFoundation = this.foundationTop;
     // 로그인시 최초 1회만 화면 전환 이펙트를 넣을 예정
@@ -603,8 +610,8 @@ export default {
 
   },
   mounted() {
-    console.log('this.famousLetter')
-    console.log(this.famousLetter)
+    // console.log('this.famousLetter')
+    // console.log(this.famousLetter)
     
     document.addEventListener("scroll", this.scrollEvent);
   },
@@ -751,6 +758,7 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
+  /* background-image: url('../../public/images/filter1ex.png'); */
   background-image: url('../../public/images/main_1.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
@@ -766,6 +774,7 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
+  /* background-image: url('../../public/images/filter2ex.png'); */
   background-image: url('../../public/images/main_2.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
@@ -781,6 +790,7 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
+  /* background-image: url('../../public/images/filter3ex.png'); */
   background-image: url('../../public/images/main_3.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
@@ -795,6 +805,7 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
+  /* background-image: url('../../public/images/filter4ex.png'); */
   background-image: url('../../public/images/main_4.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
@@ -809,6 +820,7 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
+  /* background-image: url('../../public/images/filter5ex.png'); */
   background-image: url('../../public/images/main_5.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;

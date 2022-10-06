@@ -141,7 +141,7 @@ export default {
 
     // 재단 인포 들고오기
     setFoundationInfo(foundationSeq) {
-      console.log(foundationSeq)
+      // console.log(foundationSeq)
       // 스토어에서 foundation_Seq 들고와서 넣어줘야됨
       this.getFoundationInfo(foundationSeq)
     },
