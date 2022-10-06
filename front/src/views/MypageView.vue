@@ -3,7 +3,15 @@
 
   <side-bar></side-bar>
 
-  
+<!-- 엽서 크게보여주는 Modal -->
+<div v-if="showBigPostcard" style="position: fixed; left: 0vw; width: 100vw; height: 100vh; z-index: 100000;">
+  <div class="mypageGlass">
+  </div>
+  <img @click.stop="closeBigPostcard" :src="this.bigPostcardUrl" style=" position: fixed; left: 30vw; top: 10vh; width: 40vw; height: 40vw; cursor: pointer;" alt="">
+</div>
+
+
+
   <!-- Button trigger modal -->
 
 <!-- Modal -->
@@ -128,7 +136,7 @@
                     <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
                   </div>
                 </div>
-                <div class="spinItem back">
+                <div @click="setBigPostcardUrl(donation.donationImgUrl)" class="spinItem back">
                   <div class="mypaginationImgSize">
                     <p class="mypaginationPostcardName">{{donation.donationText}}</p>
                     <div v-if="isOwner" style="position: absolute; top: 12vw;">
@@ -148,7 +156,7 @@
                     <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
                   </div>
                 </div>
-                <div class="spinItem back">
+                <div @click="setBigPostcardUrl(donation.donationImgUrl)" class="spinItem back">
                   <div class="mypaginationImgSize">
                     <p class="mypaginationPostcardName">{{donation.donationText}}</p>                  
                     <div v-if="isOwner" style="position: absolute; top: 12vw;">
@@ -168,7 +176,7 @@
                     <p class="mypaginationPostcardName">{{donation.foundationName}}</p>
                   </div>
                 </div>
-                <div class="spinItem back">
+                <div @click="setBigPostcardUrl(donation.donationImgUrl)" class="spinItem back">
                   <div class="mypaginationImgSize">
                     <p class="mypaginationPostcardName">{{donation.donationText}}</p>
                     <div v-if="isOwner" style="position: absolute; top: 12vw;">
@@ -240,13 +248,13 @@
                   <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
                 </div>
               </div>
-              <div class="spinItem back">
+              <div @click="setBigPostcardUrl(postcard.postcard.postcardImgUrl)" class="spinItem back">
                 <div class="mypaginationImgSize">
                   <p class="mypaginationPostcardName">made by</p>
                   <p class="mypaginationPostcardName" style="margin-top: 0px;">{{ownerInfo.userName}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
-                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style=" color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click.stop="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click.stop="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style=" color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
                   </div>
                 </div>
               </div>
@@ -261,13 +269,13 @@
                   <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
                 </div>
               </div>
-              <div class="spinItem back">
+              <div @click="setBigPostcardUrl(postcard.postcard.postcardImgUrl)" class="spinItem back">
                 <div class="mypaginationImgSize">
                   <p class="mypaginationPostcardName">made by</p>
                   <p class="mypaginationPostcardName" style="margin-top: 0px;">{{ownerInfo.userName}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
-                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click.stop="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click.stop="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
                   </div>
                 </div>
               </div>
@@ -283,13 +291,13 @@
                   <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
                 </div>
               </div>
-              <div class="spinItem back">
+              <div @click="setBigPostcardUrl(postcard.postcard.postcardImgUrl)" class="spinItem back">
                 <div class="mypaginationImgSize">
                   <p class="mypaginationPostcardName">made by</p>
                   <p class="mypaginationPostcardName" style="margin-top: 0px;">{{ownerInfo.userName}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
-                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click.stop="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click.stop="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
                   </div>
                 </div>
               </div>
@@ -367,14 +375,14 @@
                   <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
                 </div>
               </div>
-              <div class="spinItem back">
+              <div @click="setBigPostcardUrl(postcard.postcard.postcardImgUrl)" class="spinItem back">
                 <div class="mypaginationImgSize">
                   <p class="mypaginationPostcardName">made by</p>
                   <!-- <router-view :key="$route.fullPath"/> -->
-                  <p class="mypaginationPostcardName" @click="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
+                  <p class="mypaginationPostcardName" @click.stop="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
-                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click.stop="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click.stop="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
                   </div>
                 </div>
               </div>
@@ -389,13 +397,13 @@
                   <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
                 </div>
               </div>
-              <div class="spinItem back">
+              <div @click="setBigPostcardUrl(postcard.postcard.postcardImgUrl)" class="spinItem back">
                 <div class="mypaginationImgSize">
                   <p class="mypaginationPostcardName">made by</p>
-                  <p class="mypaginationPostcardName" @click="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
+                  <p class="mypaginationPostcardName" @click.stop="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
-                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click.stop="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click.stop="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
                   </div>
                 </div>
               </div>
@@ -410,13 +418,13 @@
                   <p v-for="(tag, idx) in postcard.tag" :key="idx" class="tagForm">#{{tag}} &nbsp;</p>
                 </div>
               </div>
-              <div class="spinItem back">
+              <div @click="setBigPostcardUrl(postcard.postcard.postcardImgUrl)" class="spinItem back">
                 <div class="mypaginationImgSize">
                   <p class="mypaginationPostcardName">made by</p>
-                  <p class="mypaginationPostcardName" @click="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
+                  <p class="mypaginationPostcardName" @click.stop="goUserPage(postcard.postcard.userSeq)" style="margin-top: 0px; cursor: pointer;">{{postcard.userId}}</p>
                   <div style="position: absolute; top: 11vw; left: 3.5vw; cursor: pointer;">
-                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
-                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
+                    <p v-show="!postcard.postcard.isLiked" :id="`l${postcard.postcard.postcardSeq}`" @click.stop="dolikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-regular fa-heart"></i></p>
+                    <p v-show="postcard.postcard.isLiked" :id="`dl${postcard.postcard.postcardSeq}`" @click.stop="dodislikeLetter(postcard.postcard.postcardSeq)" class="mypaginationPostcardName" style="color: rgb(187, 61, 61); margin-left: 1.5vw;"><i class="fa-solid fa-heart"></i></p>
                   </div>
                 </div>
               </div>
@@ -684,6 +692,8 @@ export default {
       postcardStage: 0,
       followingStage: 0,
       likedPostcardStage: 0,
+      bigPostcardUrl: '',
+      showBigPostcard: false,
     };
   },
 
@@ -731,6 +741,16 @@ export default {
       "userLikedPostcardStore",
     ]),
 
+    closeBigPostcard() {
+      this.showBigPostcard = false
+    },
+
+    setBigPostcardUrl(url) {
+      console.log('안막아짐')
+      this.bigPostcardUrl = url
+      this.showBigPostcard = true
+    },
+
     doFollow() {
       this.follow({ myId: this.userInfo.userId, followId: this.ownerInfo.userId })
       this.isFollow = 1
@@ -750,6 +770,7 @@ export default {
 
     async dolikeLetter(postcardSeq) {
       // console.log(postcardSeq)
+      // e.stopPropagation();
       const likes = document.querySelectorAll(`#l${postcardSeq}`)
       likes.forEach((like) => {
         // console.log(like)
@@ -1196,6 +1217,20 @@ export default {
 
 <style>
 
+.mypageGlass {
+    content: "";
+    /* position: */
+    width: 100vw;
+    height: 100vh;
+    /* left: 50%;  */
+    /* transform: translate(-50%, 0); */
+    /* background: inherit; 배경 속성을 상속 받음 */
+    /* top: -25px; 반투명 효과 영역을 25px 왼쪽으로 이동 */
+    /* left: -25px; 반투명효과 영역을 25px 위로 이동 */
+    box-shadow: inset 0 0 0 1000px rgba(103, 103, 103, 0.5); /* 반투명 흰색 그림자 효과를 영역 안쪽에 아주 크게 생성 */
+    filter: blur(15px); /* 블러 효과로 배경 이미지를 흐리게 만듬 */
+}
+
 .temp1 {
   cursor: pointer;
   width: 30vw;
@@ -1293,6 +1328,9 @@ export default {
 }
 .spin:hover .spinItem.back {
   transform: rotateY(0deg);
+}
+.back {
+  cursor: pointer;
 }
 
 .mypaginationPostcardName {
