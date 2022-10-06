@@ -87,7 +87,7 @@ const postcardStore = {
       state.popularPostcardList = popularPostcardList;
     },
     SET_DUMMYCOMMIT: () => {
-      console.log("zz");
+      // console.log("zz");
     },
     SET_JUSTUPLOADED: (state, postcard) => {
       state.justUploadedPostcard = postcard;
@@ -125,13 +125,13 @@ const postcardStore = {
     // 엽서 업로드
     // postcardInfo = {postcard: 이미지파일, tag: [태그리스트], userId: 'string',}
     async uploadPostcard({ commit }, postcardObj) {
-      console.log(postcardObj);
+      // console.log(postcardObj);
       await uploadPostcardjs(
         postcardObj,
         (response) => {
-          console.log("엽서 업로드됐어요");
+          // console.log("엽서 업로드됐어요");
           commit("SET_JUSTUPLOADED", response.data);
-          console.log(response);
+          // console.log(response);
         },
         (error) => {
           console.log(error);
@@ -141,11 +141,11 @@ const postcardStore = {
 
     // 엽서 태그 수정
     async uploadTag({ commit }, tagObj) {
-      console.log(tagObj);
+      // console.log(tagObj);
       await uploadTagjs(
         tagObj,
-        (response) => {
-          console.log(response);
+        () => {
+          // console.log(response);
           commit("SET_DUMMYCOMMIT");
         },
         (error) => {
@@ -159,8 +159,8 @@ const postcardStore = {
       await postcardInfojs(
         postcardSeq,
         (response) => {
-          console.log("엽서 상세정보 들고왔어요");
-          console.log(response.data);
+          // console.log("엽서 상세정보 들고왔어요");
+          // console.log(response.data);
           commit("SET_POSTCARDINFO", response.data);
         },
         (error) => {
@@ -174,7 +174,7 @@ const postcardStore = {
       await deletePostcardjs(
         postcardInfo,
         () => {
-          console.log("엽서 삭제했어요");
+          // console.log("엽서 삭제했어요");
         },
         (error) => {
           console.log(error);
@@ -188,7 +188,7 @@ const postcardStore = {
       await userLikePostcardjs(
         likePostcardInfo,
         () => {
-          console.log("엽서 좋아요 했어요");
+          // console.log("엽서 좋아요 했어요");
         },
         (error) => {
           console.log(error);
@@ -202,7 +202,7 @@ const postcardStore = {
       await userUnlikePostcardjs(
         likePostcardInfo,
         () => {
-          console.log("엽서 좋아요 취소했어요");
+          // console.log("엽서 좋아요 취소했어요");
         },
         (error) => {
           console.log(error);
@@ -266,13 +266,13 @@ const postcardStore = {
     },
     // AI 변환요청
     async sendTransformStore({ commit }, transformInfo) {
-      console.log(transformInfo)
+      // console.log(transformInfo)
       await sendTransform(
         transformInfo,
         (response) => {
-          console.log('============변환결과물=============')
-          console.log(response.data)
-          console.log(typeof(response.data))
+          // console.log('============변환결과물=============')
+          // console.log(response.data)
+          // console.log(typeof(response.data))
           commit
           commit("SET_AITRANSFORMRESULT", response.data);
         },

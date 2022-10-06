@@ -7,7 +7,7 @@ import OrganizationListView from "../views/OrganizationListView";
 import SearchView from "../views/SearchView";
 import SignupView from "../views/SignupView";
 import beginningView from "../views/beginningView";
-import TestMypageView from "../views/TestMypageView";
+import MypageView from "../views/MypageView";
 import BoardView from "../views/BoardView";
 import QuestionView from "../views/QuestionView";
 import QuestionDetailView from "../views/QuestionDetailView";
@@ -63,8 +63,8 @@ const routes = [
   },
   {
     path: "/mypage/:userSeq",
-    name: "TestMypageView",
-    component: TestMypageView,
+    name: "MypageView",
+    component: MypageView,
   },
   {
     path: "/board",

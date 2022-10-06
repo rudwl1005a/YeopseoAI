@@ -10,7 +10,7 @@ const api = apiInstance();
 
 // 재단 정보 조회
 async function foundationInfo(foundationSeq, success, fail) {
-    console.log(foundationSeq)
+    // console.log(foundationSeq)
     await api.get(`/api/foundations/${foundationSeq}`,).then(success).catch(fail);
 }
 

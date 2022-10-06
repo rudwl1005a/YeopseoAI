@@ -424,7 +424,7 @@ export default {
               this.errorMSG = "결제가 정상적으로 이루어지지 않았습니다.";
             }
           } else {
-            console.log(rsp.error_msg);
+            // console.log(rsp.error_msg);
             this.errorMSG = "결제가 정상적으로 이루어지지 않았습니다.";
           }
         }
