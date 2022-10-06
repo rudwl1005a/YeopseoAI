@@ -271,9 +271,9 @@ const postcardStore = {
         transformInfo,
         (response) => {
           console.log('============변환결과물=============')
-          console.log(response)
+          console.log(response.data)
           commit
-          commit("SET_AITRANSFORMRESULT", response.data.postcardList);
+          commit("SET_AITRANSFORMRESULT", response.data);
         },
         (error) => {
           console.log(error);
