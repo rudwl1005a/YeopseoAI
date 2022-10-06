@@ -270,10 +270,10 @@ const postcardStore = {
       await sendTransform(
         transformInfo,
         (response) => {
-          print('============변환결과물=============')
-          print(response)
+          console.log('============변환결과물=============')
+          console.log(response)
           commit
-          // commit("SET_AITRANSFORMRESULT", response.data.postcardList);
+          commit("SET_AITRANSFORMRESULT", response.data.postcardList);
         },
         (error) => {
           console.log(error);
