@@ -540,6 +540,13 @@ export default {
 
     changeFamousLetter() { // 인기 엽서 목록 바꿔주는 버튼
       this.famousLetterBtn = !this.famousLetterBtn;
+      if (!this.famousLetterBtn) {
+        const arrow = document.querySelector('.mainfamousLetterBtn')
+        arrow.style.transform = 'translate(-50%, -50%) rotate(180deg)'
+      } else {
+        const arrow = document.querySelector('.mainfamousLetterBtn')
+        arrow.style.transform = 'translate(-50%, -50%) rotate(0deg)'
+      }
     },
 
     // 검색 관리
@@ -768,7 +775,7 @@ input::placeholder { line-height: 2vh !important; } */
   width: 78vw;
   border-radius: 20px;
   /* background-image: url('../../public/images/filter2ex.png'); */
-  background-image: url('../../public/images/main2.png');
+  background-image: url('../../public/images/main2.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
   /* filter: grayscale(20%); */
@@ -814,7 +821,7 @@ input::placeholder { line-height: 2vh !important; } */
   width: 78vw;
   border-radius: 20px;
   /* background-image: url('../../public/images/filter5ex.png'); */
-  background-image: url('../../public/images/main5.jpg');
+  background-image: url('../../public/images/main5.png');
   background-size: 78vw 95vh;
   transition: 0.6s;
   /* filter: grayscale(20%); */

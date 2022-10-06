@@ -746,7 +746,7 @@ export default {
     },
 
     setBigPostcardUrl(url) {
-      console.log('안막아짐')
+      // console.log('안막아짐')
       this.bigPostcardUrl = url
       this.showBigPostcard = true
     },
