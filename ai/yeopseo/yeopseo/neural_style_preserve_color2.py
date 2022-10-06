@@ -75,7 +75,7 @@ INIT_IMAGE = 'random' # or 'content'
 PRESERVE_COLOR = 'True' # 'False'
 PIXEL_CLIP = 'True' # or 'False' - Clipping produces better images
 CONTENT_PATH = 'image/real_img/coco_pretrained/test_latest/images/synthesized_image/0001.png'
-STYLE_PATH = 'images/2-style.jpg'
+STYLE_PATH = 'images/style2.jpg'
 
 """
 PRETRAINED VGG MODELS 
@@ -406,6 +406,3 @@ if (PRESERVE_COLOR=='True'):
     saveimg(g_preserve, 333) # out333 = final with preseved colors
 
 # In[ ]:
-
-
-
