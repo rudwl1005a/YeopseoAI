@@ -131,7 +131,7 @@
   <div v-if="opened2" class="opened2Modal">
     <div class="translatedResult">
       <div class="translatedImg">
-        <img id="uploadFile" src="data:image/png;base64,{{ image }}" alt="" style="width: 35vw; height: 70vh;">
+        <img id="uploadFile" v-bind:src="'data:image/png;base64,'+aiTransformResult" alt="" style="width: 35vw; height: 70vh;">
       </div>
 
       <div class="tagCanvasPage">
@@ -324,7 +324,7 @@ export default {
       // for (var pair of canvasData.entries()) {
       //   console.log(pair[0]+ ', ' + pair[1]); 
       // }
-      let tagList = ["하늘", "구름"];
+      // let tagList = ["하늘", "구름"];
       // console.log(canvasData);
       // let postcardObj = {
       //   userId: this.userInfo.userId,
@@ -333,12 +333,12 @@ export default {
       console.log('=====================')
       console.log(this.filterCode)
       await this.sendTransformStore({ filterCode: this.filterCode, image: {image: canvasData }});
-      let tagObj = {
-        postcardSeq: this.justUploadedPostcard.postcardSeq,
-        tagList: tagList,
-      }
+      // let tagObj = {
+      //   postcardSeq: this.justUploadedPostcard.postcardSeq,
+      //   tagList: tagList,
+      // }
       // console.log(tagObj);
-      await this.uploadTag(tagObj);
+      // await this.uploadTag(tagObj);
       // console.log(this.userInfo.userId, tagList, canvasData);
 
 
@@ -358,6 +358,7 @@ export default {
     async upload() {
       // 로딩부분 추가
       await this.openLoading();
+      console.log('업로드 함수 실행도ㅔ어요')
       //
 
       const element = document.getElementById("uploadFile");
