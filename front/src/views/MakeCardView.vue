@@ -2,16 +2,22 @@
 <side-bar></side-bar>
 <div class="letterMakeClass">
 
+  <!-- 로딩 화면 -->
+  <div v-if="loadopen" class="canvasLoadingScene">
+    <div class="canvasLoadingContent"></div>
+    <div class="canvasLoadingWrite">Loading . . .</div>
+  </div>
+
   <!-- 등록 완료 모달 -->
   <!-- <div v-if="showFin" class="finModal"> -->
-  <div v-if="showFin" @click="showFinModal" class="finModal">
+  <div v-if="showFin" @click="goMypage" class="finModal">
     등록 완료!!
     <!-- <div @click="showFinModal">닫기</div> -->
   </div>
 
   <!-- 도움말 모달 -->
-  <div v-if="showHelp" class="helpModal">
-    <div class="helpCloseBtn" @click="openHelp">X</div>
+  <div v-if="showHelp" @click="openHelp" class="helpModal">
+    <!-- <div class="helpCloseBtn" @click="openHelp">X</div> -->
     <div class="imageHelp1"></div>
     <div class="imageHelp2"></div>
   </div>
@@ -94,6 +100,7 @@ export default {
       tagItem: "",
       showFin: false,
       showHelp: false,
+      loadopen: false,
     };
   },
 
@@ -156,14 +163,30 @@ export default {
       this.showFin = !this.showFin;
     },
 
+    goMypage() {
+      this.showFin = !this.showFin;
+      let userSeq = this.userInfo.userSeq;
+      this.$router.push({path: `/mypage/${userSeq}`, query: {ownerSeq: userSeq}});
+    },
+
     // 도움말 열기
     openHelp() {
       this.showHelp = !this.showHelp;
     },
 
+    // 로딩화면
+    openLoading() {
+      this.loadopen = true;
+    },
+
+    closeLoad() {
+      this.loadopen = false;
+    },
+
     // 엽서 업로드
     // postcardInfo = {postcard: 이미지파일, tag: [태그리스트], userId: 'string',}
     async upload() {
+      await this.openLoading(); // 로딩 켜고
       // console.log(Uint8Array String(this.postcardInfo.postcard.length.prototype))
       // console.log(Uint8Array.prototype.toString(this.postcardInfo.postcard))
       
@@ -198,7 +221,8 @@ export default {
       }
 
       await this.uploadTag(tagObj);
-      await this.showFinModal();
+      await this.closeLoad(); // 태그 업로드까지 완료되면 로딩 끄고
+      await this.showFinModal(); // 완료 모달 보여주자
     },
 
     dataURItoBlob(dataURI) {
@@ -543,5 +567,6 @@ export default {
   left: 95%;
   transform: translate(-50%, -50%);
   font-size: 5vw;
+  color: black;
 }
 </style>

@@ -7,8 +7,8 @@
   </div>
 
   <!-- 도움말 모달 -->
-  <div v-if="showHelp" class="helpModal2">
-    <div class="helpCloseBtn" @click="openHelp">X</div>
+  <div v-if="showHelp" @click="openHelp" class="helpModal2">
+    <!-- <div class="helpCloseBtn" @click="openHelp">X</div> -->
     <div class="imageHelp3"></div>
     <div class="imageHelp4"></div>
     <div class="imageHelp5"></div>
@@ -855,8 +855,8 @@ export default {
 .openHelpBtn2 {
   cursor: pointer;
   position: absolute;
-  top: 65%;
-  left: 60%;
+  top: 10%;
+  left: 50%;
   transform: translate(-50%, -50%);
   width: 3vh;
   height: 3vh;
