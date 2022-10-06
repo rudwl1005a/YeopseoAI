@@ -23,7 +23,7 @@
     <h5>관련 태그</h5>
     <!-- 태그들 -->
     <div class="searchTag">
-      <div v-for="(tag, idx) in this.searchItem.tag" :key="`postcard-${idx}`">
+      <div class="searchTagAlign" v-for="(tag, idx) in this.searchItem.tag" :key="`postcard-${idx}`">
         <button @click="submitSearch(tag)" class="searchProfileTag">{{tag}}</button>
       </div>
     </div>
@@ -202,12 +202,23 @@ export default {
   height: 8vw;
   margin: auto;
   display: flex;
-  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  /* justify-content: flex-start; */
   border: 0.5px grey dashed;
   border-radius: 5px;
-  overflow: hidden;
+  overflow: auto;
 }
+
+.searchTag::-webkit-scrollbar {
+  display: none;
+}
+
 /* 세부 태그들 */
+.searchTagAlign {
+
+}
+
 .searchProfileTag {
   width: auto;
   height: 30px;
@@ -218,6 +229,7 @@ export default {
   background-color: azure;
   font-size: 1vw;
 }
+
 .searchProfileTag:hover {
   transform: scale3d(1.3, 1.3, 1.3);
 }
