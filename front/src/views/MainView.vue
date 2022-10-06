@@ -469,7 +469,7 @@ export default {
     
     // 사이드바 관련
     openSidebar() {
-      console.log("토글 열어보자");
+      // console.log("토글 열어보자");
       // 토글 닫기
       if (this.opendToggle) {
         this.opendToggle = false;
@@ -484,7 +484,7 @@ export default {
           this.toggleContent = true;
         }, 200)
       }
-      console.log(this.opendToggle);
+      // console.log(this.opendToggle);
     },
     // hover시 intro의 사진을 바꿔주기 위한 함수
     // 바뀐 숫자를 가지고 배경화면을 바꾸어주면 될 것
@@ -506,23 +506,23 @@ export default {
 
     goHome() {
       this.$router.go();
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
     goFoundation() {
       this.$router.push('/donation');
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
     goLetter() {      
       this.$router.push('/makecard');
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
     goMypage() {
       this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}});
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
     goOtherPage(userSeq) {
       this.$router.push({path: `/mypage/${userSeq}`, query: {ownerSeq: userSeq}});
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
     goBoard() {
       this.$router.push('/board');
@@ -545,19 +545,19 @@ export default {
     // 검색 관리
     getAutoComplete() {
       // input 될 때마다 해당 값을 포함하는 결과를 밑에 띄워주기 위한 함수
-      console.log(this.searchMessage);
+      // console.log(this.searchMessage);
     },
     async submitSearch() {
       await this.userLikedPostcardStore(this.userInfo.userSeq);
       if (this.searchMessage !== "") {
         // enter키를 누르면 searchMessage값을 넣어 검색 실시. store에 검색 결과 넣어둔 후 검색 결과 페이지로 이동하자
-        console.log(this.searchMessage);
+        // console.log(this.searchMessage);
         let searchWord = this.searchMessage;
         await this.getSearchResult(searchWord);
         this.searchMessage = "";
         this.$router.push({ name: "SearchView" });
       } else {
-        console.log("검색어 입력하라고");
+        // console.log("검색어 입력하라고");
       }
     },
     // 로고 스크롤 이벤트
@@ -574,11 +574,11 @@ export default {
     //
     async foundationDetail(foundation) {
       // 클릭시 재단의 상세정보를 보여줘야 함
-      console.log(foundation);
+      // console.log(foundation);
       this.watchingFoundation = foundation;
       // 보고있는 재단 정보를 data에 담고
       await this.getFoundationDetail(this.watchingFoundation.foundationSeq);
-      console.log(this.watchingFoundation);
+      // console.log(this.watchingFoundation);
     }
   },
   async created() {
@@ -587,7 +587,7 @@ export default {
     this.showLogoLoding = this.mainEffectIsntShowed;
     await this.getFamousLetterStore();
     await this.getFamousFoundationStore();
-    console.log(this.letterTop);
+    // console.log(this.letterTop);
     this.famousLetter = this.letterTop;
     this.famousFoundation = this.foundationTop;
     // 로그인시 최초 1회만 화면 전환 이펙트를 넣을 예정
@@ -603,8 +603,8 @@ export default {
 
   },
   mounted() {
-    console.log('this.famousLetter')
-    console.log(this.famousLetter)
+    // console.log('this.famousLetter')
+    // console.log(this.famousLetter)
     
     document.addEventListener("scroll", this.scrollEvent);
   },
@@ -751,7 +751,8 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_1.jpg');
+  /* background-image: url('../../public/images/filter1ex.png'); */
+  background-image: url('../../public/images/main1.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
   /* filter: grayscale(20%); */
@@ -766,7 +767,8 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_2.jpg');
+  /* background-image: url('../../public/images/filter2ex.png'); */
+  background-image: url('../../public/images/main2.png');
   background-size: 78vw 95vh;
   transition: 0.6s;
   /* filter: grayscale(20%); */
@@ -781,7 +783,8 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_3.jpg');
+  /* background-image: url('../../public/images/filter3ex.png'); */
+  background-image: url('../../public/images/main3.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
   /* filter: grayscale(20%); */
@@ -795,7 +798,8 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_4.jpg');
+  /* background-image: url('../../public/images/filter4ex.png'); */
+  background-image: url('../../public/images/main4.png');
   background-size: 78vw 95vh;
   transition: 0.6s;
   /* filter: grayscale(20%); */
@@ -809,7 +813,8 @@ input::placeholder { line-height: 2vh !important; } */
   height: 95vh;
   width: 78vw;
   border-radius: 20px;
-  background-image: url('../../public/images/main_5.jpg');
+  /* background-image: url('../../public/images/filter5ex.png'); */
+  background-image: url('../../public/images/main5.jpg');
   background-size: 78vw 95vh;
   transition: 0.6s;
   /* filter: grayscale(20%); */

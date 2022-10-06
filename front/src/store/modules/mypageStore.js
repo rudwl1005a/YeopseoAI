@@ -79,9 +79,9 @@ const mypageStore = {
     async userSecession({ user_seq }) {
       await usersecession(
           user_seq,
-        (response) => {
-          console.log("탈퇴됐슴");
-          console.log(response);
+        () => {
+          // console.log("탈퇴됐슴");
+          // console.log(response);
           alert('다시 만나요~!')
           router.push('/')
         },
@@ -97,9 +97,9 @@ const mypageStore = {
     async updateUserInfo({ updateInfo }) {
       await userUpdate(
           updateInfo,
-        (response) => {
-          console.log("유저정보 업데이트 결과");
-          console.log(response);
+        () => {
+          // console.log("유저정보 업데이트 결과");
+          // console.log(response);
         },
         (error) => {
           console.log(error);
@@ -114,8 +114,8 @@ const mypageStore = {
       await changeProfile(
           profileInfo,
         (response) => {
-          console.log("이미지");
-          console.log(response);
+          // console.log("이미지");
+          // console.log(response);
           commit('SET_PROFILEIMAGE', response.data);
         },
         (error) => {
@@ -217,11 +217,11 @@ const mypageStore = {
 
   // 리마인드 변경요청
   async changeRemind({ commit }, templateInfo) {
-    console.log(templateInfo);
+    // console.log(templateInfo);
     await callChangeRemind(
       templateInfo,
       () => {
-        console.log("잘 저장됐어요");
+        // console.log("잘 저장됐어요");
         // router.push({path: `/mypage/${templateInfo.userSeq}`, query: {ownerSeq: templateInfo.userSeq}});
         commit();
       },
@@ -237,7 +237,7 @@ const mypageStore = {
     await addFollow(
       followInfo,
       () => {
-        console.log("팔로우됨");
+        // console.log("팔로우됨");
         commit();
       },
       () => {
@@ -251,7 +251,7 @@ const mypageStore = {
       await deleteFollow(
         followInfo,
         () => {
-          console.log("언팔됨");
+          // console.log("언팔됨");
           commit();
         },
         () => {

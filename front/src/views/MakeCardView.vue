@@ -141,13 +141,13 @@ export default {
     },
 
     appendTag() {
-      console.log(this.tagItem);
+      // console.log(this.tagItem);
       if (!this.tag.includes(this.tagItem)) {
         this.tag.unshift(this.tagItem);
         this.tagItem = "";
       }
       this.tagItem = "";
-      console.log(this.tag);
+      // console.log(this.tag);
     },
 
     // 태그 빼기

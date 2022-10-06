@@ -65,7 +65,7 @@ const accountStore = {
     },
     // 로그인
     async userLogin(state, user) {
-      console.log(user);
+      // console.log(user);
       await login(
         user,
         (response) => {
@@ -94,7 +94,7 @@ const accountStore = {
           }
         }
       ).then(() => {
-        console.log(state.getters.isLogged);
+        // console.log(state.getters.isLogged);
         if (state.getters.isLogged) {
           router.push({ name: "MainView" });
         }

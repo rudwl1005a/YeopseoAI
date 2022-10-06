@@ -63,12 +63,12 @@ const organizationStore = {
       await foundationInfo(
         foundationSeq,
         (response) => {
-          console.log("재단정보 들고왔어요");
-          console.log(response.data);
+          // console.log("재단정보 들고왔어요");
+          // console.log(response.data);
           commit("SET_ORGANIZATIONINFO", response.data);
         },
         (error) => {
-          console.log(foundationSeq);
+          // console.log(foundationSeq);
 
           console.log(error);
         }
@@ -79,8 +79,8 @@ const organizationStore = {
     async getFoundationList({ commit }) {
       await foundationList(
         (response) => {
-          console.log("재단리스트 들고왔어요");
-          console.log(response.data);
+          // console.log("재단리스트 들고왔어요");
+          // console.log(response.data);
           commit("SET_ORGANIZATIONLIST", response.data);
         },
         (error) => {
@@ -94,18 +94,18 @@ const organizationStore = {
       await foundationDonationList(
         foundationSeq,
         (response) => {
-          console.log("이 재단 전체 기부목록 들고왔어요");
-          console.log(response.data);
+          // console.log("이 재단 전체 기부목록 들고왔어요");
+          // console.log(response.data);
           commit("SET_ORGANIZATIONDONATIONLIST", response.data);
 
           // 이 재단 토탈 금액이랑 기부 횟수 넣기
           const totalDonationCnt = response.data.length;
           let totalDonationMoney = 0;
           response.data.forEach((donation) => {
-            console.log(donation.donationPay);
+            // console.log(donation.donationPay);
             totalDonationMoney += donation.donationPay;
           });
-          console.log(totalDonationMoney);
+          // console.log(totalDonationMoney);
           const organizationModalInfo = {
             totalDonationCnt: totalDonationCnt,
             totalDonationMoney: totalDonationMoney,

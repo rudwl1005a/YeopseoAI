@@ -161,7 +161,7 @@ export default {
     },
     // 회원가입 함수(입력 내용 체크 + 회원가입 요청)
     async signup() {
-      console.log(this.phoneCheck)
+      // console.log(this.phoneCheck)
       // ID 중복 체크
       if (!this.IdCheck) {
         this.errorMSG = "ID 중복 체크를 해주세요"

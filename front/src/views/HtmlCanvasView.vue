@@ -117,11 +117,11 @@
       원하는 화풍을 선택한 후 이미지 변환을 눌러주세요
     </div>
     <div class="changePicItems">
-      <div :class="{'changePicItem':whichClicked[0] === false, 'changePickedItem':whichClicked[0] === true,}" @click="filterSelect(1)">고흐</div>
-      <div :class="{'changePicItem':whichClicked[1] === false, 'changePickedItem':whichClicked[1] === true,}" @click="filterSelect(2)">고갱</div>
-      <div :class="{'changePicItem':whichClicked[2] === false, 'changePickedItem':whichClicked[2] === true,}" @click="filterSelect(3)">갱갱</div>
-      <div :class="{'changePicItem':whichClicked[3] === false, 'changePickedItem':whichClicked[3] === true,}" @click="filterSelect(4)">고고</div>
-      <div :class="{'changePicItem':whichClicked[4] === false, 'changePickedItem':whichClicked[4] === true,}" @click="filterSelect(5)">ㅋㅋ</div>
+      <div :class="{'changePicItem':whichClicked[0] === false, 'changePickedItem':whichClicked[0] === true,}" @click="filterSelect(1)">동양화 <div :class="{'filterSample1':whichClicked[0] === false, 'filterSample1p':whichClicked[0] === true,}"></div></div>
+      <div :class="{'changePicItem':whichClicked[1] === false, 'changePickedItem':whichClicked[1] === true,}" @click="filterSelect(2)">고흐 <div :class="{'filterSample2':whichClicked[1] === false, 'filterSample2p':whichClicked[1] === true,}"></div></div>
+      <div :class="{'changePicItem':whichClicked[2] === false, 'changePickedItem':whichClicked[2] === true,}" @click="filterSelect(3)">애니 <div :class="{'filterSample3':whichClicked[2] === false, 'filterSample3p':whichClicked[2] === true,}"></div></div>
+      <div :class="{'changePicItem':whichClicked[3] === false, 'changePickedItem':whichClicked[3] === true,}" @click="filterSelect(4)">모네 <div :class="{'filterSample4':whichClicked[3] === false, 'filterSample4p':whichClicked[3] === true,}"></div></div>
+      <div :class="{'changePicItem':whichClicked[4] === false, 'changePickedItem':whichClicked[4] === true,}" @click="filterSelect(5)">뭉크 <div :class="{'filterSample5':whichClicked[4] === false, 'filterSample5p':whichClicked[4] === true,}"></div></div>
     </div>
     <div class="goChangePic" @click="changeImage">이미지 변환</div>
     <div class="closeModal1" @click="closeModal1">창 닫기</div>
@@ -276,13 +276,13 @@ export default {
     // 태그 넣기
     appendTag() {
       // this.tag.push(this.tagItem);
-      console.log(this.tagItem);
+      // console.log(this.tagItem);
       if (!this.tag.includes(this.tagItem)) {
         this.tag.unshift(this.tagItem);
         this.tagItem = "";
       }
       this.tagItem = "";
-      console.log(this.tag);
+      // console.log(this.tag);
     },
 
     // 태그 빼기
@@ -299,16 +299,16 @@ export default {
     
     // 스케치와 화풍 선택 정보 전달
     async changeImage() {
-      await console.log("hi");
+      // await console.log("hi");
       // 로딩화면 켜기
       await this.openLoading();
 
-      console.log(document.getElementById("canvasId"));
+      // console.log(document.getElementById("canvasId"));
       const canvas = document.getElementById("canvasId");
       // canvas.height = Math.floor(400*0.264583);
       // canvas.width = Math.floor(600*0.264583);
-      console.log(canvas);
-      console.log(canvas.toDataURL()); // data:image/png;base64,
+      // console.log(canvas);
+      // console.log(canvas.toDataURL()); // data:image/png;base64,
       const dataUrl = canvas.toDataURL("image/png");
       const blobData = this.dataURItoBlob(dataUrl);
       // 날짜
@@ -330,8 +330,8 @@ export default {
       //   userId: this.userInfo.userId,
       //   postcard: canvasData,
       // }
-      console.log('=====================')
-      console.log(this.filterCode)
+      // console.log('=====================')
+      // console.log(this.filterCode)
       await this.sendTransformStore({ filterCode: this.filterCode, image: {image: canvasData }});
       // let tagObj = {
       //   postcardSeq: this.justUploadedPostcard.postcardSeq,
@@ -358,7 +358,7 @@ export default {
     async upload() {
       // 로딩부분 추가
       await this.openLoading();
-      console.log('업로드 함수 실행도ㅔ어요')
+      // console.log('업로드 함수 실행도ㅔ어요')
       //
 
       const element = document.getElementById("uploadFile");
@@ -420,11 +420,11 @@ export default {
       this.fillType = !this.fillType;
     },
 
-    fillPaint(event) {
+    fillPaint() {
       if (this.fillType === true) {
-        console.log(event);
+        // console.log(event);
         this.ctx.fillStyle = this.color;
-        console.log(this.color);
+        // console.log(this.color);
         this.ctx.fill();
       }
     },
@@ -643,11 +643,11 @@ export default {
         this.ctx.stroke();
       }
     },
-    onMouseDown(event) {
-      console.log(event);
+    onMouseDown() {
+      // console.log(event);
     },
-    onMouseUp(event) {
-      console.log(event);
+    onMouseUp() {
+      // console.log(event);
       this.stopPainting();
     },
     stopPainting() {
@@ -744,6 +744,131 @@ export default {
   background-color: white;
   /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
   transition: 0.1s;
+}
+.filterSample1 {
+  cursor: pointer;
+  /* border-radius: 20px; */
+  width: 12vw;
+  height: 12vw;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;
+  background-image: url("../../public/images/filter1ex.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.filterSample2 {
+  cursor: pointer;
+  /* border-radius: 20px; */
+  width: 12vw;
+  height: 12vw;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;  
+  background-image: url("../../public/images/filter2ex.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.filterSample3 {
+  cursor: pointer;
+  /* border-radius: 20px; */
+  width: 12vw;
+  height: 12vw;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;  
+  background-image: url("../../public/images/filter3ex.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.filterSample4 {
+  cursor: pointer;
+  /* border-radius: 20px; */
+  width: 12vw;
+  height: 12vw;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;  
+  background-image: url("../../public/images/filter4ex.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.filterSample5 {
+  cursor: pointer;
+  /* border-radius: 20px; */
+  width: 12vw;
+  height: 12vw;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;  
+  background-image: url("../../public/images/filter5ex.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.filterSample1p {
+  cursor: pointer;
+  /* border-radius: 20px; */
+  width: 12vw;
+  height: 12vw;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;
+  background-image: url("../../public/images/filter1ex.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+.filterSample2p {
+  cursor: pointer;
+  /* border-radius: 20px; */
+  width: 12vw;
+  height: 12vw;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;  
+  background-image: url("../../public/images/filter2ex.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+.filterSample3p {
+  cursor: pointer;
+  /* border-radius: 20px; */
+  width: 12vw;
+  height: 12vw;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;  
+  background-image: url("../../public/images/filter3ex.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+.filterSample4p {
+  cursor: pointer;
+  /* border-radius: 20px; */
+  width: 12vw;
+  height: 12vw;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;  
+  background-image: url("../../public/images/filter4ex.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+}
+.filterSample5p {
+  cursor: pointer;
+  /* border-radius: 20px; */
+  width: 12vw;
+  height: 12vw;
+  background-color: white;
+  /* box-shadow: 0 1vh 2vh rgba(0, 0, 0, 0.5); */
+  transition: 0.1s;  
+  background-image: url("../../public/images/filter5ex.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: 0.5;
 }
 
 .helpModal2 {
@@ -921,6 +1046,7 @@ export default {
 
 .changePicItems {
   position: absolute;
+  font-size: 2vw;
   top: 40%;
   left: 50%;
   transform: translate(-50%, -50%);

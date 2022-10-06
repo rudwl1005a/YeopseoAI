@@ -54,7 +54,7 @@ export default {
     ...mapActions(searchStore, ["searchStoreReset"]),
 
     openSidebar() {
-      console.log("토글 열어보자");
+      // console.log("토글 열어보자");
       // 토글 닫기
       if (this.opendToggle) {
         this.opendToggle = false;
@@ -69,7 +69,7 @@ export default {
           this.toggleContent = true;
         }, 200)
       }
-      console.log(this.opendToggle);
+      // console.log(this.opendToggle);
     },
     goLogin() {
       this.$router.push({name: "beginningView"});
@@ -98,7 +98,7 @@ export default {
     },
     goMypage() {
       this.$router.push({path: `/mypage/${this.userInfo.userSeq}`, query: {ownerSeq: this.userInfo.userSeq}});
-      console.log("홈 새로고침");
+      // console.log("홈 새로고침");
     },
   }
 }

@@ -32,8 +32,8 @@ const donationStore = {
       await donationInfo(
         foundationSeq,
         (response) => {
-          console.log("기부정보 들고왔어요");
-          console.log(response.data);
+          // console.log("기부정보 들고왔어요");
+          // console.log(response.data);
           commit("SET_DONATIONINFO", response.data);
         },
         (error) => {
@@ -49,7 +49,7 @@ const donationStore = {
       await donate(
         info,
         () => {
-          console.log("기부 완료");
+          // console.log("기부 완료");
         },
         (error) => {
           console.log(error);
