@@ -249,7 +249,9 @@
             재단명: {{ famousFoundation[0].foundationName }}
             <br>
             <br>
-            대한민국의 미래를 위해 청년들을 지원합니다. SW교육을 기반으로한 취업지원을 도와주세요.
+            대한민국의 미래를 위해 청년들을 지원합니다
+            <br>
+            SW교육을 기반으로한 취업지원을 도와주세요
           </div>
         </div>
         <div @click="setFoundationDonationList(famousFoundation[1])" class="mainfamousFoundationItem">
@@ -261,7 +263,10 @@
             재단명: {{ famousFoundation[1].foundationName }}
             <br>
             <br>
-            주변의 불우한 아이들을 지원합니다. 소량의 기부금과 함께 마음을 전하세요. 당신의 따뜻한 메세지를 기다리고 있습니다.
+            주변의 불우한 아이들을 지원합니다
+            <br>
+            소량의 기부금과 함께 마음을 전하세요당신의 따뜻한 메세지를 기다리고 있습니다
+            <br>
           </div>
         </div>
         <div @click="setFoundationDonationList(famousFoundation[2])" class="mainfamousFoundationItem">
@@ -273,7 +278,9 @@
             재단명: {{ famousFoundation[2].foundationName }}
             <br>
             <br>
-            지구와 인류의 미래를 위해 투자합니다. 말라가는 지구에 비를 내려주세요.
+            지구와 인류의 미래를 위해 투자합니다
+            <br>
+            말라가는 지구에 비를 내려주세요
           </div>
         </div>
 
