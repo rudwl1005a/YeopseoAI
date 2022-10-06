@@ -26,14 +26,16 @@ SECRET_KEY = 'django-insecure-uk_cw@=9eg555l4%yl$*%1a24x!_qm6!r%%^_3nx9@+e^@w=@6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['j7e101.p.ssafy.io', '70.12.130.101']
 
+CORS_ALLOWED_ALL_ORIGINS = True 
 
 # Application definition
 
 INSTALLED_APPS = [
     'yeopseo',
     'rest_framework',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,15 +44,45 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    # 프론트 호스트주소 작성
+    'http://j7e101.p.ssafy.io:3000',
+    'https://j7e101.p.ssafy.io:3000',
+    'http://j7e101.p.ssafy.io:8080',
+    'https://j7e101.p.ssafy.io:8080',
+    'http://j7e101.p.ssafy.io:8000',
+    'https://j7e101.p.ssafy.io:8000',
+    'https://j7e101.p.ssafy.io',
+    'http://localhost:3000',
+]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
+
+
+CORS_ORIGIN_WHITELIST = [
+    # 허용할 프론트엔드 도메인 추가 EX:
+    'http://j7e101.p.ssafy.io:3000',
+    'https://j7e101.p.ssafy.io:3000',
+    'http://j7e101.p.ssafy.io:8080',
+    'https://j7e101.p.ssafy.io:8080',
+    'http://j7e101.p.ssafy.io:8000',
+    'https://j7e101.p.ssafy.io:8000',
+    'https://j7e101.p.ssafy.io',
+    'http://localhost:3000',
+    
+    
+
+]
+
 
 ROOT_URLCONF = 'yeopseo.urls'
 
