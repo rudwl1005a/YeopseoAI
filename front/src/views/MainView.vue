@@ -100,7 +100,7 @@
 
         <div id="faf0" class="mainfamousBigLetterClass">
           <!-- {{ famousLetter[0] }} -->
-          <img :src="famousLetter[0].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
+          <img :src="letterTop[0].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
           <div id='hoverText'>
             <!-- <div class="bigMaker">{{famousLetter[0].postcard}}</div> -->
             <div @click="goOtherPage(famousLetter[0].postcard.userSeq)" class="bigMaker">{{famousLetter[0].userId}}</div>
@@ -114,7 +114,7 @@
 
             <div id="faf1" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[1] }} -->
-              <img :src="famousLetter[1].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[1].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[1].postcard.userSeq)" class="smallMaker">{{famousLetter[1].userId}}</div>
               </div> 
@@ -123,7 +123,7 @@
 
             <div id="faf2" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[2] }} -->
-              <img :src="famousLetter[2].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[2].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[2].postcard.userSeq)" class="smallMaker">{{famousLetter[2].userId}}</div>
               </div> 
@@ -137,7 +137,7 @@
 
             <div id="faf3" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[3] }} -->
-              <img :src="famousLetter[3].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[3].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[3].postcard.userSeq)" class="smallMaker">{{famousLetter[3].userId}}</div>
               </div> 
@@ -146,7 +146,7 @@
 
             <div id="faf4" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[4] }} -->
-              <img :src="famousLetter[4].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[4].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[4].postcard.userSeq)" class="smallMaker">{{famousLetter[4].userId}}</div>
               </div> 
@@ -162,7 +162,7 @@
 
         <div id="faf5" class="mainfamousBigLetterClass">
           <!-- {{ famousLetter[5] }} -->
-          <img :src="famousLetter[5].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
+          <img :src="letterTop[5].postcard.postcardImgUrl" style="height: 30vw; width: 30vw; border-radius: 2px;" alt="">
           <div id='hoverText'>
             <div @click="goOtherPage(famousLetter[5].postcard.userSeq)" class="bigMaker">{{famousLetter[5].userId}}</div>
           </div> 
@@ -175,7 +175,7 @@
 
             <div id="faf6" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[6] }} -->
-              <img :src="famousLetter[6].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[6].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[6].postcard.userSeq)" class="smallMaker">{{famousLetter[6].userId}}</div>
               </div> 
@@ -184,7 +184,7 @@
             
             <div id="faf7" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[7] }} -->
-              <img :src="famousLetter[7].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[7].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[7].postcard.userSeq)" class="smallMaker">{{famousLetter[7].userId}}</div>
               </div> 
@@ -197,7 +197,7 @@
 
             <div id="faf8" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[8] }} -->
-              <img :src="famousLetter[8].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[8].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[8].postcard.userSeq)" class="smallMaker">{{famousLetter[8].userId}}</div>
               </div> 
@@ -206,7 +206,7 @@
 
             <div id="faf9" class="mainfamousLittleLetterItemClass">
               <!-- {{ famousLetter[9] }} -->
-              <img :src="famousLetter[9].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
+              <img :src="letterTop[9].postcard.postcardImgUrl" style="height: 14vw; width: 14vw; border-radius: 2px; margin-bottom: 2vw;" alt="">
               <div id='hoverText'>
                 <div @click="goOtherPage(famousLetter[9].postcard.userSeq)" class="smallMaker">{{famousLetter[9].userId}}</div>
               </div> 
