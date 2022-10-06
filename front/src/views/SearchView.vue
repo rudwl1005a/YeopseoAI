@@ -134,7 +134,7 @@ export default {
 .searchBarClass {
   position: absolute;
   top: 5%;
-  left: 47%;
+  left: 50%;
   transform: translate(-50%, -50%);
   height: 5vh;
   width: 25vw;
