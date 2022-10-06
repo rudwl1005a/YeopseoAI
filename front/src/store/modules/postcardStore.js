@@ -272,6 +272,7 @@ const postcardStore = {
         (response) => {
           console.log('============변환결과물=============')
           console.log(response.data)
+          console.log(typeof(response.data))
           commit
           commit("SET_AITRANSFORMRESULT", response.data);
         },
