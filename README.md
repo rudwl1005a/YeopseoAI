@@ -1,5 +1,8 @@
-### README
+### 엽서사전 (5인 팀 프로젝트)
 
-jenkins 빌드 테스트
+주관 : 삼성 청년 SW 아카데미<br/>
+기간 : 2022.08.22~2022.10.07<br/>
+<br/>
+GauGAN 기술을 이용한 SPADE AI 모델과 neural-style 알고리즘을 이용한 AI 웹 프로젝트<br/>
 
 
