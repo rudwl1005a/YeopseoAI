@@ -63,24 +63,18 @@ SSAFY 7기 2학기 특화 프로젝트
 
 ## 프로젝트 산출물
 
-- ERD
-
-![image](https://user-images.githubusercontent.com/81034311/206893507-47551649-7d81-4407-bb1a-36b63f899dcb.png)
-
-- 서비스 아키텍처
-
-![image](https://user-images.githubusercontent.com/81034311/206893512-860ef308-061c-495f-94ad-644d265c1bae.png)
-
-- 포팅매뉴얼
-
 ## 활용 기술
 
 #### [GauGan2](http://gaugan.org/gaugan2/)
+
+- 스케치된 그림을 라벨링 된 데이터로 인식하여 실사에 가까운 사진으로 변경해주는 AI 모델 
 
 **사용 예시**
 ![image](https://user-images.githubusercontent.com/81034311/206893525-f35cfde7-c4ff-4cd1-af7d-8e65ed2edebf.png)
 
 #### [Neural Style Algorithm](https://github.com/jcjohnson/neural-style)
+
+- 실사에 가까운 사진을 다양한 화풍으로 변경해주는 알고리즘 기술
 
 **사용 예시**
 
@@ -119,3 +113,12 @@ SSAFY 7기 2학기 특화 프로젝트
 ![image](https://user-images.githubusercontent.com/81034311/206893869-064dbbb0-2c89-4155-a95a-6c1803644cb5.png)
 ![image](https://user-images.githubusercontent.com/81034311/206893875-d5044e2f-41a3-4e57-9b1b-b755a9682673.png)
 ![image](https://user-images.githubusercontent.com/81034311/206893881-6cdd28ed-0083-4a9e-b605-2978699baed1.png)
+
+- ERD
+
+![image](https://user-images.githubusercontent.com/81034311/206893507-47551649-7d81-4407-bb1a-36b63f899dcb.png)
+
+- 서비스 아키텍처
+
+![image](https://user-images.githubusercontent.com/81034311/206893512-860ef308-061c-495f-94ad-644d265c1bae.png)
+
