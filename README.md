@@ -29,7 +29,7 @@ SSAFY 7기 2학기 특화 프로젝트
 | 팀원  | 역할           | 담당                                                     | 깃헙                             |
 | --- | ------------ | ------------------------------------------------------ | ------------------------------ |
 | 박정현 | 팀장, Frontend | 메인페이지, 엽서 생성 기능, UCC 편집, 중간 발표                         | https://github.com/kevin123488 |
-| 민경대 | Backend      | API 설계 및 개발, CI/CD환경 구축, AI(Neural Style Algorithm) 적용 | https://github.com/rudwl1005a  |
+| 민경대 | Backend      | API 설계 및 개발, AI(Neural Style Algorithm) 적용, AI연동 서버 구축 | https://github.com/rudwl1005a  |
 | 박제학 | Frontend     | 시작 화면, 마이페이지, 전체 화면 디자인                                | https://github.com/jehaak      |
 | 손지민 | Backend      | API 설계 및 개발, CI/CD환경 구축, AI(GauGan2)적용                 |                                |
 | 전현우 | Frontend     | 로그인/회원가입 로직, 기부 기능, 검색 페이지, UCC 기획, 최종 발표              | https://github.com/soshot22    |
