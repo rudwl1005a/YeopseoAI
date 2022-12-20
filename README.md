@@ -34,6 +34,14 @@ SSAFY 7기 2학기 특화 프로젝트
 | 손지민 | Backend      | API 설계 및 개발, CI/CD환경 구축, AI(GauGan2)적용                 |                                |
 | 전현우 | Frontend     | 로그인/회원가입 로직, 기부 기능, 검색 페이지, UCC 기획, 최종 발표              | https://github.com/soshot22    |
 
+### 담당 기능
+    - 백엔드 Rest API(엽서 이미지 저장, 팔로우 및 프론트 요구에 맞춰 전체적으로 수정) 개발
+    - Jupyter 에서 주피터 노트북으로 AI 모델 학습
+    - Jupyter 와 Django 로 AI 연동 서버 구축
+    - AWS S3 버킷 생성 및 프로젝트와 연동
+    - 프로젝트 설계 및 DB 설계
+
+
 ## 기술 스택
 
 ### BackEnd
